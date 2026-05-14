@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CS09 · Envoy Visitor Data Export and Reporting · Source SOP</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+  @font-face {
+    font-family: 'Gotham Display';
+    src: url('../fonts/Gotham-Black.otf') format('opentype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+  }
+  :root {
+    --bosque: #285952;
+    --bosque-dark: #1d4640;
+    --cypress: #013942;
+    --terracotta: #e47756;
+    --mist: #e8f1ee;
+    --mist-soft: #f4f8f6;
+    --paper: #faf8f4;
+    --ink: #1a2620;
+    --line: #cfd8d3;
+    --muted: #5a6b65;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    font-family: "Montserrat", system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--mist-soft);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.55;
+  }
+  .top-bar {
+    background: var(--paper);
+    border-bottom: 2px solid var(--line);
+    padding: 16px 56px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    position: sticky; top: 0;
+    z-index: 10;
+  }
+  .top-bar img.logo { height: 56px; width: auto; display: block; }
+  .top-bar .crumb {
+    padding-left: 24px;
+    border-left: 1px solid var(--line);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    line-height: 1.6;
+  }
+  .top-bar .crumb b { color: var(--cypress); }
+  .top-bar .actions { margin-left: auto; display: flex; gap: 10px; }
+  .top-bar .action {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 9px 16px;
+    font-size: 13px; font-weight: 600;
+    text-decoration: none;
+    border-radius: 999px;
+    letter-spacing: 0.04em;
+    transition: all 180ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .top-bar .action.primary {
+    background: var(--bosque); color: var(--paper);
+    border: 1px solid var(--bosque);
+  }
+  .top-bar .action.primary:hover { background: var(--bosque-dark); }
+  .top-bar .action.secondary {
+    background: transparent; color: var(--cypress);
+    border: 1px solid var(--line);
+  }
+  .top-bar .action.secondary:hover { background: var(--mist); border-color: var(--cypress); }
+
+  .doc {
+    max-width: 920px;
+    margin: 48px auto 80px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 64px 72px 72px;
+    box-shadow: 0 12px 36px rgba(15, 30, 27, 0.06);
+  }
+  .doc-header {
+    border-bottom: 3px solid var(--bosque);
+    padding-bottom: 28px;
+    margin-bottom: 36px;
+  }
+  .doc-header .eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--terracotta);
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .doc-header h1 {
+    font-family: "Gotham Display", "Montserrat", sans-serif;
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--bosque);
+    margin: 0;
+    text-wrap: balance;
+  }
+  .meta-row {
+    display: flex;
+    gap: 16px;
+    font-size: 14px;
+    padding: 6px 0;
+    border-bottom: 1px dashed var(--line);
+  }
+  .meta-row:last-of-type { border-bottom: 0; margin-bottom: 24px; }
+  .meta-row .meta-k {
+    color: var(--muted);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-size: 12px;
+    flex: 0 0 180px;
+    padding-top: 2px;
+  }
+  .meta-row .meta-v { color: var(--ink); font-weight: 500; }
+
+  .doc h2 {
+    font-family: "Gotham Display", "Montserrat", sans-serif;
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--bosque);
+    letter-spacing: -0.005em;
+    text-transform: uppercase;
+    margin: 40px 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+  }
+  .doc p {
+    font-size: 15.5px;
+    color: var(--ink);
+    margin: 0 0 12px;
+    text-wrap: pretty;
+  }
+  .doc figure {
+    margin: 24px 0;
+    padding: 16px;
+    background: var(--mist-soft);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    text-align: center;
+  }
+  .doc figure img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    display: inline-block;
+  }
+
+  .tag-line {
+    margin-top: 48px;
+    padding-top: 36px;
+    border-top: 2px solid var(--line);
+    text-align: center;
+  }
+  .tag-line .tag {
+    font-family: "Gotham Display", "Montserrat", sans-serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--terracotta);
+    text-transform: lowercase;
+    margin-bottom: 6px;
+  }
+  .tag-line .sig {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  @media print {
+    body { background: white; }
+    .top-bar { display: none; }
+    .doc {
+      box-shadow: none; border: 0;
+      margin: 0; padding: 0;
+      max-width: none;
+    }
+    .doc figure { background: white; border: 1px solid #ccc; }
+    .doc h2 { break-after: avoid; }
+    .doc figure, .doc p, .meta-row { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top-bar">
+  <img src="../assets/bernco-assessor-logo.png" alt="BernCo County Assessor" class="logo">
+  <div class="crumb"><b>SOP CS09</b><br>Source document</div>
+  <div class="actions">
+    <a class="action secondary" href="../index.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M6 4L3 7l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Library</a>
+    <a class="action secondary" href="../videos/CS09_Envoy_Export.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg> Watch video</a>
+    <button class="action primary" onclick="window.print()" style="border: 0; font-family: inherit; cursor: pointer;"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M4 1h6v3M4 11h6v2H4zM2 4h10v6H2z M4 7h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Save as PDF</button>
+  </div>
+</header>
+
+<article class="doc">
+  <div class="doc-header">
+    <div class="eyebrow">Bernalillo County Assessor · Customer Service</div>
+    <h1>Envoy Visitor Data Export and Reporting</h1>
+  </div>
+  <div class="meta-row"><span class="meta-k">Process Title</span><span class="meta-v">Envoy Visitor Data Export and Reporting</span></div>
+<div class="meta-row"><span class="meta-k">Department</span><span class="meta-v">Customer Service</span></div>
+<div class="meta-row"><span class="meta-k">SOP ID</span><span class="meta-v">CS09</span></div>
+<div class="meta-row"><span class="meta-k">Last Reviewed</span><span class="meta-v">05/05/2026</span></div>
+<div class="meta-row"><span class="meta-k">Effective Date</span><span class="meta-v">05/05/2026</span></div>
+<div class="meta-row"><span class="meta-k">Version</span><span class="meta-v">1</span></div>
+<h2>Purpose</h2>
+<p>This SOP outlines the standardized process for exporting visitor data from the Envoy admin dashboard for reporting, audits, compliance review, and downstream analytical use. It covers ad-hoc Visitor log exports, Analytics dashboard exports, and scheduled recurring reports.</p>
+<h2>Scope</h2>
+<p>Applies to staff authorized to export visitor data from Envoy:</p>
+<p>Analytical staff pulling exports for downstream analysis or reporting</p>
+<p>Customer Service Manager(s) reviewing visitor patterns or compiling reports</p>
+<p>Designated administrators handling compliance or audit requests</p>
+<p>Out of scope: visitor sign-in workflow at the front-desk kiosk, sign-in flow configuration, kiosk and iPad setup, and Envoy administrative tasks unrelated to data export.</p>
+<h2>Authorization</h2>
+<p>Routine analytical exports (Visitor log with visitor type filter applied): Customer Service Manager or designated analytical staff.</p>
+<p>Full visitor history exports (no filter, includes NDA files and visitor photos): Customer Service Manager with Deputy Assessor notification, since these contain the largest volume of personally identifiable information.</p>
+<p>Scheduled recurring reports: Customer Service Manager. Recipients of recurring reports must be in the employee directory.</p>
+<p>Exports for external recipients (auditors, vendors, public records requests): Deputy Assessor approval required before any data leaves the office.</p>
+<h2>Definitions</h2>
+<p>Bernalillo County Government Alvarado – The Envoy account name covering the Alvarado Square county facility. Many county departments share this account; their visitor data are distinguished by the Visitor type assigned at check-in.</p>
+<p>Visitor type – The departmental categorization assigned to each sign-in (e.g., Assessor's Office, Treasurer's Office, County Clerk, Sheriff/BCSO, Planning and Development, Probate Court, Indigent Services, BCC Admin Meetings, County Commissioners – Elected Officials, County Administration, Human Resources, Information Technology). Determines which department the visitor is recorded under. The Visitor log exposes this as the &quot;Multiple types&quot; filter; the Analytics dashboard exposes the same dimension as the &quot;Sign-in Flow&quot; filter. Different filter labels, same underlying data.</p>
+<p>Visitor log – The chronological record of completed sign-ins at Visitors → Visitor log. One row per person per sign-in. The primary export path for row-level analytical work.</p>
+<p>Visitors Analytics – The aggregate dashboard at Analytics → Visitors. Provides metrics tiles (Invites, Visitors, Hosts) and a busiest-hours heatmap. Useful for traffic-pattern analysis; secondary path for row-level export.</p>
+<p>Invite log – The Envoy record of invitations sent to expected visitors. An invite may or may not result in an actual sign-in.</p>
+<p>Default fields – Standard data columns Envoy provides for all sign-in flows. As of the current configuration, the Default fields available in the Visitor log Export modal are: Name, Group name, Private notes, Company name, Sign out time, Desk, Entry Status, Legal docs, Phone number, Location name, E-mail, Sign-in flow, Invite status, Host, Sign in time, and Security.</p>
+<p>Custom fields – Additional columns specific to the office's sign-in flow (e.g., Spanish speaking required, service type, property address). These fields are defined when sign-in flows are configured. Visible in the Visitor log as additional columns and selectable in the Export modal.</p>
+<p>Scheduled report – A recurring data delivery configured under Analytics → Reports. Sent on a defined schedule to one or more email recipients.</p>
+<h2>Prerequisites</h2>
+<p>This SOP assumes the operator has Envoy admin access for the Bernalillo County Government Alvarado account, with Single Sign-On (SSO) configured through the bernco.gov Microsoft tenant. If the operator does not have admin access, contact the Customer Service Manager.</p>
+<h2>Related Documents</h2>
+<p>Envoy Admin Dashboard: https://dashboard.envoy.com</p>
+<p>Envoy Help Center — Exporting visitor data: https://envoy.help/en/articles/4951833-exporting-visitor-data</p>
+<p>Envoy Help Center — About visitor data: https://envoy.help/en/articles/3444479-about-visitor-data</p>
+<p>Envoy Help Center — Scheduled Reports: https://envoy.help/en/articles/11133610-scheduled-reports</p>
+<p>Envoy Help Center — Visitors Analytics Dashboard: https://envoy.help/en/articles/3444493-about-visitors-analytics</p>
+<p>Signing in to Envoy</p>
+<p>Envoy admin access at the Assessor's Office uses Microsoft Single Sign-On through the bernco.gov tenant. There is no separate Envoy password to manage.</p>
+<p>Open Envoy</p>
+<p>In a browser, search for &quot;envoy&quot; or navigate directly to envoy.com. Click Login at the top right of the homepage.</p>
+<p>Direct URL for the dashboard: https://dashboard.envoy.com</p>
+<figure><img src="../sop_assets/CS09_Envoy_Visitor_Data_Export_and_Reporting/8552d07853cf9f7b1c3ce95bcea29bdb71525a70.undefined" alt="" /></figure>
+<figure><img src="../sop_assets/CS09_Envoy_Visitor_Data_Export_and_Reporting/01512e78be0f7710975109cbf957ecabb321f6f0.undefined" alt="" /></figure>
+<p>Enter your bernco.gov email</p>
+<p>On the &quot;Log in to the Envoy dashboard&quot; screen, enter the company email address (e.g., anewe@bernco.gov).</p>
+<p>Click Next.</p>
+<figure><img src="../sop_assets/CS09_Envoy_Visitor_Data_Export_and_Reporting/3c5132c3b011dff8310d8750be36e2be2abbe2a6.undefined" alt="" /></figure>
+<figure><img src="../sop_assets/CS09_Envoy_Visitor_Data_Export_and_Reporting/d5937729047049dfcdc0976bc7adbd816a34be1b.undefined" alt="" /></figure>
+<p>Choose Single Sign On</p>
+<p>On the password screen, click &quot;Log in using Single Sign On&quot; below the Log in button. Do not attempt to enter an Envoy password — Envoy access at the Assessor's Office is controlled through Microsoft, not Envoy directly.</p>
+<figure><img src="../sop_assets/CS09_Envoy_Visitor_Data_Export_and_Reporting/aca508bd7feade2c1fa548d82fb890df44eaf307.undefined" alt="" /></figure>
+<p>Authenticate via Microsoft</p>
+<p>Microsoft displays a &quot;Pick an account&quot; screen. Select the bernco.gov account (e.g., Aaron Beckett Newe / anewe@bernco.gov / Connected to Windows).</p>
+<p>If prompted, complete any additional Microsoft authentication challenge (MFA, etc.). Once authenticated, Envoy returns to the dashboard.</p>
+<figure><img src="../sop_assets/CS09_Envoy_Visitor_Data_Export_and_Reporting/520d60348562d9c3b867a0c0e4d1cc590eb5fb03.undefined" alt="" /></figure>
+<p>Envoy Dashboard Reference</p>
+<p>After signing in, the dashboard opens to the Bernalillo County Government Alvarado home view.</p>
+<p>Reference: dashboard layout</p>
+<p>Top of page: location title (Bernalillo County Government Alvarado) and quickstart panels (people on site, deliveries, etc.). These are operational counters, not the analytical data this SOP is concerned with.</p>
+<p>Left sidebar: primary navigation. Sections used in this SOP:</p>
+<p>Visitors — Visitor log and Invite log (primary export path; what most analytical exports use)</p>
+<p>Analytics — visitor analytics dashboards, scheduled reports, custom dashboards (secondary export path; useful for aggregate traffic patterns)</p>
+<p>Other sidebar items (Your schedule, Maps, Virtual front desk, Workplace, Deliveries, Communications, Screens, Employee directory, Integrations, Manage) are out of scope for this SOP.</p>
+<p>Bottom-left of sidebar shows the signed-in account; click it to access account settings or sign out.</p>
+<figure><img src="../sop_assets/CS09_Envoy_Visitor_Data_Export_and_Reporting/e2ded75be5a5b34b43086d590171d1681d42c668.undefined" alt="" /></figure>
+<p>Exporting from the Visitor Log (Primary Path)</p>
+<p>This is the standard procedure for analytical exports. The Visitor log produces row-level CSVs with full field selection, a row-count preview before export, and a built-in visitor type filter — everything needed for downstream analytical work.</p>
+<p>The Visitor Log View</p>
+<p>Open the Visitor log</p>
+<p>In the left sidebar, click Visitors. The Visitors submenu expands to show Visitor log, Invites, Directory, Approvals, Assessments, Devices, and Settings.</p>
+<p>Click Visitor log.</p>
+<p>The Visitor log view loads with default filter (today's date, all visitor types). The visitor count at the top of the page reflects ALL Bernalillo County Government Alvarado sign-ins for that day across every department. In the example screenshot, today's unfiltered count is 220 visitors.</p>
+<figure><img src="../sop_assets/CS09_Envoy_Visitor_Data_Export_and_Reporting/2d3922761ad530e53399cef16b0cbe5adb7041bf.undefined" alt="" /></figure>
+<p>Critical: Visitor Type Filter</p>
+<p>The Bernalillo County Government Alvarado Envoy account is shared across many county departments. Without a visitor type filter, the exported data includes visitors from every department, not just the Assessor's Office.</p>
+<p>Concrete example using today's date filter, captured in this SOP:</p>
+<p>No visitor type filter applied → 220 visitors (all Alvarado departments)</p>
+<p>Visitor type = &quot;Assessor's Office&quot; → 31 visitors</p>
+<p>That is roughly a seven-fold inflation if the filter is missed. The error produces a clean-looking CSV that contains entries from the Treasurer's Office, County Clerk, Probate Court, and other departments mixed in with the Assessor's Office data. Downstream analyses would silently treat them as Assessor visits.</p>
+<p>ALWAYS set the visitor type filter to &quot;Assessor's Office&quot; before exporting for any Assessor-only report.</p>
+<p>Open the Multiple types filter</p>
+<p>Click the &quot;Multiple types&quot; dropdown at the top of the Visitor log (between the Columns control and the All Visitors filter).</p>
+<p>The Visitor types panel opens, listing every visitor type defined in the Bernalillo County Government Alvarado account. Visible in the dropdown: Treasurer's Office, Sheriff/BCSO, County Clerk, Assessor's Office, Planning and Development, Probate Court, Indigent Services, BCC Admin Meetings, County Commissioners – Elected Officials, County Administration, Human Resources, Information Technology, and others below the fold.</p>
+<p>By default all types are selected (which is why the count shows the full account total).</p>
+<figure><img src="../sop_assets/CS09_Envoy_Visitor_Data_Export_and_Reporting/072ff0189190d8e2645c88150031d1a47071dd55.undefined" alt="" /></figure>
+<p>Select Assessor's Office</p>
+<p>Uncheck &quot;Visitor types&quot; at the top of the panel to clear all selections, then check ONLY &quot;Assessor's Office&quot;.</p>
+<p>The dropdown label changes from &quot;Multiple types&quot; to &quot;Assessor's Office&quot; once exactly one type is selected.</p>
+<p>Verify the visitor count at the top of the page drops to a value consistent with Assessor-only traffic. In the example screenshot, the count drops from 220 to 31 for today's date.</p>
+<p>Verify the &quot;Purpose of visit&quot; column on every row reads &quot;Assessor's Office&quot; — no other department should appear.</p>
+<figure><img src="../sop_assets/CS09_Envoy_Visitor_Data_Export_and_Reporting/670b7ce1cdecf84b1a79ec2b5708989b27ee6b01.undefined" alt="" /></figure>
+<p>Setting the Date Range</p>
+<p>Open the date filter</p>
+<p>Click the date control at the top left of the Visitor log (defaults to today's date, e.g., 05/05/2026).</p>
+<p>A date selection panel opens with two parts: a list of preset ranges on the left and a calendar for custom selection on the right.</p>
+<p>Available presets: Today, Yesterday, Past 7 days, Past 30 days, Past 60 days, Past 90 days, Month-to-date, Year-to-date, Past year, All time.</p>
+<p>Custom range: click a start date in the calendar, then an end date. The calendar shows the current month and the next month side by side, with arrows to navigate.</p>
+<figure><img src="../sop_assets/CS09_Envoy_Visitor_Data_Export_and_Reporting/880b18b95211704ffdd99c8251787edd7773636a.undefined" alt="" /></figure>
+<p>Choose the appropriate range</p>
+<p>For periodic analytical refreshes, pick a custom range covering the period since the last successful export, with a small overlap to catch late-arriving entries.</p>
+<p>For monthly reports, Past 30 days is the common preset.</p>
+<p>For year-end summary work, Year-to-date or a custom full-year range is appropriate.</p>
+<p>After selecting the range, the visitor count at the top of the page updates. In the example, with Past 60 days and Assessor's Office filter applied, the count is 5,194 visitors over the range 03/06/2026 → 05/05/2026.</p>
+<figure><img src="../sop_assets/CS09_Envoy_Visitor_Data_Export_and_Reporting/a6a1d106d1138be119f797b1ecc113319d2d0dca.undefined" alt="" /></figure>
+<p>Running the Export</p>
+<p>Open the Export modal</p>
+<p>Click Export at the top right of the Visitor log.</p>
+<p>The &quot;Export visitor data&quot; modal opens. Configure each section before clicking Export at the bottom right.</p>
+<p>Choose visitor type (in the modal)</p>
+<p>The modal includes a &quot;Choose visitor type&quot; dropdown that defaults to whatever was set on the Visitor log page. Verify it reads &quot;Assessor's Office&quot; — if it does not, cancel the modal, return to the Visitor log, and confirm the Multiple types filter is set correctly.</p>
+<p>The visitor type selected here determines which records are included in the export, regardless of whether the Visitor log page filter was applied first.</p>
+<p>Select format</p>
+<p>Two formats are available:</p>
+<p>CSV — raw data for analytical processing. Use this for any export that feeds spreadsheets, scripts, or analytical pipelines.</p>
+<p>PDF — visual format for human-readable reports or compliance review.</p>
+<p>For all analytical exports: CSV.</p>
+<p>Select Default fields</p>
+<p>The modal lists every Default field with a checkbox. By default, all are selected. Use the &quot;Select all&quot; / &quot;Deselect all&quot; links above the field list as needed.</p>
+<p>Default fields available in the current configuration:</p>
+<p>Name — visitor's full name</p>
+<p>Group name — used when visitors arrive in named groups</p>
+<p>Private notes — operator notes attached to the entry (visible only to admins)</p>
+<p>Company name — visitor's stated company / employer</p>
+<p>Sign out time — when the visitor signed out (blank if still signed in)</p>
+<p>Desk — assigned desk reservation, if any</p>
+<p>Entry Status — entry approval status</p>
+<p>Legal docs — links to NDA / legal documents the visitor signed</p>
+<p>Phone number — visitor's stated phone number</p>
+<p>Location name — facility location (Bernalillo County Government Alvarado)</p>
+<p>E-mail — visitor's stated email address</p>
+<p>Sign-in flow — the kiosk flow used at check-in</p>
+<p>Invite status — whether the visitor was pre-invited</p>
+<p>Host — the employee the visitor was meeting with</p>
+<p>Sign in time — when the visitor signed in</p>
+<p>Security — security-related fields, if applicable</p>
+<p>For analytical exports, leave all Default fields selected. Removing fields breaks downstream column expectations.</p>
+<figure><img src="../sop_assets/CS09_Envoy_Visitor_Data_Export_and_Reporting/a7294ca6605a6a66180fbdc921af22ead99a1fc0.undefined" alt="" /></figure>
+<p>Select Custom fields</p>
+<p>Below the Default fields, the modal lists Custom fields specific to the Assessor's Office sign-in flow. Visible custom data in the Visitor log columns includes Spanish speaking required (NO / YES) and any property-related fields the flow captures.</p>
+<p>Select all Custom fields for analytical exports. The list of available Custom fields reflects the sign-in flow configuration; if the flow changes, the available fields change.</p>
+<p>Note: if no entries within the chosen date range have a particular Custom field set, that field may not appear in the modal.</p>
+<p>Verify the export summary</p>
+<p>At the bottom of the modal, verify the summary line: &quot;Export data from [start] to [end] for [visitor type]. There are [N] records in the export.&quot;</p>
+<p>Confirm the date range, visitor type, and record count all match expectations before clicking Export. In the example screenshot, the summary reads: &quot;Export data from 3/6/26 to 5/5/26 for Assessor's Office. There are 5,194 records in the export.&quot;</p>
+<p>If the record count is unexpectedly high, the visitor type filter may be wrong or the date range may extend further than intended.</p>
+<p>Run the export</p>
+<p>Click Export at the bottom right of the modal.</p>
+<p>The download begins shortly. Envoy also sends an email with a download link to the operator's account email; use the email link if the browser download fails or if the export is large.</p>
+<h2>Verify the file</h2>
+<p>Open the exported CSV. Spot-check:</p>
+<p>Row count matches the modal's preview number</p>
+<p>Sign-in flow column shows only Assessor's Office entries — no other department names</p>
+<p>Sign in time values fall within the requested date range</p>
+<p>Custom field columns are present (Spanish speaking required, etc.)</p>
+<p>Default fields are populated (Name, Phone number, Host, Sign in time, etc.)</p>
+<p>If any of the above fails, repeat the export with the corrected filter or field selection.</p>
+<h2>Save and document</h2>
+<p>Save the CSV to the designated analytical input directory or secure shared drive folder approved by the Customer Service Manager, with a filename that includes the export date and the date range covered (e.g., Visitors_AssessorsOffice_2026-03-06_through_2026-05-05.csv).</p>
+<p>Note the export in the data pipeline log: date pulled, date range, visitor type filter, row count, who pulled, intended use.</p>
+<p>Exporting from Analytics → Visitors (Secondary Path)</p>
+<p>The Analytics → Visitors page is the aggregate dashboard. It shows summary metric tiles (Invites, Visitors, Hosts), a busiest-hours heatmap, and trend charts. Use this path when traffic-pattern analysis is the goal rather than a row-level data dump.</p>
+<p>Two minor differences from the Visitor log path are worth knowing:</p>
+<p>The visitor type filter on this page is labeled &quot;Sign-in Flow&quot; rather than &quot;Multiple types.&quot; The underlying data is the same.</p>
+<p>Exports from this page are oriented around dashboard elements (chart-level CSVs, underlying-data exports) rather than the full record-set export the Visitor log produces.</p>
+<h2>Procedure</h2>
+<p>Navigate to Visitors Analytics</p>
+<p>In the left sidebar, click Analytics. The Analytics submenu expands to show Visitors, Protect, Deliveries, Reports, and Custom dashboards.</p>
+<p>Click Visitors under Analytics.</p>
+<p>The Visitors Analytics page loads with default filter (Last 30 days, no Sign-in Flow filter). The Visitors metric tile shows the total across all sign-in flows.</p>
+<figure><img src="../sop_assets/CS09_Envoy_Visitor_Data_Export_and_Reporting/a88b68177a5f2090361619b3f5c6b0a1c2507606.undefined" alt="" /></figure>
+<p>Set the Date Filter</p>
+<p>Click the Date Filter dropdown in the top right. Available options match the Visitor log presets: Today, Past 7 / 30 / 60 / 90 Days, Month-to-date, Year-to-date, Custom, All time, plus Next 7 / 30 Days (forward-looking, rarely useful for visitor exports).</p>
+<p>Set the Sign-in Flow filter to Assessor's Office</p>
+<p>Click the Sign-in Flow dropdown. Select &quot;Assessor's Office&quot;.</p>
+<p>Verify the metric tiles (Invites, Visitors, Hosts) update to show only Assessor's Office data. The Visitors count should drop substantially compared to the unfiltered view (in the example screenshot: 11,507 unfiltered → 3,655 filtered for Last 30 days).</p>
+<p>Verify the busiest-hours heatmap below populates with reasonable Assessor's Office traffic patterns (concentrated weekday business hours, with peaks typically around 10–11 AM Mondays and Wednesdays).</p>
+<figure><img src="../sop_assets/CS09_Envoy_Visitor_Data_Export_and_Reporting/7ac58a4b6953e15bb55c7faa54e89a3438e5a26f.undefined" alt="" /></figure>
+<p>Choose an export method</p>
+<p>Two export controls are available on this page:</p>
+<p>Top-right red Export button — exports the current dashboard view at the dashboard level, respecting the Date Filter and Sign-in Flow filter set above</p>
+<p>Per-element three-dot menu (visible when hovering over a metric card or chart) — opens a granular export menu with more format options including raw underlying data</p>
+<p>For row-level analytical exports from this page, use the per-element three-dot menu and choose Underlying data, as documented in the next step. For most row-level analytical work, the Visitor log primary path is the better starting point.</p>
+<p>Use the per-element Export menu</p>
+<p>Hover the Visitors metric card. A toolbar appears at the top of the card with a filter icon, a column icon, and a three-dot menu.</p>
+<p>Click the three-dot menu. Hover Export to reveal the export submenu.</p>
+<p>Select an option:</p>
+<p>Copy to clipboard — quick paste</p>
+<p>CSV — raw data, one-million-row download limit</p>
+<p>Excel — workbook format, one-million-row download limit</p>
+<p>JSON — structured data for programmatic use</p>
+<p>Underlying data → CSV or Excel — row-level records behind the visualization</p>
+<p>PDF — visual snapshot, not for data processing</p>
+<p>Send → Export — triggers an asynchronous export delivered by email</p>
+<p>Watch for the 1M row limit on direct downloads; for very large ranges use Send → Export.</p>
+<figure><img src="../sop_assets/CS09_Envoy_Visitor_Data_Export_and_Reporting/b5e08cdd80e2791d1c321cf3ef03acae43c944d3.undefined" alt="" /></figure>
+<p>Exporting Full Visitor History</p>
+<p>Full history exports cover every visitor entry on record with no filtering. They are the only export path that includes 24-hour-expiry links to NDA files and visitor photos. Use sparingly — the data volume is large, the personally identifiable content is sensitive, and the export is not pre-filtered to the Assessor's Office.</p>
+<p>Confirm authorization</p>
+<p>Full history exports require Customer Service Manager approval and Deputy Assessor notification. Do not run this export without confirmation.</p>
+<p>Navigate to the export option</p>
+<p>Go to Visitors → Settings → Account.</p>
+<p>Locate the &quot;Export full visitor history&quot; row.</p>
+<p>Run the export</p>
+<p>Click Export next to &quot;Export full visitor history.&quot;</p>
+<p>A status bar appears at the bottom of the screen showing the total entry count and compilation progress. Large exports may take several minutes.</p>
+<p>Once complete, the CSV download begins automatically.</p>
+<p>Handle NDA and photo links promptly</p>
+<p>The CSV contains links to NDA files and visitor photos. These links expire 24 hours after the export.</p>
+<p>If the export is for compliance or audit purposes that require these files, download every NDA file and photo within 24 hours and store them alongside the CSV in the secure file location designated for the audit. Re-running the export after 24 hours produces fresh links but with the same data otherwise.</p>
+<p>Filter to the Assessor's Office</p>
+<p>The full history export is unfiltered. After download, filter the CSV by the visitor type or sign-in flow column to retain only Assessor's Office entries before further processing.</p>
+<p>Store and document</p>
+<p>Save the CSV and any associated NDA / photo files in a secured location with restricted access.</p>
+<p>Log: date pulled, who pulled, business reason, who authorized, downstream recipient (if any).</p>
+<p>Exporting Invite Data</p>
+<p>Invite exports cover invitations sent to expected visitors, regardless of whether they actually arrived. Use this when reconciling no-shows, evaluating advance scheduling patterns, or fulfilling compliance requests that involve scheduled visits rather than completed sign-ins.</p>
+<p>Open the Invites view</p>
+<p>Navigate to Visitors → Invites.</p>
+<p>Apply the visitor type filter</p>
+<p>Set the Multiple types filter to &quot;Assessor's Office&quot; before exporting, exactly as in the Visitor log path. Without the filter, the export includes invites from every department.</p>
+<p>Open and configure the export</p>
+<p>Click Export in the top right corner.</p>
+<p>The configuration options match the Visitor log Export modal: visitor type, format (CSV or PDF), Default fields, Custom fields.</p>
+<p>Verify the export summary line, then click Export. Download begins shortly; an email with a download link is also sent.</p>
+<p>Scheduled Recurring Reports</p>
+<p>Scheduled reports deliver visitor data on a defined cadence to one or more email recipients. Configured under Analytics → Reports. Available on Premium and Enterprise plans (verify the Bernalillo County Government Alvarado account tier before relying on this path). Enterprise customers can create unlimited reports; Premium customers are limited to three active reports at a time.</p>
+<p>Use scheduled reports when the same export is needed regularly (e.g., a weekly visitor count delivered to leadership, a monthly compliance log to records management) and a stable recipient list exists. For analytical exports tied to ad-hoc analysis or research projects, prefer manual exports — analytical refresh schedules can shift, and scheduled deliveries to a single email address create a single point of failure.</p>
+<p>Open the Reports area</p>
+<p>Navigate to Analytics → Reports.</p>
+<p>Select the &quot;Create a New Report&quot; tab.</p>
+<p>Choose the underlying dashboard</p>
+<p>From the &quot;Based on existing dashboard&quot; dropdown, select Location Visitors for visitor data.</p>
+<p>Enter a descriptive report name that includes the recipient or purpose (e.g., &quot;Weekly visitor count — Assessor's Office — CSM&quot;).</p>
+<p>Set the recipient</p>
+<p>Enter the email address of the person who will receive the report. The recipient must be in the employee directory.</p>
+<p>Verify the recipient is currently employed before saving — reports continue sending after employees leave unless manually deleted.</p>
+<p>Configure schedule</p>
+<p>Set Send date, Repeat (Daily, Weekly on [weekday], Monthly on [day], Annually, or Every weekday), Time, and Time zone.</p>
+<p>Choose whether to include the day of in the report.</p>
+<p>Define the data range</p>
+<p>Choose what range of data each report will cover: Today, Past 7 / 30 / 90 Days, Month-to-date, Year-to-date, Next 7 / 30 Days, or All time.</p>
+<p>This is the rolling window applied each time the report sends. For a weekly Monday-morning report, Past 7 Days produces the prior week's data.</p>
+<p>Select format</p>
+<p>PDF — visual format matching the dashboard appearance.</p>
+<p>Excel — aggregated data underlying the online reports.</p>
+<p>CSV — raw dataset; only available for Entries and Invites.</p>
+<p>If CSV, choose between Entries and Invites and select which fields to include.</p>
+<p>Constrain to Assessor's Office</p>
+<p>If the underlying dashboard does not pre-filter by Sign-in Flow, the scheduled report will include all Bernalillo County Government Alvarado data. To restrict to the Assessor's Office, base the scheduled report on a Custom Dashboard that has the Sign-in Flow filter pre-applied to &quot;Assessor's Office&quot;.</p>
+<p>Custom Dashboard creation is out of scope for this SOP; document the filtered dashboard separately when first created.</p>
+<p>Save the report</p>
+<p>Click Schedule report. The report appears under Analytics → Reports → Your Reports.</p>
+<p>All Location and Global admins for the location can view and edit the report.</p>
+<p>Verify the first delivery</p>
+<p>Confirm the first scheduled report arrives in the recipient's inbox at the expected time. If it does not, check the recipient address, schedule settings, and Envoy notification permissions.</p>
+<p>Editing or Deleting a Scheduled Report</p>
+<p>Reports can be edited (limited fields) or deleted from Analytics → Reports → Your Reports. Click the ellipsis on the right side of a report row, then choose Edit or Delete. Deleting is permanent and cannot be restored.</p>
+<p>Review the active scheduled reports list quarterly. Delete reports whose recipients have left the organization or whose business need has ended.</p>
+<p>Data Handling and Privacy</p>
+<p>Visitor exports contain personally identifiable information including names, phone numbers, employer names, and (in full-history exports) photos and signed NDA documents. Treat all exports as sensitive.</p>
+<h2>Storage</h2>
+<p>Save exports to the designated analytical input directory or the secure shared drive folder approved by the Customer Service Manager. Do not save exports to local desktop folders, personal cloud storage, or unencrypted USB media.</p>
+<p>File names should include the export date and date range covered.</p>
+<h2>Sharing</h2>
+<p>Sharing visitor data outside the office (auditors, vendors, public records requests) requires Deputy Assessor approval before transmission.</p>
+<p>Use county-approved secure transfer methods. Do not email visitor CSVs to external recipients without prior approval and an encrypted transmission method.</p>
+<h2>Retention</h2>
+<p>Working copies of analytical exports may be retained for the duration of the analysis. Once analysis is complete and results are saved separately, delete the working copy.</p>
+<p>Final exports tied to compliance, audit, or public records work follow the office's records retention schedule.</p>
+<h2>Disposal</h2>
+<p>Securely delete export files when retention expires. For shared-drive copies, use the standard secure deletion process. For NDA files and photos downloaded from the 24-hour links, delete immediately after the audit or compliance use is complete.</p>
+<h2>Change Control</h2>
+<p>Routine ad-hoc exports do not require a change-control entry beyond the data pipeline log mentioned in the procedures above. The following changes do require change control:</p>
+<p>Authorization for protocol changes</p>
+<p>Adding new scheduled reports, changing recipients on existing scheduled reports, or modifying the standard set of fields exported for analytical work: Customer Service Manager.</p>
+<p>Sharing visitor exports with external parties: Deputy Assessor approval required before transmission.</p>
+<p>Granting Envoy admin access to additional staff: Customer Service Manager with Deputy Assessor notification.</p>
+<p>Changes to the Assessor's Office sign-in flow that add, remove, or rename custom fields: Customer Service Manager, with notification to any analytical staff whose downstream workflows depend on those fields, so the workflows can be updated to match.</p>
+<h2>Pre-change snapshot</h2>
+<p>For scheduled report changes, screenshot the existing report configuration before editing.</p>
+<p>For sign-in flow changes that affect custom fields, run a final export under the old configuration so any downstream workflow has a clean cutover boundary.</p>
+<h2>Make the change</h2>
+<p>Apply the change using the procedures above. Verify by triggering or waiting for the first delivery and confirming the recipient received the expected data.</p>
+<h2>Log the change</h2>
+<p>Add an entry to the Customer Service Change Log: date and time, change applied, prior value, new value, who authorized, who applied, business reason.</p>
+
+  <div class="tag-line">
+    <div class="tag">Count on us.</div>
+    <div class="sig">Bernalillo County Assessor · Damian R. Lara, County Assessor</div>
+  </div>
+</article>
+
+</body>
+</html>

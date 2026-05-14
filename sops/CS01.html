@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CS01 · Veteran Exemption Entry · Source SOP</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+  @font-face {
+    font-family: 'Gotham Display';
+    src: url('../fonts/Gotham-Black.otf') format('opentype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+  }
+  :root {
+    --bosque: #285952;
+    --bosque-dark: #1d4640;
+    --cypress: #013942;
+    --terracotta: #e47756;
+    --mist: #e8f1ee;
+    --mist-soft: #f4f8f6;
+    --paper: #faf8f4;
+    --ink: #1a2620;
+    --line: #cfd8d3;
+    --muted: #5a6b65;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    font-family: "Montserrat", system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--mist-soft);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.55;
+  }
+  .top-bar {
+    background: var(--paper);
+    border-bottom: 2px solid var(--line);
+    padding: 16px 56px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    position: sticky; top: 0;
+    z-index: 10;
+  }
+  .top-bar img.logo { height: 56px; width: auto; display: block; }
+  .top-bar .crumb {
+    padding-left: 24px;
+    border-left: 1px solid var(--line);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    line-height: 1.6;
+  }
+  .top-bar .crumb b { color: var(--cypress); }
+  .top-bar .actions { margin-left: auto; display: flex; gap: 10px; }
+  .top-bar .action {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 9px 16px;
+    font-size: 13px; font-weight: 600;
+    text-decoration: none;
+    border-radius: 999px;
+    letter-spacing: 0.04em;
+    transition: all 180ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .top-bar .action.primary {
+    background: var(--bosque); color: var(--paper);
+    border: 1px solid var(--bosque);
+  }
+  .top-bar .action.primary:hover { background: var(--bosque-dark); }
+  .top-bar .action.secondary {
+    background: transparent; color: var(--cypress);
+    border: 1px solid var(--line);
+  }
+  .top-bar .action.secondary:hover { background: var(--mist); border-color: var(--cypress); }
+
+  .doc {
+    max-width: 920px;
+    margin: 48px auto 80px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 64px 72px 72px;
+    box-shadow: 0 12px 36px rgba(15, 30, 27, 0.06);
+  }
+  .doc-header {
+    border-bottom: 3px solid var(--bosque);
+    padding-bottom: 28px;
+    margin-bottom: 36px;
+  }
+  .doc-header .eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--terracotta);
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .doc-header h1 {
+    font-family: "Gotham Display", "Montserrat", sans-serif;
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--bosque);
+    margin: 0;
+    text-wrap: balance;
+  }
+  .meta-row {
+    display: flex;
+    gap: 16px;
+    font-size: 14px;
+    padding: 6px 0;
+    border-bottom: 1px dashed var(--line);
+  }
+  .meta-row:last-of-type { border-bottom: 0; margin-bottom: 24px; }
+  .meta-row .meta-k {
+    color: var(--muted);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-size: 12px;
+    flex: 0 0 180px;
+    padding-top: 2px;
+  }
+  .meta-row .meta-v { color: var(--ink); font-weight: 500; }
+
+  .doc h2 {
+    font-family: "Gotham Display", "Montserrat", sans-serif;
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--bosque);
+    letter-spacing: -0.005em;
+    text-transform: uppercase;
+    margin: 40px 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+  }
+  .doc p {
+    font-size: 15.5px;
+    color: var(--ink);
+    margin: 0 0 12px;
+    text-wrap: pretty;
+  }
+  .doc figure {
+    margin: 24px 0;
+    padding: 16px;
+    background: var(--mist-soft);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    text-align: center;
+  }
+  .doc figure img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    display: inline-block;
+  }
+
+  .tag-line {
+    margin-top: 48px;
+    padding-top: 36px;
+    border-top: 2px solid var(--line);
+    text-align: center;
+  }
+  .tag-line .tag {
+    font-family: "Gotham Display", "Montserrat", sans-serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--terracotta);
+    text-transform: lowercase;
+    margin-bottom: 6px;
+  }
+  .tag-line .sig {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  @media print {
+    body { background: white; }
+    .top-bar { display: none; }
+    .doc {
+      box-shadow: none; border: 0;
+      margin: 0; padding: 0;
+      max-width: none;
+    }
+    .doc figure { background: white; border: 1px solid #ccc; }
+    .doc h2 { break-after: avoid; }
+    .doc figure, .doc p, .meta-row { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top-bar">
+  <img src="../assets/bernco-assessor-logo.png" alt="BernCo County Assessor" class="logo">
+  <div class="crumb"><b>SOP CS01</b><br>Source document</div>
+  <div class="actions">
+    <a class="action secondary" href="../index.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M6 4L3 7l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Library</a>
+    <a class="action secondary" href="../videos/CS01_Veteran_Exemption.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg> Watch video</a>
+    <button class="action primary" onclick="window.print()" style="border: 0; font-family: inherit; cursor: pointer;"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M4 1h6v3M4 11h6v2H4zM2 4h10v6H2z M4 7h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Save as PDF</button>
+  </div>
+</header>
+
+<article class="doc">
+  <div class="doc-header">
+    <div class="eyebrow">Bernalillo County Assessor · Customer Service</div>
+    <h1>Veteran Exemption Entry</h1>
+  </div>
+  <div class="meta-row"><span class="meta-k">Process Title</span><span class="meta-v">Veteran Exemption Entry</span></div>
+<div class="meta-row"><span class="meta-k">Department</span><span class="meta-v">Customer Service</span></div>
+<div class="meta-row"><span class="meta-k">SOP ID</span><span class="meta-v">CS01</span></div>
+<div class="meta-row"><span class="meta-k">Last Reviewed</span><span class="meta-v">03/16/2026</span></div>
+<div class="meta-row"><span class="meta-k">Effective Date</span><span class="meta-v">03/16/2026</span></div>
+<div class="meta-row"><span class="meta-k">Version</span><span class="meta-v">1</span></div>
+<h2>Purpose</h2>
+<p>This SOP outlines the standardized process for receiving, reviewing, validating, and completing Veteran’s Exemption requests to ensure accuracy, compliance with statutory requirements, and timely customer service.</p>
+<h2>Scope</h2>
+<p>This procedure applies to all staff involved in Veteran’s Exemption entry, including:</p>
+<p>Customer Service Counter staff receiving submissions</p>
+<p>Customer Service staff reviewing Veteran’s Exemption claims</p>
+<p>Customer Service staff translogging completed entry</p>
+<p>This SOP covers Veteran Exemptions entry, corrections, and removal.</p>
+<h2>Definitions</h2>
+<p>CAMA – Computer Assisted Mass Appraisal</p>
+<p>NMDVS – New Mexico Department of Veteran Services</p>
+<p>Veteran’s Exemption Overview</p>
+<p>Veterans Exemption</p>
+<p>Benefit: Reduces the taxable value of your property by $10,000. This credit can also be used on other properties, including commercial, and the DMV.</p>
+<p>Eligibility: Honorably discharged veteran or unmarried surviving spouse who served at least 90 consecutive days (other than training). Applies to real property or manufactured homes. Can be combined with the disabled veteran percentage 90% and lower exemption (this excludes VTW -100%). The back of the certificate will show if part or all this exemption has been used before. In cases when a remaining amount is available.</p>
+<p>Application Process: Obtain a Certificate of Eligibility from the New Mexico Department of Veterans Services (NMDVS) by submitting their Veteran Application form. Bring the original certificate to the Assessor's Office for endorsement. Once applied, it carries over year to year without reapplication. If the Veteran moves, they must present certificate for endorsement for the new residence.</p>
+<p>Required Documents: DD-214 (discharge papers), Driver’s License/State Issued ID, and NMDVS certificate.</p>
+<p>Deadlines: Within 30 days of Notice of Value for current year application; apply anytime for future years.</p>
+<p>How to Apply: Start with NMDVS (call 505-346-3986 or visit dmv.nm.gov). Then submit it to Assessor.</p>
+<p>Disabled Veterans Exemption</p>
+<p>Benefit:</p>
+<p>For 100% disabled veterans, it's a full (100%) waiver of property taxes on the primary residence. This is in addition to the $10,000 standard veterans’ exemption.</p>
+<p>The percentage-based exemption exempts a percentage of the Veteran’s primary residence taxable value equal to the Veteran’s service-connected disability rating (e.g., 50% disability = 50% exemption).</p>
+<p>Eligibility: Veteran with a federally recognized service-connected disability (rated by U.S. Department of Veterans Affairs). Applies to primary residence, including jointly owned with spouse. Unmarried surviving spouses may qualify if the veteran died from service-connected causes.</p>
+<p>Application Process: Apply for a Disabled Certificate of Eligibility from NMDVS, then submit to Assessor.</p>
+<p>Required Documents: VA disability rating letter, NMDVS certificate, proof of residency.</p>
+<p>Deadlines: Same as veterans’ exemption.</p>
+<p>How to Apply: Via NMDVS first, then Assessor.</p>
+<h2>Related Documents</h2>
+<p>Bernco.gov Forms - Assessor</p>
+<p>New Mexico Veterans Services DVS_DVS1_VeteransExemption_Fillable_rev03-Mar_2025.pdf ; State Veteran Benefits | NM Department of Veterans Services</p>
+<p>Statutes</p>
+<p>Property Tax Exemption for Veterans with a Disability - NMOneSource.com</p>
+<p>Certificate and Address Verification</p>
+<p>Check certificate type:</p>
+<p>Green certificate = $10,000</p>
+<p>Verify the certificate details:</p>
+<p>Verify Veteran name with ID and UPC.</p>
+<p>Applicant name line could either be the Veteran or Qualifying Widow.</p>
+<p>Verify Physical address matches UPC.</p>
+<p>Confirm veteran signed the bottom left corner and it has the NMDVS Endorsement.</p>
+<p>Check for any prior endorsements on the back of the certificate. (MVD usage, other counties)</p>
+<figure><img src="../sop_assets/CS01_Veteran_Exemption/image1.png" alt="" /></figure>
+<p>Pink Certificate = Disability Rating %</p>
+<p>Verify the certificate details:</p>
+<p>Verify the name of the Veteran.</p>
+<p>Check the percentage rating, it will be used during exemption entry.</p>
+<p>Ensure the address matches the address for the UPC.</p>
+<p>Applicant name line could either be the Veteran or Qualifying Widow.</p>
+<p>Verify Applicant signature.</p>
+<p>NMDVS endorsement</p>
+<figure><img src="../sop_assets/CS01_Veteran_Exemption/image2.png" alt="" /></figure>
+<p>Tan Certificate=100%</p>
+<p>Verify the certificate details:</p>
+<p>Verify the name of the Veteran.</p>
+<p>Check the percentage rating, it will be used during exemption entry.</p>
+<p>Ensure the address matches the address for the UPC.</p>
+<p>Applicant name line could either be the Veteran or Qualifying Widow.</p>
+<p>Verify Applicant signature.</p>
+<p>NMDVS endorsement</p>
+<figure><img src="../sop_assets/CS01_Veteran_Exemption/image3.png" alt="" /></figure>
+<p>Endorse the Certificate</p>
+<p>On the certificate back,</p>
+<p>Verify Prior Use: If prior UPC is written, check that the exemption has been removed.</p>
+<p>Write:</p>
+<p>Date</p>
+<p>Amount being endorsed (usually full $10,000)</p>
+<p>UPC number</p>
+<p>Assessor's name and your initials (e.g., &quot;D Lara/AB&quot; or &quot;Damian Lara/AB&quot;)</p>
+<p>&quot;Bern&quot; or &quot;Bernalillo County&quot;</p>
+<figure><img src="../sop_assets/CS01_Veteran_Exemption/image4.png" alt="" /></figure>
+<p>Disabled Veteran Exemption Certification of Ownership and Residence Form</p>
+<p>(This is only used for Percentage Certificates)</p>
+<p>First Print the form.</p>
+<p>1st Section (Green Box):</p>
+<p>County Name, County Assessor’s phone number, Tax year to apply Exemption.</p>
+<p>Veteran/Widow First Name, Middle Initial, Last Name,</p>
+<p>Primary address for which the Exemption will be applied,</p>
+<p>City &amp; State, Zip Code, Phone Number,</p>
+<p>Veteran Certificate #</p>
+<p>UPC#</p>
+<p>Primary Address for the UPC.</p>
+<p>Part II (Blue Box)</p>
+<p>Applicant Signature and Date.</p>
+<p>Part IV (Green Box)</p>
+<p>Place Applicants ID when making a copy.</p>
+<p>Date Stamp the form.</p>
+<p>Make a copy of the form with the I.D.</p>
+<p>Keep the copy with the I.D. on it to scan into the record and give the other back to the Applicant with their I.D.</p>
+<figure><img src="../sop_assets/CS01_Veteran_Exemption/image5.png" alt="" /></figure>
+<p>Exemption Form</p>
+<p>First Print the form.</p>
+<p>1st Green Box:</p>
+<p>Enter UPC#.</p>
+<p>Enter LUC</p>
+<p>Enter Acreage</p>
+<p>Enter PID</p>
+<p>Enter Telephone Number</p>
+<p>Enter Name of Owner on Record</p>
+<p>Enter Person who received document over the counter</p>
+<p>Enter Date</p>
+<p>2nd Green Box</p>
+<p>Enter Veteran Certificate number</p>
+<p>Select the type of certificate that is being submitted. (For the amount write in the amount on the green certificate being used.)</p>
+<p>If the Exemption was previously used enter the UPC# it was used on and whether it was removed.</p>
+<p>Blue Box</p>
+<p>Obtain the appropriate signature.</p>
+<figure><img src="../sop_assets/CS01_Veteran_Exemption/image7.png" alt="" /></figure>
+<p>Exemption Input</p>
+<p>Prior Use Research</p>
+<p>Research the owner to ensure that any prior use of the certificate can be ended.</p>
+<p>On the dashboard select the 3 lines (menu) in the top left corner.</p>
+<p>Select the arrow next to property records.</p>
+<p>Select Owner name.</p>
+<figure><img src="../sop_assets/CS01_Veteran_Exemption/image8.png" alt="" /></figure>
+<p>Enter the owner’s name Last name, first name also include an *.</p>
+<p>Ensure that multiple entries do not include the exemption certificate does not exist on a separate record.</p>
+<figure><img src="../sop_assets/CS01_Veteran_Exemption/image9.png" alt="" /></figure>
+<p>Deactivation of old certificates.</p>
+<p>Should be handled by an Assessor Tech Lead, Admin Support Assistant, or Manager.</p>
+<p>General Exemption Screen</p>
+<p>General Exemption Entry</p>
+<p>In the transaction menu select “General Exemption by Parcel” under “Exemptions”</p>
+<figure><img src="../sop_assets/CS01_Veteran_Exemption/image10.png" alt="" /></figure>
+<p>The new window that opens will be the “General Exemption by Parcel” entry screen.</p>
+<p>Enter the property UPC the exemption is being applied to.</p>
+<figure><img src="../sop_assets/CS01_Veteran_Exemption/image11.png" alt="" /></figure>
+<p>Veteran Exemptions Entry</p>
+<p>Parcel Screen:</p>
+<p>LUC (Land Use Code) needs to be a residential code.</p>
+<p>1100</p>
+<p>1102</p>
+<p>1103</p>
+<p>1104</p>
+<p>1250</p>
+<p>11PT</p>
+<p>11GC</p>
+<p>11HT</p>
+<p>1150</p>
+<p>Veteran exemptions only apply to the first 5 acres. If over 5 acres and they have 100% disabled vet cert HOHX and or Standard Veteran Certification will need to be added.</p>
+<figure><img src="../sop_assets/CS01_Veteran_Exemption/image12.png" alt="" /></figure>
+<p>Owners Screen:</p>
+<p>Select “Owners” Tab</p>
+<p>Ensure the Telephone number is updated to match the number provided on the “Disabled Veteran Exemption Certification of Ownership and Residence” Form.</p>
+<p>Special assessments should be noted.</p>
+<p>Value Freeze needs special handling if a Veteran is applying for 100%. See a Lead or manager for assistance.</p>
+<figure><img src="../sop_assets/CS01_Veteran_Exemption/image13.png" alt="" /></figure>
+<p>Exemptions Screen:</p>
+<p>Select the “Exemptions” Tab</p>
+<p>Click add record at the top left.</p>
+<figure><img src="../sop_assets/CS01_Veteran_Exemption/image14.png" alt="" /></figure>
+<p>Click the menu button next to the “Exemption Code” Box.</p>
+<figure><img src="../sop_assets/CS01_Veteran_Exemption/image15.png" alt="" /></figure>
+<p>Green Certificate:</p>
+<p>Type “Vet1” in the text field.</p>
+<p>If 2 Green veteran certificates are received select “Vet2”.</p>
+<p>Click “Find” on the top right.</p>
+<p>Click “Ok”.</p>
+<p>Tan and Pink Certificates:</p>
+<p>Type “VetW” in the text field for 100%</p>
+<p>For the Pink Disability Percentage Cert You will type “VET” and the corresponding percentage number.</p>
+<figure><img src="../sop_assets/CS01_Veteran_Exemption/image16.png" alt="" /></figure>
+<figure><img src="../sop_assets/CS01_Veteran_Exemption/image17.png" alt="" /></figure>
+<p>Enter the date in the “Date of Application” box.</p>
+<p>Select “A:Approved” in the “Application Status” drop down.</p>
+<p>In “Reason Code” Select</p>
+<p>VT1: (1) Veterans Exemption</p>
+<p>VT2: (2) Veterans Exemption</p>
+<p>VTP: Disabled Vet Percent</p>
+<p>VTW: Disabled Vet Waiver</p>
+<p>Enter the Applicant name as it appears on the Certificate in the “Applicant” text field.</p>
+<p>Click “Copy Owner” and select the this will auto populate the “Address” section.</p>
+<p>Make sure the</p>
+<p>Enter the phone number.</p>
+<p>“Telephone” text box.</p>
+<p>DO NOT fill out the “Veteran Exemption” section.</p>
+<figure><img src="../sop_assets/CS01_Veteran_Exemption/image19.png" alt="" /></figure>
+<figure><img src="../sop_assets/CS01_Veteran_Exemption/image23.png" alt="" /></figure>
+<p>Once you are finished with the input on the exemption screen click “Validate” before moving to the next screen.</p>
+<figure><img src="../sop_assets/CS01_Veteran_Exemption/image24.png" alt="" /></figure>
+<p>Applicants Screen:</p>
+<p>Click “Applicants” screen.</p>
+<p>Click “Add Record”</p>
+<figure><img src="../sop_assets/CS01_Veteran_Exemption/image25.png" alt="" /></figure>
+<p>Click the menu next to the “Owner Reference” text box.</p>
+<p>Select the owner information and click “OK”.</p>
+<p>Select “COPY OWNER” Ensure that the name matches the name on the Vet Cert.</p>
+<p>Select the owner information and click “OK”.</p>
+<p>Enter the phone number.</p>
+<figure><img src="../sop_assets/CS01_Veteran_Exemption/image26.png" alt="" /></figure>
+<p>Scroll down to the “User Fields:”</p>
+<p>Enter the Veteran Certificate # into the “Veterans Certificate #” text field.</p>
+<p>In the “Application Status:”:</p>
+<p>F: First Time Applied</p>
+<p>L: Lost Certificate Re-issued</p>
+<p>P: Previously Used</p>
+<p>Enter the Date.</p>
+<p>Enter Initials of the person who received the application.</p>
+<p>Amount applied:</p>
+<p>Green Certificate:</p>
+<p>Enter $10,000. If two certs enter $20,000.</p>
+<p>Tan or Pink Certificate:</p>
+<p>Enter the applicable percentage.</p>
+<p>Blue box items:</p>
+<p>(This section is for previously used certificates)</p>
+<p>See Note template for required Note.</p>
+<figure><img src="../sop_assets/CS01_Veteran_Exemption/image27.png" alt="" /></figure>
+<p>Once you are finished with the input on the exemption screen click “Validate” before moving to the next screen.</p>
+<figure><img src="../sop_assets/CS01_Veteran_Exemption/image24.png" alt="" /></figure>
+<p>EX Details Screen:</p>
+<p>Select the “EX Details” screen.</p>
+<p>Click “Add Record”</p>
+<figure><img src="../sop_assets/CS01_Veteran_Exemption/image28.png" alt="" /></figure>
+<p>The “Exemption Code” boxes will reflect the current exemption you are entering.</p>
+<p>In the “Reason Code” box select “A: Additional” if there are existing exemptions.</p>
+<p>Select “N: New Application” if there are no other exemptions</p>
+<p>Select “ADD: ADD” in the “Override” box.</p>
+<figure><img src="../sop_assets/CS01_Veteran_Exemption/image29.png" alt="" /></figure>
+<p>Select the Menu next to the “Owner Reference” text box.</p>
+<p>Select the Owner’s name and click “OK”</p>
+<figure><img src="../sop_assets/CS01_Veteran_Exemption/image30.png" alt="" /></figure>
+<p>Once you are finished with the input on the “EX Details” screen click “Validate” before moving to the next screen.</p>
+<figure><img src="../sop_assets/CS01_Veteran_Exemption/image24.png" alt="" /></figure>
+<p>Ex Summary Screen:</p>
+<p>Select Ex Summary</p>
+<p>This screen will confirm that the exemption has been applied completely.</p>
+<figure><img src="../sop_assets/CS01_Veteran_Exemption/image32.png" alt="" /></figure>
+<p>Notes 1 Screen:</p>
+<p>Select the “Notes 1” screen.</p>
+<p>Select “ADD”</p>
+<figure><img src="../sop_assets/CS01_Veteran_Exemption/image33.png" alt="" /></figure>
+<p>The # should be the next in sequence for new notes</p>
+<p>Notes that need to go into a second line need to be .01, .02, .03, etc..</p>
+<p>&lt;w:p w14:paraId=&quot;49EE0241&quot; w14:textId=&quot;6AFB1A3B&quot; w:rsidR=&quot;00AF261F&quot; w:rsidRPr=&quot;00A61842&quot; w:rsidRDefault=&quot;006F26EF&quot;&gt;&lt;w:pPr&gt;&lt;w:rPr&gt;&lt;w:sz w:val=&quot;20&quot;/&gt;&lt;w:szCs w:val=&quot;20&quot;/&gt;&lt;/w:rPr&gt;&lt;/w:pPr&gt;&lt;w:r w:rsidRPr=&quot;00A61842&quot;&gt;&lt;w:rPr&gt;&lt;w:sz w:val=&quot;20&quot;/&gt;&lt;w:szCs w:val=&quot;20&quot;/&gt;&lt;/w:rPr&gt;&lt;w:t&gt;16</p>
+<p>&lt;w:p w14:paraId=&quot;49EE0241&quot; w14:textId=&quot;6AFB1A3B&quot; w:rsidR=&quot;00AF261F&quot; w:rsidRPr=&quot;00A61842&quot; w:rsidRDefault=&quot;006F26EF&quot;&gt;&lt;w:pPr&gt;&lt;w:rPr&gt;&lt;w:sz w:val=&quot;20&quot;/&gt;&lt;w:szCs w:val=&quot;20&quot;/&gt;&lt;/w:rPr&gt;&lt;/w:pPr&gt;&lt;w:r w:rsidRPr=&quot;00A61842&quot;&gt;&lt;w:rPr&gt;&lt;w:sz w:val=&quot;20&quot;/&gt;&lt;w:szCs w:val=&quot;20&quot;/&gt;&lt;/w:rPr&gt;&lt;w:t&gt;16</p>
+<figure><img src="../sop_assets/CS01_Veteran_Exemption/image34.png" alt="" /></figure>
+<p>In the code column select the comment code based on the exemption add.</p>
+<p>VTW for 100%</p>
+<p>VTP for Percentage</p>
+<p>VETX for Standard Vet Exemption.</p>
+<p>*See below table for Vet Codes</p>
+<figure><img src="../sop_assets/CS01_Veteran_Exemption/image38.png" alt="" /></figure>
+<p>Follow the structure below for comments.</p>
+<p>After you commit your entry IASWorld will automatically enter your initials, date, and time.</p>
+<figure><img src="../sop_assets/CS01_Veteran_Exemption/image39.png" alt="" /></figure>
+<p>Confirm and Commit:</p>
+<p>Once you have reviewed the entry and confirmed it is correct select Commit</p>
+<figure><img src="../sop_assets/CS01_Veteran_Exemption/image40.png" alt="" /></figure>
+<p>CODE</p>
+<p>APPLYING VET CERTS</p>
+<p>CODE</p>
+<p>COMMMENT</p>
+<p>000000 VET CERT ISSUED TO NAME REC'D ON 0000000 HIGHER PERCENTAGE ENTERED</p>
+<p>VETX</p>
+<p>000000 VET CERT ISSUED TO NAME APPLIED FOR 20**</p>
+<p>VETX</p>
+<p>000000 WIDOW VET CERT ISSUED TO NAME APPLIED FOR 20**</p>
+<p>VP**</p>
+<p>**% DISABLED WIDOW VET CERT ISSUED TO NAME APPLIED FOR 20**</p>
+<p>VP10</p>
+<p>10% DISABLED VET CERT 0000-0000-0000 ISSUED TO NAME APPLIED FOR 20**</p>
+<p>VP20</p>
+<p>20% DISABLED VET CERT 0000-0000-0000 ISSUED TO NAME APPLIED FOR 20**</p>
+<p>VP30</p>
+<p>30% DISABLED VET CERT 0000-0000-0000 ISSUED TO NAME APPLIED FOR 20**</p>
+<p>VP40</p>
+<p>40% DISABLED VET CERT 0000-0000-0000 ISSUED TO NAME APPLIED FOR 20**</p>
+<p>VP50</p>
+<p>50% DISABLED VET CERT 0000-0000-0000 ISSUED TO NAME APPLIED FOR 20**</p>
+<p>VP60</p>
+<p>60% DISABLED VET CERT 0000-0000-0000 ISSUED TO NAME APPLIED FOR 20**</p>
+<p>VP70</p>
+<p>70% DISABLED VET CERT 0000-0000-0000 ISSUED TO NAME APPLIED FOR 20**</p>
+<p>VP80</p>
+<p>80% DISABLED VET CERT 0000-0000-0000 ISSUED TO NAME APPLIED FOR 20**</p>
+<p>VP90</p>
+<p>90% DISABLED VET CERT 0000-0000-0000 ISSUED TO NAME APPLIED FOR 20**</p>
+<p>VTW (FULL)</p>
+<p>100% DISABLED VET CERT 0000-0000-0000 ISSUED TO NAME APPLIED FOR 20**</p>
+<p>VTW</p>
+<p>**% DISABLED WIDOW VET CERT 0000-0000-0000 ISSUED TO NAME APPLIED FOR 20**</p>
+<p>CODE</p>
+<p>REMOVAL OF VET CERTS COMMENT</p>
+<p>CODE</p>
+<p>COMMENT</p>
+<p>REXM</p>
+<p>FOR 20** REMOVED HOHX &amp; VETX #0000 PER 100% DISABLED</p>
+<p>REXM</p>
+<p>FOR 20** REMOVED VETX #0000 AMT OF $0000 TO APPLY FULL AMT $10,000</p>
+<p>REXM</p>
+<p>FOR 20** REMOVED VETX #0000 AMT OF $0000 TO ADJUST AMT TO $0000 PER REASON</p>
+<p>REXM</p>
+<p>FOR 20** REMOVED VETW #0000 PER VETERAN NAME - VETERAN IS NO LONGER ELIGIBLE DUE TO CHANGE IN THE DISABILITY RATING FROM **% TO **%</p>
+<p>REXM</p>
+<p>FOR 20** REMOVED VETX #0000 PER OWNERSHIP CHANGE</p>
+<p>REXM</p>
+<p>FOR 20** N/C PER DEATH AFDVT FOR NAME DOD 000000</p>
+<p>REXM</p>
+<p>FOR 20** N/C PER DEATH CERT FOR NAME DOD 000000</p>
+<p>REXM</p>
+<p>FOR 20** N/C PER OBITUARY FOR NAME DOD 000000</p>
+<p>REXM</p>
+<p>FOR 20** REMOVED VETX #0000 PER DEATH &amp; WIDOW CERTS</p>
+<p>REXM</p>
+<p>FOR 20** REMOVED VETX #0000 PER NEW VET CERTFICATE ISSUED BY NMDVS</p>
+<p>REXM</p>
+<p>FOR 20** REMOVED VETP00 PER NEW VET CERT ISSUED BY NMDVS RATING CHG TO 00%</p>
+<p>REXM</p>
+<p>FOR 20** REMOVED HOHX &amp; VETX #0000 PER REASON</p>
+<p>REXM</p>
+<p>FOR 20** REMOVED VETX #0000 PER OWNER/VETERAN REQUEST - WANTS TO CLAIM ON UPC #0000000000000000</p>
+<p>REXM</p>
+<p>FOR 20** REMOVED VETX #0000 PER VETERAN CLEAN UP - VETERAN CERT BELONGS TO PREVIOUS OWNER NAME</p>
+<p>REXM</p>
+<p>FOR 20** REMOVED VETX #0000 PER VETERAN CLEAN UP - VETERAN CERT IS NOT VALID WITH THE NMDVS</p>
+<p>CODE</p>
+<p>DENIAL OF VET CERTS COMMENT</p>
+<p>CODE</p>
+<p>COMMMENT</p>
+<p>NOTE</p>
+<p>FOR 20** VETW 100% DISABLED VET CERT #0000 CAN NOT BE APPLIED DUE TO PROPERTY BEING CLASSIFIED AS VACANT (LUC 9200)</p>
+<p>NOTE</p>
+<p>FOR 20** VETW #0000 DENIED DUE TO VETERAN NAME NOT OWNER OF PROPERTY</p>
+<p>CODE</p>
+<p>LETTERS FOR VET CERTS COMMENT</p>
+<p>CODE</p>
+<p>COMMENT</p>
+<p>LTR</p>
+<p>FOR 20** LTR MAILED TO OWNER 100% EXEMPT FROM PROPERTY TAXES - INITIALS DATE</p>
+<p>65AM</p>
+<p>FOR 20** VAL FRZ APP MAILED TO PROPERTY OWNER - INITIALS DATE</p>
+<p>65AM</p>
+<p>FOR 20**VAL FRZ SPANISH APP MAILED TO PROPERTY OWNER - INITIALS DATE</p>
+<p>65AM</p>
+<p>FOR 20**VAL FRZ APP EMAILED TO SAMPLE@HOTMAIL.COM - INITIALS DATE</p>
+<p>65AM</p>
+<p>FOR 20** VAL FRZ APP MAILED TO PROPERTY OWNER (NO LTR SENT) - INITIALS DATE</p>
+<p>NOTE</p>
+<p>FOR 20** VET APP MAILED TO PROPERTY OWNER - INITIALS DATE</p>
+<p>NOTE</p>
+<p>FOR 20** VET APP MAILED TO PROPERTY OWNER (NO LTR SENT)- INITIALS DATE</p>
+<p>NOTE</p>
+<p>FOR 20** WIDOW VET APP MAILED TO PROPERTY OWNER (NO LTR SENT)- INITIALS DATE</p>
+<p>CODE</p>
+<p>APPLICANTS TAB - USER-FIELD NOTE (SAMPLES)COMMENT</p>
+<p>COMMMENT</p>
+<p>LAST USED AT MVD ON DATE</p>
+<p>NOT CLAIMING IN PREVIOUS CO</p>
+<p>OLD CERT #0000 RMVD/PROP SOLD</p>
+<p>OUTREACH 00/00/00</p>
+<p>PREVIOUS SOLD / RMVD FOR 20**</p>
+<p>PREVIOUS UPC NOT VALID NOT CLAIMING</p>
+<p>REISSUED CERT W/ SAME # ONLY ENDORSED</p>
+<p>REPLACES OLD CERT #0000</p>
+<p>SAME CERT ENDORSED WITH SAME UPC</p>
+<p>SAME CERT ENDORSED W/ NEW AMT $10,000</p>
+<p>SATELLITE COORS</p>
+<p>SATELLITE SAN MATEO</p>
+<p>VERIFIED RMVD FROM PREV COUNTY</p>
+
+  <div class="tag-line">
+    <div class="tag">Count on us.</div>
+    <div class="sig">Bernalillo County Assessor · Damian R. Lara, County Assessor</div>
+  </div>
+</article>
+
+</body>
+</html>

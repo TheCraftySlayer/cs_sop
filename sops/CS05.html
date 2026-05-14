@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CS05 · Holiday and Custom Rules · Source SOP</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+  @font-face {
+    font-family: 'Gotham Display';
+    src: url('../fonts/Gotham-Black.otf') format('opentype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+  }
+  :root {
+    --bosque: #285952;
+    --bosque-dark: #1d4640;
+    --cypress: #013942;
+    --terracotta: #e47756;
+    --mist: #e8f1ee;
+    --mist-soft: #f4f8f6;
+    --paper: #faf8f4;
+    --ink: #1a2620;
+    --line: #cfd8d3;
+    --muted: #5a6b65;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    font-family: "Montserrat", system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--mist-soft);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.55;
+  }
+  .top-bar {
+    background: var(--paper);
+    border-bottom: 2px solid var(--line);
+    padding: 16px 56px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    position: sticky; top: 0;
+    z-index: 10;
+  }
+  .top-bar img.logo { height: 56px; width: auto; display: block; }
+  .top-bar .crumb {
+    padding-left: 24px;
+    border-left: 1px solid var(--line);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    line-height: 1.6;
+  }
+  .top-bar .crumb b { color: var(--cypress); }
+  .top-bar .actions { margin-left: auto; display: flex; gap: 10px; }
+  .top-bar .action {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 9px 16px;
+    font-size: 13px; font-weight: 600;
+    text-decoration: none;
+    border-radius: 999px;
+    letter-spacing: 0.04em;
+    transition: all 180ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .top-bar .action.primary {
+    background: var(--bosque); color: var(--paper);
+    border: 1px solid var(--bosque);
+  }
+  .top-bar .action.primary:hover { background: var(--bosque-dark); }
+  .top-bar .action.secondary {
+    background: transparent; color: var(--cypress);
+    border: 1px solid var(--line);
+  }
+  .top-bar .action.secondary:hover { background: var(--mist); border-color: var(--cypress); }
+
+  .doc {
+    max-width: 920px;
+    margin: 48px auto 80px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 64px 72px 72px;
+    box-shadow: 0 12px 36px rgba(15, 30, 27, 0.06);
+  }
+  .doc-header {
+    border-bottom: 3px solid var(--bosque);
+    padding-bottom: 28px;
+    margin-bottom: 36px;
+  }
+  .doc-header .eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--terracotta);
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .doc-header h1 {
+    font-family: "Gotham Display", "Montserrat", sans-serif;
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--bosque);
+    margin: 0;
+    text-wrap: balance;
+  }
+  .meta-row {
+    display: flex;
+    gap: 16px;
+    font-size: 14px;
+    padding: 6px 0;
+    border-bottom: 1px dashed var(--line);
+  }
+  .meta-row:last-of-type { border-bottom: 0; margin-bottom: 24px; }
+  .meta-row .meta-k {
+    color: var(--muted);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-size: 12px;
+    flex: 0 0 180px;
+    padding-top: 2px;
+  }
+  .meta-row .meta-v { color: var(--ink); font-weight: 500; }
+
+  .doc h2 {
+    font-family: "Gotham Display", "Montserrat", sans-serif;
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--bosque);
+    letter-spacing: -0.005em;
+    text-transform: uppercase;
+    margin: 40px 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+  }
+  .doc p {
+    font-size: 15.5px;
+    color: var(--ink);
+    margin: 0 0 12px;
+    text-wrap: pretty;
+  }
+  .doc figure {
+    margin: 24px 0;
+    padding: 16px;
+    background: var(--mist-soft);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    text-align: center;
+  }
+  .doc figure img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    display: inline-block;
+  }
+
+  .tag-line {
+    margin-top: 48px;
+    padding-top: 36px;
+    border-top: 2px solid var(--line);
+    text-align: center;
+  }
+  .tag-line .tag {
+    font-family: "Gotham Display", "Montserrat", sans-serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--terracotta);
+    text-transform: lowercase;
+    margin-bottom: 6px;
+  }
+  .tag-line .sig {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  @media print {
+    body { background: white; }
+    .top-bar { display: none; }
+    .doc {
+      box-shadow: none; border: 0;
+      margin: 0; padding: 0;
+      max-width: none;
+    }
+    .doc figure { background: white; border: 1px solid #ccc; }
+    .doc h2 { break-after: avoid; }
+    .doc figure, .doc p, .meta-row { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top-bar">
+  <img src="../assets/bernco-assessor-logo.png" alt="BernCo County Assessor" class="logo">
+  <div class="crumb"><b>SOP CS05</b><br>Source document</div>
+  <div class="actions">
+    <a class="action secondary" href="../index.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M6 4L3 7l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Library</a>
+    <a class="action secondary" href="../videos/CS05_Holiday_and_Custom_Rules.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg> Watch video</a>
+    <button class="action primary" onclick="window.print()" style="border: 0; font-family: inherit; cursor: pointer;"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M4 1h6v3M4 11h6v2H4zM2 4h10v6H2z M4 7h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Save as PDF</button>
+  </div>
+</header>
+
+<article class="doc">
+  <div class="doc-header">
+    <div class="eyebrow">Bernalillo County Assessor · Customer Service</div>
+    <h1>Holiday and Custom Rules</h1>
+  </div>
+  <div class="meta-row"><span class="meta-k">Process Title</span><span class="meta-v">Holiday and Custom Rules</span></div>
+<div class="meta-row"><span class="meta-k">Department</span><span class="meta-v">Customer Service</span></div>
+<div class="meta-row"><span class="meta-k">SOP ID</span><span class="meta-v">CS05</span></div>
+<div class="meta-row"><span class="meta-k">Last Reviewed</span><span class="meta-v">05/05/2026</span></div>
+<div class="meta-row"><span class="meta-k">Effective Date</span><span class="meta-v">05/05/2026</span></div>
+<div class="meta-row"><span class="meta-k">Version</span><span class="meta-v">1</span></div>
+<h2>Purpose</h2>
+<p>This SOP outlines the standardized process for managing Custom Answering Rules at the queue level. These rules handle holiday closures, scheduled time-of-day routing, conditional forwarding (e.g., to the A.C.E. chatbot), and manual overrides for unscheduled closures.</p>
+<h2>Scope</h2>
+<p>Applies to queue-level custom rules configured at Call Handling &amp; Members → Custom rules. DID-level custom rules attached to user extensions are out of scope (see CS08).</p>
+<h2>Authorization</h2>
+<p>Holiday rule additions and edits: Deputy Assessor overseeing Customer Service. Office Closed manual override (toggle on/off): Customer Service Manager or Deputy Assessor — should be activated promptly when an unscheduled closure occurs and deactivated when the office reopens.</p>
+<h2>Definitions</h2>
+<p>Custom Answering Rule – A queue-level routing override triggered by one or more conditions. Custom rules are evaluated before the queue's standard Work hours and After hours rules; a matching custom rule takes priority.</p>
+<p>Rule conditions – Three types, which can be combined in a single rule:</p>
+<p>Date and/or Time — specific date ranges or recurring weekly time windows. The condition has two sub-modes selectable inside the Conditions step: Weekly Schedule (day-of-week toggles for Sunday through Saturday — used for recurring rules like lunch hours) and Specific Date Range (start and end dates — used for one-time events like federal holidays).</p>
+<p>Caller ID — routes based on the incoming caller's number. Supports full numbers or partial matches such as country codes or area codes.</p>
+<p>Called Number — routes based on the number the caller dialed (useful when a single queue is reachable through multiple direct numbers and you want different handling for each).</p>
+<p>Rule actions – What the queue does when the rule matches. The queue-level Custom rules wizard exposes six actions (one more than the user-extension version, which omits Forward to site):</p>
+<p>Ring call queue members — apply queue routing using the queue's standard members and rules</p>
+<p>Send to voicemail — send the caller to a voicemail box (the queue's own, or another extension's)</p>
+<p>Play an announcement — play a default or custom recording; the call disconnects after playback</p>
+<p>Forward to extension — forward the call to a specific extension on the account</p>
+<p>Forward to external number — forward the call to a phone number outside the account</p>
+<p>Forward to site — forward the call to another site (multi-site accounts only)</p>
+<p>Active toggle – Per-rule switch that turns the rule on or off without deleting it.</p>
+<p>Validate Rules – Portal feature on the Custom rules tab that checks all rules in a queue for overlap or conflicts before they take effect. Per RingCentral documentation, this should be run after any rule addition or edit.</p>
+<p>Call Queue Custom Rule Templates – RingCentral feature (released November 2024) that lets administrators create a custom-rule template once and apply it across multiple queues. Reduces the annual maintenance burden when many queues observe the same holiday calendar. Templates are managed at the account level, not within an individual queue panel.</p>
+<h2>Prerequisites</h2>
+<p>This SOP assumes the operator is signed in to the RingCentral Admin Portal and can navigate to a specific call queue. For sign-in and navigation instructions, see CS02 (RingCentral Admin Portal Reference).</p>
+<p>The operator must have appropriate manager access to the queue being modified — see Authorization below.</p>
+<h2>Related Documents</h2>
+<p>RingCentral Admin Portal: https://service.ringcentral.com</p>
+<p>RingCentral Custom Answering Rules — official setup guide: https://support.ringcentral.com/content/dam/support/us/en/pdf/get-started/v2/RCA_Setting_Up_Custom_Answering_Rules_For_Your_Extension.pdf</p>
+<p>RingCentral Call Queue Call Handling — developer documentation: https://developers.ringcentral.com/guide/voice/call-routing/manual/callqueue-answering-rules</p>
+<p>CS02 — RingCentral Admin Portal Reference</p>
+<p>CS04 — Queue Routing and Wait Settings (After hours tab is the fallback when no Custom rule matches)</p>
+<p>CS08 — Custom Inbound Routing Rules on User DIDs</p>
+<p>RingCentral Custom Answering Rules support documentation: https://support.ringcentral.com/content/dam/support/us/en/pdf/get-started/v2/RCA_Setting_Up_Custom_Answering_Rules_For_Your_Extension.pdf</p>
+<p>RingCentral Call Queue Call Handling developer documentation: https://developers.ringcentral.com/guide/voice/call-routing/manual/callqueue-answering-rules</p>
+<p>Queue Change Log — RingCentral configuration history (maintained in shared drive)</p>
+<p>Custom Rules Tab Reference</p>
+<p>The Custom rules tab on a queue's Call Handling &amp; Members panel hosts the queue's complete custom-rule list. Above the list, a master &quot;Forward all queue calls&quot; toggle exists; if turned on, ALL calls bypass the rule list and forward to a configured destination — leave OFF unless an emergency office-wide diversion is needed.</p>
+<p>On a queue with no custom rules, the tab shows an explanatory &quot;Custom Answering Rules&quot; section with description text and a &quot;+ Add Rule&quot; button:</p>
+<figure><img src="../sop_assets/CS05_Holiday_and_Custom_Rules/162eed8776dc410f3e55c4215708489f04cc1f1a.png" alt="" /></figure>
+<p>On a queue with rules already configured, each rule appears as a row with: rule name, Active toggle, Edit and Delete actions. &quot;+ Add Rule&quot; creates a new rule; &quot;Validate Rules&quot; (visible when at least one rule exists) checks the rule list for conflicts.</p>
+<p>Common rule categories observed on Assessor queues:</p>
+<p>Holiday rules — one per federal holiday for the year (Memorial Day, Independence Day, Labor Day, Veterans Day, Indigenous Peoples Day, Juneteenth, Thanksgiving span, Christmas span)</p>
+<p>Operational rules — &quot;ACE Forward&quot; forwards calls to the A.C.E. chatbot under specific conditions</p>
+<p>Manual override — &quot;Office Closed&quot; is normally inactive; flip ON for unscheduled closures (snow, emergency)</p>
+<figure><img src="../sop_assets/CS05_Holiday_and_Custom_Rules/e3422d1f4fb34cbc8b95fe2a9bea10c965fe23e5.png" alt="" /></figure>
+<p>Adding a Holiday Rule</p>
+<p>The Add custom rule wizard runs in three steps: (1) Conditions, (2) Call Handling, (3) Summary. The Next button at the bottom of each step is greyed out until the step's required selections are made.</p>
+<p>Open the Custom rules tab and add a rule</p>
+<p>Inside the queue panel, expand Call Handling &amp; Members and click the Custom rules tab.</p>
+<p>Click + Add Rule. The Add custom rule wizard opens at step 1, Conditions.</p>
+<p>Step 1: Conditions — select condition types</p>
+<p>The Conditions step displays three condition cards. At least one must be checked to proceed.</p>
+<p>Caller ID — &quot;A call that comes from a specific contact, phone number, country code, or area code&quot;</p>
+<p>Called Number — &quot;A dialed number such as a phone number used in a customer promotion campaign&quot;</p>
+<p>Date and/or Time — &quot;A call received during specific days of the week, or during a specific date/time such as a holiday&quot;</p>
+<p>For a holiday rule, check Date and/or Time. The card expands to reveal sub-mode selection.</p>
+<figure><img src="../sop_assets/CS05_Holiday_and_Custom_Rules/2f71f6de175f32686526a5b364b21f6ded13a7a7.png" alt="" /></figure>
+<p>Step 1 — configure Date and/or Time</p>
+<p>The expanded Date and/or Time card shows two radio sub-modes: Weekly Schedule and Specific Date Range.</p>
+<p>For a holiday: click Specific Date Range. (Weekly Schedule is for recurring rules like a daily lunch break — wrong choice for a one-time holiday.)</p>
+<p>Set the start and end of the holiday closure period. Single-day holidays use start of day to end of day. Multi-day spans (Thanksgiving, Christmas) span the full closure window.</p>
+<figure><img src="../sop_assets/CS05_Holiday_and_Custom_Rules/8bf00dad309d2f628fa502f22d60dd33152d71e5.png" alt="" /></figure>
+<p>Step 1 — optional additional conditions</p>
+<p>The other two condition cards can be combined with Date and/or Time when applicable:</p>
+<p>Caller ID — restrict the rule to incoming calls from specific numbers, area codes, or country codes. Expanded card has a &quot;Type Phone Number or Contact Name&quot; input with an Add button.</p>
+<p>Called Number — restrict the rule to calls dialed to specific numbers (when the queue receives calls on multiple direct numbers and only some should be subject to the rule). Expanded card shows &quot;When Selected Number(s) is Called:&quot; with a Select Number button.</p>
+<p>For a blanket holiday rule, leave both unchecked.</p>
+<p>Click Next when conditions are configured.</p>
+<figure><img src="../sop_assets/CS05_Holiday_and_Custom_Rules/832624726e19b0585cbf8d4efe135d863801a02b.png" alt="" /></figure>
+<figure><img src="../sop_assets/CS05_Holiday_and_Custom_Rules/2513bc13e077430fdc90d9a67e8062f67ebc1b85.png" alt="" /></figure>
+<p>Step 2: Call Handling — choose the action</p>
+<p>The Call Handling step presents six radio actions on the left. Selecting any action populates a configuration panel on the right.</p>
+<p>Ring call queue members — applies queue routing. Right side shows three collapsible sections: Greeting &amp; Hold Music, Call Handling &amp; Members, Voicemail. Use this when the rule should change how members are rung (rare for holidays).</p>
+<p>Send to voicemail — most common holiday choice. Right side shows the voicemail greeting (Custom or Default, with player and Edit), and a &quot;Send voicemail to&quot; choice between This extension (the queue itself, e.g., Ext. 160002) or Another extension.</p>
+<p>Play an announcement — plays a recorded message and disconnects the call. Right side shows the announcement (Default or Custom, with player and Edit). The default greeting is &quot;Announcement. No one is available to take your call. Thank you for calling. Goodbye!&quot; — record a holiday-specific announcement before relying on this action.</p>
+<p>Forward to extension — forwards to another extension on the account (e.g., the A.C.E. chatbot extension). Right side shows a &quot;Select extension&quot; link to pick the target.</p>
+<p>Forward to external number — forwards to a phone number outside the account. Right side shows a Number input field.</p>
+<p>Forward to site — forwards to another site in a multi-site account. Right side shows a &quot;Select site&quot; link. Not applicable to single-site accounts.</p>
+<p>Click Next when the action is configured.</p>
+<figure><img src="../sop_assets/CS05_Holiday_and_Custom_Rules/5111e7fe8eb952c567c95b15ab1bd637bd15f9b0.png" alt="" /></figure>
+<figure><img src="../sop_assets/CS05_Holiday_and_Custom_Rules/23258bf12df1b82d588c7c18324fbaa9841e6fae.png" alt="" /></figure>
+<figure><img src="../sop_assets/CS05_Holiday_and_Custom_Rules/25f519651d07681ca596ffde90e1e3d5ef2633af.png" alt="" /></figure>
+<figure><img src="../sop_assets/CS05_Holiday_and_Custom_Rules/e1249e7a97b0132445aa69215cf43e8e3f4ed572.png" alt="" /></figure>
+<figure><img src="../sop_assets/CS05_Holiday_and_Custom_Rules/af916d5dcf1f71db74c652be7f071c558d3bb345.png" alt="" /></figure>
+<figure><img src="../sop_assets/CS05_Holiday_and_Custom_Rules/5551cb35b9a5fbcea4eb3e2849c3a414120adf33.png" alt="" /></figure>
+<p>Step 3: Summary — review and save</p>
+<p>The Summary step displays the configured rule for review: name, conditions, action.</p>
+<p>Set the rule name to the holiday name and year (e.g., &quot;Memorial Day 2027&quot;). The year matters because holiday rules do not auto-renew and the year-suffix makes annual maintenance easier to scan.</p>
+<p>Click Save. The rule appears in the Custom rules list with the Active toggle ON.</p>
+<p>Validate and verify</p>
+<p>Click Validate Rules above the rule list to check for overlap or conflicts with existing rules.</p>
+<p>Place a test call on the day the rule is in effect (or use a future-dated test) to confirm callers reach the configured destination.</p>
+<p>Custom Rule Templates</p>
+<p>RingCentral supports two related template mechanisms. The first is documented in RingCentral's official setup guide and applies at the per-rule level. The second was announced as a feature in November 2024 to apply rules across multiple queues; the in-portal procedure for it has not yet been captured at the Assessor's Office.</p>
+<p>Per-Rule Save as Template (documented)</p>
+<p>Once a Custom Answering Rule is saved, the rule's row in the Custom rules list exposes Edit, Delete, and &quot;save the rule as a template&quot; actions (per RingCentral's Custom Answering Rules setup guide). The saved template can then be reused as a starting point when creating future rules with similar conditions or actions.</p>
+<p>Use this when creating a set of related rules — for example, several federal holiday rules that all use the same Send to voicemail action with the same holiday-greeting recording — so the action and greeting only have to be configured once.</p>
+<p>Save an existing rule as a template</p>
+<p>In the Custom rules tab, locate a rule that should serve as the template basis (e.g., a holiday rule with the desired action and greeting already configured).</p>
+<p>Open the rule's actions menu and choose Save as template.</p>
+<p>Give the template a descriptive name (e.g., &quot;Federal Holiday — Voicemail with holiday greeting&quot;).</p>
+<p>Apply a template when creating a new rule</p>
+<p>Click + Add Rule on the Custom rules tab.</p>
+<p>If a template is selected as the basis for the new rule, the action and any reusable settings are pre-populated. The operator only needs to set the rule name and the date range condition.</p>
+<p>Save the new rule. Validate Rules afterward.</p>
+<p>Cross-Queue Templates (not yet documented at the office)</p>
+<p>RingCentral announced Call Queue Custom Rule Templates in November 2024 as an account-level feature for applying a custom-rule template across multiple queues at once. This is the natural fit for the Assessor's Office if and when additional queues adopt the same holiday calendar.</p>
+<p>The feature is administered at the account level, typically under Phone System → Templates (the path may differ slightly in the current admin portal version). Confirm:</p>
+<p>The feature is enabled on the account tier in use</p>
+<p>The exact navigation path in the current admin portal</p>
+<p>The procedure for selecting which queues a template applies to</p>
+<p>Once a cross-queue template procedure has been walked end-to-end at the office, capture screenshots of each step and add a third subsection here. Until then, this SOP only covers the per-rule template path documented above and the manual per-queue rule creation procedure documented earlier.</p>
+<p>Office Closed Manual Override</p>
+<p>The Office Closed rule is a pre-configured manual override that is normally inactive. Flip it ON when the office is closing unexpectedly (severe weather, emergency, system outage). Flip it OFF when the office reopens.</p>
+<p>Activate Office Closed</p>
+<p>In the Custom rules list, locate the Office Closed rule.</p>
+<p>Toggle the Active switch to ON.</p>
+<p>Save.</p>
+<p>Notify staff via the standard internal channel that the queue is now in closed-office routing.</p>
+<p>Deactivate Office Closed</p>
+<p>When the office reopens, toggle the Active switch to OFF.</p>
+<p>Save.</p>
+<p>Place a test call to confirm normal queue routing has resumed.</p>
+<h2>Annual Maintenance</h2>
+<p>Holiday rules include the year in the rule name and have date conditions tied to specific calendar dates. They do not auto-renew.</p>
+<p>Annual review (January)</p>
+<p>In January each year, review the Custom rules list.</p>
+<p>For each prior-year holiday rule (e.g., &quot;Memorial Day 2026&quot;): create a new rule for the upcoming year (&quot;Memorial Day 2027&quot;) with updated dates.</p>
+<p>Verify each new rule against the federal holiday calendar — Memorial Day, Independence Day, Labor Day, Veterans Day, Indigenous Peoples Day, Juneteenth, Thanksgiving and the day after, Christmas Eve through Christmas, and any state or local closures observed by the office.</p>
+<p>Old rules with past dates can be deleted to reduce clutter, or left in place — they will not match again.</p>
+<p>Validate the full rule set</p>
+<p>Click Validate Rules. Resolve any conflicts before relying on the new rules.</p>
+<h2>Change Control</h2>
+<p>All changes covered by this SOP must be authorized, snapshotted, applied, verified, and logged.</p>
+<h2>Authorization</h2>
+<p>Adding, editing, or deleting holiday rules: Deputy Assessor overseeing Customer Service.</p>
+<p>Toggling Office Closed for unscheduled closures: Customer Service Manager or Deputy Assessor.</p>
+<p>Annual rule refresh: Customer Service Manager, with Deputy Assessor sign-off on the full refreshed rule set.</p>
+<h2>Pre-change snapshot</h2>
+<p>Before making the change, screenshot the relevant settings panel or note the current values in writing. This is the rollback reference if the change must be reversed.</p>
+<h2>Make the change</h2>
+<p>Apply the change using the procedure in this SOP. Click Save and verify the new values are reflected.</p>
+<h2>Post-change verification</h2>
+<p>Place a test call when possible, or review the first live calls after the change in the call log to confirm expected behavior.</p>
+<h2>Log the change</h2>
+<p>Add an entry to the RingCentral Change Log: date and time, queue name and ID, setting changed, prior value, new value, who authorized, who applied, business reason, verification result.</p>
+
+  <div class="tag-line">
+    <div class="tag">Count on us.</div>
+    <div class="sig">Bernalillo County Assessor · Damian R. Lara, County Assessor</div>
+  </div>
+</article>
+
+</body>
+</html>

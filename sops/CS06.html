@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CS06 · Queue Greeting, Hold Music, and Blocked Calls · Source SOP</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+  @font-face {
+    font-family: 'Gotham Display';
+    src: url('../fonts/Gotham-Black.otf') format('opentype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+  }
+  :root {
+    --bosque: #285952;
+    --bosque-dark: #1d4640;
+    --cypress: #013942;
+    --terracotta: #e47756;
+    --mist: #e8f1ee;
+    --mist-soft: #f4f8f6;
+    --paper: #faf8f4;
+    --ink: #1a2620;
+    --line: #cfd8d3;
+    --muted: #5a6b65;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    font-family: "Montserrat", system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--mist-soft);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.55;
+  }
+  .top-bar {
+    background: var(--paper);
+    border-bottom: 2px solid var(--line);
+    padding: 16px 56px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    position: sticky; top: 0;
+    z-index: 10;
+  }
+  .top-bar img.logo { height: 56px; width: auto; display: block; }
+  .top-bar .crumb {
+    padding-left: 24px;
+    border-left: 1px solid var(--line);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    line-height: 1.6;
+  }
+  .top-bar .crumb b { color: var(--cypress); }
+  .top-bar .actions { margin-left: auto; display: flex; gap: 10px; }
+  .top-bar .action {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 9px 16px;
+    font-size: 13px; font-weight: 600;
+    text-decoration: none;
+    border-radius: 999px;
+    letter-spacing: 0.04em;
+    transition: all 180ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .top-bar .action.primary {
+    background: var(--bosque); color: var(--paper);
+    border: 1px solid var(--bosque);
+  }
+  .top-bar .action.primary:hover { background: var(--bosque-dark); }
+  .top-bar .action.secondary {
+    background: transparent; color: var(--cypress);
+    border: 1px solid var(--line);
+  }
+  .top-bar .action.secondary:hover { background: var(--mist); border-color: var(--cypress); }
+
+  .doc {
+    max-width: 920px;
+    margin: 48px auto 80px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 64px 72px 72px;
+    box-shadow: 0 12px 36px rgba(15, 30, 27, 0.06);
+  }
+  .doc-header {
+    border-bottom: 3px solid var(--bosque);
+    padding-bottom: 28px;
+    margin-bottom: 36px;
+  }
+  .doc-header .eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--terracotta);
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .doc-header h1 {
+    font-family: "Gotham Display", "Montserrat", sans-serif;
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--bosque);
+    margin: 0;
+    text-wrap: balance;
+  }
+  .meta-row {
+    display: flex;
+    gap: 16px;
+    font-size: 14px;
+    padding: 6px 0;
+    border-bottom: 1px dashed var(--line);
+  }
+  .meta-row:last-of-type { border-bottom: 0; margin-bottom: 24px; }
+  .meta-row .meta-k {
+    color: var(--muted);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-size: 12px;
+    flex: 0 0 180px;
+    padding-top: 2px;
+  }
+  .meta-row .meta-v { color: var(--ink); font-weight: 500; }
+
+  .doc h2 {
+    font-family: "Gotham Display", "Montserrat", sans-serif;
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--bosque);
+    letter-spacing: -0.005em;
+    text-transform: uppercase;
+    margin: 40px 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+  }
+  .doc p {
+    font-size: 15.5px;
+    color: var(--ink);
+    margin: 0 0 12px;
+    text-wrap: pretty;
+  }
+  .doc figure {
+    margin: 24px 0;
+    padding: 16px;
+    background: var(--mist-soft);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    text-align: center;
+  }
+  .doc figure img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    display: inline-block;
+  }
+
+  .tag-line {
+    margin-top: 48px;
+    padding-top: 36px;
+    border-top: 2px solid var(--line);
+    text-align: center;
+  }
+  .tag-line .tag {
+    font-family: "Gotham Display", "Montserrat", sans-serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--terracotta);
+    text-transform: lowercase;
+    margin-bottom: 6px;
+  }
+  .tag-line .sig {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  @media print {
+    body { background: white; }
+    .top-bar { display: none; }
+    .doc {
+      box-shadow: none; border: 0;
+      margin: 0; padding: 0;
+      max-width: none;
+    }
+    .doc figure { background: white; border: 1px solid #ccc; }
+    .doc h2 { break-after: avoid; }
+    .doc figure, .doc p, .meta-row { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top-bar">
+  <img src="../assets/bernco-assessor-logo.png" alt="BernCo County Assessor" class="logo">
+  <div class="crumb"><b>SOP CS06</b><br>Source document</div>
+  <div class="actions">
+    <a class="action secondary" href="../index.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M6 4L3 7l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Library</a>
+    <a class="action secondary" href="../videos/CS06_Greeting_Music_Blocked.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg> Watch video</a>
+    <button class="action primary" onclick="window.print()" style="border: 0; font-family: inherit; cursor: pointer;"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M4 1h6v3M4 11h6v2H4zM2 4h10v6H2z M4 7h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Save as PDF</button>
+  </div>
+</header>
+
+<article class="doc">
+  <div class="doc-header">
+    <div class="eyebrow">Bernalillo County Assessor · Customer Service</div>
+    <h1>Queue Greeting, Hold Music, and Blocked Calls</h1>
+  </div>
+  <div class="meta-row"><span class="meta-k">Process Title</span><span class="meta-v">Queue Greeting, Hold Music, and Blocked Calls</span></div>
+<div class="meta-row"><span class="meta-k">Department</span><span class="meta-v">Customer Service</span></div>
+<div class="meta-row"><span class="meta-k">SOP ID</span><span class="meta-v">CS06</span></div>
+<div class="meta-row"><span class="meta-k">Last Reviewed</span><span class="meta-v">05/05/2026</span></div>
+<div class="meta-row"><span class="meta-k">Effective Date</span><span class="meta-v">05/05/2026</span></div>
+<div class="meta-row"><span class="meta-k">Version</span><span class="meta-v">1</span></div>
+<h2>Purpose</h2>
+<p>This SOP outlines the standardized process for configuring a queue's welcome greeting, wait messages, hold music, and call blocking rules. These settings shape the caller's audio experience and filter unwanted inbound traffic.</p>
+<h2>Scope</h2>
+<p>Applies to settings under the Greeting &amp; Hold Music section of a queue. The section has three tabs: Work hours, After hours, and Blocked calls.</p>
+<h2>Authorization</h2>
+<p>Greeting and hold music changes: Deputy Assessor overseeing Customer Service. Blocked-call rule additions: Customer Service Manager (per-number blocks for known nuisance callers); Deputy Assessor for area-code blocks or whitelisting changes that affect routing categories.</p>
+<h2>Definitions</h2>
+<p>Welcome greeting – Message played when a caller is added to the queue.</p>
+<p>Wait announcement – Message played periodically while the caller waits.</p>
+<p>Waiting in queue music – Music played to the caller before any agent answers.</p>
+<p>Hold music – Music played when an agent has answered and then placed the caller on hold.</p>
+<p>Trusted numbers – Whitelist that bypasses all blocking rules.</p>
+<h2>Prerequisites</h2>
+<p>This SOP assumes the operator is signed in to the RingCentral Admin Portal and can navigate to a specific call queue. For sign-in and navigation instructions, see CS02 (RingCentral Admin Portal Reference).</p>
+<p>The operator must have appropriate manager access to the queue being modified — see Authorization below.</p>
+<h2>Related Documents</h2>
+<p>RingCentral Admin Portal: https://service.ringcentral.com</p>
+<p>RingCentral Custom Answering Rules — official setup guide: https://support.ringcentral.com/content/dam/support/us/en/pdf/get-started/v2/RCA_Setting_Up_Custom_Answering_Rules_For_Your_Extension.pdf</p>
+<p>RingCentral Call Queue Call Handling — developer documentation: https://developers.ringcentral.com/guide/voice/call-routing/manual/callqueue-answering-rules</p>
+<p>CS02 — RingCentral Admin Portal Reference</p>
+<p>Queue Change Log — RingCentral configuration history (maintained in shared drive)</p>
+<p>Work Hours Tab</p>
+<p>Reference: Welcome greeting and wait messages (top of tab)</p>
+<p>Settings:</p>
+<p>Welcome greeting — Call queue greeting Enable checkbox; greeting type (Default or Custom); audio player; Edit link</p>
+<p>Wait announcement — message played periodically while caller waits</p>
+<p>Position in queue — premium feature (announces caller's position)</p>
+<p>Wait messages play in order: Wait announcement, Position in queue, Estimated wait time, Callback request.</p>
+<figure><img src="../sop_assets/CS06_Queue_Greeting_Hold_Music_Blocked_Calls/dab1781cec1131224cfcbc17e1ceda2e2b36cefc.png" alt="" /></figure>
+<p>Reference: Timing and music settings (bottom of tab)</p>
+<p>Settings:</p>
+<p>Estimated wait time — premium feature</p>
+<p>Callback request — premium feature</p>
+<p>Callers will hear wait messages — When they are added to queue and/or While waiting in queue (with Repeat interval, e.g., Every 15 seconds)</p>
+<p>Waiting in queue music — Enable, music selection (e.g., Acoustic), audio player, Edit</p>
+<p>Hold music — Enable, music selection, audio player, Edit</p>
+<p>Note: Waiting in queue music plays before the call is answered; Hold music plays after, when the agent presses hold.</p>
+<figure><img src="../sop_assets/CS06_Queue_Greeting_Hold_Music_Blocked_Calls/3d7eea2b50d95e94e7de225c73bf26b8ad69d4c2.png" alt="" /></figure>
+<p>Update the welcome greeting</p>
+<p>Click Edit under the Welcome greeting audio player.</p>
+<p>Choose to upload a pre-recorded file, record from a phone, or record from a computer microphone.</p>
+<p>After saving, play back the greeting to confirm it sounds correct.</p>
+<p>Greetings should match the queue's purpose (Spanish-queue greeting in Spanish; switchboard greeting that sets caller expectations).</p>
+<p>Configure wait message timing</p>
+<p>Choose When they are added to queue (single message on entry), While waiting in queue (periodic, with Repeat interval), or both.</p>
+<p>Typical: While waiting in queue with Repeat: Every 15 seconds.</p>
+<p>Update music selections</p>
+<p>For each music selection (Waiting in queue music, Hold music), click Edit to change.</p>
+<p>Choose between RingCentral's bundled tracks (e.g., Acoustic) or upload custom audio.</p>
+<p>Click Save.</p>
+<p>After Hours Tab</p>
+<p>Configures the greeting and wait messages played to callers outside business hours. Typically a brief message stating hours of operation and directing callers to alternative resources (A.C.E. chatbot, website).</p>
+<p>Update procedure mirrors Work hours tab: click Edit on the relevant audio element, upload or record, save.</p>
+<p>Blocked Calls Tab</p>
+<p>The Blocked calls tab handles inbound call filtering. It manages five distinct categories on a single tab.</p>
+<p>Reference: Block options (top of tab)</p>
+<p>Sections at the top:</p>
+<p>Block option — top-level dropdown (Specific calls and faxes, etc.)</p>
+<p>Only block these numbers or area codes — entry fields plus Add button</p>
+<p>Callers will hear — pre-recorded blocked-call message; audio player and Edit</p>
+<p>Robocalls — informational; handled per account-wide settings</p>
+<p>Trusted numbers — whitelist that bypasses blocking</p>
+<p>Block calls with no caller ID — Block option dropdown</p>
+<figure><img src="../sop_assets/CS06_Queue_Greeting_Hold_Music_Blocked_Calls/784c3c72f5cf0d10cd18e5777d0b6f2728658e9c.png" alt="" /></figure>
+<p>Reference: Block options (bottom of tab)</p>
+<p>Sections at the bottom:</p>
+<p>Block calls with no caller ID — continued from above</p>
+<p>Block calls from pay phones — Enable checkbox; pre-recorded payphone-block message; audio player and Edit</p>
+<figure><img src="../sop_assets/CS06_Queue_Greeting_Hold_Music_Blocked_Calls/0de448d8cf3d724d8ea4196d6b1a4817e90f235e.png" alt="" /></figure>
+<p>Block a specific number or area code</p>
+<p>In Only block these numbers or area codes, enter the full phone number (10 digits) or area code (3 digits).</p>
+<p>Optionally enter a Name for documentation.</p>
+<p>Click + Add. Click Save.</p>
+<p>Add a trusted number (whitelist)</p>
+<p>In Trusted numbers, enter the full phone number and optional Name.</p>
+<p>Click + Add. Calls from this number bypass all blocking rules.</p>
+<p>Use for important callers (county officials, vendors, partners) whose calls must always reach the queue.</p>
+<p>Block calls with no caller ID</p>
+<p>Set the Block option dropdown to the desired blocking level.</p>
+<p>Anonymous calls are common sources of unwanted traffic. Blocking them reduces noise but also blocks legitimate callers with privacy settings — weigh against expected caller demographics.</p>
+<p>Block calls from pay phones</p>
+<p>Check Enable block calls from pay phones.</p>
+<p>Customize the message via Edit if a specific announcement is required.</p>
+<p>Verify and save</p>
+<p>Click Save.</p>
+<p>Test by calling from a non-blocked number to confirm normal traffic still flows. If a number is added to blocking by mistake, callers from that number will hear the blocked-call message rather than reaching staff.</p>
+<h2>Change Control</h2>
+<p>All changes covered by this SOP must be authorized, snapshotted, applied, verified, and logged.</p>
+<h2>Authorization</h2>
+<p>Welcome greeting, wait messages, and music changes: Deputy Assessor overseeing Customer Service.</p>
+<p>Per-number blocked entries (known nuisance callers): Customer Service Manager.</p>
+<p>Area-code blocks, no-caller-ID blocking, pay-phone blocking, or whitelist additions affecting routing categories: Deputy Assessor.</p>
+<h2>Pre-change snapshot</h2>
+<p>Before making the change, screenshot the relevant settings panel or note the current values in writing. This is the rollback reference if the change must be reversed.</p>
+<h2>Make the change</h2>
+<p>Apply the change using the procedure in this SOP. Click Save and verify the new values are reflected.</p>
+<h2>Post-change verification</h2>
+<p>Place a test call when possible, or review the first live calls after the change in the call log to confirm expected behavior.</p>
+<h2>Log the change</h2>
+<p>Add an entry to the RingCentral Change Log: date and time, queue name and ID, setting changed, prior value, new value, who authorized, who applied, business reason, verification result.</p>
+
+  <div class="tag-line">
+    <div class="tag">Count on us.</div>
+    <div class="sig">Bernalillo County Assessor · Damian R. Lara, County Assessor</div>
+  </div>
+</article>
+
+</body>
+</html>

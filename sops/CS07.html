@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CS07 · Queue Identity and Administration · Source SOP</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+  @font-face {
+    font-family: 'Gotham Display';
+    src: url('../fonts/Gotham-Black.otf') format('opentype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+  }
+  :root {
+    --bosque: #285952;
+    --bosque-dark: #1d4640;
+    --cypress: #013942;
+    --terracotta: #e47756;
+    --mist: #e8f1ee;
+    --mist-soft: #f4f8f6;
+    --paper: #faf8f4;
+    --ink: #1a2620;
+    --line: #cfd8d3;
+    --muted: #5a6b65;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    font-family: "Montserrat", system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--mist-soft);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.55;
+  }
+  .top-bar {
+    background: var(--paper);
+    border-bottom: 2px solid var(--line);
+    padding: 16px 56px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    position: sticky; top: 0;
+    z-index: 10;
+  }
+  .top-bar img.logo { height: 56px; width: auto; display: block; }
+  .top-bar .crumb {
+    padding-left: 24px;
+    border-left: 1px solid var(--line);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    line-height: 1.6;
+  }
+  .top-bar .crumb b { color: var(--cypress); }
+  .top-bar .actions { margin-left: auto; display: flex; gap: 10px; }
+  .top-bar .action {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 9px 16px;
+    font-size: 13px; font-weight: 600;
+    text-decoration: none;
+    border-radius: 999px;
+    letter-spacing: 0.04em;
+    transition: all 180ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .top-bar .action.primary {
+    background: var(--bosque); color: var(--paper);
+    border: 1px solid var(--bosque);
+  }
+  .top-bar .action.primary:hover { background: var(--bosque-dark); }
+  .top-bar .action.secondary {
+    background: transparent; color: var(--cypress);
+    border: 1px solid var(--line);
+  }
+  .top-bar .action.secondary:hover { background: var(--mist); border-color: var(--cypress); }
+
+  .doc {
+    max-width: 920px;
+    margin: 48px auto 80px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 64px 72px 72px;
+    box-shadow: 0 12px 36px rgba(15, 30, 27, 0.06);
+  }
+  .doc-header {
+    border-bottom: 3px solid var(--bosque);
+    padding-bottom: 28px;
+    margin-bottom: 36px;
+  }
+  .doc-header .eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--terracotta);
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .doc-header h1 {
+    font-family: "Gotham Display", "Montserrat", sans-serif;
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--bosque);
+    margin: 0;
+    text-wrap: balance;
+  }
+  .meta-row {
+    display: flex;
+    gap: 16px;
+    font-size: 14px;
+    padding: 6px 0;
+    border-bottom: 1px dashed var(--line);
+  }
+  .meta-row:last-of-type { border-bottom: 0; margin-bottom: 24px; }
+  .meta-row .meta-k {
+    color: var(--muted);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-size: 12px;
+    flex: 0 0 180px;
+    padding-top: 2px;
+  }
+  .meta-row .meta-v { color: var(--ink); font-weight: 500; }
+
+  .doc h2 {
+    font-family: "Gotham Display", "Montserrat", sans-serif;
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--bosque);
+    letter-spacing: -0.005em;
+    text-transform: uppercase;
+    margin: 40px 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+  }
+  .doc p {
+    font-size: 15.5px;
+    color: var(--ink);
+    margin: 0 0 12px;
+    text-wrap: pretty;
+  }
+  .doc figure {
+    margin: 24px 0;
+    padding: 16px;
+    background: var(--mist-soft);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    text-align: center;
+  }
+  .doc figure img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    display: inline-block;
+  }
+
+  .tag-line {
+    margin-top: 48px;
+    padding-top: 36px;
+    border-top: 2px solid var(--line);
+    text-align: center;
+  }
+  .tag-line .tag {
+    font-family: "Gotham Display", "Montserrat", sans-serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--terracotta);
+    text-transform: lowercase;
+    margin-bottom: 6px;
+  }
+  .tag-line .sig {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  @media print {
+    body { background: white; }
+    .top-bar { display: none; }
+    .doc {
+      box-shadow: none; border: 0;
+      margin: 0; padding: 0;
+      max-width: none;
+    }
+    .doc figure { background: white; border: 1px solid #ccc; }
+    .doc h2 { break-after: avoid; }
+    .doc figure, .doc p, .meta-row { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top-bar">
+  <img src="../assets/bernco-assessor-logo.png" alt="BernCo County Assessor" class="logo">
+  <div class="crumb"><b>SOP CS07</b><br>Source document</div>
+  <div class="actions">
+    <a class="action secondary" href="../index.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M6 4L3 7l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Library</a>
+    <a class="action secondary" href="../videos/CS07_Queue_Identity.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg> Watch video</a>
+    <button class="action primary" onclick="window.print()" style="border: 0; font-family: inherit; cursor: pointer;"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M4 1h6v3M4 11h6v2H4zM2 4h10v6H2z M4 7h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Save as PDF</button>
+  </div>
+</header>
+
+<article class="doc">
+  <div class="doc-header">
+    <div class="eyebrow">Bernalillo County Assessor · Customer Service</div>
+    <h1>Queue Identity and Administration</h1>
+  </div>
+  <div class="meta-row"><span class="meta-k">Process Title</span><span class="meta-v">Queue Identity and Administration</span></div>
+<div class="meta-row"><span class="meta-k">Department</span><span class="meta-v">Customer Service</span></div>
+<div class="meta-row"><span class="meta-k">SOP ID</span><span class="meta-v">CS07</span></div>
+<div class="meta-row"><span class="meta-k">Last Reviewed</span><span class="meta-v">05/05/2026</span></div>
+<div class="meta-row"><span class="meta-k">Effective Date</span><span class="meta-v">05/05/2026</span></div>
+<div class="meta-row"><span class="meta-k">Version</span><span class="meta-v">1</span></div>
+<h2>Purpose</h2>
+<p>This SOP outlines the standardized process for managing a queue's identity (name, extension, status, managers, PIN, SMS routing), direct phone numbers, pickup permissions, and voicemail. These settings change rarely and most require Deputy Assessor or Assessor authorization.</p>
+<h2>Scope</h2>
+<p>Applies to four queue panel sections: Call Queue Details, Direct Numbers, Pickup Settings &amp; Members, and Voicemail &amp; Notifications.</p>
+<h2>Authorization</h2>
+<p>Enabling or disabling a queue, changing manager assignments, or changing direct number assignments: Deputy Assessor or Assessor approval. Changing the Group Name, Call Queue PIN, or SMS recipients: Customer Service Manager with Deputy Assessor confirmation. Voicemail recipient changes: Customer Service Manager.</p>
+<h2>Definitions</h2>
+<p>Group Name – The queue's display name in the Call Queues list and in member-side displays.</p>
+<p>Call Queue PIN – PIN used for management actions outside the admin portal (e.g., recording a queue greeting from a phone).</p>
+<p>SMS Recipients – User(s) who receive texts sent to the queue's number.</p>
+<p>Direct Number – A phone number assigned directly to the queue. Callers dial this to reach the queue without going through the company auto-receptionist.</p>
+<h2>Prerequisites</h2>
+<p>This SOP assumes the operator is signed in to the RingCentral Admin Portal and can navigate to a specific call queue. For sign-in and navigation instructions, see CS02 (RingCentral Admin Portal Reference).</p>
+<p>The operator must have appropriate manager access to the queue being modified — see Authorization below.</p>
+<h2>Related Documents</h2>
+<p>RingCentral Admin Portal: https://service.ringcentral.com</p>
+<p>RingCentral Custom Answering Rules — official setup guide: https://support.ringcentral.com/content/dam/support/us/en/pdf/get-started/v2/RCA_Setting_Up_Custom_Answering_Rules_For_Your_Extension.pdf</p>
+<p>RingCentral Call Queue Call Handling — developer documentation: https://developers.ringcentral.com/guide/voice/call-routing/manual/callqueue-answering-rules</p>
+<p>CS02 — RingCentral Admin Portal Reference</p>
+<p>CS03 — Queue Member Management</p>
+<p>CS04 — Queue Routing and Wait Settings</p>
+<p>Queue Change Log — RingCentral configuration history (maintained in shared drive)</p>
+<p>Call Queue Details Section</p>
+<p>Holds the queue's identity and administration settings. Two sub-tabs: General and Settings.</p>
+<p>General Tab</p>
+<p>Reference: General sub-tab fields</p>
+<p>Fields on the General sub-tab:</p>
+<p>Short Extension Number — abbreviated dialable extension (e.g., 2)</p>
+<p>Full Extension Number — read-only full extension (e.g., 160002)</p>
+<p>Group Name — display name (e.g., Assessor Customer Service)</p>
+<p>Company Name — optional outbound caller ID override</p>
+<p>Managers — counts of Full Access and Member Management users; Edit button</p>
+<p>Call Queue PIN — Change Call Queue PIN button</p>
+<p>Record Group Name — label used in call recordings</p>
+<p>Contact Phone — optional public-facing contact</p>
+<p>Status — Enabled / Disabled toggle</p>
+<p>SMS Recipients — text message recipients</p>
+<figure><img src="../sop_assets/CS07_Queue_Identity_and_Administration/779a0a4ab65bfe730162a90d741b80d5ae4b2be6.png" alt="" /></figure>
+<p>Enable or Disable a queue</p>
+<p>To take a queue out of service without deleting it, click Disable next to Status. The queue displays a red X on the Call Queues list and stops accepting calls.</p>
+<p>To restore a disabled queue, click Enable. Calls resume routing immediately.</p>
+<p>Disabling preserves configuration and member roster — preferred over deletion when there's any chance the queue will be needed again.</p>
+<p>Change Group Name</p>
+<p>Edit the Group Name field. The change does not affect routing — the extension is unchanged.</p>
+<p>Use clear, public-friendly names (e.g., &quot;Assessor Customer Service&quot; rather than &quot;Q2&quot;).</p>
+<p>Edit Managers</p>
+<p>Click Edit next to Managers.</p>
+<p>Full Access — can change all queue settings, member roster, and routing</p>
+<p>Member Management — can add/remove members but cannot change routing or wait settings</p>
+<p>Assign Member Management to supervisors who need roster control without ability to alter routing.</p>
+<p>Change Call Queue PIN</p>
+<p>Click Change Call Queue PIN to update.</p>
+<p>Document the PIN in a secure location accessible only to authorized administrators.</p>
+<p>Configure SMS Recipients</p>
+<p>Configure the user(s) who receive texts sent to the queue's number.</p>
+<p>Verify at least one recipient is active and currently employed before relying on SMS routing.</p>
+<p>Settings Tab</p>
+<p>Holds advanced queue-level settings (number formatting, regional preferences). Modify only when explicitly required by a configuration change request. Contact the RingCentral administrator group before changing fields you do not recognize.</p>
+<p>Direct Numbers Section</p>
+<p>Lists the phone numbers assigned directly to this queue.</p>
+<p>Reference: Direct Numbers table</p>
+<p>The table shows each assigned number:</p>
+<p>Number — phone number in (xxx) xxx-xxxx format (e.g., (505) 222-3700 for Assessor's Office)</p>
+<p>Number Type — Call Queue, Auto-Receptionist, etc.</p>
+<p>Name — optional label</p>
+<p>A queue can have one or more direct numbers, or none.</p>
+<figure><img src="../sop_assets/CS07_Queue_Identity_and_Administration/13c4b985acf5ed896908fabdf828d991fd556afc.png" alt="" /></figure>
+<p>Add or remove direct numbers</p>
+<p>Direct number assignment is typically performed at the account-wide phone number inventory (Account → Phone Numbers), not from this section.</p>
+<p>Changes to the public-facing number a queue rings on are structural and require Deputy Assessor or Assessor approval.</p>
+<p>Verify assigned numbers here when investigating a routing issue — if a number is reassigned to a different queue or extension, callers dialing the old number reach the new destination.</p>
+<p>Pickup Settings &amp; Members Section</p>
+<p>Configures call pickup permissions — which other users can pick up a ringing call from this queue using the call pickup feature. Useful when members sit in proximity and want to grab each other's incoming calls.</p>
+<p>Modify only when explicitly required by a workflow change. The default configuration matches RingCentral's account-wide pickup behavior.</p>
+<p>Voicemail &amp; Notifications Section</p>
+<p>Configures the queue's voicemail greeting and who is notified when voicemails arrive. Voicemails left at this queue's mailbox are tracked in the Msg. column on the Call Queues list.</p>
+<p>Common settings:</p>
+<p>Voicemail greeting (default or custom recording)</p>
+<p>Email notifications to specified recipients when a voicemail is received</p>
+<p>Voicemail-to-text transcription (account-dependent)</p>
+<p>Verify at least one active recipient is listed for voicemail email notifications. Without a recipient, voicemails accumulate without alerting any staff member.</p>
+<h2>Change Control</h2>
+<p>All changes covered by this SOP must be authorized, snapshotted, applied, verified, and logged.</p>
+<h2>Authorization</h2>
+<p>Enabling or disabling a queue: Deputy Assessor or Assessor.</p>
+<p>Changing manager assignments or direct number assignments: Deputy Assessor or Assessor.</p>
+<p>Changing Group Name, Call Queue PIN, or SMS recipients: Customer Service Manager with Deputy Assessor confirmation.</p>
+<p>Voicemail recipient changes: Customer Service Manager.</p>
+<h2>Pre-change snapshot</h2>
+<p>Before making the change, screenshot the relevant settings panel or note the current values in writing. This is the rollback reference if the change must be reversed.</p>
+<h2>Make the change</h2>
+<p>Apply the change using the procedure in this SOP. Click Save and verify the new values are reflected.</p>
+<h2>Post-change verification</h2>
+<p>Place a test call when possible, or review the first live calls after the change in the call log to confirm expected behavior.</p>
+<h2>Log the change</h2>
+<p>Add an entry to the RingCentral Change Log: date and time, queue name and ID, setting changed, prior value, new value, who authorized, who applied, business reason, verification result.</p>
+
+  <div class="tag-line">
+    <div class="tag">Count on us.</div>
+    <div class="sig">Bernalillo County Assessor · Damian R. Lara, County Assessor</div>
+  </div>
+</article>
+
+</body>
+</html>

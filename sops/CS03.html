@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CS03 · Queue Member Management · Source SOP</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+  @font-face {
+    font-family: 'Gotham Display';
+    src: url('../fonts/Gotham-Black.otf') format('opentype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+  }
+  :root {
+    --bosque: #285952;
+    --bosque-dark: #1d4640;
+    --cypress: #013942;
+    --terracotta: #e47756;
+    --mist: #e8f1ee;
+    --mist-soft: #f4f8f6;
+    --paper: #faf8f4;
+    --ink: #1a2620;
+    --line: #cfd8d3;
+    --muted: #5a6b65;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    font-family: "Montserrat", system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--mist-soft);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.55;
+  }
+  .top-bar {
+    background: var(--paper);
+    border-bottom: 2px solid var(--line);
+    padding: 16px 56px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    position: sticky; top: 0;
+    z-index: 10;
+  }
+  .top-bar img.logo { height: 56px; width: auto; display: block; }
+  .top-bar .crumb {
+    padding-left: 24px;
+    border-left: 1px solid var(--line);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    line-height: 1.6;
+  }
+  .top-bar .crumb b { color: var(--cypress); }
+  .top-bar .actions { margin-left: auto; display: flex; gap: 10px; }
+  .top-bar .action {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 9px 16px;
+    font-size: 13px; font-weight: 600;
+    text-decoration: none;
+    border-radius: 999px;
+    letter-spacing: 0.04em;
+    transition: all 180ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .top-bar .action.primary {
+    background: var(--bosque); color: var(--paper);
+    border: 1px solid var(--bosque);
+  }
+  .top-bar .action.primary:hover { background: var(--bosque-dark); }
+  .top-bar .action.secondary {
+    background: transparent; color: var(--cypress);
+    border: 1px solid var(--line);
+  }
+  .top-bar .action.secondary:hover { background: var(--mist); border-color: var(--cypress); }
+
+  .doc {
+    max-width: 920px;
+    margin: 48px auto 80px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 64px 72px 72px;
+    box-shadow: 0 12px 36px rgba(15, 30, 27, 0.06);
+  }
+  .doc-header {
+    border-bottom: 3px solid var(--bosque);
+    padding-bottom: 28px;
+    margin-bottom: 36px;
+  }
+  .doc-header .eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--terracotta);
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .doc-header h1 {
+    font-family: "Gotham Display", "Montserrat", sans-serif;
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--bosque);
+    margin: 0;
+    text-wrap: balance;
+  }
+  .meta-row {
+    display: flex;
+    gap: 16px;
+    font-size: 14px;
+    padding: 6px 0;
+    border-bottom: 1px dashed var(--line);
+  }
+  .meta-row:last-of-type { border-bottom: 0; margin-bottom: 24px; }
+  .meta-row .meta-k {
+    color: var(--muted);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-size: 12px;
+    flex: 0 0 180px;
+    padding-top: 2px;
+  }
+  .meta-row .meta-v { color: var(--ink); font-weight: 500; }
+
+  .doc h2 {
+    font-family: "Gotham Display", "Montserrat", sans-serif;
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--bosque);
+    letter-spacing: -0.005em;
+    text-transform: uppercase;
+    margin: 40px 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+  }
+  .doc p {
+    font-size: 15.5px;
+    color: var(--ink);
+    margin: 0 0 12px;
+    text-wrap: pretty;
+  }
+  .doc figure {
+    margin: 24px 0;
+    padding: 16px;
+    background: var(--mist-soft);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    text-align: center;
+  }
+  .doc figure img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    display: inline-block;
+  }
+
+  .tag-line {
+    margin-top: 48px;
+    padding-top: 36px;
+    border-top: 2px solid var(--line);
+    text-align: center;
+  }
+  .tag-line .tag {
+    font-family: "Gotham Display", "Montserrat", sans-serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--terracotta);
+    text-transform: lowercase;
+    margin-bottom: 6px;
+  }
+  .tag-line .sig {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  @media print {
+    body { background: white; }
+    .top-bar { display: none; }
+    .doc {
+      box-shadow: none; border: 0;
+      margin: 0; padding: 0;
+      max-width: none;
+    }
+    .doc figure { background: white; border: 1px solid #ccc; }
+    .doc h2 { break-after: avoid; }
+    .doc figure, .doc p, .meta-row { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top-bar">
+  <img src="../assets/bernco-assessor-logo.png" alt="BernCo County Assessor" class="logo">
+  <div class="crumb"><b>SOP CS03</b><br>Source document</div>
+  <div class="actions">
+    <a class="action secondary" href="../index.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M6 4L3 7l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Library</a>
+    <a class="action secondary" href="../videos/CS03_Queue_Member_Management.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg> Watch video</a>
+    <button class="action primary" onclick="window.print()" style="border: 0; font-family: inherit; cursor: pointer;"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M4 1h6v3M4 11h6v2H4zM2 4h10v6H2z M4 7h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Save as PDF</button>
+  </div>
+</header>
+
+<article class="doc">
+  <div class="doc-header">
+    <div class="eyebrow">Bernalillo County Assessor · Customer Service</div>
+    <h1>Queue Member Management</h1>
+  </div>
+  <div class="meta-row"><span class="meta-k">Process Title</span><span class="meta-v">Queue Member Management</span></div>
+<div class="meta-row"><span class="meta-k">Department</span><span class="meta-v">Customer Service</span></div>
+<div class="meta-row"><span class="meta-k">SOP ID</span><span class="meta-v">CS03</span></div>
+<div class="meta-row"><span class="meta-k">Last Reviewed</span><span class="meta-v">05/05/2026</span></div>
+<div class="meta-row"><span class="meta-k">Effective Date</span><span class="meta-v">05/05/2026</span></div>
+<div class="meta-row"><span class="meta-k">Version</span><span class="meta-v">1</span></div>
+<h2>Purpose</h2>
+<p>This SOP outlines the standardized process for adding members to a RingCentral call queue, removing members, and disabling members temporarily. It applies to routine roster maintenance and short-term coverage adjustments.</p>
+<h2>Scope</h2>
+<p>Applies to all staff with Member Management or Full Access manager roles on a queue, including:</p>
+<p>Customer Service Manager(s)</p>
+<p>A.C.E. Project Lead and other designated queue administrators</p>
+<p>Supervisors with Member Management role on specific queues</p>
+<p>Out of scope: routing method changes, wait setting changes, queue creation or deletion.</p>
+<h2>Authorization</h2>
+<p>Member additions or removals require confirmation by the Customer Service Manager. The CSM may delegate routine additions to a designated lead. Removals tied to terminations or long-term reassignments must additionally be confirmed by the Deputy Assessor overseeing Customer Service.</p>
+<h2>Definitions</h2>
+<p>Member Status – Per-queue toggle, set by the admin. ON = this queue may route calls to this member.</p>
+<p>Queue Status – Member-side toggle. ON = the member is currently accepting queue calls overall (across all queues they belong to). Members can change this themselves if Allow members to change their queue status is set to Allow.</p>
+<p>Ring Member – Derived Yes/No. Yes only when both Member Status and Queue Status are ON; otherwise No.</p>
+<h2>Prerequisites</h2>
+<p>This SOP assumes the operator is signed in to the RingCentral Admin Portal and can navigate to a specific call queue. For sign-in and navigation instructions, see CS02 (RingCentral Admin Portal Reference).</p>
+<p>The operator must have appropriate manager access to the queue being modified — see Authorization below.</p>
+<h2>Related Documents</h2>
+<p>RingCentral Admin Portal: https://service.ringcentral.com</p>
+<p>RingCentral Custom Answering Rules — official setup guide: https://support.ringcentral.com/content/dam/support/us/en/pdf/get-started/v2/RCA_Setting_Up_Custom_Answering_Rules_For_Your_Extension.pdf</p>
+<p>RingCentral Call Queue Call Handling — developer documentation: https://developers.ringcentral.com/guide/voice/call-routing/manual/callqueue-answering-rules</p>
+<p>CS02 — RingCentral Admin Portal Reference (sign-in and navigation)</p>
+<p>CS04 — Queue Routing and Wait Settings (for routing method changes that affect Order)</p>
+<p>Queue Change Log — RingCentral configuration history (maintained in shared drive)</p>
+<p>The Primary Members Roster</p>
+<p>Members are managed in Call Handling &amp; Members → Work hours → Primary Members. Roster columns:</p>
+<p>Order (only relevant under Fixed order routing) — drag handle plus position number.</p>
+<p>Name, Ext., Site — member identification.</p>
+<p>Member Status — per-queue routing toggle, set by the admin.</p>
+<p>Queue Status — member-side toggle.</p>
+<p>Ring Member — derived Yes/No.</p>
+<p>Delete — removes the member from this queue.</p>
+<p>Worked examples (Assessor Customer Service roster):</p>
+<p>Sarah Condit — Member Status ON, Queue Status OFF → Ring Member = No. Admin has her assigned, but she has marked herself unavailable. Calls do not ring her.</p>
+<p>Jovana Arvizu — Member Status OFF, Queue Status ON → Ring Member = No. Available globally, but the admin has disabled her in this queue. Calls do not ring her here.</p>
+<p>Amanda Baca — Member Status ON, Queue Status ON → Ring Member = Yes. Standard active member.</p>
+<p>Adding a Queue Member</p>
+<p>Open the member list</p>
+<p>Inside the queue panel, expand Call Handling &amp; Members. The Work hours tab is selected by default.</p>
+<p>Scroll to Primary Members at the bottom.</p>
+<p>Click + Add Member at the top right of the section.</p>
+<figure><img src="../sop_assets/CS03_Queue_Member_Management/61023d8144b5ff9f356b63a015af86eb305b93f9.png" alt="" /></figure>
+<p>Locate the user in the Call Queue Members modal</p>
+<p>The modal opens to all RingCentral users in the Bernalillo County directory (over 2,000 entries across multiple sites).</p>
+<p>Toggles at the top:</p>
+<p>Show All — entire directory</p>
+<p>Show Selected (N) — only users currently in this queue</p>
+<p>Use the Sites dropdown to filter by site. Do not page through 200+ pages — search instead.</p>
+<figure><img src="../sop_assets/CS03_Queue_Member_Management/80f874911c43bd0439cae33119cf847dad451600.png" alt="" /></figure>
+<p>Search and select</p>
+<p>Type the user's name or extension in the Search field. The list narrows as you type.</p>
+<p>Check the box next to the user. Multiple users can be selected across consecutive searches.</p>
+<p>Confirm the Show Selected count reflects all intended additions.</p>
+<p>Click Done.</p>
+<figure><img src="../sop_assets/CS03_Queue_Member_Management/cc2e3c182868e03e70bab0a7fff484426abb286f.png" alt="" /></figure>
+<p>Verify Ring Member = Yes</p>
+<p>After the modal closes, the new member appears in Primary Members with Member Status ON by default.</p>
+<p>Confirm the Ring Member column shows Yes. If it shows No, check that Queue Status is also ON.</p>
+<p>If the queue uses Fixed order routing (see CS04), drag the member to the desired position in the Order column.</p>
+<h2>Save and document</h2>
+<p>Click Save.</p>
+<p>Add an entry to the RingCentral Change Log: date, queue name and ID, member added, who authorized, business reason.</p>
+<p>Removing or Disabling a Queue Member</p>
+<p>Decide first whether the change is permanent (Remove) or temporary (Disable). Default to Disable when in doubt — disabling is reversible by toggling back ON.</p>
+<p>Disable a member (temporary)</p>
+<p>Use for short-term coverage gaps: training, leave, temporary reassignment.</p>
+<p>In Primary Members, locate the user.</p>
+<p>Toggle Member Status from ON to OFF. The Ring Member column changes to No.</p>
+<p>Click Save.</p>
+<p>Remove a member (permanent)</p>
+<p>Use for permanent role changes or terminations.</p>
+<p>In Primary Members, locate the user.</p>
+<p>Click Delete in the rightmost column.</p>
+<p>Confirm removal.</p>
+<p>Click Save.</p>
+<p>Verify queue coverage after the change</p>
+<p>Confirm the remaining Ring Member = Yes count is sufficient for the routing method (Longest idle and Rotating need at least 2 active members; Fixed order with one active member effectively becomes a single-target queue).</p>
+<p>Cross-check Members Availability on the Call Queues list — the value (online / total) should reflect the new roster.</p>
+<h2>Change Control</h2>
+<p>All changes covered by this SOP must be authorized, snapshotted, applied, verified, and logged.</p>
+<h2>Authorization</h2>
+<p>Routine member additions and Disable toggles: Customer Service Manager.</p>
+<p>Removals (Delete): Customer Service Manager, with additional Deputy Assessor confirmation if tied to a termination or long-term reassignment.</p>
+<h2>Pre-change snapshot</h2>
+<p>Before making the change, screenshot the relevant settings panel or note the current values in writing. This is the rollback reference if the change must be reversed.</p>
+<h2>Make the change</h2>
+<p>Apply the change using the procedure in this SOP. Click Save and verify the new values are reflected.</p>
+<h2>Post-change verification</h2>
+<p>Place a test call when possible, or review the first live calls after the change in the call log to confirm expected behavior.</p>
+<h2>Log the change</h2>
+<p>Add an entry to the RingCentral Change Log: date and time, queue name and ID, setting changed, prior value, new value, who authorized, who applied, business reason, verification result.</p>
+
+  <div class="tag-line">
+    <div class="tag">Count on us.</div>
+    <div class="sig">Bernalillo County Assessor · Damian R. Lara, County Assessor</div>
+  </div>
+</article>
+
+</body>
+</html>

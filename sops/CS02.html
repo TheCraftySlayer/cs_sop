@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CS02 · RingCentral Admin Portal Reference · Source SOP</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+  @font-face {
+    font-family: 'Gotham Display';
+    src: url('../fonts/Gotham-Black.otf') format('opentype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+  }
+  :root {
+    --bosque: #285952;
+    --bosque-dark: #1d4640;
+    --cypress: #013942;
+    --terracotta: #e47756;
+    --mist: #e8f1ee;
+    --mist-soft: #f4f8f6;
+    --paper: #faf8f4;
+    --ink: #1a2620;
+    --line: #cfd8d3;
+    --muted: #5a6b65;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    font-family: "Montserrat", system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--mist-soft);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.55;
+  }
+  .top-bar {
+    background: var(--paper);
+    border-bottom: 2px solid var(--line);
+    padding: 16px 56px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    position: sticky; top: 0;
+    z-index: 10;
+  }
+  .top-bar img.logo { height: 56px; width: auto; display: block; }
+  .top-bar .crumb {
+    padding-left: 24px;
+    border-left: 1px solid var(--line);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    line-height: 1.6;
+  }
+  .top-bar .crumb b { color: var(--cypress); }
+  .top-bar .actions { margin-left: auto; display: flex; gap: 10px; }
+  .top-bar .action {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 9px 16px;
+    font-size: 13px; font-weight: 600;
+    text-decoration: none;
+    border-radius: 999px;
+    letter-spacing: 0.04em;
+    transition: all 180ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .top-bar .action.primary {
+    background: var(--bosque); color: var(--paper);
+    border: 1px solid var(--bosque);
+  }
+  .top-bar .action.primary:hover { background: var(--bosque-dark); }
+  .top-bar .action.secondary {
+    background: transparent; color: var(--cypress);
+    border: 1px solid var(--line);
+  }
+  .top-bar .action.secondary:hover { background: var(--mist); border-color: var(--cypress); }
+
+  .doc {
+    max-width: 920px;
+    margin: 48px auto 80px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 64px 72px 72px;
+    box-shadow: 0 12px 36px rgba(15, 30, 27, 0.06);
+  }
+  .doc-header {
+    border-bottom: 3px solid var(--bosque);
+    padding-bottom: 28px;
+    margin-bottom: 36px;
+  }
+  .doc-header .eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--terracotta);
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .doc-header h1 {
+    font-family: "Gotham Display", "Montserrat", sans-serif;
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--bosque);
+    margin: 0;
+    text-wrap: balance;
+  }
+  .meta-row {
+    display: flex;
+    gap: 16px;
+    font-size: 14px;
+    padding: 6px 0;
+    border-bottom: 1px dashed var(--line);
+  }
+  .meta-row:last-of-type { border-bottom: 0; margin-bottom: 24px; }
+  .meta-row .meta-k {
+    color: var(--muted);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-size: 12px;
+    flex: 0 0 180px;
+    padding-top: 2px;
+  }
+  .meta-row .meta-v { color: var(--ink); font-weight: 500; }
+
+  .doc h2 {
+    font-family: "Gotham Display", "Montserrat", sans-serif;
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--bosque);
+    letter-spacing: -0.005em;
+    text-transform: uppercase;
+    margin: 40px 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+  }
+  .doc p {
+    font-size: 15.5px;
+    color: var(--ink);
+    margin: 0 0 12px;
+    text-wrap: pretty;
+  }
+  .doc figure {
+    margin: 24px 0;
+    padding: 16px;
+    background: var(--mist-soft);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    text-align: center;
+  }
+  .doc figure img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    display: inline-block;
+  }
+
+  .tag-line {
+    margin-top: 48px;
+    padding-top: 36px;
+    border-top: 2px solid var(--line);
+    text-align: center;
+  }
+  .tag-line .tag {
+    font-family: "Gotham Display", "Montserrat", sans-serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--terracotta);
+    text-transform: lowercase;
+    margin-bottom: 6px;
+  }
+  .tag-line .sig {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  @media print {
+    body { background: white; }
+    .top-bar { display: none; }
+    .doc {
+      box-shadow: none; border: 0;
+      margin: 0; padding: 0;
+      max-width: none;
+    }
+    .doc figure { background: white; border: 1px solid #ccc; }
+    .doc h2 { break-after: avoid; }
+    .doc figure, .doc p, .meta-row { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top-bar">
+  <img src="../assets/bernco-assessor-logo.png" alt="BernCo County Assessor" class="logo">
+  <div class="crumb"><b>SOP CS02</b><br>Source document</div>
+  <div class="actions">
+    <a class="action secondary" href="../index.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M6 4L3 7l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Library</a>
+    <a class="action secondary" href="../videos/CS02_RingCentral_Admin_Portal.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg> Watch video</a>
+    <button class="action primary" onclick="window.print()" style="border: 0; font-family: inherit; cursor: pointer;"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M4 1h6v3M4 11h6v2H4zM2 4h10v6H2z M4 7h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Save as PDF</button>
+  </div>
+</header>
+
+<article class="doc">
+  <div class="doc-header">
+    <div class="eyebrow">Bernalillo County Assessor · Customer Service</div>
+    <h1>RingCentral Admin Portal Reference</h1>
+  </div>
+  <div class="meta-row"><span class="meta-k">Process Title</span><span class="meta-v">RingCentral Admin Portal Reference</span></div>
+<div class="meta-row"><span class="meta-k">Department</span><span class="meta-v">Customer Service</span></div>
+<div class="meta-row"><span class="meta-k">SOP ID</span><span class="meta-v">CS02</span></div>
+<div class="meta-row"><span class="meta-k">Last Reviewed</span><span class="meta-v">05/05/2026</span></div>
+<div class="meta-row"><span class="meta-k">Effective Date</span><span class="meta-v">05/05/2026</span></div>
+<div class="meta-row"><span class="meta-k">Version</span><span class="meta-v">1</span></div>
+<h2>Purpose</h2>
+<p>This reference document describes how to access the RingCentral Admin Portal, navigate to call queues, and read the queue panel structure. It is cited as a prerequisite by CS03 through CS08 and should not be treated as a stand-alone task SOP.</p>
+<h2>Scope</h2>
+<p>Applies to all staff authorized to access the RingCentral Admin Portal: queue administrators, Customer Service Manager(s), Deputy Assessor(s), and IT staff supporting RingCentral configuration.</p>
+<h2>Definitions</h2>
+<p>Admin Portal – The web interface at https://service.ringcentral.com used for company-wide RingCentral configuration.</p>
+<p>Call Queue – A group of users (members) configured to answer inbound calls routed to a single extension.</p>
+<p>DID (Direct Inward Dial) – A direct phone number assigned to an individual user or extension.</p>
+<p>Queue Panel – The right-hand configuration area that opens when a queue is selected from the Call Queues list.</p>
+<p>Queue Inventory Overview</p>
+<p>Primary citizen-facing queues at the Bernalillo County Assessor's Office:</p>
+<p>Assessor's Office (Ext 160001) — Switchboard / first-touch queue. Internally referred to as Q1.</p>
+<p>Assessor Customer Service (Ext 160002) — Overflow / 1st Floor queue. Internally referred to as Q2.</p>
+<p>Assessor Spanish Speakers (Ext 160011) — Spanish-language calls.</p>
+<p>Veteran &amp; Value Freeze Specialty queue for veteran exemption and valuation freeze inquiries.</p>
+<p>Additional division-specific queues exist (Business &amp; Personal Property, GIS, LEAP Division, Commercial / Non-Residential, Manufactured Homes, Residential variants, etc.). The current full roster is at Phone System → Groups → Call Queues.</p>
+<p>Queue Panel Section Map</p>
+<p>Each queue exposes six expandable sections. The SOP that covers each section is shown in parentheses:</p>
+<p>Call Queue Details — identity, status, managers, PIN, SMS recipients (CS07)</p>
+<p>Direct Numbers — assigned phone numbers (CS07)</p>
+<p>Greeting &amp; Hold Music — audio, blocked calls (CS06)</p>
+<p>Call Handling &amp; Members — routing, members, wait settings, custom rules. Tabs: Work hours (CS03 + CS04), Wait settings (CS04), Display settings (CS04), After hours (CS04), Custom rules (CS05)</p>
+<p>Pickup Settings &amp; Members — pickup permissions (CS07)</p>
+<p>Voicemail &amp; Notifications — queue voicemail (CS07)</p>
+<h2>Related Documents</h2>
+<p>RingCentral Admin Portal: https://service.ringcentral.com</p>
+<p>RingCentral Custom Answering Rules — official setup guide: https://support.ringcentral.com/content/dam/support/us/en/pdf/get-started/v2/RCA_Setting_Up_Custom_Answering_Rules_For_Your_Extension.pdf</p>
+<p>RingCentral Call Queue Call Handling — developer documentation: https://developers.ringcentral.com/guide/voice/call-routing/manual/callqueue-answering-rules</p>
+<p>CS03 — Queue Member Management</p>
+<p>CS04 — Queue Routing and Wait Settings</p>
+<p>CS05 — Holiday and Custom Rules</p>
+<p>CS06 — Queue Greeting, Hold Music, and Blocked Calls</p>
+<p>CS07 — Queue Identity and Administration</p>
+<p>CS08 — Custom Inbound Routing Rules on User DIDs</p>
+<p>Queue Change Log — RingCentral configuration history (maintained in shared drive)</p>
+<p>Accessing the Admin Portal</p>
+<p>Navigate to the Admin Portal URL</p>
+<p>Open a web browser and go to https://service.ringcentral.com.</p>
+<p>Alternatively, search the web for &quot;RingCentral Admin&quot; and select the result for service.ringcentral.com.</p>
+<p>Bookmark this URL for repeat access.</p>
+<figure><img src="../sop_assets/CS02_RingCentral_Admin_Portal_Reference/5f53819c03b37e6aa3dd0a27757122671c801106.png" alt="" /></figure>
+<p>Enter your email address</p>
+<p>On the Sign In screen, enter your Bernalillo County email address (firstinitial+lastname@bernco.gov).</p>
+<p>Click Next.</p>
+<p>Do not use Google, Apple, or Single Sign-On options unless directed by IT.</p>
+<figure><img src="../sop_assets/CS02_RingCentral_Admin_Portal_Reference/181f739e767a403c5ade7b91054aede2b29e2433.png" alt="" /></figure>
+<p>Enter your password</p>
+<p>Enter your RingCentral password.</p>
+<p>Click Sign In.</p>
+<p>If you have forgotten your password, click Forgot Password to receive a reset link to your county email.</p>
+<figure><img src="../sop_assets/CS02_RingCentral_Admin_Portal_Reference/4d4246225c03b67e502b0d67cd177692f06c0fe7.png" alt="" /></figure>
+<p>Confirm Admin Portal access</p>
+<p>After sign-in you should land on the Admin Portal home page. Verify the upper-right dropdown reads Admin Portal.</p>
+<p>Confirm the company name reads Bernalillo County and the address reads 415 Silver Ave SW.</p>
+<p>Top navigation: Home, Users, Phone System, Analytics &amp; Logs, Account, More.</p>
+<figure><img src="../sop_assets/CS02_RingCentral_Admin_Portal_Reference/d4d3b539254aac207353580725ceab9722fa594c.png" alt="" /></figure>
+<p>Navigating to a Call Queue</p>
+<p>Open the Call Queues list</p>
+<p>From the top navigation: Phone System → Groups → Call Queues.</p>
+<p>(Alternative: Home page Quick Access → Manage Groups → Call Queues in the left rail.)</p>
+<p>The list displays each queue with: Status, Name, Site, assigned Direct Numbers, Extension, Voicemail count (Msg.), Members Availability (online / total), Actions.</p>
+<p>Use Search to filter by name or extension (e.g., 160001 for the Assessor's Office switchboard).</p>
+<figure><img src="../sop_assets/CS02_RingCentral_Admin_Portal_Reference/8477254a65842b7fec3c30ec846b9322fc8d0138.png" alt="" /></figure>
+<p>Open a queue</p>
+<p>Click the queue name to open its configuration panel on the right.</p>
+<p>The panel header shows the queue name and extension (e.g., Assessor's Office (Ext. 160001)).</p>
+<p>Six expandable sections are listed. Click any section to expand or collapse it.</p>
+<figure><img src="../sop_assets/CS02_RingCentral_Admin_Portal_Reference/c22f2f851fa9dd613caa2fbe49b56da899012a0d.png" alt="" /></figure>
+<p>General Change Control Principles</p>
+<p>Each task SOP (CS03 through CS08) defines its own authorization tier and procedure-specific verification steps. Common principles that apply across all RingCentral queue changes:</p>
+<p>Snapshot the current state before any change — screenshot or note the values you intend to modify.</p>
+<p>Save in the portal AND verify with a test call or call-log review afterward.</p>
+<p>Log every change in the RingCentral Change Log: date/time, queue, setting, prior value, new value, authorizer, applier, reason, verification result.</p>
+<p>For changes that affect answer rates or routing distribution, monitor the Call Records dashboard for at least one full business day after the change.</p>
+
+  <div class="tag-line">
+    <div class="tag">Count on us.</div>
+    <div class="sig">Bernalillo County Assessor · Damian R. Lara, County Assessor</div>
+  </div>
+</article>
+
+</body>
+</html>
