@@ -1,0 +1,111 @@
+Process Title: Queue Greeting, Hold Music, and Blocked Calls
+Department: Customer Service
+SOP ID: CS06
+Last Reviewed: 05/05/2026
+Effective Date: 05/05/2026
+Version: 1
+ 
+Purpose
+This SOP outlines the standardized process for configuring a queue's welcome greeting, wait messages, hold music, and call blocking rules. These settings shape the caller's audio experience and filter unwanted inbound traffic.
+Scope
+Applies to settings under the Greeting & Hold Music section of a queue. The section has three tabs: Work hours, After hours, and Blocked calls.
+Authorization
+Greeting and hold music changes: Deputy Assessor overseeing Customer Service. Blocked-call rule additions: Customer Service Manager (per-number blocks for known nuisance callers); Deputy Assessor for area-code blocks or whitelisting changes that affect routing categories.
+Definitions
+Welcome greeting – Message played when a caller is added to the queue.
+Wait announcement – Message played periodically while the caller waits.
+Waiting in queue music – Music played to the caller before any agent answers.
+Hold music – Music played when an agent has answered and then placed the caller on hold.
+Trusted numbers – Whitelist that bypasses all blocking rules.
+Prerequisites
+This SOP assumes the operator is signed in to the RingCentral Admin Portal and can navigate to a specific call queue. For sign-in and navigation instructions, see CS02 (RingCentral Admin Portal Reference).
+The operator must have appropriate manager access to the queue being modified — see Authorization below.
+Related Documents
+RingCentral Admin Portal: https://service.ringcentral.com
+RingCentral Custom Answering Rules — official setup guide: https://support.ringcentral.com/content/dam/support/us/en/pdf/get-started/v2/RCA_Setting_Up_Custom_Answering_Rules_For_Your_Extension.pdf
+RingCentral Call Queue Call Handling — developer documentation: https://developers.ringcentral.com/guide/voice/call-routing/manual/callqueue-answering-rules
+CS02 — RingCentral Admin Portal Reference
+Queue Change Log — RingCentral configuration history (maintained in shared drive)
+Work Hours Tab
+Reference: Welcome greeting and wait messages (top of tab)
+Settings:
+Welcome greeting — Call queue greeting Enable checkbox; greeting type (Default or Custom); audio player; Edit link
+Wait announcement — message played periodically while caller waits
+Position in queue — premium feature (announces caller's position)
+Wait messages play in order: Wait announcement, Position in queue, Estimated wait time, Callback request.
+[IMG:media/dab1781cec1131224cfcbc17e1ceda2e2b36cefc.png]
+
+Reference: Timing and music settings (bottom of tab)
+Settings:
+Estimated wait time — premium feature
+Callback request — premium feature
+Callers will hear wait messages — When they are added to queue and/or While waiting in queue (with Repeat interval, e.g., Every 15 seconds)
+Waiting in queue music — Enable, music selection (e.g., Acoustic), audio player, Edit
+Hold music — Enable, music selection, audio player, Edit
+Note: Waiting in queue music plays before the call is answered; Hold music plays after, when the agent presses hold.
+[IMG:media/3d7eea2b50d95e94e7de225c73bf26b8ad69d4c2.png]
+
+Update the welcome greeting
+Click Edit under the Welcome greeting audio player.
+Choose to upload a pre-recorded file, record from a phone, or record from a computer microphone.
+After saving, play back the greeting to confirm it sounds correct.
+Greetings should match the queue's purpose (Spanish-queue greeting in Spanish; switchboard greeting that sets caller expectations).
+Configure wait message timing
+Choose When they are added to queue (single message on entry), While waiting in queue (periodic, with Repeat interval), or both.
+Typical: While waiting in queue with Repeat: Every 15 seconds.
+Update music selections
+For each music selection (Waiting in queue music, Hold music), click Edit to change.
+Choose between RingCentral's bundled tracks (e.g., Acoustic) or upload custom audio.
+Click Save.
+After Hours Tab
+Configures the greeting and wait messages played to callers outside business hours. Typically a brief message stating hours of operation and directing callers to alternative resources (A.C.E. chatbot, website).
+Update procedure mirrors Work hours tab: click Edit on the relevant audio element, upload or record, save.
+Blocked Calls Tab
+The Blocked calls tab handles inbound call filtering. It manages five distinct categories on a single tab.
+Reference: Block options (top of tab)
+Sections at the top:
+Block option — top-level dropdown (Specific calls and faxes, etc.)
+Only block these numbers or area codes — entry fields plus Add button
+Callers will hear — pre-recorded blocked-call message; audio player and Edit
+Robocalls — informational; handled per account-wide settings
+Trusted numbers — whitelist that bypasses blocking
+Block calls with no caller ID — Block option dropdown
+[IMG:media/784c3c72f5cf0d10cd18e5777d0b6f2728658e9c.png]
+
+Reference: Block options (bottom of tab)
+Sections at the bottom:
+Block calls with no caller ID — continued from above
+Block calls from pay phones — Enable checkbox; pre-recorded payphone-block message; audio player and Edit
+[IMG:media/0de448d8cf3d724d8ea4196d6b1a4817e90f235e.png]
+
+Block a specific number or area code
+In Only block these numbers or area codes, enter the full phone number (10 digits) or area code (3 digits).
+Optionally enter a Name for documentation.
+Click + Add. Click Save.
+Add a trusted number (whitelist)
+In Trusted numbers, enter the full phone number and optional Name.
+Click + Add. Calls from this number bypass all blocking rules.
+Use for important callers (county officials, vendors, partners) whose calls must always reach the queue.
+Block calls with no caller ID
+Set the Block option dropdown to the desired blocking level.
+Anonymous calls are common sources of unwanted traffic. Blocking them reduces noise but also blocks legitimate callers with privacy settings — weigh against expected caller demographics.
+Block calls from pay phones
+Check Enable block calls from pay phones.
+Customize the message via Edit if a specific announcement is required.
+Verify and save
+Click Save.
+Test by calling from a non-blocked number to confirm normal traffic still flows. If a number is added to blocking by mistake, callers from that number will hear the blocked-call message rather than reaching staff.
+Change Control
+All changes covered by this SOP must be authorized, snapshotted, applied, verified, and logged.
+Authorization
+Welcome greeting, wait messages, and music changes: Deputy Assessor overseeing Customer Service.
+Per-number blocked entries (known nuisance callers): Customer Service Manager.
+Area-code blocks, no-caller-ID blocking, pay-phone blocking, or whitelist additions affecting routing categories: Deputy Assessor.
+Pre-change snapshot
+Before making the change, screenshot the relevant settings panel or note the current values in writing. This is the rollback reference if the change must be reversed.
+Make the change
+Apply the change using the procedure in this SOP. Click Save and verify the new values are reflected.
+Post-change verification
+Place a test call when possible, or review the first live calls after the change in the call log to confirm expected behavior.
+Log the change
+Add an entry to the RingCentral Change Log: date and time, queue name and ID, setting changed, prior value, new value, who authorized, who applied, business reason, verification result.

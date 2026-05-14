@@ -1,0 +1,87 @@
+Process Title: Custom Inbound Routing Rules on User DIDs
+Department: Customer Service
+SOP ID: CS08
+Last Reviewed: 05/05/2026
+Effective Date: 05/05/2026
+Version: 1
+ 
+Purpose
+This SOP outlines the standardized process for adding custom inbound routing rules to a user's direct phone number (DID). The most common use case at the Assessor's Office is redirecting a switchboard agent's DID into the switchboard queue itself, so callers who dial the agent directly are still subject to queue distribution rather than ringing only the named agent.
+Scope
+Applies to custom inbound rules configured on user extensions (Users → [user] → Call Handling → Custom rules). Queue-level custom rules are out of scope (see CS05).
+Authorization
+All DID redirect rules require Deputy Assessor authorization. These rules change where calls to a specific public number land and can confuse callers if applied without coordination.
+Definitions
+DID (Direct Inward Dial) – A direct phone number assigned to an individual user or extension.
+Custom inbound rule – A condition-based override on a user extension that redirects matching inbound calls to a different destination. User-level custom rules use the same condition and action types as queue-level rules (see CS05) but apply to a single user's incoming traffic.
+Called Number condition – The rule condition that matches when a caller dials a specific number. This is the condition that turns a generic user-level custom rule into a DID-specific redirect rule. Without this condition, the rule applies to every call reaching the user (including queue calls and internal extension dials), which is almost never the intent.
+Forward to extension – The rule action used to send a matching call to a queue (e.g., 160001) rather than ringing the user's devices.
+Route Inbound to Switchboard – The standard rule-naming pattern at the Assessor's Office for DID redirects: a Called Number condition (the user's DID) combined with a Forward to extension action (the switchboard queue, 160001).
+Prerequisites
+This SOP assumes the operator is signed in to the RingCentral Admin Portal and can navigate to a specific call queue. For sign-in and navigation instructions, see CS02 (RingCentral Admin Portal Reference).
+The operator must have appropriate manager access to the queue being modified — see Authorization below.
+Related Documents
+RingCentral Admin Portal: https://service.ringcentral.com
+RingCentral Custom Answering Rules — official setup guide: https://support.ringcentral.com/content/dam/support/us/en/pdf/get-started/v2/RCA_Setting_Up_Custom_Answering_Rules_For_Your_Extension.pdf
+RingCentral Call Queue Call Handling — developer documentation: https://developers.ringcentral.com/guide/voice/call-routing/manual/callqueue-answering-rules
+CS02 — RingCentral Admin Portal Reference
+CS05 — Holiday and Custom Rules (queue-level custom rules — different object, same UI concept and condition/action types)
+RingCentral Custom Answering Rules support documentation: https://support.ringcentral.com/content/dam/support/us/en/pdf/get-started/v2/RCA_Setting_Up_Custom_Answering_Rules_For_Your_Extension.pdf
+Queue Change Log — RingCentral configuration history (maintained in shared drive)
+Reference Patterns
+Established DID redirect rules at the Assessor's Office (as of last review):
+Diana Y Martinez (ext 163722) — DID 505-222-3722. Custom rule "Route Inbound to Switchboard" redirects inbound calls to Q1 (160001).
+Melissa Vigil (ext 169005) — DID 505-468-7243. Custom rule "Route Inbound to Switchboard" redirects inbound calls to Q1 (160001).
+Both rules were established 03/22/2026 to collapse a two-pathway architecture in which calls dialed directly to switchboard agents bypassed queue routing and contributed to a higher direct-dial failure rate.
+Adding a DID Redirect Rule
+Note: this section describes the procedure based on the standard RingCentral user-extension Custom rules workflow as documented by RingCentral. Screenshots of the user-side Custom rules tab are not yet captured at the Assessor's Office. Send screenshots when the next rule is configured and this section will be expanded with images.
+RingCentral has been changing the admin-portal UI labels over time. Older versions used "Call Handling & Forwarding"; newer versions use "Call Handling" or "Incoming Call Rules." The procedure below describes the conceptual flow; the exact labels in the current portal version may differ slightly.
+Navigate to the user's extension
+From the top navigation: Users → Users with Extensions.
+Search for the user by name or extension.
+Click the user to open their extension panel.
+Open the user's Custom rules tab
+In the user panel, navigate to Call Handling (also labeled Call Handling & Forwarding or Incoming Call Rules in some portal versions).
+Click the Custom rules tab.
+Add the rule
+Click + Add Rule.
+Enter the rule name. The Assessor's Office convention is "Route Inbound to Switchboard".
+Click Next.
+Configure the Called Number condition
+Select Called Number as the condition type. This is the critical step — it scopes the rule to apply only when callers dial the user's DID, not when they reach the user through internal calls or queue routing.
+Select the user's DID from the dropdown (e.g., 505-222-3722 for Diana Y Martinez).
+Do not add a Date/Time condition unless the redirect should be time-bounded. Leave Caller ID unset to apply to all incoming callers.
+Click Next.
+Configure the Forward to extension action
+Select Forward calls as the action.
+Choose to forward to an extension on the account.
+Select the queue's full extension number (e.g., 160001 for Assessor's Office).
+CRITICAL: forward to the queue's EXTENSION, not its phone number. RingCentral rejects forwarding rules that target a phone number already on the account, with the error "Forwarding phone number cannot be the same as your account number or any additional numbers." This is documented behavior, not a bug.
+Click Save.
+Verify
+Place a test call from an outside line to the user's DID.
+The call should ring into the queue rather than to the user directly. In the queue's call log, the call should appear with the dialed number recorded as the user's DID and the routed destination as the queue extension.
+Place a separate test by calling the user's extension internally — internal extension dials should still ring the user directly, since the Called Number condition does not match for internal calls.
+Removing or Disabling a DID Redirect Rule
+Disable a rule
+In the user's Custom rules list, locate the rule.
+Toggle the Active switch to OFF.
+Save. The rule is preserved but no longer applies — calls to the DID will route to the user directly per their default call handling.
+Delete a rule
+Click Delete next to the rule.
+Confirm. The rule is removed permanently.
+Verify
+Place a test call to the user's DID and confirm the call now reaches the user (or the user's default routing) rather than the queue.
+Change Control
+All changes covered by this SOP must be authorized, snapshotted, applied, verified, and logged.
+Authorization
+Adding, editing, or removing DID redirect rules: Deputy Assessor overseeing Customer Service.
+Disabling an active rule (temporary): Deputy Assessor or Customer Service Manager with Deputy Assessor notification.
+Pre-change snapshot
+Before making the change, screenshot the relevant settings panel or note the current values in writing. This is the rollback reference if the change must be reversed.
+Make the change
+Apply the change using the procedure in this SOP. Click Save and verify the new values are reflected.
+Post-change verification
+Place a test call when possible, or review the first live calls after the change in the call log to confirm expected behavior.
+Log the change
+Add an entry to the RingCentral Change Log: date and time, queue name and ID, setting changed, prior value, new value, who authorized, who applied, business reason, verification result.

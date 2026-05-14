@@ -1,0 +1,87 @@
+Process Title: RingCentral Admin Portal Reference
+Department: Customer Service
+SOP ID: CS02
+Last Reviewed: 05/05/2026
+Effective Date: 05/05/2026
+Version: 1
+ 
+Purpose
+This reference document describes how to access the RingCentral Admin Portal, navigate to call queues, and read the queue panel structure. It is cited as a prerequisite by CS03 through CS08 and should not be treated as a stand-alone task SOP.
+Scope
+Applies to all staff authorized to access the RingCentral Admin Portal: queue administrators, Customer Service Manager(s), Deputy Assessor(s), and IT staff supporting RingCentral configuration.
+Definitions
+Admin Portal – The web interface at https://service.ringcentral.com used for company-wide RingCentral configuration.
+Call Queue – A group of users (members) configured to answer inbound calls routed to a single extension.
+DID (Direct Inward Dial) – A direct phone number assigned to an individual user or extension.
+Queue Panel – The right-hand configuration area that opens when a queue is selected from the Call Queues list.
+Queue Inventory Overview
+Primary citizen-facing queues at the Bernalillo County Assessor's Office:
+Assessor's Office (Ext 160001) — Switchboard / first-touch queue. Internally referred to as Q1.
+Assessor Customer Service (Ext 160002) — Overflow / 1st Floor queue. Internally referred to as Q2.
+Assessor Spanish Speakers (Ext 160011) — Spanish-language calls.
+Veteran & Value Freeze Specialty queue for veteran exemption and valuation freeze inquiries.
+Additional division-specific queues exist (Business & Personal Property, GIS, LEAP Division, Commercial / Non-Residential, Manufactured Homes, Residential variants, etc.). The current full roster is at Phone System → Groups → Call Queues.
+Queue Panel Section Map
+Each queue exposes six expandable sections. The SOP that covers each section is shown in parentheses:
+Call Queue Details — identity, status, managers, PIN, SMS recipients (CS07)
+Direct Numbers — assigned phone numbers (CS07)
+Greeting & Hold Music — audio, blocked calls (CS06)
+Call Handling & Members — routing, members, wait settings, custom rules. Tabs: Work hours (CS03 + CS04), Wait settings (CS04), Display settings (CS04), After hours (CS04), Custom rules (CS05)
+Pickup Settings & Members — pickup permissions (CS07)
+Voicemail & Notifications — queue voicemail (CS07)
+Related Documents
+RingCentral Admin Portal: https://service.ringcentral.com
+RingCentral Custom Answering Rules — official setup guide: https://support.ringcentral.com/content/dam/support/us/en/pdf/get-started/v2/RCA_Setting_Up_Custom_Answering_Rules_For_Your_Extension.pdf
+RingCentral Call Queue Call Handling — developer documentation: https://developers.ringcentral.com/guide/voice/call-routing/manual/callqueue-answering-rules
+CS03 — Queue Member Management
+CS04 — Queue Routing and Wait Settings
+CS05 — Holiday and Custom Rules
+CS06 — Queue Greeting, Hold Music, and Blocked Calls
+CS07 — Queue Identity and Administration
+CS08 — Custom Inbound Routing Rules on User DIDs
+Queue Change Log — RingCentral configuration history (maintained in shared drive)
+Accessing the Admin Portal
+Navigate to the Admin Portal URL
+Open a web browser and go to https://service.ringcentral.com.
+Alternatively, search the web for "RingCentral Admin" and select the result for service.ringcentral.com.
+Bookmark this URL for repeat access.
+[IMG:media/5f53819c03b37e6aa3dd0a27757122671c801106.png]
+
+Enter your email address
+On the Sign In screen, enter your Bernalillo County email address (firstinitial+lastname@bernco.gov).
+Click Next.
+Do not use Google, Apple, or Single Sign-On options unless directed by IT.
+[IMG:media/181f739e767a403c5ade7b91054aede2b29e2433.png]
+
+Enter your password
+Enter your RingCentral password.
+Click Sign In.
+If you have forgotten your password, click Forgot Password to receive a reset link to your county email.
+[IMG:media/4d4246225c03b67e502b0d67cd177692f06c0fe7.png]
+
+Confirm Admin Portal access
+After sign-in you should land on the Admin Portal home page. Verify the upper-right dropdown reads Admin Portal.
+Confirm the company name reads Bernalillo County and the address reads 415 Silver Ave SW.
+Top navigation: Home, Users, Phone System, Analytics & Logs, Account, More.
+[IMG:media/d4d3b539254aac207353580725ceab9722fa594c.png]
+
+Navigating to a Call Queue
+Open the Call Queues list
+From the top navigation: Phone System → Groups → Call Queues.
+(Alternative: Home page Quick Access → Manage Groups → Call Queues in the left rail.)
+The list displays each queue with: Status, Name, Site, assigned Direct Numbers, Extension, Voicemail count (Msg.), Members Availability (online / total), Actions.
+Use Search to filter by name or extension (e.g., 160001 for the Assessor's Office switchboard).
+[IMG:media/8477254a65842b7fec3c30ec846b9322fc8d0138.png]
+
+Open a queue
+Click the queue name to open its configuration panel on the right.
+The panel header shows the queue name and extension (e.g., Assessor's Office (Ext. 160001)).
+Six expandable sections are listed. Click any section to expand or collapse it.
+[IMG:media/c22f2f851fa9dd613caa2fbe49b56da899012a0d.png]
+
+General Change Control Principles
+Each task SOP (CS03 through CS08) defines its own authorization tier and procedure-specific verification steps. Common principles that apply across all RingCentral queue changes:
+Snapshot the current state before any change — screenshot or note the values you intend to modify.
+Save in the portal AND verify with a test call or call-log review afterward.
+Log every change in the RingCentral Change Log: date/time, queue, setting, prior value, new value, authorizer, applier, reason, verification result.
+For changes that affect answer rates or routing distribution, monitor the Call Records dashboard for at least one full business day after the change.

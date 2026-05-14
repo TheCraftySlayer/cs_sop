@@ -1,0 +1,101 @@
+Process Title: Queue Member Management
+Department: Customer Service
+SOP ID: CS03
+Last Reviewed: 05/05/2026
+Effective Date: 05/05/2026
+Version: 1
+ 
+Purpose
+This SOP outlines the standardized process for adding members to a RingCentral call queue, removing members, and disabling members temporarily. It applies to routine roster maintenance and short-term coverage adjustments.
+Scope
+Applies to all staff with Member Management or Full Access manager roles on a queue, including:
+Customer Service Manager(s)
+A.C.E. Project Lead and other designated queue administrators
+Supervisors with Member Management role on specific queues
+Out of scope: routing method changes, wait setting changes, queue creation or deletion.
+Authorization
+Member additions or removals require confirmation by the Customer Service Manager. The CSM may delegate routine additions to a designated lead. Removals tied to terminations or long-term reassignments must additionally be confirmed by the Deputy Assessor overseeing Customer Service.
+Definitions
+Member Status – Per-queue toggle, set by the admin. ON = this queue may route calls to this member.
+Queue Status – Member-side toggle. ON = the member is currently accepting queue calls overall (across all queues they belong to). Members can change this themselves if Allow members to change their queue status is set to Allow.
+Ring Member – Derived Yes/No. Yes only when both Member Status and Queue Status are ON; otherwise No.
+Prerequisites
+This SOP assumes the operator is signed in to the RingCentral Admin Portal and can navigate to a specific call queue. For sign-in and navigation instructions, see CS02 (RingCentral Admin Portal Reference).
+The operator must have appropriate manager access to the queue being modified — see Authorization below.
+Related Documents
+RingCentral Admin Portal: https://service.ringcentral.com
+RingCentral Custom Answering Rules — official setup guide: https://support.ringcentral.com/content/dam/support/us/en/pdf/get-started/v2/RCA_Setting_Up_Custom_Answering_Rules_For_Your_Extension.pdf
+RingCentral Call Queue Call Handling — developer documentation: https://developers.ringcentral.com/guide/voice/call-routing/manual/callqueue-answering-rules
+CS02 — RingCentral Admin Portal Reference (sign-in and navigation)
+CS04 — Queue Routing and Wait Settings (for routing method changes that affect Order)
+Queue Change Log — RingCentral configuration history (maintained in shared drive)
+The Primary Members Roster
+Members are managed in Call Handling & Members → Work hours → Primary Members. Roster columns:
+Order (only relevant under Fixed order routing) — drag handle plus position number.
+Name, Ext., Site — member identification.
+Member Status — per-queue routing toggle, set by the admin.
+Queue Status — member-side toggle.
+Ring Member — derived Yes/No.
+Delete — removes the member from this queue.
+Worked examples (Assessor Customer Service roster):
+Sarah Condit — Member Status ON, Queue Status OFF → Ring Member = No. Admin has her assigned, but she has marked herself unavailable. Calls do not ring her.
+Jovana Arvizu — Member Status OFF, Queue Status ON → Ring Member = No. Available globally, but the admin has disabled her in this queue. Calls do not ring her here.
+Amanda Baca — Member Status ON, Queue Status ON → Ring Member = Yes. Standard active member.
+Adding a Queue Member
+Open the member list
+Inside the queue panel, expand Call Handling & Members. The Work hours tab is selected by default.
+Scroll to Primary Members at the bottom.
+Click + Add Member at the top right of the section.
+[IMG:media/61023d8144b5ff9f356b63a015af86eb305b93f9.png]
+
+Locate the user in the Call Queue Members modal
+The modal opens to all RingCentral users in the Bernalillo County directory (over 2,000 entries across multiple sites).
+Toggles at the top:
+Show All — entire directory
+Show Selected (N) — only users currently in this queue
+Use the Sites dropdown to filter by site. Do not page through 200+ pages — search instead.
+[IMG:media/80f874911c43bd0439cae33119cf847dad451600.png]
+
+Search and select
+Type the user's name or extension in the Search field. The list narrows as you type.
+Check the box next to the user. Multiple users can be selected across consecutive searches.
+Confirm the Show Selected count reflects all intended additions.
+Click Done.
+[IMG:media/cc2e3c182868e03e70bab0a7fff484426abb286f.png]
+
+Verify Ring Member = Yes
+After the modal closes, the new member appears in Primary Members with Member Status ON by default.
+Confirm the Ring Member column shows Yes. If it shows No, check that Queue Status is also ON.
+If the queue uses Fixed order routing (see CS04), drag the member to the desired position in the Order column.
+Save and document
+Click Save.
+Add an entry to the RingCentral Change Log: date, queue name and ID, member added, who authorized, business reason.
+Removing or Disabling a Queue Member
+Decide first whether the change is permanent (Remove) or temporary (Disable). Default to Disable when in doubt — disabling is reversible by toggling back ON.
+Disable a member (temporary)
+Use for short-term coverage gaps: training, leave, temporary reassignment.
+In Primary Members, locate the user.
+Toggle Member Status from ON to OFF. The Ring Member column changes to No.
+Click Save.
+Remove a member (permanent)
+Use for permanent role changes or terminations.
+In Primary Members, locate the user.
+Click Delete in the rightmost column.
+Confirm removal.
+Click Save.
+Verify queue coverage after the change
+Confirm the remaining Ring Member = Yes count is sufficient for the routing method (Longest idle and Rotating need at least 2 active members; Fixed order with one active member effectively becomes a single-target queue).
+Cross-check Members Availability on the Call Queues list — the value (online / total) should reflect the new roster.
+Change Control
+All changes covered by this SOP must be authorized, snapshotted, applied, verified, and logged.
+Authorization
+Routine member additions and Disable toggles: Customer Service Manager.
+Removals (Delete): Customer Service Manager, with additional Deputy Assessor confirmation if tied to a termination or long-term reassignment.
+Pre-change snapshot
+Before making the change, screenshot the relevant settings panel or note the current values in writing. This is the rollback reference if the change must be reversed.
+Make the change
+Apply the change using the procedure in this SOP. Click Save and verify the new values are reflected.
+Post-change verification
+Place a test call when possible, or review the first live calls after the change in the call log to confirm expected behavior.
+Log the change
+Add an entry to the RingCentral Change Log: date and time, queue name and ID, setting changed, prior value, new value, who authorized, who applied, business reason, verification result.

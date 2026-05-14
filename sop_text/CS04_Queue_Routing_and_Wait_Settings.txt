@@ -1,0 +1,120 @@
+Process Title: Queue Routing and Wait Settings
+Department: Customer Service
+SOP ID: CS04
+Last Reviewed: 05/05/2026
+Effective Date: 05/05/2026
+Version: 1
+ 
+Purpose
+This SOP outlines the standardized process for changing how a RingCentral queue distributes calls to its members and how it handles overflow. It covers routing method, ring duration, wrap-up, concurrent call limits, queue capacity, wait limits, the Overflow Group, and the Display settings and After hours tabs.
+Scope
+Applies to staff with Full Access manager role on a queue. Member roster changes are out of scope (see CS03). Custom rules are out of scope (see CS05).
+Authorization
+All routing and wait setting changes require confirmation by the Deputy Assessor overseeing Customer Service before they are applied. Routing changes affect every caller and every member of the queue and can degrade service if misconfigured.
+Definitions
+Routing Method (Route calls to members) – Rotating, Fixed order, Simultaneous, or Longest idle.
+Wrap-up Time (After call wrap-up time) – Interval after a call ends during which the member is unavailable.
+Overflow Group – Up to three other queues that act as backup destinations when the primary queue cannot answer.
+Prerequisites
+This SOP assumes the operator is signed in to the RingCentral Admin Portal and can navigate to a specific call queue. For sign-in and navigation instructions, see CS02 (RingCentral Admin Portal Reference).
+The operator must have appropriate manager access to the queue being modified — see Authorization below.
+Related Documents
+RingCentral Admin Portal: https://service.ringcentral.com
+RingCentral Custom Answering Rules — official setup guide: https://support.ringcentral.com/content/dam/support/us/en/pdf/get-started/v2/RCA_Setting_Up_Custom_Answering_Rules_For_Your_Extension.pdf
+RingCentral Call Queue Call Handling — developer documentation: https://developers.ringcentral.com/guide/voice/call-routing/manual/callqueue-answering-rules
+CS02 — RingCentral Admin Portal Reference
+CS03 — Queue Member Management (member roster — required reading before routing changes affect Order)
+CS05 — Holiday and Custom Rules
+Queue Change Log — RingCentral configuration history (maintained in shared drive)
+The Call Handling & Members Section
+All settings in this SOP live under the queue panel's Call Handling & Members section. The section has five tabs: Work hours, Wait settings, Display settings, After hours, and Custom rules. A master toggle, Forward all queue calls, sits at the top — leave OFF in normal operation.
+Work Hours Tab
+Reference: Work hours tab settings
+Settings on this tab, in order:
+Schedule (Edit schedule link)
+Route calls to members — routing method dropdown
+Maximum concurrent calls per member
+Include direct calls when calculating maximum calls — checkbox
+Number of rings before trying next member
+After call wrap-up time
+Allow members to change their queue status
+Primary Members — the roster (covered in CS03)
+[IMG:media/31edf086ac5b531979d9fa53b25bffdd7685d9c4.png]
+
+Routing Method (Route calls to members)
+Four options:
+Rotating: Cycles through members starting from the next position after the last answered call.
+Fixed order: Always rings members in their listed order. Position 1 receives every call first.
+Simultaneous: All members ring at once. First to answer takes the call.
+Longest idle: Routes the next call to the member who has been idle longest.
+Under Fixed order, the Order column in Primary Members is populated with sequential position numbers and drag handles.
+Reference: Fixed order roster
+Example of a queue using Fixed order: positions 1–5 visible in the Order column with drag handles. Position 1 receives every call first; positions 2+ ring only after position 1 fails to answer.
+[IMG:media/1b0f715f54a9a6293497dce486b368ef59a1964b.png]
+
+Change the routing method
+In Call Handling & Members → Work hours, click the Route calls to members dropdown.
+Select the desired option.
+If Fixed order is selected, drag members in the Order column to set the sequence.
+Click Save.
+Verify
+Place a test call or observe the next live call in the call log to confirm the expected routing pattern.
+Ring and Wrap-up Behavior
+Set Number of rings before trying next member
+Choose from the dropdown. Common options range from 2 rings / 10 seconds to 10 rings / 50 seconds.
+Shorter ring times move calls through the roster faster but reduce the chance any one member can grab the call. Longer ring times give each member more time but extend caller wait.
+Set After call wrap-up time
+0 seconds delivers calls back-to-back. A non-zero wrap-up (e.g., 10 seconds) gives the member time to finish documentation before being eligible again.
+Set Maximum concurrent calls per member
+1 call is the default. Increase only when members are explicitly expected to handle parallel calls.
+Configure Include direct calls when calculating maximum calls
+Check the box if direct DID calls should count toward a member's concurrent call limit.
+Configure Allow members to change their queue status
+Allow: members can toggle their own Queue Status. Disallow: only admins can change Queue Status.
+Wait Settings Tab
+Configures queue capacity, wait limits, and overflow behavior.
+Reference: Wait settings tab fields
+Settings on this tab, in order:
+Forward all queue calls — master toggle (top right). Leave OFF in normal operation.
+Number of callers allowed in queue — cap on simultaneous waiting callers
+When queue is full — destination when the cap is exceeded
+Maximum caller wait time in queue — longest a caller can wait
+When maximum wait time is reached, send caller to — destination when the wait limit is hit
+When members are available, but no members answer or all members are busy or unavailable — overflow trigger; common choice: Wait for Primary and Overflow Members
+Number of rings before ringing next group — delay before the overflow group is engaged
+Overflow Group — selectable list of up to three backup queues
+[IMG:media/b4ba5a8d5cd347b27f5982c4048bfe7afa6ace46.png]
+
+Set queue capacity and wait limits
+Configure Number of callers allowed in queue and Maximum caller wait time in queue based on expected volume and acceptable wait.
+Configure When queue is full and When maximum wait time is reached — usually Voicemail unless a specific overflow target is required.
+Configure overflow behavior
+Set When members are available, but no members answer or all members are busy or unavailable to Wait for Primary and Overflow Members to enable the Overflow Group.
+Set Number of rings before ringing next group to 0 rings / 0 seconds for instant overflow, or to a non-zero value for a delay.
+Configure the Overflow Group
+Click the Search field in the Overflow Group section to find queues.
+Select up to three queues. Drag to set the Order in which they will be engaged.
+Standard for Q1 (Assessor's Office, 160001): instant overflow to Q2 (Assessor Customer Service, 160002) at 0 rings / 0 seconds.
+Display Settings Tab
+Controls caller ID display formatting members see when receiving a queue call. Most settings are cosmetic. Modify only when explicitly required by a configuration change request.
+After Hours Tab
+Controls behavior when a call arrives outside the schedule defined on the Work hours tab (evenings, weekends, holidays not covered by Custom rules).
+Set the after-hours destination
+Choose voicemail, an extension (e.g., A.C.E. chatbot), an external phone number, or an announcement.
+Verify the schedule
+After-hours behavior depends on the schedule defined on the Work hours tab (Edit schedule). Confirm the schedule reflects current office hours.
+Save and verify
+Click Save. Place a test call after-hours or on a weekend to confirm.
+Change Control
+All changes covered by this SOP must be authorized, snapshotted, applied, verified, and logged.
+Authorization
+All routing method, ring/wrap-up, concurrent call, capacity, wait limit, Overflow Group, and after-hours destination changes: Deputy Assessor overseeing Customer Service.
+Forward all queue calls master toggle: Deputy Assessor or Assessor — this bypasses queue logic entirely and should be used only in extraordinary circumstances.
+Pre-change snapshot
+Before making the change, screenshot the relevant settings panel or note the current values in writing. This is the rollback reference if the change must be reversed.
+Make the change
+Apply the change using the procedure in this SOP. Click Save and verify the new values are reflected.
+Post-change verification
+Place a test call when possible, or review the first live calls after the change in the call log to confirm expected behavior.
+Log the change
+Add an entry to the RingCentral Change Log: date and time, queue name and ID, setting changed, prior value, new value, who authorized, who applied, business reason, verification result.

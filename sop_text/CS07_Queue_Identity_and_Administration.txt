@@ -1,0 +1,105 @@
+Process Title: Queue Identity and Administration
+Department: Customer Service
+SOP ID: CS07
+Last Reviewed: 05/05/2026
+Effective Date: 05/05/2026
+Version: 1
+ 
+Purpose
+This SOP outlines the standardized process for managing a queue's identity (name, extension, status, managers, PIN, SMS routing), direct phone numbers, pickup permissions, and voicemail. These settings change rarely and most require Deputy Assessor or Assessor authorization.
+Scope
+Applies to four queue panel sections: Call Queue Details, Direct Numbers, Pickup Settings & Members, and Voicemail & Notifications.
+Authorization
+Enabling or disabling a queue, changing manager assignments, or changing direct number assignments: Deputy Assessor or Assessor approval. Changing the Group Name, Call Queue PIN, or SMS recipients: Customer Service Manager with Deputy Assessor confirmation. Voicemail recipient changes: Customer Service Manager.
+Definitions
+Group Name – The queue's display name in the Call Queues list and in member-side displays.
+Call Queue PIN – PIN used for management actions outside the admin portal (e.g., recording a queue greeting from a phone).
+SMS Recipients – User(s) who receive texts sent to the queue's number.
+Direct Number – A phone number assigned directly to the queue. Callers dial this to reach the queue without going through the company auto-receptionist.
+Prerequisites
+This SOP assumes the operator is signed in to the RingCentral Admin Portal and can navigate to a specific call queue. For sign-in and navigation instructions, see CS02 (RingCentral Admin Portal Reference).
+The operator must have appropriate manager access to the queue being modified — see Authorization below.
+Related Documents
+RingCentral Admin Portal: https://service.ringcentral.com
+RingCentral Custom Answering Rules — official setup guide: https://support.ringcentral.com/content/dam/support/us/en/pdf/get-started/v2/RCA_Setting_Up_Custom_Answering_Rules_For_Your_Extension.pdf
+RingCentral Call Queue Call Handling — developer documentation: https://developers.ringcentral.com/guide/voice/call-routing/manual/callqueue-answering-rules
+CS02 — RingCentral Admin Portal Reference
+CS03 — Queue Member Management
+CS04 — Queue Routing and Wait Settings
+Queue Change Log — RingCentral configuration history (maintained in shared drive)
+Call Queue Details Section
+Holds the queue's identity and administration settings. Two sub-tabs: General and Settings.
+General Tab
+Reference: General sub-tab fields
+Fields on the General sub-tab:
+Short Extension Number — abbreviated dialable extension (e.g., 2)
+Full Extension Number — read-only full extension (e.g., 160002)
+Group Name — display name (e.g., Assessor Customer Service)
+Company Name — optional outbound caller ID override
+Managers — counts of Full Access and Member Management users; Edit button
+Call Queue PIN — Change Call Queue PIN button
+Record Group Name — label used in call recordings
+Contact Phone — optional public-facing contact
+Status — Enabled / Disabled toggle
+SMS Recipients — text message recipients
+[IMG:media/779a0a4ab65bfe730162a90d741b80d5ae4b2be6.png]
+
+Enable or Disable a queue
+To take a queue out of service without deleting it, click Disable next to Status. The queue displays a red X on the Call Queues list and stops accepting calls.
+To restore a disabled queue, click Enable. Calls resume routing immediately.
+Disabling preserves configuration and member roster — preferred over deletion when there's any chance the queue will be needed again.
+Change Group Name
+Edit the Group Name field. The change does not affect routing — the extension is unchanged.
+Use clear, public-friendly names (e.g., "Assessor Customer Service" rather than "Q2").
+Edit Managers
+Click Edit next to Managers.
+Full Access — can change all queue settings, member roster, and routing
+Member Management — can add/remove members but cannot change routing or wait settings
+Assign Member Management to supervisors who need roster control without ability to alter routing.
+Change Call Queue PIN
+Click Change Call Queue PIN to update.
+Document the PIN in a secure location accessible only to authorized administrators.
+Configure SMS Recipients
+Configure the user(s) who receive texts sent to the queue's number.
+Verify at least one recipient is active and currently employed before relying on SMS routing.
+Settings Tab
+Holds advanced queue-level settings (number formatting, regional preferences). Modify only when explicitly required by a configuration change request. Contact the RingCentral administrator group before changing fields you do not recognize.
+Direct Numbers Section
+Lists the phone numbers assigned directly to this queue.
+Reference: Direct Numbers table
+The table shows each assigned number:
+Number — phone number in (xxx) xxx-xxxx format (e.g., (505) 222-3700 for Assessor's Office)
+Number Type — Call Queue, Auto-Receptionist, etc.
+Name — optional label
+A queue can have one or more direct numbers, or none.
+[IMG:media/13c4b985acf5ed896908fabdf828d991fd556afc.png]
+
+Add or remove direct numbers
+Direct number assignment is typically performed at the account-wide phone number inventory (Account → Phone Numbers), not from this section.
+Changes to the public-facing number a queue rings on are structural and require Deputy Assessor or Assessor approval.
+Verify assigned numbers here when investigating a routing issue — if a number is reassigned to a different queue or extension, callers dialing the old number reach the new destination.
+Pickup Settings & Members Section
+Configures call pickup permissions — which other users can pick up a ringing call from this queue using the call pickup feature. Useful when members sit in proximity and want to grab each other's incoming calls.
+Modify only when explicitly required by a workflow change. The default configuration matches RingCentral's account-wide pickup behavior.
+Voicemail & Notifications Section
+Configures the queue's voicemail greeting and who is notified when voicemails arrive. Voicemails left at this queue's mailbox are tracked in the Msg. column on the Call Queues list.
+Common settings:
+Voicemail greeting (default or custom recording)
+Email notifications to specified recipients when a voicemail is received
+Voicemail-to-text transcription (account-dependent)
+Verify at least one active recipient is listed for voicemail email notifications. Without a recipient, voicemails accumulate without alerting any staff member.
+Change Control
+All changes covered by this SOP must be authorized, snapshotted, applied, verified, and logged.
+Authorization
+Enabling or disabling a queue: Deputy Assessor or Assessor.
+Changing manager assignments or direct number assignments: Deputy Assessor or Assessor.
+Changing Group Name, Call Queue PIN, or SMS recipients: Customer Service Manager with Deputy Assessor confirmation.
+Voicemail recipient changes: Customer Service Manager.
+Pre-change snapshot
+Before making the change, screenshot the relevant settings panel or note the current values in writing. This is the rollback reference if the change must be reversed.
+Make the change
+Apply the change using the procedure in this SOP. Click Save and verify the new values are reflected.
+Post-change verification
+Place a test call when possible, or review the first live calls after the change in the call log to confirm expected behavior.
+Log the change
+Add an entry to the RingCentral Change Log: date and time, queue name and ID, setting changed, prior value, new value, who authorized, who applied, business reason, verification result.

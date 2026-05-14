@@ -1,0 +1,302 @@
+Process Title: Envoy Visitor Data Export and Reporting
+Department: Customer Service
+SOP ID: CS09
+Last Reviewed: 05/05/2026
+Effective Date: 05/05/2026
+Version: 1
+ 
+Purpose
+This SOP outlines the standardized process for exporting visitor data from the Envoy admin dashboard for reporting, audits, compliance review, and downstream analytical use. It covers ad-hoc Visitor log exports, Analytics dashboard exports, and scheduled recurring reports.
+Scope
+Applies to staff authorized to export visitor data from Envoy:
+Analytical staff pulling exports for downstream analysis or reporting
+Customer Service Manager(s) reviewing visitor patterns or compiling reports
+Designated administrators handling compliance or audit requests
+Out of scope: visitor sign-in workflow at the front-desk kiosk, sign-in flow configuration, kiosk and iPad setup, and Envoy administrative tasks unrelated to data export.
+Authorization
+Routine analytical exports (Visitor log with visitor type filter applied): Customer Service Manager or designated analytical staff.
+Full visitor history exports (no filter, includes NDA files and visitor photos): Customer Service Manager with Deputy Assessor notification, since these contain the largest volume of personally identifiable information.
+Scheduled recurring reports: Customer Service Manager. Recipients of recurring reports must be in the employee directory.
+Exports for external recipients (auditors, vendors, public records requests): Deputy Assessor approval required before any data leaves the office.
+Definitions
+Bernalillo County Government Alvarado – The Envoy account name covering the Alvarado Square county facility. Many county departments share this account; their visitor data are distinguished by the Visitor type assigned at check-in.
+Visitor type – The departmental categorization assigned to each sign-in (e.g., Assessor's Office, Treasurer's Office, County Clerk, Sheriff/BCSO, Planning and Development, Probate Court, Indigent Services, BCC Admin Meetings, County Commissioners – Elected Officials, County Administration, Human Resources, Information Technology). Determines which department the visitor is recorded under. The Visitor log exposes this as the "Multiple types" filter; the Analytics dashboard exposes the same dimension as the "Sign-in Flow" filter. Different filter labels, same underlying data.
+Visitor log – The chronological record of completed sign-ins at Visitors → Visitor log. One row per person per sign-in. The primary export path for row-level analytical work.
+Visitors Analytics – The aggregate dashboard at Analytics → Visitors. Provides metrics tiles (Invites, Visitors, Hosts) and a busiest-hours heatmap. Useful for traffic-pattern analysis; secondary path for row-level export.
+Invite log – The Envoy record of invitations sent to expected visitors. An invite may or may not result in an actual sign-in.
+Default fields – Standard data columns Envoy provides for all sign-in flows. As of the current configuration, the Default fields available in the Visitor log Export modal are: Name, Group name, Private notes, Company name, Sign out time, Desk, Entry Status, Legal docs, Phone number, Location name, E-mail, Sign-in flow, Invite status, Host, Sign in time, and Security.
+Custom fields – Additional columns specific to the office's sign-in flow (e.g., Spanish speaking required, service type, property address). These fields are defined when sign-in flows are configured. Visible in the Visitor log as additional columns and selectable in the Export modal.
+Scheduled report – A recurring data delivery configured under Analytics → Reports. Sent on a defined schedule to one or more email recipients.
+Prerequisites
+This SOP assumes the operator has Envoy admin access for the Bernalillo County Government Alvarado account, with Single Sign-On (SSO) configured through the bernco.gov Microsoft tenant. If the operator does not have admin access, contact the Customer Service Manager.
+Related Documents
+Envoy Admin Dashboard: https://dashboard.envoy.com
+Envoy Help Center — Exporting visitor data: https://envoy.help/en/articles/4951833-exporting-visitor-data
+Envoy Help Center — About visitor data: https://envoy.help/en/articles/3444479-about-visitor-data
+Envoy Help Center — Scheduled Reports: https://envoy.help/en/articles/11133610-scheduled-reports
+Envoy Help Center — Visitors Analytics Dashboard: https://envoy.help/en/articles/3444493-about-visitors-analytics
+Signing in to Envoy
+Envoy admin access at the Assessor's Office uses Microsoft Single Sign-On through the bernco.gov tenant. There is no separate Envoy password to manage.
+Open Envoy
+In a browser, search for "envoy" or navigate directly to envoy.com. Click Login at the top right of the homepage.
+Direct URL for the dashboard: https://dashboard.envoy.com
+[IMG:media/8552d07853cf9f7b1c3ce95bcea29bdb71525a70.undefined]
+
+[IMG:media/01512e78be0f7710975109cbf957ecabb321f6f0.undefined]
+
+Enter your bernco.gov email
+On the "Log in to the Envoy dashboard" screen, enter the company email address (e.g., anewe@bernco.gov).
+Click Next.
+[IMG:media/3c5132c3b011dff8310d8750be36e2be2abbe2a6.undefined]
+
+[IMG:media/d5937729047049dfcdc0976bc7adbd816a34be1b.undefined]
+
+Choose Single Sign On
+On the password screen, click "Log in using Single Sign On" below the Log in button. Do not attempt to enter an Envoy password — Envoy access at the Assessor's Office is controlled through Microsoft, not Envoy directly.
+[IMG:media/aca508bd7feade2c1fa548d82fb890df44eaf307.undefined]
+
+Authenticate via Microsoft
+Microsoft displays a "Pick an account" screen. Select the bernco.gov account (e.g., Aaron Beckett Newe / anewe@bernco.gov / Connected to Windows).
+If prompted, complete any additional Microsoft authentication challenge (MFA, etc.). Once authenticated, Envoy returns to the dashboard.
+[IMG:media/520d60348562d9c3b867a0c0e4d1cc590eb5fb03.undefined]
+
+Envoy Dashboard Reference
+After signing in, the dashboard opens to the Bernalillo County Government Alvarado home view.
+Reference: dashboard layout
+Top of page: location title (Bernalillo County Government Alvarado) and quickstart panels (people on site, deliveries, etc.). These are operational counters, not the analytical data this SOP is concerned with.
+Left sidebar: primary navigation. Sections used in this SOP:
+Visitors — Visitor log and Invite log (primary export path; what most analytical exports use)
+Analytics — visitor analytics dashboards, scheduled reports, custom dashboards (secondary export path; useful for aggregate traffic patterns)
+Other sidebar items (Your schedule, Maps, Virtual front desk, Workplace, Deliveries, Communications, Screens, Employee directory, Integrations, Manage) are out of scope for this SOP.
+Bottom-left of sidebar shows the signed-in account; click it to access account settings or sign out.
+[IMG:media/e2ded75be5a5b34b43086d590171d1681d42c668.undefined]
+
+Exporting from the Visitor Log (Primary Path)
+This is the standard procedure for analytical exports. The Visitor log produces row-level CSVs with full field selection, a row-count preview before export, and a built-in visitor type filter — everything needed for downstream analytical work.
+The Visitor Log View
+Open the Visitor log
+In the left sidebar, click Visitors. The Visitors submenu expands to show Visitor log, Invites, Directory, Approvals, Assessments, Devices, and Settings.
+Click Visitor log.
+The Visitor log view loads with default filter (today's date, all visitor types). The visitor count at the top of the page reflects ALL Bernalillo County Government Alvarado sign-ins for that day across every department. In the example screenshot, today's unfiltered count is 220 visitors.
+[IMG:media/2d3922761ad530e53399cef16b0cbe5adb7041bf.undefined]
+
+Critical: Visitor Type Filter
+The Bernalillo County Government Alvarado Envoy account is shared across many county departments. Without a visitor type filter, the exported data includes visitors from every department, not just the Assessor's Office.
+Concrete example using today's date filter, captured in this SOP:
+No visitor type filter applied → 220 visitors (all Alvarado departments)
+Visitor type = "Assessor's Office" → 31 visitors
+That is roughly a seven-fold inflation if the filter is missed. The error produces a clean-looking CSV that contains entries from the Treasurer's Office, County Clerk, Probate Court, and other departments mixed in with the Assessor's Office data. Downstream analyses would silently treat them as Assessor visits.
+ALWAYS set the visitor type filter to "Assessor's Office" before exporting for any Assessor-only report.
+Open the Multiple types filter
+Click the "Multiple types" dropdown at the top of the Visitor log (between the Columns control and the All Visitors filter).
+The Visitor types panel opens, listing every visitor type defined in the Bernalillo County Government Alvarado account. Visible in the dropdown: Treasurer's Office, Sheriff/BCSO, County Clerk, Assessor's Office, Planning and Development, Probate Court, Indigent Services, BCC Admin Meetings, County Commissioners – Elected Officials, County Administration, Human Resources, Information Technology, and others below the fold.
+By default all types are selected (which is why the count shows the full account total).
+[IMG:media/072ff0189190d8e2645c88150031d1a47071dd55.undefined]
+
+Select Assessor's Office
+Uncheck "Visitor types" at the top of the panel to clear all selections, then check ONLY "Assessor's Office".
+The dropdown label changes from "Multiple types" to "Assessor's Office" once exactly one type is selected.
+Verify the visitor count at the top of the page drops to a value consistent with Assessor-only traffic. In the example screenshot, the count drops from 220 to 31 for today's date.
+Verify the "Purpose of visit" column on every row reads "Assessor's Office" — no other department should appear.
+[IMG:media/670b7ce1cdecf84b1a79ec2b5708989b27ee6b01.undefined]
+
+Setting the Date Range
+Open the date filter
+Click the date control at the top left of the Visitor log (defaults to today's date, e.g., 05/05/2026).
+A date selection panel opens with two parts: a list of preset ranges on the left and a calendar for custom selection on the right.
+Available presets: Today, Yesterday, Past 7 days, Past 30 days, Past 60 days, Past 90 days, Month-to-date, Year-to-date, Past year, All time.
+Custom range: click a start date in the calendar, then an end date. The calendar shows the current month and the next month side by side, with arrows to navigate.
+[IMG:media/880b18b95211704ffdd99c8251787edd7773636a.undefined]
+
+Choose the appropriate range
+For periodic analytical refreshes, pick a custom range covering the period since the last successful export, with a small overlap to catch late-arriving entries.
+For monthly reports, Past 30 days is the common preset.
+For year-end summary work, Year-to-date or a custom full-year range is appropriate.
+After selecting the range, the visitor count at the top of the page updates. In the example, with Past 60 days and Assessor's Office filter applied, the count is 5,194 visitors over the range 03/06/2026 → 05/05/2026.
+[IMG:media/a6a1d106d1138be119f797b1ecc113319d2d0dca.undefined]
+
+Running the Export
+Open the Export modal
+Click Export at the top right of the Visitor log.
+The "Export visitor data" modal opens. Configure each section before clicking Export at the bottom right.
+Choose visitor type (in the modal)
+The modal includes a "Choose visitor type" dropdown that defaults to whatever was set on the Visitor log page. Verify it reads "Assessor's Office" — if it does not, cancel the modal, return to the Visitor log, and confirm the Multiple types filter is set correctly.
+The visitor type selected here determines which records are included in the export, regardless of whether the Visitor log page filter was applied first.
+Select format
+Two formats are available:
+CSV — raw data for analytical processing. Use this for any export that feeds spreadsheets, scripts, or analytical pipelines.
+PDF — visual format for human-readable reports or compliance review.
+For all analytical exports: CSV.
+Select Default fields
+The modal lists every Default field with a checkbox. By default, all are selected. Use the "Select all" / "Deselect all" links above the field list as needed.
+Default fields available in the current configuration:
+Name — visitor's full name
+Group name — used when visitors arrive in named groups
+Private notes — operator notes attached to the entry (visible only to admins)
+Company name — visitor's stated company / employer
+Sign out time — when the visitor signed out (blank if still signed in)
+Desk — assigned desk reservation, if any
+Entry Status — entry approval status
+Legal docs — links to NDA / legal documents the visitor signed
+Phone number — visitor's stated phone number
+Location name — facility location (Bernalillo County Government Alvarado)
+E-mail — visitor's stated email address
+Sign-in flow — the kiosk flow used at check-in
+Invite status — whether the visitor was pre-invited
+Host — the employee the visitor was meeting with
+Sign in time — when the visitor signed in
+Security — security-related fields, if applicable
+For analytical exports, leave all Default fields selected. Removing fields breaks downstream column expectations.
+[IMG:media/a7294ca6605a6a66180fbdc921af22ead99a1fc0.undefined]
+
+Select Custom fields
+Below the Default fields, the modal lists Custom fields specific to the Assessor's Office sign-in flow. Visible custom data in the Visitor log columns includes Spanish speaking required (NO / YES) and any property-related fields the flow captures.
+Select all Custom fields for analytical exports. The list of available Custom fields reflects the sign-in flow configuration; if the flow changes, the available fields change.
+Note: if no entries within the chosen date range have a particular Custom field set, that field may not appear in the modal.
+Verify the export summary
+At the bottom of the modal, verify the summary line: "Export data from [start] to [end] for [visitor type]. There are [N] records in the export."
+Confirm the date range, visitor type, and record count all match expectations before clicking Export. In the example screenshot, the summary reads: "Export data from 3/6/26 to 5/5/26 for Assessor's Office. There are 5,194 records in the export."
+If the record count is unexpectedly high, the visitor type filter may be wrong or the date range may extend further than intended.
+Run the export
+Click Export at the bottom right of the modal.
+The download begins shortly. Envoy also sends an email with a download link to the operator's account email; use the email link if the browser download fails or if the export is large.
+Verify the file
+Open the exported CSV. Spot-check:
+Row count matches the modal's preview number
+Sign-in flow column shows only Assessor's Office entries — no other department names
+Sign in time values fall within the requested date range
+Custom field columns are present (Spanish speaking required, etc.)
+Default fields are populated (Name, Phone number, Host, Sign in time, etc.)
+If any of the above fails, repeat the export with the corrected filter or field selection.
+Save and document
+Save the CSV to the designated analytical input directory or secure shared drive folder approved by the Customer Service Manager, with a filename that includes the export date and the date range covered (e.g., Visitors_AssessorsOffice_2026-03-06_through_2026-05-05.csv).
+Note the export in the data pipeline log: date pulled, date range, visitor type filter, row count, who pulled, intended use.
+Exporting from Analytics → Visitors (Secondary Path)
+The Analytics → Visitors page is the aggregate dashboard. It shows summary metric tiles (Invites, Visitors, Hosts), a busiest-hours heatmap, and trend charts. Use this path when traffic-pattern analysis is the goal rather than a row-level data dump.
+Two minor differences from the Visitor log path are worth knowing:
+The visitor type filter on this page is labeled "Sign-in Flow" rather than "Multiple types." The underlying data is the same.
+Exports from this page are oriented around dashboard elements (chart-level CSVs, underlying-data exports) rather than the full record-set export the Visitor log produces.
+Procedure
+Navigate to Visitors Analytics
+In the left sidebar, click Analytics. The Analytics submenu expands to show Visitors, Protect, Deliveries, Reports, and Custom dashboards.
+Click Visitors under Analytics.
+The Visitors Analytics page loads with default filter (Last 30 days, no Sign-in Flow filter). The Visitors metric tile shows the total across all sign-in flows.
+[IMG:media/a88b68177a5f2090361619b3f5c6b0a1c2507606.undefined]
+
+Set the Date Filter
+Click the Date Filter dropdown in the top right. Available options match the Visitor log presets: Today, Past 7 / 30 / 60 / 90 Days, Month-to-date, Year-to-date, Custom, All time, plus Next 7 / 30 Days (forward-looking, rarely useful for visitor exports).
+Set the Sign-in Flow filter to Assessor's Office
+Click the Sign-in Flow dropdown. Select "Assessor's Office".
+Verify the metric tiles (Invites, Visitors, Hosts) update to show only Assessor's Office data. The Visitors count should drop substantially compared to the unfiltered view (in the example screenshot: 11,507 unfiltered → 3,655 filtered for Last 30 days).
+Verify the busiest-hours heatmap below populates with reasonable Assessor's Office traffic patterns (concentrated weekday business hours, with peaks typically around 10–11 AM Mondays and Wednesdays).
+[IMG:media/7ac58a4b6953e15bb55c7faa54e89a3438e5a26f.undefined]
+
+Choose an export method
+Two export controls are available on this page:
+Top-right red Export button — exports the current dashboard view at the dashboard level, respecting the Date Filter and Sign-in Flow filter set above
+Per-element three-dot menu (visible when hovering over a metric card or chart) — opens a granular export menu with more format options including raw underlying data
+For row-level analytical exports from this page, use the per-element three-dot menu and choose Underlying data, as documented in the next step. For most row-level analytical work, the Visitor log primary path is the better starting point.
+Use the per-element Export menu
+Hover the Visitors metric card. A toolbar appears at the top of the card with a filter icon, a column icon, and a three-dot menu.
+Click the three-dot menu. Hover Export to reveal the export submenu.
+Select an option:
+Copy to clipboard — quick paste
+CSV — raw data, one-million-row download limit
+Excel — workbook format, one-million-row download limit
+JSON — structured data for programmatic use
+Underlying data → CSV or Excel — row-level records behind the visualization
+PDF — visual snapshot, not for data processing
+Send → Export — triggers an asynchronous export delivered by email
+Watch for the 1M row limit on direct downloads; for very large ranges use Send → Export.
+[IMG:media/b5e08cdd80e2791d1c321cf3ef03acae43c944d3.undefined]
+
+Exporting Full Visitor History
+Full history exports cover every visitor entry on record with no filtering. They are the only export path that includes 24-hour-expiry links to NDA files and visitor photos. Use sparingly — the data volume is large, the personally identifiable content is sensitive, and the export is not pre-filtered to the Assessor's Office.
+Confirm authorization
+Full history exports require Customer Service Manager approval and Deputy Assessor notification. Do not run this export without confirmation.
+Navigate to the export option
+Go to Visitors → Settings → Account.
+Locate the "Export full visitor history" row.
+Run the export
+Click Export next to "Export full visitor history."
+A status bar appears at the bottom of the screen showing the total entry count and compilation progress. Large exports may take several minutes.
+Once complete, the CSV download begins automatically.
+Handle NDA and photo links promptly
+The CSV contains links to NDA files and visitor photos. These links expire 24 hours after the export.
+If the export is for compliance or audit purposes that require these files, download every NDA file and photo within 24 hours and store them alongside the CSV in the secure file location designated for the audit. Re-running the export after 24 hours produces fresh links but with the same data otherwise.
+Filter to the Assessor's Office
+The full history export is unfiltered. After download, filter the CSV by the visitor type or sign-in flow column to retain only Assessor's Office entries before further processing.
+Store and document
+Save the CSV and any associated NDA / photo files in a secured location with restricted access.
+Log: date pulled, who pulled, business reason, who authorized, downstream recipient (if any).
+Exporting Invite Data
+Invite exports cover invitations sent to expected visitors, regardless of whether they actually arrived. Use this when reconciling no-shows, evaluating advance scheduling patterns, or fulfilling compliance requests that involve scheduled visits rather than completed sign-ins.
+Open the Invites view
+Navigate to Visitors → Invites.
+Apply the visitor type filter
+Set the Multiple types filter to "Assessor's Office" before exporting, exactly as in the Visitor log path. Without the filter, the export includes invites from every department.
+Open and configure the export
+Click Export in the top right corner.
+The configuration options match the Visitor log Export modal: visitor type, format (CSV or PDF), Default fields, Custom fields.
+Verify the export summary line, then click Export. Download begins shortly; an email with a download link is also sent.
+Scheduled Recurring Reports
+Scheduled reports deliver visitor data on a defined cadence to one or more email recipients. Configured under Analytics → Reports. Available on Premium and Enterprise plans (verify the Bernalillo County Government Alvarado account tier before relying on this path). Enterprise customers can create unlimited reports; Premium customers are limited to three active reports at a time.
+Use scheduled reports when the same export is needed regularly (e.g., a weekly visitor count delivered to leadership, a monthly compliance log to records management) and a stable recipient list exists. For analytical exports tied to ad-hoc analysis or research projects, prefer manual exports — analytical refresh schedules can shift, and scheduled deliveries to a single email address create a single point of failure.
+Open the Reports area
+Navigate to Analytics → Reports.
+Select the "Create a New Report" tab.
+Choose the underlying dashboard
+From the "Based on existing dashboard" dropdown, select Location Visitors for visitor data.
+Enter a descriptive report name that includes the recipient or purpose (e.g., "Weekly visitor count — Assessor's Office — CSM").
+Set the recipient
+Enter the email address of the person who will receive the report. The recipient must be in the employee directory.
+Verify the recipient is currently employed before saving — reports continue sending after employees leave unless manually deleted.
+Configure schedule
+Set Send date, Repeat (Daily, Weekly on [weekday], Monthly on [day], Annually, or Every weekday), Time, and Time zone.
+Choose whether to include the day of in the report.
+Define the data range
+Choose what range of data each report will cover: Today, Past 7 / 30 / 90 Days, Month-to-date, Year-to-date, Next 7 / 30 Days, or All time.
+This is the rolling window applied each time the report sends. For a weekly Monday-morning report, Past 7 Days produces the prior week's data.
+Select format
+PDF — visual format matching the dashboard appearance.
+Excel — aggregated data underlying the online reports.
+CSV — raw dataset; only available for Entries and Invites.
+If CSV, choose between Entries and Invites and select which fields to include.
+Constrain to Assessor's Office
+If the underlying dashboard does not pre-filter by Sign-in Flow, the scheduled report will include all Bernalillo County Government Alvarado data. To restrict to the Assessor's Office, base the scheduled report on a Custom Dashboard that has the Sign-in Flow filter pre-applied to "Assessor's Office".
+Custom Dashboard creation is out of scope for this SOP; document the filtered dashboard separately when first created.
+Save the report
+Click Schedule report. The report appears under Analytics → Reports → Your Reports.
+All Location and Global admins for the location can view and edit the report.
+Verify the first delivery
+Confirm the first scheduled report arrives in the recipient's inbox at the expected time. If it does not, check the recipient address, schedule settings, and Envoy notification permissions.
+Editing or Deleting a Scheduled Report
+Reports can be edited (limited fields) or deleted from Analytics → Reports → Your Reports. Click the ellipsis on the right side of a report row, then choose Edit or Delete. Deleting is permanent and cannot be restored.
+Review the active scheduled reports list quarterly. Delete reports whose recipients have left the organization or whose business need has ended.
+Data Handling and Privacy
+Visitor exports contain personally identifiable information including names, phone numbers, employer names, and (in full-history exports) photos and signed NDA documents. Treat all exports as sensitive.
+Storage
+Save exports to the designated analytical input directory or the secure shared drive folder approved by the Customer Service Manager. Do not save exports to local desktop folders, personal cloud storage, or unencrypted USB media.
+File names should include the export date and date range covered.
+Sharing
+Sharing visitor data outside the office (auditors, vendors, public records requests) requires Deputy Assessor approval before transmission.
+Use county-approved secure transfer methods. Do not email visitor CSVs to external recipients without prior approval and an encrypted transmission method.
+Retention
+Working copies of analytical exports may be retained for the duration of the analysis. Once analysis is complete and results are saved separately, delete the working copy.
+Final exports tied to compliance, audit, or public records work follow the office's records retention schedule.
+Disposal
+Securely delete export files when retention expires. For shared-drive copies, use the standard secure deletion process. For NDA files and photos downloaded from the 24-hour links, delete immediately after the audit or compliance use is complete.
+Change Control
+Routine ad-hoc exports do not require a change-control entry beyond the data pipeline log mentioned in the procedures above. The following changes do require change control:
+Authorization for protocol changes
+Adding new scheduled reports, changing recipients on existing scheduled reports, or modifying the standard set of fields exported for analytical work: Customer Service Manager.
+Sharing visitor exports with external parties: Deputy Assessor approval required before transmission.
+Granting Envoy admin access to additional staff: Customer Service Manager with Deputy Assessor notification.
+Changes to the Assessor's Office sign-in flow that add, remove, or rename custom fields: Customer Service Manager, with notification to any analytical staff whose downstream workflows depend on those fields, so the workflows can be updated to match.
+Pre-change snapshot
+For scheduled report changes, screenshot the existing report configuration before editing.
+For sign-in flow changes that affect custom fields, run a final export under the old configuration so any downstream workflow has a clean cutover boundary.
+Make the change
+Apply the change using the procedures above. Verify by triggering or waiting for the first delivery and confirming the recipient received the expected data.
+Log the change
+Add an entry to the Customer Service Change Log: date and time, change applied, prior value, new value, who authorized, who applied, business reason.
