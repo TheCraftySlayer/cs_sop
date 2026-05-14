@@ -1,0 +1,277 @@
+/* ============================================================
+   BernCo Assessor Design System — Colors & Type
+   Primary brand: Bernalillo County (BernCo), customized for the
+   Office of the County Assessor (Damian R. Lara).
+   Derived from the official BernCo Brand Style Guide (Mar 2023).
+   ============================================================ */
+
+/* ---------- Fonts ----------
+   Gotham is the primary typeface per brand guide.
+   - GothamBlack: uploaded by the client (display / ALL-CAPS headlines)
+   - Gotham body/medium: not provided — fall back to "Montserrat"
+     from Google Fonts, which shares Gotham's geometric-sans
+     proportions and is free for production use.
+   - Arial / Calibri are the brand's approved screen substitutes
+     when Gotham is unavailable (per brand guide).
+-------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+@font-face {
+  font-family: 'Gotham';
+  src: url('fonts/Gotham-Black.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* ===== BernCo Primary Palette (from brand guide page 11) ===== */
+  --bc-bosque-green:  #285952;   /* PRIMARY — always dominant */
+  --bc-cypress:       #013942;   /* deep teal — sparingly, for emphasis */
+  --bc-sage:          #96aa94;   /* muted green, calming bg / accents */
+  --bc-terracotta:    #e47756;   /* warm accent — CTAs, highlights */
+  --bc-mist:          #e8f1ee;   /* soft cool neutral — backgrounds */
+
+  /* ===== Tints & shades (derived, used for UI layering) ===== */
+  --bc-bosque-700:    #1f4740;   /* hover / pressed */
+  --bc-bosque-600:    #285952;
+  --bc-bosque-500:    #366b63;
+  --bc-bosque-400:    #5b8780;
+  --bc-bosque-100:    #d7e2df;
+  --bc-bosque-50:     #eef4f2;
+
+  --bc-terracotta-700: #b85a3d;
+  --bc-terracotta-600: #cc6747;
+  --bc-terracotta-500: #e47756;   /* base */
+  --bc-terracotta-100: #fadfd3;
+  --bc-terracotta-50:  #fdf1ec;
+
+  --bc-sage-700:      #6a8068;
+  --bc-sage-500:      #96aa94;
+  --bc-sage-100:      #d6ddd2;
+
+  /* ===== Neutrals (warm-cool, tuned to mist) ===== */
+  --bc-ink:           #0f1e1b;   /* main text on light */
+  --bc-graphite:      #2b3a36;
+  --bc-slate:         #4b5a56;
+  --bc-muted:         #7a8783;
+  --bc-line:          #cfd8d3;   /* hairline borders */
+  --bc-line-soft:     #e3e8e4;
+  --bc-paper:         #ffffff;
+  --bc-paper-2:       #f7faf8;   /* slight-warm off-white */
+  --bc-mist-soft:     #f1f6f3;
+
+  /* ===== Semantic (rooted in brand palette) ===== */
+  --bc-success:       #2f7a54;   /* greener than bosque for clarity */
+  --bc-success-bg:    #e2f1e8;
+  --bc-warning:       #d97706;   /* amber — pairs with terracotta */
+  --bc-warning-bg:    #fef1d9;
+  --bc-danger:        #b23a1f;   /* terracotta-tinted red */
+  --bc-danger-bg:     #fbe3dc;
+  --bc-info:          #013942;   /* cypress */
+  --bc-info-bg:       #d4e0e2;
+
+  /* ===== Foreground shortcuts ===== */
+  --bc-fg-1:          var(--bc-ink);
+  --bc-fg-2:          var(--bc-graphite);
+  --bc-fg-3:          var(--bc-slate);
+  --bc-fg-muted:      var(--bc-muted);
+  --bc-fg-inverse:    #ffffff;
+
+  /* ===== Backgrounds ===== */
+  --bc-bg-page:       var(--bc-mist);
+  --bc-bg-canvas:     var(--bc-paper);
+  --bc-bg-subtle:     var(--bc-mist-soft);
+  --bc-bg-dark:       var(--bc-bosque-green);
+  --bc-bg-darker:     var(--bc-cypress);
+
+  /* ===== Typography ===== */
+  --bc-font-display:  'Gotham', 'Montserrat', 'Arial', sans-serif;
+  --bc-font-body:     'Montserrat', 'Arial', 'Calibri', system-ui, sans-serif;
+  --bc-font-fallback: 'Arial', 'Calibri', system-ui, sans-serif;
+  --bc-font-mono:     ui-monospace, 'SF Mono', 'Menlo', 'Consolas', monospace;
+
+  /* Scale — designed for dashboards & documents */
+  --bc-text-xs:   12px;
+  --bc-text-sm:   14px;
+  --bc-text-base: 16px;
+  --bc-text-md:   18px;
+  --bc-text-lg:   22px;
+  --bc-text-xl:   28px;
+  --bc-text-2xl:  36px;
+  --bc-text-3xl:  48px;
+  --bc-text-4xl:  64px;
+
+  /* Weights — use Medium for headings, Light for body (per guide) */
+  --bc-weight-light:    300;
+  --bc-weight-regular:  400;
+  --bc-weight-medium:   500;
+  --bc-weight-semibold: 600;
+  --bc-weight-bold:     700;
+  --bc-weight-black:    900;
+
+  /* Line heights */
+  --bc-lh-tight:  1.1;
+  --bc-lh-snug:   1.25;
+  --bc-lh-normal: 1.5;
+  --bc-lh-loose:  1.65;
+
+  /* Letterspacing */
+  --bc-tracking-tight:  -0.01em;
+  --bc-tracking-normal:  0;
+  --bc-tracking-wide:    0.04em;
+  --bc-tracking-allcaps: 0.08em;
+
+  /* ===== Spacing (4pt base) ===== */
+  --bc-space-1:  4px;
+  --bc-space-2:  8px;
+  --bc-space-3:  12px;
+  --bc-space-4:  16px;
+  --bc-space-5:  20px;
+  --bc-space-6:  24px;
+  --bc-space-8:  32px;
+  --bc-space-10: 40px;
+  --bc-space-12: 48px;
+  --bc-space-16: 64px;
+
+  /* ===== Radii ===== */
+  --bc-radius-sm:   4px;
+  --bc-radius:      8px;   /* default */
+  --bc-radius-md:   12px;
+  --bc-radius-lg:   16px;
+  --bc-radius-pill: 999px;
+
+  /* ===== Shadows ===== */
+  --bc-shadow-xs: 0 1px 2px rgba(15, 30, 27, 0.06);
+  --bc-shadow-sm: 0 1px 3px rgba(15, 30, 27, 0.08), 0 1px 2px rgba(15, 30, 27, 0.04);
+  --bc-shadow-md: 0 4px 10px rgba(15, 30, 27, 0.08), 0 2px 4px rgba(15, 30, 27, 0.04);
+  --bc-shadow-lg: 0 12px 28px rgba(15, 30, 27, 0.10), 0 4px 10px rgba(15, 30, 27, 0.05);
+  --bc-shadow-focus: 0 0 0 3px rgba(40, 89, 82, 0.25);
+
+  /* ===== Motion ===== */
+  --bc-ease-standard:  cubic-bezier(0.4, 0, 0.2, 1);
+  --bc-ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  --bc-dur-fast: 120ms;
+  --bc-dur:      180ms;
+  --bc-dur-slow: 280ms;
+}
+
+/* ---------- Base element styles ---------- */
+body {
+  font-family: var(--bc-font-body);
+  font-weight: var(--bc-weight-light);
+  color: var(--bc-fg-1);
+  background: var(--bc-bg-page);
+  line-height: var(--bc-lh-normal);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Primary headlines (brand guide: GothamMedium BOLD, ALL CAPS) */
+h1, .bc-h1 {
+  font-family: var(--bc-font-display);
+  font-weight: var(--bc-weight-black);
+  font-size: var(--bc-text-3xl);
+  line-height: var(--bc-lh-tight);
+  letter-spacing: var(--bc-tracking-tight);
+  text-transform: uppercase;
+  color: var(--bc-bosque-green);
+  margin: 0 0 var(--bc-space-4);
+}
+
+h2, .bc-h2 {
+  font-family: var(--bc-font-display);
+  font-weight: var(--bc-weight-bold);
+  font-size: var(--bc-text-2xl);
+  line-height: var(--bc-lh-snug);
+  letter-spacing: var(--bc-tracking-tight);
+  color: var(--bc-bosque-green);
+  margin: 0 0 var(--bc-space-3);
+}
+
+/* Subheads — sentence case GothamMedium per guide */
+h3, .bc-h3 {
+  font-family: var(--bc-font-body);
+  font-weight: var(--bc-weight-semibold);
+  font-size: var(--bc-text-xl);
+  line-height: var(--bc-lh-snug);
+  color: var(--bc-fg-1);
+  margin: 0 0 var(--bc-space-3);
+}
+
+h4, .bc-h4 {
+  font-family: var(--bc-font-body);
+  font-weight: var(--bc-weight-semibold);
+  font-size: var(--bc-text-md);
+  line-height: var(--bc-lh-snug);
+  color: var(--bc-fg-1);
+  margin: 0 0 var(--bc-space-2);
+}
+
+h5, .bc-eyebrow {
+  font-family: var(--bc-font-body);
+  font-size: var(--bc-text-xs);
+  font-weight: var(--bc-weight-semibold);
+  letter-spacing: var(--bc-tracking-allcaps);
+  text-transform: uppercase;
+  color: var(--bc-bosque-green);
+  margin: 0 0 var(--bc-space-2);
+}
+
+p, .bc-body {
+  font-size: var(--bc-text-base);
+  font-weight: var(--bc-weight-light);
+  line-height: var(--bc-lh-loose);
+  color: var(--bc-fg-2);
+  margin: 0 0 var(--bc-space-3);
+  text-wrap: pretty;
+}
+
+.bc-body-sm { font-size: var(--bc-text-sm); line-height: var(--bc-lh-normal); }
+.bc-body-lg { font-size: var(--bc-text-md); line-height: var(--bc-lh-loose); }
+
+/* Lead paragraph */
+.bc-lead {
+  font-size: var(--bc-text-lg);
+  line-height: var(--bc-lh-snug);
+  font-weight: var(--bc-weight-regular);
+  color: var(--bc-fg-2);
+}
+
+/* Labels / captions */
+.bc-label {
+  font-size: var(--bc-text-xs);
+  font-weight: var(--bc-weight-semibold);
+  letter-spacing: var(--bc-tracking-wide);
+  text-transform: uppercase;
+  color: var(--bc-fg-3);
+}
+
+.bc-caption {
+  font-size: var(--bc-text-xs);
+  color: var(--bc-fg-muted);
+}
+
+code, .bc-mono {
+  font-family: var(--bc-font-mono);
+  font-size: 0.95em;
+}
+
+hr, .bc-rule {
+  border: 0;
+  border-top: 1px solid var(--bc-line);
+  margin: var(--bc-space-6) 0;
+}
+
+/* Selection */
+::selection { background: var(--bc-bosque-100); color: var(--bc-bosque-green); }
+
+/* Link default */
+a {
+  color: var(--bc-bosque-green);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  transition: color var(--bc-dur) var(--bc-ease-standard);
+}
+a:hover { color: var(--bc-terracotta-500); }
