@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CS06 · Greeting, Hold Music & Blocked Calls · Animated SOP</title>
+<link rel="stylesheet" href="../lib/video.css">
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="../lib/animations.jsx"></script>
+<script type="text/babel" src="../lib/sop-video.jsx"></script>
+<script type="text/babel">
+const A = '../sop_assets/CS06_Queue_Greeting_Hold_Music_Blocked_Calls/';
+
+const scenes = [
+  {
+    kind: 'title',
+    duration: 5.5,
+    sopId: 'CS06',
+    title: 'Greetings, Music, & Blocked Calls',
+    plainTitle: 'How a caller\'s ears experience your queue — and how to keep junk traffic out.',
+    kicker: 'Three tabs under Greeting & Hold Music: Work hours, After hours, and Blocked calls.',
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 9,
+    step: { num: 1, label: 'Welcome & wait' },
+    caption: 'What plays when they arrive.',
+    sub: 'A welcome greeting plays once when the caller enters the queue. Wait announcements play periodically while they hold. Position-in-queue and estimated wait time are premium features.',
+    src: A + 'dab1781cec1131224cfcbc17e1ceda2e2b36cefc.png',
+    imgPos: 'right', imgFit: 'contain',
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 9,
+    step: { num: 2, label: 'Music' },
+    caption: 'Two different music tracks.',
+    sub: 'Waiting in queue music plays BEFORE an agent picks up. Hold music plays AFTER an agent picks up and puts the caller on hold. They\'re separate — both have Enable toggles and Edit buttons.',
+    src: A + '3d7eea2b50d95e94e7de225c73bf26b8ad69d4c2.png',
+    imgPos: 'right', imgFit: 'contain',
+    bullets: [
+      { text: 'Repeat interval — typically every 15 seconds', color: SOP_PALETTE.bosque },
+      { text: 'Match the queue\'s purpose (Spanish greeting in Spanish, etc.)', color: SOP_PALETTE.terracotta },
+    ],
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 9,
+    step: { num: 3, label: 'Block calls' },
+    caption: 'Filter out the junk.',
+    sub: 'On the Blocked calls tab: block specific numbers, whole area codes, calls with no caller ID, and calls from pay phones. The "Callers will hear" message plays to anyone you block.',
+    src: A + '784c3c72f5cf0d10cd18e5777d0b6f2728658e9c.png',
+    imgPos: 'right', imgFit: 'contain',
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 8,
+    step: { num: 4, label: 'Pay phones & no-ID' },
+    caption: 'Two more switches at the bottom.',
+    sub: 'Block calls from pay phones (an enable toggle plus its own recorded message), and decide what to do with calls that come in with no caller ID. Anonymous blocking cuts noise but blocks legitimate privacy-conscious callers too.',
+    src: A + '0de448d8cf3d724d8ea4196d6b1a4817e90f235e.png',
+    imgPos: 'right', imgFit: 'contain',
+  },
+
+  {
+    kind: 'comparison',
+    duration: 9,
+    title: 'Block vs. trust',
+    sub: 'Same two-column section on the page. Opposite effects.',
+    items: [
+      { tag: 'Blocklist', label: 'Block these', accent: SOP_PALETTE.terracotta, desc: 'Per-number or area-code blocks. Add via the "Only block these numbers or area codes" field. They never reach a person.' },
+      { tag: 'Whitelist', label: 'Trusted numbers', accent: SOP_PALETTE.bosque, desc: 'Calls from these numbers bypass every blocking rule. Use for county officials, vendors, and partners whose calls must always come through.' },
+    ],
+  },
+
+  {
+    kind: 'outro',
+    duration: 6,
+    title: 'Save. Test from a real phone.',
+    sub: 'A misplaced block sends real callers to silence — always test from a non-blocked number before walking away.',
+  },
+];
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <SOPVideo sopId="CS06" title="Greetings, Music & Blocked Calls" scenes={scenes} />
+);
+</script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CS05 · Holiday and Custom Rules · Animated SOP</title>
+<link rel="stylesheet" href="../lib/video.css">
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="../lib/animations.jsx"></script>
+<script type="text/babel" src="../lib/sop-video.jsx"></script>
+<script type="text/babel">
+const A = '../sop_assets/CS05_Holiday_and_Custom_Rules/';
+
+const scenes = [
+  {
+    kind: 'title',
+    duration: 5.5,
+    sopId: 'CS05',
+    title: 'Holiday & Custom Rules',
+    plainTitle: 'How to make a queue do something different on a holiday, during lunch, or when the office is unexpectedly closed.',
+    kicker: 'Custom rules win. They are checked BEFORE the regular work-hours and after-hours settings.',
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 7,
+    step: { num: 1, label: 'Find the tab' },
+    caption: 'Call Handling & Members → Custom rules.',
+    sub: 'A new queue starts empty. Click + Add Rule to begin.',
+    src: A + '162eed8776dc410f3e55c4215708489f04cc1f1a.png',
+    imgPos: 'right', imgFit: 'contain',
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 8,
+    step: { num: '·', label: 'Already in production' },
+    caption: 'What a working queue looks like.',
+    sub: 'One row per holiday. ACE Forward routes to the chatbot. Office Closed sits idle as the emergency switch — flip it on for snow days, off when you reopen.',
+    src: A + 'e3422d1f4fb34cbc8b95fe2a9bea10c965fe23e5.png',
+    imgPos: 'right', imgFit: 'contain',
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 8,
+    step: { num: 2, label: 'Conditions' },
+    caption: 'Step 1: pick when the rule fires.',
+    sub: 'Three condition types. Check Date and/or Time for a holiday. Caller ID and Called Number can be added for finer control.',
+    src: A + '2f71f6de175f32686526a5b364b21f6ded13a7a7.png',
+    imgPos: 'right', imgFit: 'contain',
+    bullets: [
+      { text: 'Date and/or Time — holidays, lunch hours', color: SOP_PALETTE.bosque },
+      { text: 'Caller ID — by phone number or area code', color: SOP_PALETTE.terracotta },
+      { text: 'Called Number — which DID they dialed', color: SOP_PALETTE.cypress },
+    ],
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 8,
+    step: { num: 3, label: 'Specific Date Range' },
+    caption: 'Pick Specific Date Range for a holiday.',
+    sub: 'Weekly Schedule is for recurring rules like lunch. For Memorial Day or Christmas, you want Specific Date Range — set start and end of the closure.',
+    src: A + '8bf00dad309d2f628fa502f22d60dd33152d71e5.png',
+    imgPos: 'right', imgFit: 'contain',
+  },
+
+  {
+    kind: 'comparison',
+    duration: 11,
+    title: 'Step 2: what happens?',
+    sub: 'Six possible actions when the rule matches. Pick one.',
+    items: [
+      { tag: 'Most common', label: 'Send to voicemail', accent: SOP_PALETTE.bosque, desc: 'The usual holiday choice. Caller hears the holiday greeting and leaves a message.' },
+      { tag: 'For self-service', label: 'Forward to extension', accent: SOP_PALETTE.terracotta, desc: 'Send to a different extension on the account — like the A.C.E. chatbot at 160091.' },
+      { tag: 'Announce only', label: 'Play an announcement', accent: SOP_PALETTE.cypress, desc: 'Play a recording and disconnect. Record a holiday-specific greeting first.' },
+      { tag: 'Normal routing', label: 'Ring queue members', accent: SOP_PALETTE.sage, desc: 'Keep ringing members but change how. Rare for holidays.' },
+    ],
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 8,
+    step: { num: 4, label: 'Send to voicemail' },
+    caption: 'Send to voicemail — the holiday default.',
+    sub: 'Pick a custom greeting (record a holiday-specific one) and decide whether voicemail goes to this queue or another extension.',
+    src: A + '23258bf12df1b82d588c7c18324fbaa9841e6fae.png',
+    imgPos: 'right', imgFit: 'contain',
+  },
+
+  {
+    kind: 'steps',
+    duration: 9,
+    title: 'Step 3: name, save, validate',
+    sub: 'Annual maintenance is easier when names include the year.',
+    steps: [
+      { label: 'Name it "Memorial Day 2027"', desc: 'Always include the year. Holiday rules don\'t auto-renew — the year suffix makes January refresh painless.' },
+      { label: 'Click Save', desc: 'The rule appears in the list with the Active toggle ON.' },
+      { label: 'Click Validate Rules', desc: 'Above the list. Checks for overlap with other rules.' },
+      { label: 'Test with a future date', desc: 'Or wait for the day and place a test call.' },
+    ],
+  },
+
+  {
+    kind: 'comparison',
+    duration: 9,
+    title: 'Office Closed: the emergency switch',
+    sub: 'Pre-built. Normally off. Use for unscheduled closures.',
+    items: [
+      { tag: 'Activate', label: 'Snow day', accent: SOP_PALETTE.terracotta, desc: 'Find the Office Closed rule. Toggle Active ON. Save. Notify staff via the standard internal channel.' },
+      { tag: 'Deactivate', label: 'You reopened', accent: SOP_PALETTE.bosque, desc: 'Toggle Active OFF. Save. Place a test call to confirm normal routing resumed.' },
+    ],
+  },
+
+  {
+    kind: 'outro',
+    duration: 6,
+    title: 'Rules first. Schedule second.',
+    sub: 'Custom rules are evaluated before Work hours and After hours — a matching rule always wins.',
+  },
+];
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <SOPVideo sopId="CS05" title="Holiday and Custom Rules" scenes={scenes} />
+);
+</script>
+</body>
+</html>

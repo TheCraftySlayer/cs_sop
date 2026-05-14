@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CS02 · RingCentral Admin Portal · Animated SOP</title>
+<link rel="stylesheet" href="../lib/video.css">
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="../lib/animations.jsx"></script>
+<script type="text/babel" src="../lib/sop-video.jsx"></script>
+<script type="text/babel">
+const A = '../sop_assets/CS02_RingCentral_Admin_Portal_Reference/';
+
+const scenes = [
+  {
+    kind: 'title',
+    duration: 5.5,
+    sopId: 'CS02',
+    title: 'RingCentral Admin Portal',
+    plainTitle: 'How to sign in and find a call queue — the starting point for almost every phone-system change.',
+    kicker: 'Used by every other phone SOP (CS03–CS08). Get this part right and the rest is easy.',
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 7,
+    step: { num: 1, label: 'Open the portal' },
+    caption: 'Go to the portal.',
+    sub: 'Open a browser and type service.ringcentral.com — or search "RingCentral Admin" and pick the result. Bookmark it; you\'ll be back.',
+    src: A + '5f53819c03b37e6aa3dd0a27757122671c801106.png',
+    imgPos: 'right', imgFit: 'contain',
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 7,
+    step: { num: 2, label: 'Sign in' },
+    caption: 'Use your county email.',
+    sub: 'Enter your Bernalillo County email (firstinitial+lastname@bernco.gov). Click Next, then type your RingCentral password. Don\'t click Google, Apple, or SSO unless IT told you to.',
+    src: A + '181f739e767a403c5ade7b91054aede2b29e2433.png',
+    imgPos: 'right', imgFit: 'contain',
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 6.5,
+    step: { num: 3, label: 'Confirm' },
+    caption: 'Check the top-right says Admin Portal.',
+    sub: 'You should see Bernalillo County, 415 Silver Ave SW. The top nav reads Home, Users, Phone System, Analytics & Logs, Account, More.',
+    src: A + 'd4d3b539254aac207353580725ceab9722fa594c.png',
+    imgPos: 'right', imgFit: 'contain',
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 8,
+    step: { num: 4, label: 'Find the queue' },
+    caption: 'Find Call Queues.',
+    sub: 'In the top nav: Phone System → Groups → Call Queues. Each row shows status, name, site, direct numbers, extension, voicemail count, and how many members are online. Search by name or extension — 160001 finds the Assessor\'s Office switchboard.',
+    src: A + '8477254a65842b7fec3c30ec846b9322fc8d0138.png',
+    imgPos: 'right', imgFit: 'contain',
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 8,
+    step: { num: 5, label: 'Open it' },
+    caption: 'Click a queue to open its panel.',
+    sub: 'Every queue has six expandable sections. Different SOPs cover different sections:',
+    src: A + 'c22f2f851fa9dd613caa2fbe49b56da899012a0d.png',
+    imgPos: 'right', imgFit: 'contain',
+    bullets: [
+      { text: 'Call Queue Details — CS07', color: SOP_PALETTE.bosque },
+      { text: 'Direct Numbers — CS07', color: SOP_PALETTE.bosque },
+      { text: 'Greeting & Hold Music — CS06', color: SOP_PALETTE.terracotta },
+      { text: 'Call Handling & Members — CS03, CS04, CS05', color: SOP_PALETTE.terracotta },
+      { text: 'Pickup Settings & Voicemail — CS07', color: SOP_PALETTE.cypress },
+    ],
+  },
+
+  {
+    kind: 'steps',
+    duration: 8,
+    title: 'Before every change',
+    sub: 'These five steps apply to any RingCentral edit — no exceptions.',
+    steps: [
+      { label: 'Snapshot the current state', desc: 'Screenshot or note the values you\'re about to change.' },
+      { label: 'Save AND verify', desc: 'Place a test call or watch the live call log after saving.' },
+      { label: 'Log the change', desc: 'Date, queue, setting, prior value, new value, who authorized, who applied, reason, result.' },
+      { label: 'Monitor for a business day', desc: 'For routing or answer-rate changes, watch the Call Records dashboard.' },
+    ],
+  },
+
+  {
+    kind: 'outro',
+    duration: 6,
+    title: 'You\'re in. Now you can edit.',
+    sub: 'CS03 through CS08 all start from here.',
+  },
+];
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <SOPVideo sopId="CS02" title="RingCentral Admin Portal" scenes={scenes} />
+);
+</script>
+</body>
+</html>

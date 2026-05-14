@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CS01 · Veteran Exemption Entry · Animated SOP</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+  @font-face {
+    font-family: 'Gotham Display';
+    src: url('../fonts/Gotham-Black.otf') format('opentype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+  }
+  html, body, #root { margin: 0; padding: 0; height: 100%; width: 100%; background: #0a0a0a; overflow: hidden; }
+  body { font-family: "Montserrat", system-ui, sans-serif; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="../lib/animations.jsx"></script>
+<script type="text/babel" src="../lib/sop-video.jsx"></script>
+<script type="text/babel">
+const ASSETS = '../sop_assets/CS01_Veteran_Exemption/';
+
+const scenes = [
+  // 1 — Title
+  {
+    kind: 'title',
+    duration: 5.5,
+    sopId: 'CS01',
+    title: 'Veteran Exemption Entry',
+    plainTitle: 'How to take in a Veterans Exemption certificate and apply it to a property.',
+    kicker: 'A standardized, fair, and accurate process — from counter intake all the way to commit.',
+  },
+
+  // 2 — Three certificate types
+  {
+    kind: 'comparison',
+    duration: 9,
+    title: 'Three colors, three benefits',
+    sub: 'Check the certificate color first. Each one means a different exemption.',
+    items: [
+      {
+        tag: 'Green',
+        label: '$10,000 off',
+        src: ASSETS + 'image1.png',
+        accent: SOP_PALETTE.bosque,
+        desc: 'Standard Veterans Exemption. Reduces taxable value by $10,000.',
+      },
+      {
+        tag: 'Pink',
+        label: 'Disability %',
+        src: ASSETS + 'image2.png',
+        accent: SOP_PALETTE.terracotta,
+        desc: 'Exempts a share of the primary residence equal to the rating (e.g. 50% = 50% off).',
+      },
+      {
+        tag: 'Tan',
+        label: '100% waiver',
+        src: ASSETS + 'image3.png',
+        accent: SOP_PALETTE.cypress,
+        desc: 'Full waiver of property tax on the primary residence — total disability.',
+      },
+    ],
+  },
+
+  // 3 — Verify the certificate
+  {
+    kind: 'screenshot',
+    duration: 8,
+    step: { num: 1, label: 'Verify' },
+    caption: 'Match the name. Match the address.',
+    sub: 'The veteran\'s name has to match their ID. The address has to match the property (UPC). Confirm the applicant signed in the bottom-left and the NMDVS endorsement is in the bottom-right.',
+    src: ASSETS + 'image1.png',
+    imgPos: 'right',
+    imgFit: 'contain',
+    imgAspect: 628/837,
+    bullets: [
+      { text: 'Veteran name matches the ID', color: SOP_PALETTE.bosque },
+      { text: 'Address matches the property (UPC)', color: SOP_PALETTE.bosque },
+      { text: 'Applicant signature is in the bottom-left', color: SOP_PALETTE.terracotta },
+      { text: 'NMDVS endorsement is in the bottom-right', color: SOP_PALETTE.terracotta },
+    ],
+  },
+
+  // 4 — Endorse the back
+  {
+    kind: 'screenshot',
+    duration: 7,
+    step: { num: 2, label: 'Endorse' },
+    caption: 'Endorse the back.',
+    sub: 'On the back of the certificate, write the date, the amount, the UPC, the Assessor name with your initials, and "Bern" for Bernalillo County.',
+    src: ASSETS + 'image4.png',
+    imgPos: 'right',
+    imgFit: 'contain',
+    bullets: [
+      { text: 'Date · Amount · UPC #', color: SOP_PALETTE.bosque },
+      { text: '"D Lara / your initials"', color: SOP_PALETTE.bosque },
+      { text: 'Bern or Bernalillo County', color: SOP_PALETTE.terracotta },
+    ],
+  },
+
+  // 5 — Open General Exemption screen
+  {
+    kind: 'screenshot',
+    duration: 7,
+    step: { num: 3, label: 'Open the screen' },
+    caption: 'Go to General Exemption by Parcel.',
+    sub: 'In the Transaction Menu, expand Exemptions and click General Exemption by Parcel. Then enter the property UPC.',
+    src: ASSETS + 'image10.png',
+    imgPos: 'right',
+    imgFit: 'contain',
+  },
+
+  // 6 — Add the record, pick the code
+  {
+    kind: 'screenshot',
+    duration: 8,
+    step: { num: 4, label: 'Pick the code' },
+    caption: 'Type the right code.',
+    sub: 'On the Exemptions tab, click Add Record. Open the Exemption Code menu and type one of:',
+    src: ASSETS + 'image16.png',
+    imgPos: 'right',
+    imgFit: 'contain',
+    bullets: [
+      { text: 'VET1 — green certificate ($10,000)', color: SOP_PALETTE.bosque },
+      { text: 'VET2 — two green certificates ($20,000)', color: SOP_PALETTE.bosque },
+      { text: 'VETxx — pink (e.g. VET50 for 50% rating)', color: SOP_PALETTE.terracotta },
+      { text: 'VETW — tan (100% full waiver)', color: SOP_PALETTE.cypress },
+    ],
+  },
+
+  // 7 — Validate
+  {
+    kind: 'screenshot',
+    duration: 5.5,
+    step: { num: 5, label: 'Validate' },
+    caption: 'Validate before you move on.',
+    sub: 'After each screen — Exemptions, Applicants, EX Details — click Validate. Catch mistakes before they pile up.',
+    src: ASSETS + 'image24.png',
+    imgPos: 'right',
+    imgFit: 'contain',
+  },
+
+  // 8 — Notes tab
+  {
+    kind: 'screenshot',
+    duration: 7,
+    step: { num: 6, label: 'Add a note' },
+    caption: 'Document with the right note code.',
+    sub: 'On the Notes 1 tab, click Add. Use the code that matches the certificate type — VETX for standard, VTP for percentage, VTW for the 100% waiver — and follow the comment template.',
+    src: ASSETS + 'image34.png',
+    imgPos: 'right',
+    imgFit: 'contain',
+  },
+
+  // 9 — Commit
+  {
+    kind: 'screenshot',
+    duration: 6,
+    step: { num: 7, label: 'Commit' },
+    caption: 'Click Commit. You\'re done.',
+    sub: 'Review the entry one last time, then press Commit. IASWorld stamps your initials, date, and time automatically.',
+    src: ASSETS + 'image40.png',
+    imgPos: 'center',
+    imgFit: 'contain',
+  },
+
+  // 10 — Outro
+  {
+    kind: 'outro',
+    duration: 6,
+    title: 'Exemption applied.',
+    sub: 'A clean, validated record — one Veteran served, one property exempted.',
+  },
+];
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<SOPVideo sopId="CS01" title="Veteran Exemption Entry" scenes={scenes} />);
+</script>
+</body>
+</html>

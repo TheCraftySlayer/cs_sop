@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CS03 · Queue Member Management · Animated SOP</title>
+<link rel="stylesheet" href="../lib/video.css">
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="../lib/animations.jsx"></script>
+<script type="text/babel" src="../lib/sop-video.jsx"></script>
+<script type="text/babel">
+const A = '../sop_assets/CS03_Queue_Member_Management/';
+
+const scenes = [
+  {
+    kind: 'title',
+    duration: 5.5,
+    sopId: 'CS03',
+    title: 'Queue Member Management',
+    plainTitle: 'How to add, remove, or temporarily disable a person in a phone queue.',
+    kicker: 'Disable when in doubt — disabling is reversible, deleting is not.',
+  },
+
+  {
+    kind: 'comparison',
+    duration: 9,
+    title: 'Two toggles. One result.',
+    sub: 'A person rings on a queue only when BOTH switches are on.',
+    items: [
+      {
+        tag: 'Set by admin',
+        label: 'Member Status',
+        accent: SOP_PALETTE.bosque,
+        desc: 'Per-queue switch. ON means this queue is allowed to route calls to this person.',
+      },
+      {
+        tag: 'Set by the user',
+        label: 'Queue Status',
+        accent: SOP_PALETTE.terracotta,
+        desc: 'The person\'s own switch — they can pause themselves across all their queues.',
+      },
+      {
+        tag: 'The outcome',
+        label: 'Ring Member',
+        accent: SOP_PALETTE.cypress,
+        desc: 'Yes only when both switches are ON. Otherwise No — the phone won\'t ring.',
+      },
+    ],
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 7,
+    step: { num: 1, label: 'Open Members' },
+    caption: 'Find the Primary Members list.',
+    sub: 'Inside the queue, expand Call Handling & Members. Work hours is selected by default. Scroll to Primary Members. Click + Add Member.',
+    src: A + '61023d8144b5ff9f356b63a015af86eb305b93f9.png',
+    imgPos: 'right', imgFit: 'contain',
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 7,
+    step: { num: 2, label: 'Search' },
+    caption: 'Don\'t scroll. Search.',
+    sub: 'The directory has 2,000+ people across multiple sites. Type the name or extension in the Search field — never page through.',
+    src: A + '80f874911c43bd0439cae33119cf847dad451600.png',
+    imgPos: 'right', imgFit: 'contain',
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 7,
+    step: { num: 3, label: 'Select' },
+    caption: 'Check the box. Click Done.',
+    sub: 'You can stack picks across multiple searches. Confirm the "Show Selected" count matches what you intended, then click Done.',
+    src: A + 'cc2e3c182868e03e70bab0a7fff484426abb286f.png',
+    imgPos: 'right', imgFit: 'contain',
+  },
+
+  {
+    kind: 'steps',
+    duration: 9,
+    title: 'After you add',
+    sub: 'Always verify before walking away.',
+    steps: [
+      { label: 'Ring Member = Yes', desc: 'If it shows No, check that Queue Status is also ON.' },
+      { label: 'Fixed-order queues', desc: 'Drag the new person to the right position in the Order column (see CS04).' },
+      { label: 'Click Save', desc: 'Nothing is real until you press Save.' },
+      { label: 'Log the change', desc: 'Date, queue, who you added, who authorized, why.' },
+    ],
+  },
+
+  {
+    kind: 'comparison',
+    duration: 8,
+    title: 'Removing? Disable first.',
+    sub: 'Default to Disable when in doubt — it\'s reversible.',
+    items: [
+      {
+        tag: 'Temporary',
+        label: 'Disable',
+        accent: SOP_PALETTE.bosque,
+        desc: 'Find the person in Primary Members. Toggle Member Status OFF. Click Save. Ring Member becomes No. Flip back ON when they\'re back.',
+      },
+      {
+        tag: 'Permanent',
+        label: 'Delete',
+        accent: SOP_PALETTE.terracotta,
+        desc: 'Click Delete on the right end of their row. Confirm. Click Save. Used for role changes or terminations — and only with Deputy Assessor confirmation.',
+      },
+    ],
+  },
+
+  {
+    kind: 'outro',
+    duration: 6,
+    title: 'Roster updated, calls covered.',
+    sub: 'Confirm the queue still has enough active members before you walk away.',
+  },
+];
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <SOPVideo sopId="CS03" title="Queue Member Management" scenes={scenes} />
+);
+</script>
+</body>
+</html>

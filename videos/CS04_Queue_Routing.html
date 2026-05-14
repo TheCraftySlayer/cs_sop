@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CS04 · Queue Routing and Wait Settings · Animated SOP</title>
+<link rel="stylesheet" href="../lib/video.css">
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="../lib/animations.jsx"></script>
+<script type="text/babel" src="../lib/sop-video.jsx"></script>
+<script type="text/babel">
+const A = '../sop_assets/CS04_Queue_Routing_and_Wait_Settings/';
+
+const scenes = [
+  {
+    kind: 'title',
+    duration: 5.5,
+    sopId: 'CS04',
+    title: 'Queue Routing & Wait Settings',
+    plainTitle: 'How a queue picks who to ring, how long callers wait, and where the overflow goes.',
+    kicker: 'These changes affect every caller and every member. Deputy Assessor must confirm every one.',
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 8,
+    step: { num: 1, label: 'Where it lives' },
+    caption: 'Call Handling & Members → Work hours.',
+    sub: 'One tab. Top to bottom: schedule, routing method, concurrent calls, direct-call counting, rings before next member, wrap-up time, member self-service, then the roster itself.',
+    src: A + '31edf086ac5b531979d9fa53b25bffdd7685d9c4.png',
+    imgPos: 'right', imgFit: 'contain',
+  },
+
+  {
+    kind: 'comparison',
+    duration: 11,
+    title: 'Four ways to ring.',
+    sub: 'Pick the one that matches how your team actually handles calls.',
+    items: [
+      {
+        tag: 'Round-robin',
+        label: 'Rotating',
+        accent: SOP_PALETTE.bosque,
+        desc: 'Starts from the next person after the last answered call. Fair distribution.',
+      },
+      {
+        tag: 'Order matters',
+        label: 'Fixed order',
+        accent: SOP_PALETTE.terracotta,
+        desc: 'Position 1 rings first. Position 2 only if 1 doesn\'t answer. Drag to set order.',
+      },
+      {
+        tag: 'All at once',
+        label: 'Simultaneous',
+        accent: SOP_PALETTE.cypress,
+        desc: 'Everyone\'s phone rings. First to pick up wins.',
+      },
+      {
+        tag: 'Most rested',
+        label: 'Longest idle',
+        accent: SOP_PALETTE.sage,
+        desc: 'Routes to whoever has been idle the longest.',
+      },
+    ],
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 7,
+    step: { num: 2, label: 'Fixed order' },
+    caption: 'Drag people into position.',
+    sub: 'If you picked Fixed order, the Order column shows position numbers with drag handles. Position 1 receives every call first.',
+    src: A + '1b0f715f54a9a6293497dce486b368ef59a1964b.png',
+    imgPos: 'right', imgFit: 'contain',
+  },
+
+  {
+    kind: 'steps',
+    duration: 10,
+    title: 'Tune the timing',
+    sub: 'Small dials with big consequences.',
+    steps: [
+      { label: 'Rings before next member', desc: 'Shorter (10s) = calls move faster but harder to grab. Longer (50s) = each member has time but callers wait longer.' },
+      { label: 'After-call wrap-up time', desc: 'Zero seconds = back-to-back calls. Ten seconds = time to finish notes before the next call lands.' },
+      { label: 'Max concurrent calls', desc: 'Default is 1. Only increase if the role explicitly handles parallel calls.' },
+      { label: 'Allow members to change queue status', desc: 'Allow = members can pause themselves. Disallow = only admins can.' },
+    ],
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 8,
+    step: { num: 3, label: 'Wait settings' },
+    caption: 'When the queue overflows.',
+    sub: 'On the Wait settings tab: cap callers waiting, set max wait, choose where they go when limits hit, and pick up to three Overflow Group queues.',
+    src: A + 'b4ba5a8d5cd347b27f5982c4048bfe7afa6ace46.png',
+    imgPos: 'right', imgFit: 'contain',
+  },
+
+  {
+    kind: 'bigstat',
+    duration: 6,
+    stat: '0s',
+    caption: 'Q1 standard',
+    sub: 'Q1 (Assessor\'s Office, 160001) overflows instantly to Q2 (Assessor Customer Service, 160002) at 0 rings, 0 seconds. No caller hears dead silence.',
+  },
+
+  {
+    kind: 'outro',
+    duration: 6,
+    title: 'Save. Test. Watch the log.',
+    sub: 'Place a test call, then watch the Call Records dashboard for a full business day.',
+  },
+];
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <SOPVideo sopId="CS04" title="Queue Routing & Wait Settings" scenes={scenes} />
+);
+</script>
+</body>
+</html>

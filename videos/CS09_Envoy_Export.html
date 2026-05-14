@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CS09 · Envoy Visitor Data Export · Animated SOP</title>
+<link rel="stylesheet" href="../lib/video.css">
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="../lib/animations.jsx"></script>
+<script type="text/babel" src="../lib/sop-video.jsx"></script>
+<script type="text/babel">
+const A = '../sop_assets/CS09_Envoy_Visitor_Data_Export_and_Reporting/';
+
+const scenes = [
+  {
+    kind: 'title',
+    duration: 5.5,
+    sopId: 'CS09',
+    title: 'Envoy Visitor Data Export',
+    plainTitle: 'How to pull visitor sign-in data out of Envoy — for reports, audits, or analysis.',
+    kicker: 'The Alvarado Envoy account is shared across the whole county. Filtering is not optional.',
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 6,
+    step: { num: 1, label: 'Sign in' },
+    caption: 'Sign in with your county email.',
+    sub: 'Go to dashboard.envoy.com, enter your bernco.gov email, then click Sign in. Don\'t try to type an Envoy password — we use Microsoft Single Sign-On.',
+    src: A + '3c5132c3b011dff8310d8750be36e2be2abbe2a6.png',
+    imgPos: 'right', imgFit: 'contain',
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 6,
+    step: { num: 2, label: 'SSO' },
+    caption: 'Click "Log in using Single Sign On".',
+    sub: 'Microsoft will pop up. Pick your bernco.gov account, complete MFA if asked, and you land in the dashboard.',
+    src: A + 'aca508bd7feade2c1fa548d82fb890df44eaf307.png',
+    imgPos: 'right', imgFit: 'contain',
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 7,
+    step: { num: 3, label: 'Visitor log' },
+    caption: 'Open the Visitor log.',
+    sub: 'In the left sidebar: Visitors → Visitor log. This is the primary export path — row-level CSV with full field selection.',
+    src: A + '2d3922761ad530e53399cef16b0cbe5adb7041bf.png',
+    imgPos: 'right', imgFit: 'contain',
+  },
+
+  {
+    kind: 'bigstat',
+    duration: 7,
+    stat: '220',
+    caption: 'Today, unfiltered',
+    sub: 'Without a visitor type filter, today shows 220 visitors — Treasurer, Clerk, Probate, Sheriff, every department.',
+  },
+
+  {
+    kind: 'bigstat',
+    duration: 6,
+    stat: '31',
+    caption: 'Today, Assessor\'s Office only',
+    sub: 'Filter to Assessor\'s Office and you get 31. A 7× difference. Skip the filter and your "Assessor" report secretly contains every other department.',
+    accent: SOP_PALETTE.terracotta,
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 8,
+    step: { num: 4, label: 'Filter — critical' },
+    caption: 'Set Multiple types to Assessor\'s Office.',
+    sub: 'Click the "Multiple types" dropdown. Uncheck "Visitor types" to clear all, then check ONLY Assessor\'s Office. The dropdown label changes from "Multiple types" to "Assessor\'s Office".',
+    src: A + '670b7ce1cdecf84b1a79ec2b5708989b27ee6b01.png',
+    imgPos: 'right', imgFit: 'contain',
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 8,
+    step: { num: 5, label: 'Date range' },
+    caption: 'Pick the date range.',
+    sub: 'Click the date control. Use a preset (Past 30 days, Year-to-date) or pick custom start and end dates. The visitor count at the top updates as you change the range.',
+    src: A + 'a6a1d106d1138be119f797b1ecc113319d2d0dca.png',
+    imgPos: 'right', imgFit: 'contain',
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 9,
+    step: { num: 6, label: 'Export' },
+    caption: 'Click Export. CSV. Keep all fields.',
+    sub: 'Verify the "Choose visitor type" still reads Assessor\'s Office. Pick CSV (PDF is for human-readable reports). Leave Default Fields and Custom Fields all checked — removing them breaks downstream column expectations.',
+    src: A + 'a7294ca6605a6a66180fbdc921af22ead99a1fc0.png',
+    imgPos: 'right', imgFit: 'contain',
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 8,
+    step: { num: 7, label: 'Analytics path' },
+    caption: 'Analytics → Visitors (secondary path).',
+    sub: 'Use this for traffic-pattern analysis — Invites, Visitors, Hosts tiles and a busiest-hours heatmap. The filter here is called "Sign-in Flow" instead of "Multiple types" — same underlying data.',
+    src: A + '7ac58a4b6953e15bb55c7faa54e89a3438e5a26f.png',
+    imgPos: 'right', imgFit: 'contain',
+  },
+
+  {
+    kind: 'steps',
+    duration: 10,
+    title: 'Verify every export',
+    sub: 'Before you save it anywhere, spot-check the CSV.',
+    steps: [
+      { label: 'Row count matches the modal preview', desc: 'If the modal said 5,194 records, your CSV has 5,194 rows.' },
+      { label: 'Sign-in flow shows only Assessor\'s Office', desc: 'No Treasurer, no Probate, no Clerk. Filter failure = silent contamination.' },
+      { label: 'Sign-in times fall inside the date range', desc: 'Out-of-range rows mean the date filter didn\'t apply.' },
+      { label: 'Default and Custom fields are populated', desc: 'Name, Phone, Host, Sign-in time, Spanish-speaking required, etc.' },
+    ],
+  },
+
+  {
+    kind: 'comparison',
+    duration: 10,
+    title: 'Handle with care.',
+    sub: 'Visitor data is sensitive. Three rules.',
+    items: [
+      { tag: 'Storage', label: 'Secure folders only', accent: SOP_PALETTE.bosque, desc: 'Save to the approved shared drive. Never desktops, personal cloud, or USB.' },
+      { tag: 'Sharing', label: 'Approval first', accent: SOP_PALETTE.terracotta, desc: 'Auditors, vendors, public records — Deputy Assessor approves BEFORE the file leaves the office.' },
+      { tag: 'Retention', label: 'Delete when done', accent: SOP_PALETTE.cypress, desc: 'Working copies — delete after analysis. NDA & photo links expire 24 hours after a full-history export.' },
+    ],
+  },
+
+  {
+    kind: 'outro',
+    duration: 6,
+    title: 'Filter. Export. Verify. Log.',
+    sub: 'The filter is the difference between an audit-ready CSV and silent contamination.',
+  },
+];
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <SOPVideo sopId="CS09" title="Envoy Visitor Data Export" scenes={scenes} />
+);
+</script>
+</body>
+</html>

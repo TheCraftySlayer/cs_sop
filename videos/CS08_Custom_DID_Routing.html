@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CS08 · Custom Inbound Routing on Direct Phone Numbers · Animated SOP</title>
+<link rel="stylesheet" href="../lib/video.css">
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="../lib/animations.jsx"></script>
+<script type="text/babel" src="../lib/sop-video.jsx"></script>
+<script type="text/babel">
+
+// This SOP has no screenshots yet — using diagrammatic scenes only.
+
+const scenes = [
+  {
+    kind: 'title',
+    duration: 6,
+    sopId: 'CS08',
+    title: 'Route a User\'s Direct Number into the Queue',
+    plainTitle: 'When a caller dials a switchboard agent\'s direct phone number, send them through the queue anyway — so calls get distributed instead of ringing one phone.',
+    kicker: 'Every direct-number redirect needs Deputy Assessor authorization.',
+  },
+
+  {
+    kind: 'bigstat',
+    duration: 7,
+    stat: 'Two paths',
+    caption: 'The problem',
+    sub: 'Without this rule, callers dialing the main number hit the queue, but callers dialing an agent\'s direct line skip the queue and ring only that one person. That asymmetry caused our direct-dial failure rate to climb.',
+  },
+
+  {
+    kind: 'comparison',
+    duration: 11,
+    title: 'The fix: one rule, two ingredients',
+    sub: 'A condition that scopes the rule, and an action that redirects the call.',
+    items: [
+      {
+        tag: 'Condition',
+        label: 'Called Number',
+        accent: SOP_PALETTE.bosque,
+        desc: 'Match only when the caller dialed THIS user\'s direct phone number. Without it, the rule would also catch internal calls and queue calls — almost never what you want.',
+      },
+      {
+        tag: 'Action',
+        label: 'Forward to extension',
+        accent: SOP_PALETTE.terracotta,
+        desc: 'Send the matching call to the queue\'s extension number (e.g. 160001 for Q1). NOT the queue\'s phone number — RingCentral rejects forwarding to its own numbers.',
+      },
+    ],
+  },
+
+  {
+    kind: 'steps',
+    duration: 11,
+    title: 'Setting it up',
+    sub: 'Standard rule name: "Route Inbound to Switchboard".',
+    steps: [
+      { label: 'Open the user', desc: 'Users → Users with Extensions → search and click the user.' },
+      { label: 'Call Handling → Custom rules', desc: 'Add a new rule. Name it "Route Inbound to Switchboard".' },
+      { label: 'Called Number condition', desc: 'Pick the user\'s direct phone number from the dropdown (e.g. 505-222-3722).' },
+      { label: 'Forward to the queue\'s EXTENSION', desc: 'Pick 160001 (Q1) or whichever queue this user belongs to. Never enter the phone number — use the extension.' },
+      { label: 'Save', desc: 'The rule is now active.' },
+    ],
+  },
+
+  {
+    kind: 'comparison',
+    duration: 9,
+    title: 'Test from two phones',
+    sub: 'Both paths matter. Verify both.',
+    items: [
+      {
+        tag: 'External',
+        label: 'Outside line',
+        accent: SOP_PALETTE.bosque,
+        desc: 'Dial the user\'s direct phone number from an outside line. The call should ring into the queue (everyone), not just the user. Confirm in the queue\'s call log.',
+      },
+      {
+        tag: 'Internal',
+        label: 'Extension dial',
+        accent: SOP_PALETTE.terracotta,
+        desc: 'Dial the user\'s extension internally. The call should still ring the user directly. Internal dials don\'t match the Called Number condition.',
+      },
+    ],
+  },
+
+  {
+    kind: 'steps',
+    duration: 8,
+    title: 'Disabling or removing',
+    sub: 'Always disable before deleting.',
+    steps: [
+      { label: 'Disable (temporary)', desc: 'In the user\'s Custom rules list, toggle Active OFF. Calls now route to the user directly per their default settings.' },
+      { label: 'Delete (permanent)', desc: 'Click Delete next to the rule. Confirm. The rule is gone — and so is the queue routing.' },
+      { label: 'Verify either way', desc: 'Test from an outside line. The result should match whichever state you set.' },
+    ],
+  },
+
+  {
+    kind: 'outro',
+    duration: 6,
+    title: 'One rule. One condition. One action.',
+    sub: 'Established at our office for Diana Martinez and Melissa Vigil — both route directly to Q1.',
+  },
+];
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <SOPVideo sopId="CS08" title="Custom Inbound Routing on Direct Phone Numbers" scenes={scenes} />
+);
+</script>
+</body>
+</html>
