@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BernCo Assessor · Customer Service SOPs — Animated</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+  @font-face {
+    font-family: 'Gotham Display';
+    src: url('fonts/Gotham-Black.otf') format('opentype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+  }
+  :root {
+    --bosque: #285952;
+    --bosque-dark: #1d4640;
+    --cypress: #013942;
+    --sage: #96aa94;
+    --sage-soft: #c4d2c2;
+    --terracotta: #e47756;
+    --terracotta-soft: #f3c5af;
+    --mist: #e8f1ee;
+    --mist-soft: #f4f8f6;
+    --paper: #faf8f4;
+    --ink: #1a2620;
+    --line: #cfd8d3;
+    --muted: #5a6b65;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    font-family: "Montserrat", system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--paper);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .top-bar {
+    background: var(--paper);
+    border-bottom: 2px solid var(--line);
+    padding: 18px 56px;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+  .top-bar .crumb {
+    padding-left: 28px;
+    border-left: 1px solid var(--line);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    line-height: 1.6;
+  }
+  .top-bar .crumb b { color: var(--cypress); font-weight: 700; }
+
+  .hero {
+    position: relative;
+    overflow: hidden;
+    background: var(--mist-soft);
+    padding: 80px 56px 64px;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    right: -180px;
+    top: -180px;
+    width: 520px;
+    height: 520px;
+    border-radius: 50%;
+    background: var(--bosque);
+    opacity: 0.07;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    right: 120px;
+    bottom: -240px;
+    width: 380px;
+    height: 380px;
+    border-radius: 50%;
+    background: var(--terracotta);
+    opacity: 0.09;
+  }
+  .hero .eyebrow {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--terracotta);
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .hero h1 {
+    font-family: "Gotham Display", "Montserrat", sans-serif;
+    font-size: clamp(48px, 7vw, 96px);
+    font-weight: 900;
+    line-height: 0.96;
+    letter-spacing: -0.025em;
+    text-transform: uppercase;
+    color: var(--bosque);
+    margin: 0;
+    max-width: 1100px;
+    position: relative;
+    text-wrap: balance;
+  }
+  .hero .lede {
+    margin-top: 28px;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--cypress);
+    max-width: 820px;
+    line-height: 1.5;
+    position: relative;
+    text-wrap: pretty;
+  }
+  .hero .meta {
+    margin-top: 36px;
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    position: relative;
+  }
+  .hero .meta .stat {
+    border-left: 3px solid var(--terracotta);
+    padding-left: 14px;
+  }
+  .hero .meta .num {
+    font-family: "Gotham Display", "Montserrat", sans-serif;
+    font-size: 44px;
+    font-weight: 900;
+    color: var(--bosque);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .hero .meta .lbl {
+    margin-top: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .grid-section { padding: 64px 56px 80px; }
+  .grid-section h2 {
+    font-family: "Gotham Display", "Montserrat", sans-serif;
+    font-size: 32px;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: var(--bosque);
+    letter-spacing: -0.005em;
+    margin: 0 0 8px;
+  }
+  .grid-section .sectionsub {
+    color: var(--muted);
+    font-size: 16px;
+    margin-bottom: 36px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 24px;
+  }
+
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(15, 30, 27, 0.04);
+    transition: transform 180ms cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 180ms cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 180ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .card-main {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 36px rgba(15, 30, 27, 0.10);
+    border-color: var(--bosque);
+  }
+  .card-links {
+    display: flex;
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+  .card-links a {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--cypress);
+    background: var(--paper);
+    transition: background 180ms cubic-bezier(0.4, 0, 0.2, 1), color 180ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .card-links a + a { border-left: 1px solid var(--line); }
+  .card-links a.primary { color: var(--bosque); }
+  .card-links a:hover { background: var(--mist); color: var(--bosque); }
+  .card-links svg { flex-shrink: 0; }
+  .card .thumb {
+    position: relative;
+    aspect-ratio: 16/9;
+    background: var(--bosque);
+    overflow: hidden;
+  }
+  .card .thumb .bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 90% 10%, rgba(228, 119, 86, 0.25) 0%, transparent 50%),
+      radial-gradient(circle at 10% 90%, rgba(1, 57, 66, 0.55) 0%, transparent 60%),
+      linear-gradient(135deg, var(--bosque) 0%, var(--bosque-dark) 100%);
+  }
+  .card .thumb .id {
+    position: absolute;
+    top: 18px; left: 20px;
+    font-family: "Gotham Display", "Montserrat", sans-serif;
+    font-size: 88px;
+    font-weight: 900;
+    line-height: 0.88;
+    color: rgba(232, 241, 238, 0.96);
+    letter-spacing: -0.04em;
+  }
+  .card .thumb .id .small {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.28em;
+    color: var(--terracotta);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .card .thumb .play {
+    position: absolute;
+    bottom: 18px; right: 18px;
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: var(--terracotta);
+    color: var(--paper);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 16px rgba(228, 119, 86, 0.4);
+    transition: transform 180ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .card:hover .thumb .play { transform: scale(1.06); }
+  .card .thumb .duration {
+    position: absolute;
+    bottom: 18px; left: 20px;
+    background: rgba(1, 57, 66, 0.7);
+    color: var(--paper);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 5px 10px;
+    border-radius: 4px;
+    letter-spacing: 0.06em;
+    font-variant-numeric: tabular-nums;
+  }
+  .card .body { padding: 24px 26px 26px; }
+  .card .body h3 {
+    font-family: "Gotham Display", "Montserrat", sans-serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--bosque);
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    margin: 0 0 10px;
+    line-height: 1.05;
+  }
+  .card .body p {
+    font-size: 15px;
+    color: var(--cypress);
+    line-height: 1.5;
+    margin: 0;
+    text-wrap: pretty;
+  }
+  .card .body .tags {
+    margin-top: 18px;
+    display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .card .body .tags .tag {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    background: var(--mist);
+    padding: 5px 10px;
+    border-radius: 999px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* Phone SOPs cluster styling */
+  .card.phone .thumb .bg {
+    background:
+      radial-gradient(circle at 90% 10%, rgba(228, 119, 86, 0.22) 0%, transparent 50%),
+      radial-gradient(circle at 10% 90%, rgba(228, 119, 86, 0.18) 0%, transparent 60%),
+      linear-gradient(135deg, var(--cypress) 0%, #002a32 100%);
+  }
+  .card.phone .thumb .play { background: var(--terracotta); }
+
+  .footer {
+    padding: 36px 56px 56px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 13px;
+    text-align: center;
+    background: var(--mist-soft);
+  }
+  .footer .tag {
+    font-family: "Gotham Display", "Montserrat", sans-serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--terracotta);
+    letter-spacing: 0;
+    text-transform: lowercase;
+    margin-bottom: 8px;
+  }
+</style>
+</head>
+<body>
+
+<header class="top-bar">
+  <div class="crumb">
+    <b>Customer Service</b><br>
+    Animated SOP Library
+  </div>
+</header>
+
+<section class="hero">
+  <h1>Customer Service Standard Operating Procedures</h1>
+</section>
+
+<main class="grid-section">
+  <h2>Counter procedures</h2>
+  <div class="sectionsub">Walk-in services performed at the counter and in IASWorld.</div>
+  <div class="grid">
+
+    <article class="card">
+      <a class="card-main" href="videos/CS01_Veteran_Exemption.html">
+      <div class="thumb"><div class="bg"></div>
+        <div class="id"><span class="small">SOP CS01</span>01</div>
+        <span class="duration">1:09</span>
+        <div class="play"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 3l14 8-14 8V3z" fill="currentColor"/></svg></div>
+      </div>
+      <div class="body">
+        <h3>Veteran Exemption Entry</h3>
+        <p>Receive a Veterans certificate, verify it, endorse the back, and apply the exemption in IASWorld — all the way to commit.</p>
+        <div class="tags"><span class="tag">IASWorld</span><span class="tag">Counter</span><span class="tag">7 steps</span></div>
+      </div>
+    </a>
+        <div class="card-links">
+          <a class="primary" href="videos/CS01_Veteran_Exemption.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg> Watch</a>
+          <a href="sops/CS01.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 2h7v10H2zM9 2l3 1v8l-3 1" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg> Read SOP</a>
+          <a href="docs/CS01_Veteran_Exemption.docx" download><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M7 1v9M3 7l4 4 4-4M2 13h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> .docx</a>
+        </div>
+    </article>
+
+  </div>
+</main>
+
+<section class="grid-section" style="padding-top: 32px;">
+  <h2>RingCentral phone-system SOPs</h2>
+  <div class="sectionsub">Run on top of CS02. All edits require a snapshot, save, verify, and change-log entry.</div>
+  <div class="grid">
+
+    <article class="card phone">
+      <a class="card-main" href="videos/CS02_RingCentral_Admin_Portal.html">
+      <div class="thumb"><div class="bg"></div>
+        <div class="id"><span class="small">SOP CS02 · Reference</span>02</div>
+        <span class="duration">0:56</span>
+        <div class="play"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 3l14 8-14 8V3z" fill="currentColor"/></svg></div>
+      </div>
+      <div class="body">
+        <h3>RingCentral Admin Portal</h3>
+        <p>Sign in and find a call queue. The starting point for every other phone SOP.</p>
+        <div class="tags"><span class="tag">RingCentral</span><span class="tag">Prerequisite</span></div>
+      </div>
+    </a>
+        <div class="card-links">
+          <a class="primary" href="videos/CS02_RingCentral_Admin_Portal.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg> Watch</a>
+          <a href="sops/CS02.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 2h7v10H2zM9 2l3 1v8l-3 1" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg> Read SOP</a>
+          <a href="docs/CS02_RingCentral_Admin_Portal_Reference.docx" download><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M7 1v9M3 7l4 4 4-4M2 13h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> .docx</a>
+        </div>
+    </article>
+
+    <article class="card phone">
+      <a class="card-main" href="videos/CS03_Queue_Member_Management.html">
+      <div class="thumb"><div class="bg"></div>
+        <div class="id"><span class="small">SOP CS03</span>03</div>
+        <span class="duration">1:02</span>
+        <div class="play"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 3l14 8-14 8V3z" fill="currentColor"/></svg></div>
+      </div>
+      <div class="body">
+        <h3>Queue Member Management</h3>
+        <p>Add, remove, or temporarily disable people in a phone queue. Two toggles, one outcome.</p>
+        <div class="tags"><span class="tag">RingCentral</span><span class="tag">Roster</span></div>
+      </div>
+    </a>
+        <div class="card-links">
+          <a class="primary" href="videos/CS03_Queue_Member_Management.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg> Watch</a>
+          <a href="sops/CS03.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 2h7v10H2zM9 2l3 1v8l-3 1" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg> Read SOP</a>
+          <a href="docs/CS03_Queue_Member_Management.docx" download><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M7 1v9M3 7l4 4 4-4M2 13h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> .docx</a>
+        </div>
+    </article>
+
+    <article class="card phone">
+      <a class="card-main" href="videos/CS04_Queue_Routing.html">
+      <div class="thumb"><div class="bg"></div>
+        <div class="id"><span class="small">SOP CS04</span>04</div>
+        <span class="duration">1:03</span>
+        <div class="play"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 3l14 8-14 8V3z" fill="currentColor"/></svg></div>
+      </div>
+      <div class="body">
+        <h3>Queue Routing & Wait Settings</h3>
+        <p>Choose how a queue distributes calls, how long callers wait, and where the overflow goes.</p>
+        <div class="tags"><span class="tag">RingCentral</span><span class="tag">Routing</span></div>
+      </div>
+    </a>
+        <div class="card-links">
+          <a class="primary" href="videos/CS04_Queue_Routing.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg> Watch</a>
+          <a href="sops/CS04.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 2h7v10H2zM9 2l3 1v8l-3 1" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg> Read SOP</a>
+          <a href="docs/CS04_Queue_Routing_and_Wait_Settings.docx" download><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M7 1v9M3 7l4 4 4-4M2 13h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> .docx</a>
+        </div>
+    </article>
+
+    <article class="card phone">
+      <a class="card-main" href="videos/CS05_Holiday_and_Custom_Rules.html">
+      <div class="thumb"><div class="bg"></div>
+        <div class="id"><span class="small">SOP CS05</span>05</div>
+        <span class="duration">1:23</span>
+        <div class="play"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 3l14 8-14 8V3z" fill="currentColor"/></svg></div>
+      </div>
+      <div class="body">
+        <h3>Holiday & Custom Rules</h3>
+        <p>Holiday closures, scheduled time-of-day routing, A.C.E. chatbot forwarding, and the snow-day Office Closed switch.</p>
+        <div class="tags"><span class="tag">RingCentral</span><span class="tag">Holidays</span></div>
+      </div>
+    </a>
+        <div class="card-links">
+          <a class="primary" href="videos/CS05_Holiday_and_Custom_Rules.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg> Watch</a>
+          <a href="sops/CS05.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 2h7v10H2zM9 2l3 1v8l-3 1" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg> Read SOP</a>
+          <a href="docs/CS05_Holiday_and_Custom_Rules.docx" download><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M7 1v9M3 7l4 4 4-4M2 13h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> .docx</a>
+        </div>
+    </article>
+
+    <article class="card phone">
+      <a class="card-main" href="videos/CS06_Greeting_Music_Blocked.html">
+      <div class="thumb"><div class="bg"></div>
+        <div class="id"><span class="small">SOP CS06</span>06</div>
+        <span class="duration">0:56</span>
+        <div class="play"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 3l14 8-14 8V3z" fill="currentColor"/></svg></div>
+      </div>
+      <div class="body">
+        <h3>Greetings, Music & Blocked Calls</h3>
+        <p>The caller's audio experience — welcome greeting, wait announcements, hold music — and how to filter junk traffic.</p>
+        <div class="tags"><span class="tag">RingCentral</span><span class="tag">Audio</span></div>
+      </div>
+    </a>
+        <div class="card-links">
+          <a class="primary" href="videos/CS06_Greeting_Music_Blocked.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg> Watch</a>
+          <a href="sops/CS06.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 2h7v10H2zM9 2l3 1v8l-3 1" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg> Read SOP</a>
+          <a href="docs/CS06_Queue_Greeting_Hold_Music_Blocked_Calls.docx" download><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M7 1v9M3 7l4 4 4-4M2 13h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> .docx</a>
+        </div>
+    </article>
+
+    <article class="card phone">
+      <a class="card-main" href="videos/CS07_Queue_Identity.html">
+      <div class="thumb"><div class="bg"></div>
+        <div class="id"><span class="small">SOP CS07</span>07</div>
+        <span class="duration">0:48</span>
+        <div class="play"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 3l14 8-14 8V3z" fill="currentColor"/></svg></div>
+      </div>
+      <div class="body">
+        <h3>Queue Identity & Administration</h3>
+        <p>Names, extensions, managers, PINs, direct numbers, voicemail. Rare changes, heavy consequences.</p>
+        <div class="tags"><span class="tag">RingCentral</span><span class="tag">Admin</span></div>
+      </div>
+    </a>
+        <div class="card-links">
+          <a class="primary" href="videos/CS07_Queue_Identity.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg> Watch</a>
+          <a href="sops/CS07.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 2h7v10H2zM9 2l3 1v8l-3 1" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg> Read SOP</a>
+          <a href="docs/CS07_Queue_Identity_and_Administration.docx" download><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M7 1v9M3 7l4 4 4-4M2 13h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> .docx</a>
+        </div>
+    </article>
+
+    <article class="card phone">
+      <a class="card-main" href="videos/CS08_Custom_DID_Routing.html">
+      <div class="thumb"><div class="bg"></div>
+        <div class="id"><span class="small">SOP CS08</span>08</div>
+        <span class="duration">1:00</span>
+        <div class="play"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 3l14 8-14 8V3z" fill="currentColor"/></svg></div>
+      </div>
+      <div class="body">
+        <h3>Route a User's DID into the Queue</h3>
+        <p>Send calls dialed to an agent's direct line through the queue — one rule, one condition, one action.</p>
+        <div class="tags"><span class="tag">RingCentral</span><span class="tag">Routing</span></div>
+      </div>
+    </a>
+        <div class="card-links">
+          <a class="primary" href="videos/CS08_Custom_DID_Routing.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg> Watch</a>
+          <a href="sops/CS08.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 2h7v10H2zM9 2l3 1v8l-3 1" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg> Read SOP</a>
+          <a href="docs/CS08_Custom_Inbound_Routing_Rules_User_DIDs.docx" download><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M7 1v9M3 7l4 4 4-4M2 13h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> .docx</a>
+        </div>
+    </article>
+    </article>
+
+  </div>
+</section>
+
+<section class="grid-section" style="padding-top: 32px;">
+  <h2>Reporting</h2>
+  <div class="sectionsub">Exporting visitor data with the right filters, in the right format.</div>
+  <div class="grid">
+
+    <article class="card">
+      <a class="card-main" href="videos/CS09_Envoy_Export.html">
+      <div class="thumb"><div class="bg"></div>
+        <div class="id"><span class="small">SOP CS09</span>09</div>
+        <span class="duration">1:36</span>
+        <div class="play"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 3l14 8-14 8V3z" fill="currentColor"/></svg></div>
+      </div>
+      <div class="body">
+        <h3>Envoy Visitor Data Export</h3>
+        <p>Pull visitor sign-in data out of Envoy. Filter first — the Alvarado account is shared with the whole county.</p>
+        <div class="tags"><span class="tag">Envoy</span><span class="tag">Reporting</span><span class="tag">Critical</span></div>
+      </div>
+    </a>
+        <div class="card-links">
+          <a class="primary" href="videos/CS09_Envoy_Export.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg> Watch</a>
+          <a href="sops/CS09.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 2h7v10H2zM9 2l3 1v8l-3 1" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg> Read SOP</a>
+          <a href="docs/CS09_Envoy_Visitor_Data_Export_and_Reporting.docx" download><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M7 1v9M3 7l4 4 4-4M2 13h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> .docx</a>
+        </div>
+    </article>
+
+  </div>
+</section>
+
+<template id="__bundler_thumbnail" data-bg-color="#f4f8f6">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#f4f8f6"/>
+    <rect x="0" y="0" width="1200" height="120" fill="#285952"/>
+    <rect x="0" y="117" width="1200" height="3" fill="#e47756"/>
+    <g transform="translate(420, 280)">
+      <rect x="0" y="0" width="360" height="240" rx="20" fill="#013942"/>
+      <polygon points="150,90 150,150 210,120" fill="#e47756"/>
+    </g>
+    <rect x="120" y="600" width="120" height="22" rx="11" fill="#cfd8d3"/>
+    <rect x="260" y="600" width="180" height="22" rx="11" fill="#cfd8d3"/>
+    <rect x="460" y="600" width="140" height="22" rx="11" fill="#cfd8d3"/>
+  </svg>
+</template>
+</body>
+</html>
