@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AIO01 · Daily Chatbot Operations Check · Source SOP</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+@font-face { font-family: 'Gotham Display'; src: url('../fonts/Gotham-Black.otf') format('opentype'); font-weight: 900; font-style: normal; font-display: swap; }
+:root { --bosque:#285952; --bosque-dark:#1d4640; --cypress:#013942; --terracotta:#e47756; --mist:#e8f1ee; --mist-soft:#f4f8f6; --paper:#faf8f4; --ink:#1a2620; --line:#cfd8d3; --muted:#5a6b65; }
+* { box-sizing: border-box; }
+html, body { margin:0; padding:0; font-family: "Montserrat",system-ui,sans-serif; color:var(--ink); background:var(--mist-soft); -webkit-font-smoothing:antialiased; line-height:1.55; }
+.top-bar { background:var(--paper); border-bottom:2px solid var(--line); padding:16px 56px; display:flex; align-items:center; gap:24px; position:sticky; top:0; z-index:10; }
+.top-bar img.logo { height:56px; width:auto; display:block; }
+.top-bar .crumb { padding-left:24px; border-left:1px solid var(--line); font-size:12px; font-weight:600; color:var(--muted); letter-spacing:0.18em; text-transform:uppercase; line-height:1.6; }
+.top-bar .crumb b { color:var(--cypress); }
+.top-bar .actions { margin-left:auto; display:flex; gap:10px; flex-wrap:wrap; }
+.top-bar .action { display:inline-flex; align-items:center; gap:8px; padding:9px 16px; font-size:13px; font-weight:600; text-decoration:none; border-radius:999px; letter-spacing:0.04em; background:transparent; color:var(--cypress); border:1px solid var(--line); cursor:pointer; font-family:inherit; transition:all 180ms cubic-bezier(0.4,0,0.2,1); }
+.top-bar .action.primary { background:var(--bosque); color:var(--paper); border-color:var(--bosque); }
+.top-bar .action:hover { background:var(--mist); border-color:var(--cypress); }
+.top-bar .action.primary:hover { background:var(--bosque-dark); }
+.doc { max-width:920px; margin:48px auto 80px; background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:64px 72px 72px; box-shadow:0 12px 36px rgba(15,30,27,0.06); }
+.doc-header { border-bottom:3px solid var(--bosque); padding-bottom:28px; margin-bottom:36px; }
+.doc-header .eyebrow { font-size:12px; font-weight:700; color:var(--terracotta); letter-spacing:0.24em; text-transform:uppercase; margin-bottom:12px; }
+.doc-header h1 { font-family:"Gotham Display","Montserrat",sans-serif; font-size:48px; font-weight:900; line-height:1; letter-spacing:-0.02em; text-transform:uppercase; color:var(--bosque); margin:0; text-wrap:balance; }
+.meta-row { display:flex; gap:16px; font-size:14px; padding:6px 0; border-bottom:1px dashed var(--line); }
+.meta-row:last-of-type { border-bottom:0; margin-bottom:24px; }
+.meta-row .meta-k { color:var(--muted); font-weight:600; letter-spacing:0.06em; text-transform:uppercase; font-size:12px; flex:0 0 180px; padding-top:2px; }
+.meta-row .meta-v { color:var(--ink); font-weight:500; }
+.doc h2 { font-family:"Gotham Display","Montserrat",sans-serif; font-size:24px; font-weight:900; color:var(--bosque); letter-spacing:-0.005em; text-transform:uppercase; margin:40px 0 14px; padding-bottom:8px; border-bottom:1px solid var(--line); }
+.doc h3 { font-family:"Gotham Display","Montserrat",sans-serif; font-size:18px; font-weight:900; color:var(--cypress); letter-spacing:-0.005em; text-transform:uppercase; margin:28px 0 10px; }
+.doc h3 .step-num { display:inline-flex; align-items:center; justify-content:center; width:30px; height:30px; border-radius:50%; background:var(--terracotta); color:var(--paper); font-size:13px; font-weight:900; margin-right:12px; vertical-align:1px; font-family:"Gotham Display","Montserrat",sans-serif; }
+.doc p { font-size:15.5px; color:var(--ink); margin:0 0 12px; text-wrap:pretty; }
+.doc p strong { color:var(--cypress); font-weight:700; }
+.doc ul { font-size:15.5px; color:var(--ink); margin:0 0 12px; padding-left:22px; text-wrap:pretty; }
+.doc ul li { margin-bottom:6px; }
+.doc ul li::marker { color:var(--terracotta); }
+.doc .deflist { display:grid; grid-template-columns:max-content 1fr; gap:8px 18px; font-size:15px; margin:0 0 12px; }
+.doc .deflist dt { font-weight:700; color:var(--cypress); }
+.doc .deflist dd { margin:0; color:var(--ink); }
+.doc .callout { background:var(--mist-soft); border-left:4px solid var(--terracotta); border-radius:0 8px 8px 0; padding:18px 22px; margin:18px 0; }
+.doc .callout strong { color:var(--cypress); display:block; font-size:12px; letter-spacing:0.14em; text-transform:uppercase; margin-bottom:6px; }
+.doc figure { margin:24px 0; padding:16px; background:var(--mist-soft); border:1px solid var(--line); border-radius:8px; text-align:center; }
+.doc figure img { max-width:100%; height:auto; border-radius:4px; display:inline-block; }
+.doc figure figcaption { font-size:12px; color:var(--muted); margin-top:10px; letter-spacing:0.06em; text-transform:uppercase; font-weight:600; }
+.doc a { color:var(--bosque); text-decoration:underline; text-decoration-color:var(--line); text-underline-offset:3px; }
+.doc a:hover { text-decoration-color:var(--terracotta); }
+.overview-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:14px; margin:18px 0 12px; }
+.overview-grid .ov { background:var(--mist-soft); border:1px solid var(--line); border-radius:8px; padding:16px 18px; }
+.overview-grid .ov .k { font-size:11px; font-weight:700; color:var(--terracotta); letter-spacing:0.18em; text-transform:uppercase; margin-bottom:6px; }
+.overview-grid .ov .v { font-size:14px; color:var(--ink); line-height:1.45; }
+.tag-line { margin-top:48px; padding-top:36px; border-top:2px solid var(--line); text-align:center; }
+.tag-line .tag { font-family:"Gotham Display","Montserrat",sans-serif; font-size:28px; font-weight:900; color:var(--terracotta); text-transform:lowercase; margin-bottom:6px; }
+.tag-line .sig { font-size:11px; font-weight:600; color:var(--muted); letter-spacing:0.14em; text-transform:uppercase; }
+@media print { body { background:white; } .top-bar { display:none; } .doc { box-shadow:none; border:0; margin:0; padding:0; max-width:none; } }
+
+.sop-tabs { display:flex; gap:8px; margin:-20px 0 28px; position:sticky; top:88px; z-index:5; background:var(--paper); padding:14px 0 6px; border-bottom:1px solid var(--line); }
+.sop-tabs .tab-btn {
+  appearance:none; background:transparent; border:1px solid var(--line); color:var(--muted);
+  font-family:inherit; font-size:13px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+  padding:9px 18px; border-radius:999px; cursor:pointer;
+  transition:all 180ms cubic-bezier(0.4,0,0.2,1);
+}
+.sop-tabs .tab-btn:hover { color:var(--cypress); border-color:var(--cypress); }
+.sop-tabs .tab-btn.active { background:var(--bosque); color:var(--paper); border-color:var(--bosque); }
+.pane[hidden] { display:none; }
+.pane-card { margin:24px 0; }
+.pane-card .sheet { margin:0; padding:32px 36px; box-shadow:none; width:100%; min-height:auto; }
+@media print {
+  .sop-tabs { display:none; }
+  .pane[hidden] { display:block !important; }
+  .pane-full, .pane-card { page-break-before:always; }
+  .pane-full { page-break-before:auto; }
+}
+
+.pane-card 400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Card sheet — sized for letter portrait */
+.sheet {
+  width: 8.5in;
+  min-height: 11in;
+  margin: 24px auto;
+  background: var(--paper);
+  padding: 0.4in 0.5in;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 12px 36px rgba(15, 30, 27, 0.08);
+  display: flex; flex-direction: column;
+}.pane-card .sheet header {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 24px;
+  border-bottom: 4px solid var(--bosque);
+  padding-bottom: 14px;
+  margin-bottom: 18px;
+}.pane-card .sheet header .lhs {
+  display: flex; flex-direction: column;
+}.pane-card .sheet header .eyebrow {
+  font-size: 11px; font-weight: 700;
+  color: var(--terracotta);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}.pane-card .sheet header h1 {
+  font-family: "Gotham Display", "Montserrat", sans-serif;
+  font-size: 36px; font-weight: 900;
+  line-height: 0.96;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--bosque);
+  margin: 0;
+  text-wrap: balance;
+}.pane-card .sheet header .id {
+  font-family: "Gotham Display", sans-serif;
+  font-size: 64px; font-weight: 900;
+  color: var(--cypress);
+  letter-spacing: -0.04em;
+  line-height: 0.85;
+}.pane-card .sheet header .id .small {
+  display: block;
+  font-size: 11px; font-weight: 700;
+  color: var(--muted); letter-spacing: 0.24em;
+  text-transform: uppercase;
+  text-align: right;
+  margin-bottom: 4px;
+}.pane-card .purpose {
+  background: var(--mist-soft);
+  border-left: 4px solid var(--bosque);
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  font-size: 12.5px;
+  color: var(--cypress);
+  line-height: 1.5;
+  border-radius: 0 4px 4px 0;
+}.pane-card .purpose strong { color: var(--bosque); }.pane-card .grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}.pane-card .grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}.pane-card .block {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 12px;
+}.pane-card .block.accent { border-color: var(--terracotta); border-width: 1.5px; }.pane-card .block.dark { background: var(--cypress); color: var(--paper); border: 0; }.pane-card .block.dark h3 { color: var(--terracotta); }.pane-card .block.dark .label { color: rgba(255,255,255,0.5); }.pane-card .block.dark code { background: rgba(255,255,255,0.1); color: var(--paper); }.pane-card .block h3 {
+  font-family: "Gotham Display", sans-serif;
+  font-size: 13px; font-weight: 900;
+  color: var(--bosque);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 0 0 8px;
+  display: flex; align-items: center; gap: 8px;
+}.pane-card .block h3 .num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--terracotta);
+  color: var(--paper);
+  font-size: 10px;
+}.pane-card .block ul, .pane-card .block ol { margin: 0; padding-left: 18px; line-height: 1.55; }.pane-card .block li { margin: 2px 0; }.pane-card .block dl { margin: 0; }.pane-card .block dt {
+  font-weight: 700;
+  color: var(--cypress);
+  margin-top: 6px;
+}.pane-card .block dt:first-child { margin-top: 0; }.pane-card .block dd { margin: 1px 0 0 0; color: var(--ink); line-height: 1.4; }.pane-card .block .label {
+  font-size: 9.5px; font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}.pane-card .block .path, .pane-card .block code {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11.5px;
+  background: var(--mist);
+  padding: 1.5px 6px;
+  border-radius: 3px;
+  color: var(--cypress);
+  font-weight: 500;
+}.pane-card .block .big {
+  font-family: "Gotham Display", sans-serif;
+  font-size: 28px; font-weight: 900;
+  color: var(--bosque);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 4px;
+}.pane-card .block .big.terra { color: var(--terracotta); }.pane-card .warn {
+  background: #fceee7;
+  border-left: 4px solid var(--terracotta);
+  padding: 10px 14px;
+  border-radius: 0 4px 4px 0;
+  font-size: 12px;
+  color: var(--cypress);
+  line-height: 1.5;
+}.pane-card .warn strong { color: var(--terracotta); }.pane-card .steps-line {
+  display: flex;
+  gap: 0;
+  margin: 8px 0 0;
+  font-size: 11px;
+}.pane-card .steps-line .step {
+  flex: 1;
+  position: relative;
+  padding: 8px 10px 8px 24px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-right: 0;
+}.pane-card .steps-line .step:last-child { border-right: 1px solid var(--line); border-radius: 0 4px 4px 0; }.pane-card .steps-line .step:first-child { border-radius: 4px 0 0 4px; }.pane-card .steps-line .step .n {
+  position: absolute;
+  left: 6px; top: 50%; transform: translateY(-50%);
+  font-family: "Gotham Display", sans-serif;
+  font-size: 14px; font-weight: 900;
+  color: var(--terracotta);
+}.pane-card .steps-line .step strong {
+  font-family: "Gotham Display", sans-serif;
+  font-size: 11px;
+  color: var(--bosque);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  display: block;
+}.pane-card .table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11.5px;
+}.pane-card .table th, .pane-card .table td {
+  text-align: left;
+  padding: 5px 8px;
+  border-bottom: 1px solid var(--line);
+}.pane-card .table th {
+  font-size: 9.5px; font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}.pane-card .table td.code { font-family: 'JetBrains Mono', ui-monospace, monospace; font-weight: 700; color: var(--bosque); }.pane-card .table .terra { color: var(--terracotta); }.pane-card .table tr:last-child td { border-bottom: 0; }.pane-card .row-list { columns: 2; column-gap: 16px; font-size: 12px; line-height: 1.5; }.pane-card .row-list code { font-family: 'JetBrains Mono', ui-monospace, monospace; font-weight: 600; color: var(--bosque); }.pane-card .footer {
+  margin-top: auto; padding-top: 14px;
+  border-top: 1px solid var(--line);
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 9.5px; color: var(--muted);
+  letter-spacing: 0.14em; text-transform: uppercase;
+}.pane-card .footer .tag {
+  font-family: "Gotham Display", sans-serif;
+  font-size: 14px; font-weight: 900;
+  color: var(--terracotta);
+  text-transform: lowercase;
+  letter-spacing: 0;
+}
+
+
+/* card-specific print rules omitted to avoid conflicts */
+
+</style>
+</head>
+<body>
+<header class="top-bar">
+  <img src="../assets/bernco-assessor-logo.png" alt="BernCo County Assessor" class="logo">
+  <div class="crumb"><b>SOP AIO01</b><br>Source document</div>
+  <div class="actions">
+    <a class="action" href="../index.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M6 4L3 7l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Library</a>
+    <a class="action" href="../videos/AIO01_Daily_Check.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg> Watch</a>
+    <a class="action" href="../docs/AIO01_Daily_Check.docx" download><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v9M3 7l4 4 4-4M2 13h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> .docx</a>
+    <button class="action primary" onclick="window.print()" style="border:0; font-family:inherit; cursor:pointer;"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M4 1h6v3M4 11h6v2H4zM2 4h10v6H2z M4 7h6" stroke="currentColor" stroke-width="1.5"/></svg> Save as PDF</button>
+  </div>
+</header>
+<article class="doc">
+  <nav class="sop-tabs"><button class="tab-btn active" data-tab="full" type="button">Full SOP</button><button class="tab-btn" data-tab="card" type="button">Quick Reference</button></nav>
+  <div class="pane pane-full" data-pane="full">
+  <div class="doc-header">
+    <div class="eyebrow">Bernalillo County Assessor · AI Operations · Standard Operating Procedure</div>
+    <h1>Daily Chatbot Operations Check</h1>
+  </div>
+  <div class="meta-row"><span class="meta-k">Process Title</span><span class="meta-v">Daily Chatbot Operations Check</span></div>
+  <div class="meta-row"><span class="meta-k">Department</span><span class="meta-v">AI Operations</span></div>
+  <div class="meta-row"><span class="meta-k">SOP ID</span><span class="meta-v">AIO01</span></div>
+  <div class="meta-row"><span class="meta-k">Last Reviewed</span><span class="meta-v">05/14/2026</span></div>
+  <div class="meta-row"><span class="meta-k">Effective Date</span><span class="meta-v">05/14/2026</span></div>
+  <div class="meta-row"><span class="meta-k">Version</span><span class="meta-v">1</span></div>
+
+  <h2>Purpose</h2>
+  <p>This SOP outlines the standardized daily review of A.C.E. chatbot operations to ensure that user questions are being answered correctly, that emerging knowledge gaps are identified within one business day, and that operational issues are detected before they escalate.</p>
+
+  <h2>Scope</h2>
+  <p>This procedure applies to all staff with operational responsibility for the A.C.E. chatbot, including:</p>
+  <ul>
+    <li>AI Project Lead (primary owner)</li>
+    <li>Backup operator (when designated)</li>
+    <li>Any staff member temporarily covering A.C.E. operations</li>
+  </ul>
+  <p>This SOP covers the daily morning review only. Weekly conversation review, monthly metrics, and incident response are covered in separate SOPs (AIO02, AIO04, AIO05).</p>
+
+  <h2>Definitions</h2>
+  <dl class="deflist">
+    <dt>A.C.E.</dt><dd>Assessor's Community Educator. The bilingual AI chatbot deployed by the Bernalillo County Assessor's Office to answer public questions about assessment, exemptions, and related topics.</dd>
+    <dt>CustomGPT.ai</dt><dd>The third-party platform that hosts and serves the A.C.E. agent (project 9262).</dd>
+    <dt>KB</dt><dd>Knowledge Base. The collection of source documents and content that A.C.E. queries when answering user questions.</dd>
+    <dt>Persona</dt><dd>The system-level instructions that define A.C.E.'s identity, rules, boundaries, and tone. Found under Personalize → Persona in CustomGPT.ai.</dd>
+    <dt>Missing Content</dt><dd>A telemetry panel inside CustomGPT.ai that records user questions A.C.E. could not answer from its KB.</dd>
+    <dt>Canary query</dt><dd>A fixed test question with a known correct answer, used to detect persona drift or KB regression after changes.</dd>
+    <dt>PII</dt><dd>Personally Identifiable Information.</dd>
+  </dl>
+
+  <h2>Overview</h2>
+  <div class="overview-grid">
+    <div class="ov"><div class="k">Purpose</div><div class="v">Quickly identify knowledge gaps, sensitive prompts, and operational anomalies before they affect more users.</div></div>
+    <div class="ov"><div class="k">Frequency</div><div class="v">Every workday morning. Skipped days create backlog risk.</div></div>
+    <div class="ov"><div class="k">Time required</div><div class="v">Approximately 10 minutes when no issues are found.</div></div>
+    <div class="ov"><div class="k">Key output</div><div class="v">A short note of "Fix it" items to address that day or schedule, plus any items requiring immediate escalation.</div></div>
+  </div>
+
+  <h2>Related Documents</h2>
+  <ul>
+    <li>CustomGPT.ai Dashboard: <a href="https://app.customgpt.ai">app.customgpt.ai</a></li>
+    <li>Bernalillo County Assessor: <a href="https://www.bernco.gov/assessor/">bernco.gov/assessor</a></li>
+    <li>A.C.E. public access: <a href="https://www.bernco.gov/assessor/">bernco.gov/assessor</a> (chatbot widget)</li>
+  </ul>
+
+  <h2>Governing Policies</h2>
+  <ul>
+    <li>Bernalillo County Assessor's Office AI Policy v2.0 (internal).</li>
+    <li>Bernalillo County Ordinance 2026-1, codified at Code of Conduct Sec. 2-140 (AI governance).</li>
+    <li>NM Const. Art. X §2 (constitutional independence of elected county officers). <a href="https://nmonesource.com/">NMOneSource</a></li>
+  </ul>
+
+  <h2>Daily Review</h2>
+
+  <h3><span class="step-num">1</span>Open the Analyze Tab</h3>
+  <p>Sign in to CustomGPT.ai. Open the A.C.E. agent.</p>
+  <p>In the left sidebar, click <strong>Analyze</strong>. The Analyze view defaults to the Overview tab.</p>
+  <figure><img src="../sop_assets/AIO01_Daily_Check/ffe029be2018d4b05026fa6f5af931afed34f91c.jpg" alt="CustomGPT.ai Analyze tab"><figcaption>CustomGPT.ai · Analyze → Overview</figcaption></figure>
+
+  <h3><span class="step-num">2</span>Triage Missing Content</h3>
+  <p>Locate the <strong>Latest Missing Content</strong> panel. Read each new entry since yesterday.</p>
+  <p>For each entry, write down one of the following tags:</p>
+  <ul>
+    <li><strong>Fix it</strong> — in-scope, A.C.E. should be able to answer this. Will become a KB entry (see AIO05).</li>
+    <li><strong>Send elsewhere</strong> — the topic belongs to another department (e.g., open permits → Planning).</li>
+    <li><strong>Skip</strong> — noise, test query, or abusive content.</li>
+  </ul>
+  <figure><img src="../sop_assets/AIO01_Daily_Check/27e905eeae5e7df539bb440c9a4a0fd5b3750131.jpg" alt="Latest Missing Content panel"><figcaption>Latest Missing Content panel</figcaption></figure>
+
+  <h3><span class="step-num">3</span>Check the Content Source Ratio</h3>
+  <p>On the same screen, review the <strong>Content Source</strong> donut chart.</p>
+  <ul>
+    <li><strong>Found</strong> should be at or above 85%.</li>
+    <li><strong>Not found</strong> should be below 15%.</li>
+  </ul>
+  <p>If <strong>Not found</strong> exceeds 15% on the day, note it for follow-up. A single day above threshold is informational. A trend across multiple days is operational.</p>
+
+  <h3><span class="step-num">4</span>Skim the Top 5 Latest Prompts</h3>
+  <p>Read the top five prompts on the <strong>Latest Prompts</strong> panel. Watch for any of the following:</p>
+  <ul>
+    <li>Sensitive or emotionally charged content (e.g., death, grief, financial hardship).</li>
+    <li>Threats, abuse, or hostile language directed at staff or the office.</li>
+    <li>PII visible in the prompt itself.</li>
+    <li>Politically charged questions (especially tax-bill season).</li>
+  </ul>
+  <p>Any of these warrants a log entry and, depending on severity, escalation under AIO05.</p>
+
+  <h3><span class="step-num">5</span>Review Risk Monitoring</h3>
+  <p>Click the <strong>Customer Intelligence</strong> tab. Scroll to the <strong>Risk Monitoring</strong> panels.</p>
+  <p>Compare today's <strong>Incidents</strong> bar to the prior six days. If today is roughly in line with the rest of the week, continue. If today is noticeably elevated, investigate the same day per AIO05 Type A.</p>
+  <p>Note the current <strong>Persona Failure %</strong>, <strong>Profanity %</strong>, and any <strong>Security Events</strong>.</p>
+  <figure><img src="../sop_assets/AIO01_Daily_Check/460e9cd03f2ee11f6fa1c80b2a9bc6fc40f2c982.jpg" alt="Risk Monitoring panels"><figcaption>Customer Intelligence · Risk Monitoring</figcaption></figure>
+
+  <h3><span class="step-num">6</span>Check the Main Dashboard</h3>
+  <p>Return to the main <strong>Dashboard</strong> (top of left sidebar).</p>
+  <p>Scan the <strong>Monthly Usage</strong> tiles. Note any tile rendered with a red border. The most common red-border condition is <strong>Words Processed</strong> approaching or exceeding the plan cap before the monthly reset.</p>
+  <p>If a tile is red, log the date. Persistent red across multiple billing cycles indicates the plan needs upsizing rather than a workaround.</p>
+  <figure><img src="../sop_assets/AIO01_Daily_Check/c651ae1452d4619feb92b97bb14ea406929cae75.jpg" alt="Main dashboard monthly usage tiles"><figcaption>Dashboard · Monthly Usage</figcaption></figure>
+
+  <h3><span class="step-num">7</span>End-of-Day Wrap</h3>
+  <p>Before leaving for the day:</p>
+  <ul>
+    <li>Fix or schedule each "Fix it" item from step 2.</li>
+    <li>Save flagged prompts and incidents to the weekly review folder.</li>
+    <li>If any item required immediate notification per the table below, confirm it was sent.</li>
+  </ul>
+
+  <h2>Immediate Notification Triggers</h2>
+  <div class="callout">
+    <strong>Same-day notification to Assessor and Deputy</strong>
+    <p style="margin:0 0 8px;">Any of the following conditions requires same-day notification by email:</p>
+    <ul style="margin:0;">
+      <li>A Latest Prompt contains PII that A.C.E. produced or exposed.</li>
+      <li>A Latest Prompt contains a threat against staff or the office.</li>
+      <li>Persona Failure incidents for the day are clearly elevated above the 7-day pattern.</li>
+      <li>Words Processed is at the plan cap and the user-facing service is degraded.</li>
+      <li>The agent is unreachable from the public site.</li>
+    </ul>
+    <p style="margin:8px 0 0;">For agent-down or PII conditions, follow <strong>AIO05 (Incident Response)</strong> in addition to notification.</p>
+  </div>
+
+  <div class="tag-line">
+    <div class="tag">Count on us.</div>
+    <div class="sig">Bernalillo County Assessor · Damian R. Lara, County Assessor</div>
+  </div>
+  </div><!-- /pane-full -->
+  <div class="pane pane-card" data-pane="card" hidden>
+    <article class="sheet">
+  <header>
+    <div class="lhs">
+      <div class="eyebrow">Bernalillo County Assessor · AI Operations</div>
+      <h1>Daily Chatbot Operations Check</h1>
+    </div>
+    <div class="id"><span class="small">SOP</span>A01</div>
+  </header>
+  
+<div class="purpose"><strong>Purpose.</strong> A 10-minute morning review of the A.C.E. chatbot. Catch knowledge gaps and operational issues before they affect more users.</div>
+
+<div class="block" style="margin-bottom: 12px;">
+  <h3>The seven steps</h3>
+  <div class="steps-line">
+    <div class="step"><span class="n">1</span><strong>Open</strong> CustomGPT.ai → A.C.E. → Analyze tab</div>
+    <div class="step"><span class="n">2</span><strong>Triage</strong> Missing Content — Fix / Send / Skip</div>
+    <div class="step"><span class="n">3</span><strong>Ratio</strong> Not found &lt; 15%</div>
+    <div class="step"><span class="n">4</span><strong>Top 5</strong> Skim Latest Prompts</div>
+    <div class="step"><span class="n">5</span><strong>Risk</strong> Customer Intelligence tab</div>
+    <div class="step"><span class="n">6</span><strong>Dashboard</strong> Red-border tiles?</div>
+    <div class="step"><span class="n">7</span><strong>EOD</strong> Fix or schedule items</div>
+  </div>
+</div>
+
+<div class="grid-3" style="margin-bottom: 12px;">
+  <div class="block accent">
+    <h3>Triage tags</h3>
+    <dl>
+      <dt>Fix it</dt><dd>In-scope, needs KB entry (use AIO05).</dd>
+      <dt>Send elsewhere</dt><dd>Belongs to another department.</dd>
+      <dt>Skip</dt><dd>Noise, test, or abuse.</dd>
+    </dl>
+  </div>
+  <div class="block">
+    <h3>Top 5 — escalation signals</h3>
+    <ul>
+      <li>Sensitive content</li>
+      <li>Hostile or threatening</li>
+      <li>PII-containing</li>
+      <li>Politically charged</li>
+    </ul>
+    <div class="label" style="margin-top:6px;">Escalate per AIO05 if warranted.</div>
+  </div>
+  <div class="block dark">
+    <h3>Thresholds</h3>
+    <div class="big terra">&lt; 15%</div>
+    <div class="label" style="color: rgba(255,255,255,0.6);">Not found ratio</div>
+    Incidents bar today should match the 7-day pattern. Investigate elevated days.
+  </div>
+</div>
+
+<div class="warn">
+  <strong>Notify Assessor &amp; Deputy SAME DAY if:</strong>
+  PII produced or exposed · threats against staff or office · Persona Failure elevated above 7-day pattern · agent unreachable from public site · Words Processed at plan cap and service degraded.
+</div>
+
+  <div class="footer">
+    <div>Revision: this card · v1 · 2026</div>
+    <div class="tag">Count on us.</div>
+    <div>Print &amp; laminate for desk reference</div>
+  </div>
+</article>
+  </div>
+</article>
+
+<script>
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.sop-tabs .tab-btn');
+  if (!btn) return;
+  const target = btn.dataset.tab;
+  document.querySelectorAll('.sop-tabs .tab-btn').forEach(b => b.classList.toggle('active', b === btn));
+  document.querySelectorAll('.pane').forEach(p => {
+    p.hidden = p.dataset.pane !== target;
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AIO06 · A.C.E. Configuration and Sources Baseline · Reference</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+@font-face { font-family: 'Gotham Display'; src: url('../fonts/Gotham-Black.otf') format('opentype'); font-weight: 900; font-style: normal; font-display: swap; }
+:root { --bosque:#285952; --bosque-dark:#1d4640; --cypress:#013942; --terracotta:#e47756; --mist:#e8f1ee; --mist-soft:#f4f8f6; --paper:#faf8f4; --ink:#1a2620; --line:#cfd8d3; --muted:#5a6b65; }
+* { box-sizing: border-box; }
+html, body { margin:0; padding:0; font-family: "Montserrat",system-ui,sans-serif; color:var(--ink); background:var(--mist-soft); -webkit-font-smoothing:antialiased; line-height:1.55; }
+.top-bar { background:var(--paper); border-bottom:2px solid var(--line); padding:16px 56px; display:flex; align-items:center; gap:24px; position:sticky; top:0; z-index:10; }
+.top-bar img.logo { height:56px; width:auto; display:block; }
+.top-bar .crumb { padding-left:24px; border-left:1px solid var(--line); font-size:12px; font-weight:600; color:var(--muted); letter-spacing:0.18em; text-transform:uppercase; line-height:1.6; }
+.top-bar .crumb b { color:var(--cypress); }
+.top-bar .actions { margin-left:auto; display:flex; gap:10px; flex-wrap:wrap; }
+.top-bar .action { display:inline-flex; align-items:center; gap:8px; padding:9px 16px; font-size:13px; font-weight:600; text-decoration:none; border-radius:999px; letter-spacing:0.04em; background:transparent; color:var(--cypress); border:1px solid var(--line); cursor:pointer; font-family:inherit; transition:all 180ms cubic-bezier(0.4,0,0.2,1); }
+.top-bar .action.primary { background:var(--bosque); color:var(--paper); border-color:var(--bosque); }
+.top-bar .action:hover { background:var(--mist); border-color:var(--cypress); }
+.doc { max-width:1040px; margin:48px auto 80px; background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:60px 72px 72px; box-shadow:0 12px 36px rgba(15,30,27,0.06); }
+.doc-header { border-bottom:3px solid var(--bosque); padding-bottom:28px; margin-bottom:30px; }
+.doc-header .eyebrow { font-size:12px; font-weight:700; color:var(--terracotta); letter-spacing:0.24em; text-transform:uppercase; margin-bottom:12px; }
+.doc-header h1 { font-family:"Gotham Display","Montserrat",sans-serif; font-size:48px; font-weight:900; line-height:1; letter-spacing:-0.02em; text-transform:uppercase; color:var(--bosque); margin:0; text-wrap:balance; }
+.meta-row { display:flex; gap:16px; font-size:14px; padding:6px 0; border-bottom:1px dashed var(--line); }
+.meta-row:last-of-type { border-bottom:0; margin-bottom:24px; }
+.meta-row .meta-k { color:var(--muted); font-weight:600; letter-spacing:0.06em; text-transform:uppercase; font-size:12px; flex:0 0 180px; padding-top:2px; }
+.meta-row .meta-v { color:var(--ink); font-weight:500; }
+.doc h2.part { font-family:"Gotham Display","Montserrat",sans-serif; font-size:30px; font-weight:900; color:var(--cypress); letter-spacing:-0.015em; text-transform:uppercase; margin:48px 0 14px; padding-bottom:14px; border-bottom:3px solid var(--terracotta); display:flex; align-items:baseline; gap:14px; }
+.doc h2.part .num { font-size:14px; color:var(--terracotta); letter-spacing:0.24em; font-weight:700; }
+.doc h3.tab { font-family:"Gotham Display","Montserrat",sans-serif; font-size:20px; font-weight:900; color:var(--bosque); letter-spacing:-0.005em; text-transform:uppercase; margin:32px 0 10px; padding-bottom:6px; border-bottom:1px solid var(--line); }
+.doc p { font-size:15px; color:var(--ink); margin:0 0 12px; text-wrap:pretty; }
+.doc p strong { color:var(--cypress); font-weight:700; }
+.config-table { width:100%; border-collapse:collapse; margin:8px 0 12px; font-size:14.5px; }
+.config-table th, .config-table td { padding:11px 14px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top; }
+.config-table th { background:var(--mist-soft); color:var(--cypress); font-weight:700; letter-spacing:0.04em; font-size:12px; text-transform:uppercase; }
+.config-table tr:last-child td { border-bottom:0; }
+.config-table .key { font-weight:600; color:var(--cypress); width:40%; }
+.config-table .val { color:var(--ink); }
+.config-table .val .mono { font-family:'JetBrains Mono','SF Mono',monospace; font-size:13px; color:var(--cypress); background:var(--mist-soft); padding:2px 7px; border-radius:4px; }
+.config-table .val .swatch { display:inline-block; width:14px; height:14px; border-radius:3px; vertical-align:-2px; margin-right:8px; border:1px solid var(--line); }
+.config-table .val .note { display:block; font-size:13px; color:var(--muted); margin-top:5px; line-height:1.4; font-style:italic; }
+.actions-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:10px; margin:8px 0 12px; }
+.actions-grid .act { display:flex; justify-content:space-between; align-items:center; padding:12px 16px; background:var(--mist-soft); border:1px solid var(--line); border-radius:8px; }
+.actions-grid .act .name { font-weight:600; color:var(--cypress); font-size:14px; }
+.actions-grid .act .state { font-size:11px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; padding:4px 10px; border-radius:999px; }
+.actions-grid .act .state.on { background:var(--bosque); color:var(--paper); }
+.actions-grid .act .state.off { background:var(--paper); color:var(--muted); border:1px solid var(--line); }
+.sources-summary { display:grid; grid-template-columns:repeat(auto-fit, minmax(190px, 1fr)); gap:12px; margin:12px 0 18px; }
+.sources-summary .ss { background:var(--mist-soft); border:1px solid var(--line); border-radius:8px; padding:16px 18px; }
+.sources-summary .ss .k { font-size:11px; font-weight:700; color:var(--terracotta); letter-spacing:0.16em; text-transform:uppercase; margin-bottom:6px; }
+.sources-summary .ss .v { font-size:20px; font-weight:800; color:var(--bosque); font-family:"Gotham Display","Montserrat",sans-serif; }
+.sources-summary .ss .sub { font-size:12px; color:var(--muted); margin-top:4px; }
+.sources-table { width:100%; border-collapse:collapse; margin:10px 0 14px; font-size:14px; }
+.sources-table th { background:var(--cypress); color:var(--paper); padding:11px 14px; text-align:left; font-size:11px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; }
+.sources-table th.num, .sources-table td.num { text-align:right; font-variant-numeric:tabular-nums; font-family:'JetBrains Mono','SF Mono',monospace; }
+.sources-table td { padding:11px 14px; border-bottom:1px solid var(--line); vertical-align:top; }
+.sources-table tr:last-child td { border-bottom:0; }
+.sources-table .url { font-family:'JetBrains Mono','SF Mono',monospace; font-size:12.5px; color:var(--bosque); font-weight:600; }
+.sources-table .desc { font-size:13.5px; color:var(--ink); line-height:1.45; }
+.sources-table .desc .tbd { display:inline-block; background:#fceee7; color:#a3361a; padding:2px 7px; border-radius:4px; font-size:11px; font-weight:700; letter-spacing:0.06em; margin-left:6px; text-transform:uppercase; }
+.sources-table tr.own td { background:var(--mist); }
+.callout { background:var(--mist-soft); border-left:4px solid var(--terracotta); border-radius:0 8px 8px 0; padding:18px 22px; margin:18px 0; }
+.callout strong.k { color:var(--cypress); display:block; font-size:12px; letter-spacing:0.14em; text-transform:uppercase; margin-bottom:6px; }
+.callout ul { margin:0; padding-left:20px; font-size:14.5px; }
+.callout li { margin-bottom:6px; line-height:1.5; }
+.callout li::marker { color:var(--terracotta); }
+.tag-line { margin-top:48px; padding-top:36px; border-top:2px solid var(--line); text-align:center; }
+.tag-line .tag { font-family:"Gotham Display","Montserrat",sans-serif; font-size:28px; font-weight:900; color:var(--terracotta); text-transform:lowercase; margin-bottom:6px; }
+.tag-line .sig { font-size:11px; font-weight:600; color:var(--muted); letter-spacing:0.14em; text-transform:uppercase; }
+@media print { body { background:white; } .top-bar { display:none; } .doc { box-shadow:none; border:0; margin:0; padding:0; max-width:none; } .sources-table th { background:var(--cypress) !important; -webkit-print-color-adjust:exact; color-adjust:exact; print-color-adjust:exact; } }
+</style>
+</head>
+<body>
+<header class="top-bar">
+  <img src="../assets/bernco-assessor-logo.png" alt="BernCo County Assessor" class="logo">
+  <div class="crumb"><b>SOP AIO06</b><br>Baseline reference</div>
+  <div class="actions">
+    <a class="action" href="../index.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M6 4L3 7l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Library</a>
+    <a class="action" href="../docs/AIO06_Baseline_Reference.docx" download><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v9M3 7l4 4 4-4M2 13h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> .docx</a>
+    <button class="action primary" onclick="window.print()" style="border:0; font-family:inherit; cursor:pointer;"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M4 1h6v3M4 11h6v2H4zM2 4h10v6H2z M4 7h6" stroke="currentColor" stroke-width="1.5"/></svg> Save as PDF</button>
+  </div>
+</header>
+<article class="doc">
+  <div class="doc-header">
+    <div class="eyebrow">Bernalillo County Assessor · AI Operations · Baseline Reference</div>
+    <h1>A.C.E. Configuration and Sources Baseline</h1>
+  </div>
+  <div class="meta-row"><span class="meta-k">Process Title</span><span class="meta-v">A.C.E. Configuration and Sources Baseline</span></div>
+  <div class="meta-row"><span class="meta-k">Department</span><span class="meta-v">AI Operations</span></div>
+  <div class="meta-row"><span class="meta-k">SOP ID</span><span class="meta-v">AIO06</span></div>
+  <div class="meta-row"><span class="meta-k">Last Reviewed</span><span class="meta-v">05/15/2026</span></div>
+  <div class="meta-row"><span class="meta-k">Effective Date</span><span class="meta-v">05/15/2026</span></div>
+  <div class="meta-row"><span class="meta-k">Version</span><span class="meta-v">2.1</span></div>
+
+  <h3 class="tab" style="margin-top:24px;">Purpose</h3>
+  <p>Authoritative "as configured" snapshot of A.C.E. Reference for change control under <strong>AIO03</strong>. Reviewed annually or after any permanent configuration or source change.</p>
+
+  <!-- ═══════════════ PART 1 ═══════════════ -->
+  <h2 class="part"><span class="num">Part 1</span>Configuration Baseline</h2>
+
+  <h3 class="tab">General Tab</h3>
+  <table class="config-table">
+    <tbody>
+      <tr><td class="key">Agent Name</td><td class="val">A.C.E (Assessor's Community Educator)</td></tr>
+      <tr><td class="key">Agent Role</td><td class="val">Customer Support</td></tr>
+      <tr><td class="key">Agent Color (Primary)</td><td class="val"><span class="swatch" style="background:#033842;"></span><span class="mono">#033842</span></td></tr>
+      <tr><td class="key">Agent Style</td><td class="val">Round</td></tr>
+      <tr><td class="key">Font Family</td><td class="val">Inter</td></tr>
+      <tr><td class="key">Avatar Orientations</td><td class="val">Agent left, User right</td></tr>
+      <tr><td class="key">Agent Title and Avatar Alignment</td><td class="val">Center</td></tr>
+      <tr><td class="key">In-Chat Avatars</td><td class="val">Agent Avatar <strong>ON</strong>, User Avatar <strong>ON</strong></td></tr>
+      <tr><td class="key">Affiliate ID</td><td class="val">Empty<span class="note">Intentional — no partner program in use.</span></td></tr>
+      <tr><td class="key">Terms of Service URL</td><td class="val"><span class="mono">https://www.bernco.gov/assessor/chatbot-disclaimer/</span><span class="note">A.C.E. links to this page in its footer. If the page moves or is removed, the Terms link breaks silently. Coordinate any URL change with the AI Project Lead.</span></td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="tab">Conversation Tab</h3>
+  <table class="config-table">
+    <tbody>
+      <tr><td class="key">"I don't know" message</td><td class="val">Directs users to call <strong>(505) 222-3700</strong> or email the office.</td></tr>
+      <tr><td class="key">Starter Questions</td><td class="val">Enabled (context-rich)</td></tr>
+      <tr><td class="key">Agent Language</td><td class="val">English — Worldwide<span class="note">Bilingual handling is in the persona.</span></td></tr>
+      <tr><td class="key">Placeholder Prompt</td><td class="val">"How can I help you today?"</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="tab">Citations Tab</h3>
+  <table class="config-table">
+    <tbody>
+      <tr><td class="key">Enable Citations</td><td class="val">Enabled</td></tr>
+      <tr><td class="key">Inline / Classic citation formats</td><td class="val">Disabled</td></tr>
+      <tr><td class="key">PDF Viewer</td><td class="val">Disabled (Prevent Download = Enabled)</td></tr>
+      <tr><td class="key">KB awareness</td><td class="val">Disabled</td></tr>
+      <tr><td class="key">Numeric search</td><td class="val">Enabled<span class="note">Trade-off: data sources take longer to process on upload and sync.</span></td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="tab">Intelligence Tab</h3>
+  <table class="config-table">
+    <tbody>
+      <tr><td class="key">Primary Goal</td><td class="val">Understanding (favors accuracy over speed)</td></tr>
+      <tr><td class="key">AI Model (current)</td><td class="val"><strong>Claude 4.6 Sonnet</strong> — medium latency, 1 credit per message</td></tr>
+      <tr><td class="key">Data Source Control</td><td class="val">My Data Only</td></tr>
+      <tr><td class="key">User Awareness (personalize by logged-in identity)</td><td class="val">Disabled</td></tr>
+      <tr><td class="key">Configuration Summary (live, shown by CustomGPT)</td><td class="val">Deep analytical capability · Medium latency · Controlled hallucination risk · Enterprise-ready deployment</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="tab" style="font-size:16px; color:var(--cypress); border-bottom:0; margin-top:18px;">Available AI Models</h3>
+  <table class="config-table">
+    <thead><tr><th>Model</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td class="key">Claude 4.6 Sonnet</td><td class="val"><strong>Current.</strong> 1 credit/message.</td></tr>
+      <tr><td class="key">Claude 4.6 Sonnet Reasoning</td><td class="val">2 credits/message. High latency. Doubles burn rate if selected.</td></tr>
+      <tr><td class="key">Claude 4.5 Sonnet</td><td class="val">Legacy.</td></tr>
+      <tr><td class="key">GPT-o4 mini Fast</td><td class="val">Legacy.</td></tr>
+      <tr><td class="key">GPT-o4 mini Balanced</td><td class="val">Legacy.</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="tab">Advanced Tab</h3>
+  <table class="config-table">
+    <tbody>
+      <tr><td class="key">End-user conversation history</td><td class="val">Everyone</td></tr>
+      <tr><td class="key">History storage (Team)</td><td class="val">Synced across devices; persists indefinitely</td></tr>
+      <tr><td class="key">History storage (Guest)</td><td class="val">Browser storage only</td></tr>
+      <tr><td class="key">User Feedback / Copy / Sharing / Exporting</td><td class="val">All Enabled</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="tab">Security Tab</h3>
+  <table class="config-table">
+    <tbody>
+      <tr><td class="key">Anti-Hallucination</td><td class="val">Enabled</td></tr>
+      <tr><td class="key">Agent Visibility</td><td class="val">Public</td></tr>
+      <tr><td class="key">Recaptcha</td><td class="val">Disabled</td></tr>
+      <tr><td class="key">Whitelisted Domains</td><td class="val"><span class="mono">www.bernco.gov</span><span class="note">Share Link disabled as a result.</span></td></tr>
+      <tr><td class="key">Conversation Retention Period</td><td class="val">Never<span class="note">Indefinite retention on vendor platform. Review with Records Custodian.</span></td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="tab">Deploy Tab</h3>
+  <table class="config-table">
+    <tbody>
+      <tr><td class="key">Project ID (p_id)</td><td class="val"><span class="mono">9262</span></td></tr>
+      <tr><td class="key">Project Key (p_key)</td><td class="val">Public client-side identifier (not a secret). Visible in JS on bernco.gov.<span class="note">Do not regenerate without coordinated planning.</span></td></tr>
+      <tr><td class="key">Share Link</td><td class="val">Disabled by Whitelisted Domains setting</td></tr>
+      <tr><td class="key">Live Chat embed</td><td class="val">Active on <span class="mono">www.bernco.gov</span></td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="tab">Actions Panel</h3>
+  <div class="actions-grid">
+    <div class="act"><span class="name">Document Analyst</span><span class="state off">Inactive</span></div>
+    <div class="act"><span class="name">Verify Responses (Beta)</span><span class="state off">Inactive</span></div>
+    <div class="act"><span class="name">Lead Generation</span><span class="state off">Inactive</span></div>
+    <div class="act"><span class="name">Drive Conversions (Beta)</span><span class="state off">Inactive</span></div>
+    <div class="act"><span class="name">Webpage Awareness</span><span class="state on">Active</span></div>
+    <div class="act"><span class="name">Custom Button</span><span class="state on">Active</span></div>
+    <div class="act"><span class="name">Web Search (Beta)</span><span class="state off">Inactive</span></div>
+    <div class="act"><span class="name">Orchestrate (Beta)</span><span class="state off">Inactive</span></div>
+  </div>
+
+  <!-- ═══════════════ PART 2 ═══════════════ -->
+  <h2 class="part"><span class="num">Part 2</span>KB Sources Baseline</h2>
+
+  <h3 class="tab">Summary</h3>
+  <div class="sources-summary">
+    <div class="ss"><div class="k">Website / Sitemap sources</div><div class="v">8</div></div>
+    <div class="ss"><div class="k">Web-source documents</div><div class="v">≈13,470</div></div>
+    <div class="ss"><div class="k">Uploaded files</div><div class="v">≈23</div><div class="sub">File Upload</div></div>
+    <div class="ss"><div class="k">YouTube sources</div><div class="v">1</div><div class="sub">Channel detail TBD</div></div>
+    <div class="ss"><div class="k">Sync cadence</div><div class="v" style="font-size:15px; line-height:1.3; padding-top:3px;">Daily for most sources</div></div>
+  </div>
+
+  <h3 class="tab">Website and Sitemap Sources</h3>
+  <table class="sources-table">
+    <thead>
+      <tr><th style="width:34%;">URL / Source</th><th class="num" style="width:10%;">Docs</th><th>Authority and Use</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="url">https://carnm.realtor/</span></td>
+        <td class="num">7,574</td>
+        <td class="desc">Central NM REALTORS. Industry context for market and transaction queries. <span class="tbd">Justification TBD</span></td>
+      </tr>
+      <tr>
+        <td><span class="url">https://www.nmcounties.org/</span></td>
+        <td class="num">2,408</td>
+        <td class="desc">NM Association of Counties. Inter-county practice and policy.</td>
+      </tr>
+      <tr>
+        <td><span class="url">https://www.tax.newmexico.gov/</span></td>
+        <td class="num">1,920</td>
+        <td class="desc">NM Taxation and Revenue. Authoritative state tax guidance.</td>
+      </tr>
+      <tr>
+        <td><span class="url">https://www.gaar.com/</span></td>
+        <td class="num">494</td>
+        <td class="desc">Greater Albuquerque Association of REALTORS. Local market context. <span class="tbd">Justification TBD</span></td>
+      </tr>
+      <tr>
+        <td><span class="url">https://www.nmdfa.state.nm.us/</span></td>
+        <td class="num">449</td>
+        <td class="desc">NM Department of Finance and Administration.</td>
+      </tr>
+      <tr class="own">
+        <td><span class="url">https://www.bernco.gov/assessor/sitemap_index.xml</span></td>
+        <td class="num">252</td>
+        <td class="desc">Bernalillo County Assessor (own site).</td>
+      </tr>
+      <tr class="own">
+        <td><span class="url">https://www.bernco.gov/treasurer/sitemap_index.xml</span></td>
+        <td class="num">234</td>
+        <td class="desc">Bernalillo County Treasurer (sister department).</td>
+      </tr>
+      <tr class="own">
+        <td><span class="url">https://www.berncoclerk.gov/sitemap_index.xml</span></td>
+        <td class="num">139</td>
+        <td class="desc">Bernalillo County Clerk (sister department).</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <strong class="k">Items for Annual Leadership Review</strong>
+    <ul>
+      <li>REALTOR-association sources account for approximately <strong>60% of all web-indexed documents</strong> (carnm.realtor + gaar.com). Justification for industry-association content in the public assessor chatbot should be documented.</li>
+      <li><strong>Daily auto-sync</strong> means external content informs A.C.E. within 24 hours of publication, with no human review. Confirm risk posture is acceptable or define a review workflow.</li>
+      <li><strong>Conversation Retention = Never</strong> — confirm alignment with records-management policy.</li>
+      <li><strong>Agent Visibility = Public</strong> — confirm desired discoverability.</li>
+      <li><strong>AI Model = Claude 4.6 Sonnet</strong> — verify model is still appropriate or whether an upgrade is warranted.</li>
+      <li>No documented review cadence for source content currently exists. If oversight asks how source quality is monitored, the current answer is <em>"not monitored."</em></li>
+      <li>Terms of Service URL is a live link to <span style="font-family:'JetBrains Mono',monospace; font-size:13px;">bernco.gov/assessor/chatbot-disclaimer/</span>. Confirm page still exists at annual review; broken link is silent.</li>
+    </ul>
+  </div>
+
+  <div class="tag-line">
+    <div class="tag">Count on us.</div>
+    <div class="sig">Bernalillo County Assessor · Damian R. Lara, County Assessor</div>
+  </div>
+</article>
+</body>
+</html>

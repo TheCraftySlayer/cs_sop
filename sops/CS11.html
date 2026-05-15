@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CS11 · Case Entry for District Court AAs · Source SOP</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+@font-face { font-family: 'Gotham Display'; src: url('../fonts/Gotham-Black.otf') format('opentype'); font-weight: 900; font-style: normal; font-display: swap; }
+:root { --bosque:#285952; --bosque-dark:#1d4640; --cypress:#013942; --terracotta:#e47756; --mist:#e8f1ee; --mist-soft:#f4f8f6; --paper:#faf8f4; --ink:#1a2620; --line:#cfd8d3; --muted:#5a6b65; }
+* { box-sizing: border-box; }
+html, body { margin:0; padding:0; font-family: "Montserrat",system-ui,sans-serif; color:var(--ink); background:var(--mist-soft); -webkit-font-smoothing:antialiased; line-height:1.55; }
+.top-bar { background:var(--paper); border-bottom:2px solid var(--line); padding:16px 56px; display:flex; align-items:center; gap:24px; position:sticky; top:0; z-index:10; }
+.top-bar img.logo { height:56px; width:auto; display:block; }
+.top-bar .crumb { padding-left:24px; border-left:1px solid var(--line); font-size:12px; font-weight:600; color:var(--muted); letter-spacing:0.18em; text-transform:uppercase; line-height:1.6; }
+.top-bar .crumb b { color:var(--cypress); }
+.top-bar .actions { margin-left:auto; display:flex; gap:10px; flex-wrap:wrap; }
+.top-bar .action { display:inline-flex; align-items:center; gap:8px; padding:9px 16px; font-size:13px; font-weight:600; text-decoration:none; border-radius:999px; letter-spacing:0.04em; background:transparent; color:var(--cypress); border:1px solid var(--line); cursor:pointer; font-family:inherit; transition:all 180ms cubic-bezier(0.4,0,0.2,1); }
+.top-bar .action.primary { background:var(--bosque); color:var(--paper); border-color:var(--bosque); }
+.top-bar .action:hover { background:var(--mist); border-color:var(--cypress); }
+.top-bar .action.primary:hover { background:var(--bosque-dark); }
+.doc { max-width:920px; margin:48px auto 80px; background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:64px 72px 72px; box-shadow:0 12px 36px rgba(15,30,27,0.06); }
+.doc-header { border-bottom:3px solid var(--bosque); padding-bottom:28px; margin-bottom:36px; }
+.doc-header .eyebrow { font-size:12px; font-weight:700; color:var(--terracotta); letter-spacing:0.24em; text-transform:uppercase; margin-bottom:12px; }
+.doc-header h1 { font-family:"Gotham Display","Montserrat",sans-serif; font-size:48px; font-weight:900; line-height:1; letter-spacing:-0.02em; text-transform:uppercase; color:var(--bosque); margin:0; text-wrap:balance; }
+.meta-row { display:flex; gap:16px; font-size:14px; padding:6px 0; border-bottom:1px dashed var(--line); }
+.meta-row:last-of-type { border-bottom:0; margin-bottom:24px; }
+.meta-row .meta-k { color:var(--muted); font-weight:600; letter-spacing:0.06em; text-transform:uppercase; font-size:12px; flex:0 0 180px; padding-top:2px; }
+.meta-row .meta-v { color:var(--ink); font-weight:500; }
+.doc h2 { font-family:"Gotham Display","Montserrat",sans-serif; font-size:24px; font-weight:900; color:var(--bosque); letter-spacing:-0.005em; text-transform:uppercase; margin:40px 0 14px; padding-bottom:8px; border-bottom:1px solid var(--line); }
+.doc p { font-size:15.5px; color:var(--ink); margin:0 0 12px; text-wrap:pretty; }
+.tag-line { margin-top:48px; padding-top:36px; border-top:2px solid var(--line); text-align:center; }
+.tag-line .tag { font-family:"Gotham Display","Montserrat",sans-serif; font-size:28px; font-weight:900; color:var(--terracotta); text-transform:lowercase; margin-bottom:6px; }
+.tag-line .sig { font-size:11px; font-weight:600; color:var(--muted); letter-spacing:0.14em; text-transform:uppercase; }
+@media print { body { background:white; } .top-bar { display:none; } .doc { box-shadow:none; border:0; margin:0; padding:0; max-width:none; } }
+
+.sop-tabs { display:flex; gap:8px; margin:-20px 0 28px; position:sticky; top:88px; z-index:5; background:var(--paper); padding:14px 0 6px; border-bottom:1px solid var(--line); }
+.sop-tabs .tab-btn {
+  appearance:none; background:transparent; border:1px solid var(--line); color:var(--muted);
+  font-family:inherit; font-size:13px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+  padding:9px 18px; border-radius:999px; cursor:pointer;
+  transition:all 180ms cubic-bezier(0.4,0,0.2,1);
+}
+.sop-tabs .tab-btn:hover { color:var(--cypress); border-color:var(--cypress); }
+.sop-tabs .tab-btn.active { background:var(--bosque); color:var(--paper); border-color:var(--bosque); }
+.pane[hidden] { display:none; }
+.pane-card { margin:24px 0; }
+.pane-card .sheet { margin:0; padding:32px 36px; box-shadow:none; width:100%; min-height:auto; }
+@media print {
+  .sop-tabs { display:none; }
+  .pane[hidden] { display:block !important; }
+  .pane-full, .pane-card { page-break-before:always; }
+  .pane-full { page-break-before:auto; }
+}
+
+.pane-card 400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Card sheet — sized for letter portrait */
+.sheet {
+  width: 8.5in;
+  min-height: 11in;
+  margin: 24px auto;
+  background: var(--paper);
+  padding: 0.4in 0.5in;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 12px 36px rgba(15, 30, 27, 0.08);
+  display: flex; flex-direction: column;
+}.pane-card .sheet header {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 24px;
+  border-bottom: 4px solid var(--bosque);
+  padding-bottom: 14px;
+  margin-bottom: 18px;
+}.pane-card .sheet header .lhs {
+  display: flex; flex-direction: column;
+}.pane-card .sheet header .eyebrow {
+  font-size: 11px; font-weight: 700;
+  color: var(--terracotta);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}.pane-card .sheet header h1 {
+  font-family: "Gotham Display", "Montserrat", sans-serif;
+  font-size: 36px; font-weight: 900;
+  line-height: 0.96;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--bosque);
+  margin: 0;
+  text-wrap: balance;
+}.pane-card .sheet header .id {
+  font-family: "Gotham Display", sans-serif;
+  font-size: 64px; font-weight: 900;
+  color: var(--cypress);
+  letter-spacing: -0.04em;
+  line-height: 0.85;
+}.pane-card .sheet header .id .small {
+  display: block;
+  font-size: 11px; font-weight: 700;
+  color: var(--muted); letter-spacing: 0.24em;
+  text-transform: uppercase;
+  text-align: right;
+  margin-bottom: 4px;
+}.pane-card .purpose {
+  background: var(--mist-soft);
+  border-left: 4px solid var(--bosque);
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  font-size: 12.5px;
+  color: var(--cypress);
+  line-height: 1.5;
+  border-radius: 0 4px 4px 0;
+}.pane-card .purpose strong { color: var(--bosque); }.pane-card .grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}.pane-card .grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}.pane-card .block {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 12px;
+}.pane-card .block.accent { border-color: var(--terracotta); border-width: 1.5px; }.pane-card .block.dark { background: var(--cypress); color: var(--paper); border: 0; }.pane-card .block.dark h3 { color: var(--terracotta); }.pane-card .block.dark .label { color: rgba(255,255,255,0.5); }.pane-card .block.dark code { background: rgba(255,255,255,0.1); color: var(--paper); }.pane-card .block h3 {
+  font-family: "Gotham Display", sans-serif;
+  font-size: 13px; font-weight: 900;
+  color: var(--bosque);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 0 0 8px;
+  display: flex; align-items: center; gap: 8px;
+}.pane-card .block h3 .num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--terracotta);
+  color: var(--paper);
+  font-size: 10px;
+}.pane-card .block ul, .pane-card .block ol { margin: 0; padding-left: 18px; line-height: 1.55; }.pane-card .block li { margin: 2px 0; }.pane-card .block dl { margin: 0; }.pane-card .block dt {
+  font-weight: 700;
+  color: var(--cypress);
+  margin-top: 6px;
+}.pane-card .block dt:first-child { margin-top: 0; }.pane-card .block dd { margin: 1px 0 0 0; color: var(--ink); line-height: 1.4; }.pane-card .block .label {
+  font-size: 9.5px; font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}.pane-card .block .path, .pane-card .block code {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11.5px;
+  background: var(--mist);
+  padding: 1.5px 6px;
+  border-radius: 3px;
+  color: var(--cypress);
+  font-weight: 500;
+}.pane-card .block .big {
+  font-family: "Gotham Display", sans-serif;
+  font-size: 28px; font-weight: 900;
+  color: var(--bosque);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 4px;
+}.pane-card .block .big.terra { color: var(--terracotta); }.pane-card .warn {
+  background: #fceee7;
+  border-left: 4px solid var(--terracotta);
+  padding: 10px 14px;
+  border-radius: 0 4px 4px 0;
+  font-size: 12px;
+  color: var(--cypress);
+  line-height: 1.5;
+}.pane-card .warn strong { color: var(--terracotta); }.pane-card .steps-line {
+  display: flex;
+  gap: 0;
+  margin: 8px 0 0;
+  font-size: 11px;
+}.pane-card .steps-line .step {
+  flex: 1;
+  position: relative;
+  padding: 8px 10px 8px 24px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-right: 0;
+}.pane-card .steps-line .step:last-child { border-right: 1px solid var(--line); border-radius: 0 4px 4px 0; }.pane-card .steps-line .step:first-child { border-radius: 4px 0 0 4px; }.pane-card .steps-line .step .n {
+  position: absolute;
+  left: 6px; top: 50%; transform: translateY(-50%);
+  font-family: "Gotham Display", sans-serif;
+  font-size: 14px; font-weight: 900;
+  color: var(--terracotta);
+}.pane-card .steps-line .step strong {
+  font-family: "Gotham Display", sans-serif;
+  font-size: 11px;
+  color: var(--bosque);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  display: block;
+}.pane-card .table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11.5px;
+}.pane-card .table th, .pane-card .table td {
+  text-align: left;
+  padding: 5px 8px;
+  border-bottom: 1px solid var(--line);
+}.pane-card .table th {
+  font-size: 9.5px; font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}.pane-card .table td.code { font-family: 'JetBrains Mono', ui-monospace, monospace; font-weight: 700; color: var(--bosque); }.pane-card .table .terra { color: var(--terracotta); }.pane-card .table tr:last-child td { border-bottom: 0; }.pane-card .row-list { columns: 2; column-gap: 16px; font-size: 12px; line-height: 1.5; }.pane-card .row-list code { font-family: 'JetBrains Mono', ui-monospace, monospace; font-weight: 600; color: var(--bosque); }.pane-card .footer {
+  margin-top: auto; padding-top: 14px;
+  border-top: 1px solid var(--line);
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 9.5px; color: var(--muted);
+  letter-spacing: 0.14em; text-transform: uppercase;
+}.pane-card .footer .tag {
+  font-family: "Gotham Display", sans-serif;
+  font-size: 14px; font-weight: 900;
+  color: var(--terracotta);
+  text-transform: lowercase;
+  letter-spacing: 0;
+}
+
+
+/* card-specific print rules omitted to avoid conflicts */
+
+</style>
+</head>
+<body>
+<header class="top-bar">
+  <img src="../assets/bernco-assessor-logo.png" alt="BernCo County Assessor" class="logo">
+  <div class="crumb"><b>SOP CS11</b><br>Source document</div>
+  <div class="actions">
+    <a class="action" href="../index.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M6 4L3 7l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Library</a>
+    <a class="action" href="../videos/CS11_Case_Entry_District_Court.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg> Watch</a>
+    <a class="action" href="../docs/CS11_Case_Entry_District_Court.docx" download><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v9M3 7l4 4 4-4M2 13h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> .docx</a>
+    <button class="action primary" onclick="window.print()" style="border:0; font-family:inherit; cursor:pointer;"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M4 1h6v3M4 11h6v2H4zM2 4h10v6H2z M4 7h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Save as PDF</button>
+  </div>
+</header>
+<article class="doc">
+  <nav class="sop-tabs"><button class="tab-btn active" data-tab="full" type="button">Full SOP</button><button class="tab-btn" data-tab="card" type="button">Quick Reference</button></nav>
+  <div class="pane pane-full" data-pane="full">
+  <div class="doc-header">
+    <div class="eyebrow">Bernalillo County Assessor · Operational Services — LEAP</div>
+    <h1>Case Entry for District Court AAs</h1>
+  </div>
+  <div class="meta-row"><span class="meta-k">Process Title</span><span class="meta-v">Case Entry for District Court AAs</span></div>
+<div class="meta-row"><span class="meta-k">Department</span><span class="meta-v">Operational Services – LEAP</span></div>
+<div class="meta-row"><span class="meta-k">SOP ID</span><span class="meta-v">N/A</span></div>
+<div class="meta-row"><span class="meta-k">Last Reviewed</span><span class="meta-v">05/04/2026</span></div>
+<div class="meta-row"><span class="meta-k">Effective Date</span><span class="meta-v">05/04/2026</span></div>
+<div class="meta-row"><span class="meta-k">Version</span><span class="meta-v">1.0</span></div>
+<h2>Purpose</h2>
+<p>This SOP outlines the standardized steps for performing Case Entry for District Court cases in accordance with LEAP procedural requirements.</p>
+<h2>Scope</h2>
+<p>This procedure applies to all staff responsible for performing Assessor Authorization (Case Entry) processing within IASWorld and related documentation management.</p>
+<h2>Definitions</h2>
+<p>AA – Assessor Authorization document used for District Court processing.</p>
+<p>IASWorld – Property tax assessment and appeals system.</p>
+<h2>Related Documents</h2>
+<p>Documents referenced in this SOP are either available within the shared LEAP directories or within a given AA packet as applicable.</p>
+<h2>Statutes</h2>
+<p>Applicable statutory references may include NMSA 1978 property tax procedures as relevant to District Court filings.</p>
+<h2>Procedure</h2>
+<p>Initial Setup</p>
+<p>Open IASWorld Production.</p>
+<p>Select the “Appeals” Role from the top right dropdown menu</p>
+<p>Click the top left menu icon (three horizontal bars) to open the Menu</p>
+<p>Select “Transactions” then select “Inquiries &amp; Appeals By Parcel”</p>
+<p>Selecting the Parcel to be worked.</p>
+<p>Select the correct tax year from the top right corner “Tax Year” dropdown (Your selection should match the marked Tax Year on the Assessor Authorization (AA) form).</p>
+<p>Type in the 18-digit UPC number from the AA form in the top left “Parcel ID” search bar and enter or click the magnifying glass button.</p>
+<p>This should open the Parcel File (If the file fails to pull up ensure that the correct tax year and UPC have been entered.</p>
+<p>NOTE: Before continuing, ensure that the AA form has all necessary signatures (all lines but “Case Entry”) and that the name on the AA form matches the name in the “Owner Name” field in IASWorld (additional titles do not need to be an exact match).</p>
+<p>Verify Assessed Values are correct</p>
+<p>Select “Asmt” from the tabs near the top of the screen.</p>
+<p>Compare the values by category from the AA form to the entered values on screen.</p>
+<p>Do Values match? If yes then continue to Step 4, otherwise continue to Step 3.c.</p>
+<p>The discrepancies must be clarified with whoever entered the information before continuing. Review who signed for entering in the data on the AA form and attempt to clarify any discrepancies with that individual. If discrepancies were corrected then continue to step 4, otherwise STOP.</p>
+<p>Changing Parcel Status</p>
+<p>Select “Hearings” from the top tabs.</p>
+<p>Select the dropdown for “Hearing Status”.</p>
+<p>Select “Resolved” from the dropdown.</p>
+<p>Validating Reviewed Parcel</p>
+<p>Select the “Validate” option (underneath the “Parcel ID” search bar). The “Hearing Status” line should be highlighted in green once “Validate” has been selected.</p>
+<p>Select “Commit” (to the right of “Validate”)</p>
+<p>The Info line underneath the “Hearings” tab should update with a new line with your name and date/time (i.e. JDOE 01/01/2026 12:35PM).</p>
+<p>Create a New Record.</p>
+<p>Select “Add Record” (underneath the “Parcel ID” search bar). This opens a new record for the AA Parcel.</p>
+<p>Setting Up the New Record.</p>
+<p>Select the “Type” dropdown and choose “AUT”.</p>
+<p>Add a Case #.</p>
+<p>Select the “Assign” button. This generates a Case # into the field.</p>
+<p>In red ink, write the Case # along the right side of the AA form AND in the forms first blank “Case #” line.</p>
+<p>On the AA form, write the tax year in the “YR” section on the same line you wrote the Case #.</p>
+<p>Add the Filing Date.</p>
+<p>Included with the AA form there should be the Claim for Refund Notice. Find the Filing Date on this notice.</p>
+<p>NOTE: If the Claim for Refund (Complaint for Refund of Property Taxes Paid) Notice is unavailable then you may use the Filing Date from the Stipulated Final Judgement Notice instead.</p>
+<p>In IASWorld, fill in the same Filing Date from the selected form into the “Filing Date” field either by typing it in or selecting it by clicking the calendar icon.</p>
+<p>Select the “Action” dropdown and choose “Authorization”</p>
+<p>Select the “Reason” dropdown and choose the same Reason Code marked on the AA form.</p>
+<p>Select the “Hearing Status” dropdown and choose “Active”</p>
+<p>Add the Owner’s Personal Information</p>
+<p>Click the three horizontal bars next to the “Owner’s Name” line. The owner’s information should auto-populate in a popup window.</p>
+<p>Select the owner’s information if it’s not already selected and click “Okay”. This should automatically fill in the owner’s name and address.</p>
+<p>Note: If the owner’s info doesn’t auto-populate or automatically fill in then type out the information from the AA form into the “Owner Name” and “Address” fields.</p>
+<p>Scroll down and select the “District Court Rec Date” and choose the same date used for the “Filing Date”</p>
+<p>Add the District Court Case #.</p>
+<p>You can find the District Court Case # on either the Claim for Refund or the Stipulated Final Judgement (Format: CV-YYYY-#####, i.e. “CV-2025-12345”).</p>
+<p>NOTE: The year stipulated on the Case # IS NOT always the same as the selected Tax Year. Write the year as it appears in the Case #.</p>
+<p>Enter the District Court Case # on the “District Court Case #” line (Using spaces instead of dashes)</p>
+<p>EXAMPLE: CV-2025-12345 is entered as “CV 2025 12345”</p>
+<p>Validate New Record.</p>
+<p>Select “Validate”. This will generate a new blank line above the previously generated line with your name and date/time.</p>
+<p>Add Notes.</p>
+<p>Select “Notes1” from the tabs near the top of the screen.</p>
+<p>Select “Add”</p>
+<p>Type in the next # in descending sequence from the previous notes. Hit Tab or select the blank area in the Code column.</p>
+<p>Select “District Court”. Hit Tab twice or select the area in the Comment column.</p>
+<p>In the “Comment” column, write:</p>
+<p>“Treasure claim for refund for AA#[6-digit AA # from Step 7.b] CV#[CV# from Step 7.i, include dashes] [Any Extra Notes] [Entering Staff Initials] [DD.MM.YYYY]</p>
+<p>EXAMPLE: “Treasure claim for refund for AA123456 CV 2025-12345 JD 01.01.2026”</p>
+<p>NOTE: If extra space is needed then you can create add rows to your notes. Each additional row starts with the original sequence # from your initial note then has “.01, .02, .03…” added to it, reflecting the number of additional rows.  (i.e. Sequence 22 branches into 22.01 then 22.02 if there are two extra rows).</p>
+<p>Finalize the Parcel</p>
+<p>Select “Validate”. The Validate button should turn green.</p>
+<p>Once “Validate” is selected select “Commit” to finalize the new Parcel.</p>
+<p>Send Confirmation Email.</p>
+<p>Address the email to the designated Treasury contact person (Typically the Compliance Officer) and CC the Deputy Treasurer.</p>
+<p>Additionally, CC yourself, the Assessor, Deputy Assessor, the Chief Appraiser, and any other personnel per local instructions.</p>
+<p>Attach (as available) both the Claim for Refund and the Stipulated Final Judgement to the email.</p>
+<p>To find these documents digitally go to the Shared Drive and pull up the Claim for Refunds folder for the appropriate tax year.</p>
+<p>NOTE: For the 2025 tax year this would be the file path: Shared Drive(asadmin)&gt;L.E.A.P. 2025 District Courts&gt;2025 Claim for Refund.</p>
+<p>Find the folder that matches the name and the 18-digit UPC number of your current AA.</p>
+<p>Review available documents and attach the Claim for Refund and the Stipulated Final Judgement.</p>
+<p>NOTE: If you cannot attach the documents directly from the shared drive then download a local copy to your computer and then attach them.</p>
+<p>In the subject line write: Assessor AA# [AA# from Step 7.b] for [Client Name] [Full District Court Case #] UPC: [UPC#].</p>
+<p>Example:</p>
+<p>“Assessor AA# 123456 for Jane Doe CV 2026 12345 UPC: 123456789123456789”</p>
+<p>Your message should include the same information from Step 11.d and written acknowledgement that the necessary forms were attached (or why they were not).</p>
+<p>Example:</p>
+<p>“The Assessor’s office has completed an AA# 123456 for John Doe Trustee CV 2026 12345 UPC: 123456789123456789.</p>
+<p>Attached are copies of the Claim for Refund and the Stipulated Final Judgment.</p>
+<p>Please contact our office if you have any questions.”</p>
+<p>Mark email as High Importance.</p>
+<p>Send the email, verify there were no issues in sending.</p>
+<p>Sign Off on Case Entry</p>
+<p>Sign and date the “Case Entry” on the physical AA form.</p>
+<p>Scan and Upload Physical AA Form Packet</p>
+<p>Scan the entire physical AA Form packet.</p>
+<p>Transfer scanned form to your employee OneDrive or to your email.</p>
+<p>Copy the scanned form into the folder for completed AA Case Entrys. File name should be: [Owner Name] [AA#] [District Court Case# (excluding dashes)] [UPC#].</p>
+<p>EXAMPLE: Jane Doe AA#123456 CV 1234 56789 UPC 123456789123456789)</p>
+<p>NOTE: For the 2025 tax year the file path would be:</p>
+<p>Shared Drive(asadmin)&gt;L.E.A.P 2025 District Courts&gt;2025 AAs</p>
+<p>Transfer Scan and Physical AA Packet</p>
+<p>Forward a copy of the complete scan of the AA to your office’s designated Records and Information Management Specialist.</p>
+<p>Transfer the completed physical AA packet to the office Records and Information Management Specialist.</p>
+
+  <div class="tag-line">
+    <div class="tag">Count on us.</div>
+    <div class="sig">Bernalillo County Assessor · Damian R. Lara, County Assessor</div>
+  </div>
+  </div><!-- /pane-full -->
+  <div class="pane pane-card" data-pane="card" hidden>
+    <article class="sheet">
+  <header>
+    <div class="lhs">
+      <div class="eyebrow">Bernalillo County Assessor · Operational Services — LEAP</div>
+      <h1>Case Entry for District Court AAs</h1>
+    </div>
+    <div class="id"><span class="small">SOP</span>11</div>
+  </header>
+  
+<div class="purpose"><strong>Purpose.</strong> Log an Assessor Authorization (AA) for a District Court Claim for Refund into IASWorld — start to finish, including email and physical packet handoff.</div>
+
+<div class="grid-3" style="margin-bottom: 12px;">
+  <div class="block accent">
+    <h3>Initial Setup</h3>
+    <ol>
+      <li>Open IASWorld Production</li>
+      <li>Role → Appeals (top-right)</li>
+      <li>Menu (top-left ☰)</li>
+      <li>Transactions → Inquiries &amp; Appeals By Parcel</li>
+    </ol>
+  </div>
+  <div class="block accent">
+    <h3>Pick Parcel</h3>
+    <ol>
+      <li>Tax Year (top-right) — match AA form</li>
+      <li>18-digit UPC in Parcel ID search</li>
+      <li>Enter or 🔍 to load</li>
+    </ol>
+    <div class="label" style="margin-top:6px;">Verify all AA signatures (except Case Entry) and Owner Name match.</div>
+  </div>
+  <div class="block dark">
+    <h3>Hearings blank?</h3>
+    <div class="big terra">CS10</div>
+    Use SOP CS10 to create the missing record first. Then come back to <strong>Step 6</strong>.
+  </div>
+</div>
+
+<div class="block" style="margin-bottom: 12px;">
+  <h3>Main sequence (Steps 3–10)</h3>
+  <div class="steps-line">
+    <div class="step"><span class="n">3</span><strong>Asmt</strong> Verify values match AA</div>
+    <div class="step"><span class="n">4</span><strong>Hearings</strong> Status → Resolved</div>
+    <div class="step"><span class="n">5</span><strong>Validate + Commit</strong> Existing record</div>
+    <div class="step"><span class="n">6</span><strong>Add Record</strong> New blank record</div>
+    <div class="step"><span class="n">7</span><strong>Setup record</strong> Type · Case # · Filing · Action · Reason · Status · Owner</div>
+    <div class="step"><span class="n">8</span><strong>Validate</strong></div>
+    <div class="step"><span class="n">9</span><strong>Notes1</strong> Add → District Court</div>
+    <div class="step"><span class="n">10</span><strong>Commit</strong></div>
+  </div>
+</div>
+
+<div class="grid-2" style="margin-bottom: 12px;">
+  <div class="block">
+    <h3>Step 7 — Setup dropdowns</h3>
+    <table class="table">
+      <tr><th>Field</th><th>Value</th></tr>
+      <tr><td>Type</td><td class="code">AUT</td></tr>
+      <tr><td>Case #</td><td>Click <code>Assign</code> → write on AA in RED INK + first blank Case # line + tax year in YR section</td></tr>
+      <tr><td>Filing Date</td><td>From Claim for Refund (or Stipulated Final Judgement)</td></tr>
+      <tr><td>Action</td><td class="code">Authorization</td></tr>
+      <tr><td>Reason</td><td>Match the AA form</td></tr>
+      <tr><td>Hearing Status</td><td class="code">Active</td></tr>
+    </table>
+  </div>
+  <div class="block">
+    <h3>District Court Case # — formats</h3>
+    <table class="table">
+      <tr><th>Where</th><th>Format</th></tr>
+      <tr><td>Source document</td><td class="code">CV-2025-12345</td></tr>
+      <tr><td>IASWorld field</td><td class="code">CV 2025 12345 (spaces)</td></tr>
+      <tr><td>Notes1 comment</td><td class="code">CV-2025-12345 (dashes)</td></tr>
+    </table>
+    <div class="label" style="margin-top:6px;">District Court Rec Date = Filing Date. Year in Case # may differ from Tax Year.</div>
+  </div>
+</div>
+
+<div class="block dark" style="margin-bottom: 12px;">
+  <h3>Notes1 comment template (Step 9)</h3>
+  <code style="font-size:13px;">Treasure claim for refund for AA#[6-digit AA #] CV#[CV# WITH dashes] [extra notes] [initials] [DD.MM.YYYY]</code>
+  <div class="label" style="margin-top:8px; color:rgba(255,255,255,0.6);">Example</div>
+  <code style="color:#c4d2c2;">Treasure claim for refund for AA123456 CV 2025-12345 JD 01.01.2026</code>
+</div>
+
+<div class="grid-2" style="margin-bottom: 12px;">
+  <div class="block">
+    <h3>Step 11 — Confirmation Email</h3>
+    <dl>
+      <dt>To:</dt><dd>Treasury contact (Compliance Officer)</dd>
+      <dt>CC:</dt><dd>Deputy Treasurer · Yourself · Assessor · Deputy Assessor · Chief Appraiser</dd>
+      <dt>Attach:</dt><dd>Claim for Refund + Stipulated Final Judgement</dd>
+      <dt>Mark:</dt><dd>High Importance</dd>
+    </dl>
+    <div class="label" style="margin-top:6px;">Subject: <code>Assessor AA# [#] for [Name] [CV#] UPC: [#]</code></div>
+  </div>
+  <div class="block">
+    <h3>Steps 12–14 — Physical handoff</h3>
+    <ol>
+      <li>Sign + date <strong>Case Entry</strong> line on physical AA</li>
+      <li>Scan entire physical packet</li>
+      <li>File: <code>[Owner Name] [AA#] [CV# no dashes] [UPC#]</code></li>
+      <li>Forward scan to Records &amp; Info Management Specialist</li>
+      <li>Walk physical packet to same Specialist</li>
+    </ol>
+  </div>
+</div>
+
+<div class="warn">
+  <strong>Shared drive paths (2025 example).</strong>
+  Attachments: <code>Shared Drive(asadmin) &gt; L.E.A.P. 2025 District Courts &gt; 2025 Claim for Refund</code>
+  &nbsp;·&nbsp; Completed AAs: <code>Shared Drive(asadmin) &gt; L.E.A.P 2025 District Courts &gt; 2025 AAs</code>
+  &nbsp;·&nbsp; Substitute current tax year.
+</div>
+
+  <div class="footer">
+    <div>Revision: this card · v1 · 2026</div>
+    <div class="tag">Count on us.</div>
+    <div>Print &amp; laminate for desk reference</div>
+  </div>
+</article>
+  </div>
+</article>
+
+<script>
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.sop-tabs .tab-btn');
+  if (!btn) return;
+  const target = btn.dataset.tab;
+  document.querySelectorAll('.sop-tabs .tab-btn').forEach(b => b.classList.toggle('active', b === btn));
+  document.querySelectorAll('.pane').forEach(p => {
+    p.hidden = p.dataset.pane !== target;
+  });
+});
+</script>
+</body>
+</html>

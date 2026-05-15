@@ -1,0 +1,54 @@
+Standard Operating Procedure (SOP)
+Process Title: Chatbot Incident Response
+Department: AI Operations
+SOP ID: AIO05
+Last Reviewed: 05/14/2026
+Effective Date: 05/14/2026
+Version: 1
+Purpose
+Response to four classes of A.C.E. operational incident. Identify the type first, then follow the matching procedure. If more than one type applies, follow the most severe first (C, then B, then A, then D).
+Type A — Wrong Answer Reported
+Reproduce
+In the Ask tab, submit the same question. Record what A.C.E. says.
+
+If Reproducible
+Fix within 1 business day. KB issue → AIO05. Persona issue → AIO03. If legal/statutory content, notify Assessor or Deputy before fix.
+
+If Not Reproducible
+Log details: question, reported answer, time, reporter contact. Re-check in 3 days. Close after 7 if no recurrence.
+
+Type B — Agent Down or Broken
+Confirm Outage
+Open the public A.C.E. embed and submit a test query. No response = confirmed.
+
+Check Vendor Status
+Open CustomGPT.ai status page. If vendor outage, document and wait. Do not route queries through unapproved tools.
+
+Notify if > 1 Hour
+Email Assessor and Deputy with start time, current status, and expected resolution if known.
+
+Document
+Record start time, end time, root cause, and resolution in the incident log.
+
+Type C — PII or Sensitive Disclosure
+Pause the Agent Immediately
+In CustomGPT.ai, click Deploy and disable public access. Contain first, then notify.
+
+Notify Within 1 Hour
+Notify Assessor and office IT contact. Include time, what was disclosed, scope of exposure, and current containment status.
+
+Preserve Logs
+Do not delete any conversation, prompt, or telemetry. Do not modify persona or KB until reviewed. Note: platform retention is set to Never, but preservation discipline still applies in case of records request or oversight review.
+
+Do Not Restart Without Review
+Restart only after the disclosure pathway is closed, affected records are documented, and Assessor or designee has authorized restart.
+
+Type D — Abusive or Hostile User Content
+Log and Disengage
+Log prompt, time, and any user identifiers. Do not engage from inside the agent. Routine hostility is handled by the persona; this SOP is for threats or sustained abuse.
+
+Escalate If Threats Present
+If threats against staff or office, notify Assessor and County security within 1 hour with full prompt text and metadata.
+
+Pattern Response
+Same user or IP repeating across conversations — coordinate with IT for IP-level or embed-level blocking.

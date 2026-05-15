@@ -16,132 +16,452 @@
 const A = '../sop_assets/CS09_Envoy_Visitor_Data_Export_and_Reporting/';
 
 const scenes = [
+
+  // ─────────────────────────── 1 — Setup ───────────────────────────
+
   {
     kind: 'title',
-    duration: 5.5,
+    es: { "title":"Exportación de Datos de Visitantes de Envoy","plainTitle":"Cómo sacar datos de registro de visitantes de Envoy — para actualizaciones analíticas, auditorías, reportes programados y exportaciones de historia completa.","kicker":"Sigue el POE CS09 sección por sección. Filtrar primero importa: la cuenta de Envoy de Alvarado es compartida con cada departamento del condado." },
+    duration: 8,
     sopId: 'CS09',
     title: 'Envoy Visitor Data Export',
-    plainTitle: 'How to pull visitor sign-in data out of Envoy — for reports, audits, or analysis.',
-    kicker: 'The Alvarado Envoy account is shared across the whole county. Filtering is not optional.',
+    plainTitle: 'How to pull visitor sign-in data out of Envoy — for analytical refreshes, audits, scheduled reports, and full-history exports.',
+    kicker: 'Follows SOP CS09 section by section. Filtering first matters: the Alvarado Envoy account is shared with every county department.',
   },
 
+  // 2 — Authorization
+  {
+    kind: 'steps',
+    es: { "title":"¿Quién puede correr cuál exportación?","sub":"Obtenga la firma correcta antes de empezar.","steps":[{"label":"Exportaciones analíticas rutinarias","desc":"Visitor log filtrado a Assessor's Office — Gerente de Servicio al Cliente O personal analítico designado."},{"label":"Exportaciones de historia completa","desc":"Sin filtro, incluye archivos NDA y fotos de visitantes — CSM con notificación al Subtasador."},{"label":"Reportes recurrentes programados","desc":"Gerente de Servicio al Cliente. Los destinatarios deben estar en el directorio de empleados."},{"label":"Exportaciones a alguien fuera de la oficina","desc":"Auditores, proveedores, registros públicos — aprobación del Subtasador ANTES de que salga el archivo."}] },
+    duration: 15,
+    title: 'Who can run which export?',
+    sub: 'Get the right sign-off before you start.',
+    steps: [
+      { label: 'Routine analytical exports', desc: 'Visitor log filtered to Assessor\'s Office — Customer Service Manager OR designated analytical staff.' },
+      { label: 'Full visitor history exports', desc: 'No filter, includes NDA files and visitor photos — CSM with Deputy Assessor notification.' },
+      { label: 'Scheduled recurring reports', desc: 'Customer Service Manager. Recipients must be in the employee directory.' },
+      { label: 'Exports to anyone outside the office', desc: 'Auditors, vendors, public records — Deputy Assessor approval BEFORE the file leaves.' },
+    ],
+  },
+
+  // 3 — Two terms
+  {
+    kind: 'comparison',
+    es: { "title":"Dos términos clave","sub":"Mismos datos abajo. Etiquetas diferentes en lugares diferentes.","items":[{"tag":"Cuenta","label":"BernCo Alvarado","desc":"El nombre de cuenta de Envoy que cubre la instalación Alvarado Square. Muchos departamentos del condado la comparten. Sus datos se separan por Visitor Type al registrarse."},{"tag":"Filtro","label":"Visitor type","desc":"La etiqueta departamental (Assessor's Office, Treasurer, Clerk, Sheriff/BCSO, etc.). En el Visitor log se llama \"Multiple types\". En Analytics se llama \"Sign-in Flow\". Mismos datos."}] },
+    duration: 15,
+    title: 'Two key terms',
+    sub: 'Same data underneath. Different labels in different places.',
+    items: [
+      { tag: 'Account', label: 'BernCo Alvarado', accent: SOP_PALETTE.bosque, desc: 'The Envoy account name covering the Alvarado Square facility. Many county departments share it. Their data is separated by Visitor Type at check-in.' },
+      { tag: 'Filter', label: 'Visitor type', accent: SOP_PALETTE.terracotta, desc: 'The departmental tag (Assessor\'s Office, Treasurer, Clerk, Sheriff/BCSO, etc.). In the Visitor log it\'s called "Multiple types". In Analytics it\'s called "Sign-in Flow". Same data.' },
+    ],
+  },
+
+  // ─────────────────────────── 2 — Sign in ───────────────────────────
+
+  // 4 — Find envoy
   {
     kind: 'screenshot',
-    duration: 6,
-    step: { num: 1, label: 'Sign in' },
-    caption: 'Sign in with your county email.',
-    sub: 'Go to dashboard.envoy.com, enter your bernco.gov email, then click Sign in. Don\'t try to type an Envoy password — we use Microsoft Single Sign-On.',
+    es: { "step":{"num":1,"label":"Abrir Envoy"},"caption":"Busque \"envoy\" o vaya a envoy.com.","sub":"Cualquier ruta lo lleva a la página de inicio. La URL directa del admin es dashboard.envoy.com — guárdela en favoritos." },
+    duration: 10,
+    step: { num: 1, label: 'Open Envoy' },
+    caption: 'Search "envoy" or go to envoy.com.',
+    sub: 'Either path lands you on the homepage. The direct admin URL is dashboard.envoy.com — bookmark it.',
+    src: A + '8552d07853cf9f7b1c3ce95bcea29bdb71525a70.png',
+    imgPos: 'right', imgFit: 'contain', imgAspect: 996/762,
+  },
+
+  // 5 — Click Login on envoy.com
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":2,"label":"Clic en Login"},"caption":"Haga clic en Login arriba a la derecha.","sub":"Esquina superior derecha de envoy.com, junto a \"Get started\"." },
+    duration: 8,
+    step: { num: 2, label: 'Click Login' },
+    caption: 'Click Login at the top right.',
+    sub: 'Top-right corner of envoy.com, next to "Get started".',
+    src: A + '01512e78be0f7710975109cbf957ecabb321f6f0.png',
+    imgPos: 'right', imgFit: 'contain', imgAspect: 1846/672,
+  },
+
+  // 6 — Email
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":3,"label":"Correo del condado"},"caption":"Ingrese su correo bernco.gov.","sub":"Formato es inicialdenombre+apellido@bernco.gov, ej. anewe@bernco.gov. Haga clic en Next." },
+    duration: 10,
+    step: { num: 3, label: 'County email' },
+    caption: 'Enter your bernco.gov email.',
+    sub: 'Format is firstinitial+lastname@bernco.gov, e.g. anewe@bernco.gov. Click Next.',
     src: A + '3c5132c3b011dff8310d8750be36e2be2abbe2a6.png',
-    imgPos: 'right', imgFit: 'contain',
+    imgPos: 'right', imgFit: 'contain', imgAspect: 1200/810,
   },
 
+  // 7 — SSO
   {
     kind: 'screenshot',
-    duration: 6,
-    step: { num: 2, label: 'SSO' },
+    es: { "step":{"num":4,"label":"SSO"},"caption":"Haga clic en \"Log in using Single Sign On\".","sub":"Es el enlace pequeño debajo del botón rojo Log in. NO hay contraseña separada de Envoy — el acceso a Envoy en la oficina se controla a través de Microsoft, no de Envoy directamente." },
+    duration: 13,
+    step: { num: 4, label: 'SSO' },
     caption: 'Click "Log in using Single Sign On".',
-    sub: 'Microsoft will pop up. Pick your bernco.gov account, complete MFA if asked, and you land in the dashboard.',
+    sub: 'It\'s the small link below the red Log in button. There is NO separate Envoy password — Envoy access at the office is controlled through Microsoft, not Envoy directly.',
     src: A + 'aca508bd7feade2c1fa548d82fb890df44eaf307.png',
-    imgPos: 'right', imgFit: 'contain',
+    imgPos: 'right', imgFit: 'contain', imgAspect: 1200/810,
   },
 
+  // 8 — Microsoft
   {
     kind: 'screenshot',
-    duration: 7,
-    step: { num: 3, label: 'Visitor log' },
-    caption: 'Open the Visitor log.',
-    sub: 'In the left sidebar: Visitors → Visitor log. This is the primary export path — row-level CSV with full field selection.',
-    src: A + '2d3922761ad530e53399cef16b0cbe5adb7041bf.png',
-    imgPos: 'right', imgFit: 'contain',
+    es: { "step":{"num":5,"label":"Microsoft"},"caption":"Elija su cuenta bernco.gov.","sub":"Microsoft aparece. Elija la cuenta bernco.gov, complete MFA si se pide, y Envoy lo regresa al dashboard." },
+    duration: 11,
+    step: { num: 5, label: 'Microsoft' },
+    caption: 'Pick your bernco.gov account.',
+    sub: 'Microsoft pops up. Pick the bernco.gov account, complete MFA if asked, and Envoy returns you to the dashboard.',
+    src: A + 'd5937729047049dfcdc0976bc7adbd816a34be1b.png',
+    imgPos: 'right', imgFit: 'contain', imgAspect: 1623/348,
   },
 
+  // ─────────────────────────── 3 — Dashboard ───────────────────────────
+
+  // 9 — Dashboard
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":6,"label":"Ya está dentro"},"caption":"El dashboard de Bernalillo County Alvarado.","sub":"Parte superior: gente en sitio, entregas, paneles de inicio rápido — contadores operacionales, NO lo que vinimos a buscar. La barra lateral izquierda es lo que importa.","bullets":[{"text":"Visitors → Visitor log — ruta principal de exportación"},{"text":"Visitors → Invites — invitaciones programadas"},{"text":"Analytics → Visitors — paneles y mapas de calor"},{"text":"Analytics → Reports — entregas programadas recurrentes"}] },
+    duration: 17,
+    step: { num: 6, label: 'You\'re in' },
+    caption: 'The Bernalillo County Alvarado dashboard.',
+    sub: 'Top of page: people on site, deliveries, quickstart panels — operational counters, NOT what we\'re here for. The left sidebar is what matters.',
+    src: A + 'e2ded75be5a5b34b43086d590171d1681d42c668.png',
+    imgPos: 'right', imgFit: 'contain', imgAspect: 1815/944,
+    bullets: [
+      { text: 'Visitors → Visitor log — primary export path', color: SOP_PALETTE.bosque },
+      { text: 'Visitors → Invites — scheduled invitations', color: SOP_PALETTE.terracotta },
+      { text: 'Analytics → Visitors — dashboards & heatmaps', color: SOP_PALETTE.cypress },
+      { text: 'Analytics → Reports — recurring scheduled deliveries', color: SOP_PALETTE.cypress },
+    ],
+  },
+
+  // ─────────────────────────── 4 — Visitor log primary path ───────────────────────────
+
+  // 10 — Open Visitor log
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":7,"label":"Visitor log"},"caption":"Barra lateral: Visitors → Visitor log.","sub":"Carga con el filtro predeterminado (hoy, todos los tipos de visitantes). El conteo de visitantes arriba incluye cada departamento del edificio Alvarado." },
+    duration: 13,
+    step: { num: 7, label: 'Visitor log' },
+    caption: 'Sidebar: Visitors → Visitor log.',
+    sub: 'Loads with default filter (today, all visitor types). The visitor count at the top includes every department in the Alvarado building.',
+    src: A + '2d3922761ad530e53399cef16b0cbe5adb7041bf.png',
+    imgPos: 'right', imgFit: 'contain', imgAspect: 1898/942,
+  },
+
+  // 11 — Why filter matters: 220
   {
     kind: 'bigstat',
-    duration: 7,
+    es: { "stat":"220","caption":"Hoy, sin filtrar","sub":"Sin un filtro de tipo de visitante, hoy muestra 220 visitantes — Treasurer, Clerk, Probate, Sheriff, cada departamento." },
+    duration: 10,
     stat: '220',
     caption: 'Today, unfiltered',
     sub: 'Without a visitor type filter, today shows 220 visitors — Treasurer, Clerk, Probate, Sheriff, every department.',
   },
 
+  // 12 — Why filter matters: 31
   {
     kind: 'bigstat',
-    duration: 6,
+    es: { "stat":"31","caption":"Hoy, solo Assessor's Office","sub":"Filtre a Assessor's Office y obtiene 31. Como 7x de diferencia. Salte el filtro y su reporte de \"Assessor\" está contaminado con cada otro departamento — silenciosamente." },
+    duration: 10,
     stat: '31',
     caption: 'Today, Assessor\'s Office only',
-    sub: 'Filter to Assessor\'s Office and you get 31. A 7× difference. Skip the filter and your "Assessor" report secretly contains every other department.',
+    sub: 'Filter to Assessor\'s Office and you get 31. About 7× difference. Skip the filter and your "Assessor" report is contaminated with every other department — silently.',
     accent: SOP_PALETTE.terracotta,
   },
 
+  // 13 — Multiple types dropdown
   {
     kind: 'screenshot',
-    duration: 8,
-    step: { num: 4, label: 'Filter — critical' },
-    caption: 'Set Multiple types to Assessor\'s Office.',
-    sub: 'Click the "Multiple types" dropdown. Uncheck "Visitor types" to clear all, then check ONLY Assessor\'s Office. The dropdown label changes from "Multiple types" to "Assessor\'s Office".',
+    es: { "step":{"num":8,"label":"Filtro — abrir"},"caption":"Haga clic en \"Multiple types\".","sub":"Entre el control Columns y el filtro \"All Visitors\". Se abre el panel Visitor types, listando cada tipo definido en la cuenta BernCo Alvarado." },
+    duration: 13,
+    step: { num: 8, label: 'Filter — open' },
+    caption: 'Click "Multiple types".',
+    sub: 'Between the Columns control and the "All Visitors" filter. The Visitor types panel opens, listing every type defined on the BernCo Alvarado account.',
+    src: A + '072ff0189190d8e2645c88150031d1a47071dd55.png',
+    imgPos: 'right', imgFit: 'contain', imgAspect: 1898/942,
+  },
+
+  // 14 — Pick Assessor's Office
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":9,"label":"Elegir uno"},"caption":"Desmarque \"Visitor types\", luego marque solo Assessor's Office.","sub":"Cuando exactamente un tipo está seleccionado, la etiqueta del menú cambia de \"Multiple types\" a \"Assessor's Office\". El conteo de visitantes arriba baja consecuentemente. Verifique la columna Purpose of visit — cada fila debe leer Assessor's Office." },
+    duration: 14,
+    step: { num: 9, label: 'Pick one' },
+    caption: 'Uncheck "Visitor types", then check Assessor\'s Office.',
+    sub: 'When exactly one type is selected, the dropdown label changes from "Multiple types" to "Assessor\'s Office". The visitor count at the top drops accordingly. Spot-check the Purpose of visit column — every row should read Assessor\'s Office.',
     src: A + '670b7ce1cdecf84b1a79ec2b5708989b27ee6b01.png',
-    imgPos: 'right', imgFit: 'contain',
+    imgPos: 'right', imgFit: 'contain', imgAspect: 1898/942,
   },
 
+  // 15 — Date filter
   {
     kind: 'screenshot',
-    duration: 8,
-    step: { num: 5, label: 'Date range' },
+    es: { "step":{"num":10,"label":"Rango de fechas"},"caption":"Elija el rango de fechas.","sub":"Haga clic en el control de fecha arriba a la izquierda. Presets a la izquierda, calendario personalizado a la derecha.","bullets":[{"text":"Today · Yesterday · Past 7 / 30 / 60 / 90 days"},{"text":"Month-to-date · Year-to-date · Past year · All time"},{"text":"Personalizado: clic en inicio, luego clic en fin"}] },
+    duration: 14,
+    step: { num: 10, label: 'Date range' },
     caption: 'Pick the date range.',
-    sub: 'Click the date control. Use a preset (Past 30 days, Year-to-date) or pick custom start and end dates. The visitor count at the top updates as you change the range.',
+    sub: 'Click the date control at the top left. Presets on the left, custom calendar on the right.',
+    src: A + '880b18b95211704ffdd99c8251787edd7773636a.png',
+    imgPos: 'right', imgFit: 'contain', imgAspect: 1898/942,
+    bullets: [
+      { text: 'Today · Yesterday · Past 7 / 30 / 60 / 90 days', color: SOP_PALETTE.bosque },
+      { text: 'Month-to-date · Year-to-date · Past year · All time', color: SOP_PALETTE.bosque },
+      { text: 'Custom: click start, then click end', color: SOP_PALETTE.terracotta },
+    ],
+  },
+
+  // 16 — Confirm range
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":11,"label":"Confirmar"},"caption":"El conteo de visitantes se actualiza mientras cambia el rango.","sub":"Con Past 60 days + Assessor's Office, este ejemplo muestra 5,194 visitantes en 03/06/2026 → 05/05/2026. El número arriba es su prueba de sanidad." },
+    duration: 13,
+    step: { num: 11, label: 'Confirm' },
+    caption: 'Visitor count updates as you change the range.',
+    sub: 'With Past 60 days + Assessor\'s Office, this example shows 5,194 visitors over 03/06/2026 → 05/05/2026. The number at the top is your sanity check.',
     src: A + 'a6a1d106d1138be119f797b1ecc113319d2d0dca.png',
-    imgPos: 'right', imgFit: 'contain',
+    imgPos: 'right', imgFit: 'contain', imgAspect: 1898/942,
   },
 
+  // ─────────────────────────── 5 — Export modal ───────────────────────────
+
+  // 17 — Open Export modal
   {
     kind: 'screenshot',
-    duration: 9,
-    step: { num: 6, label: 'Export' },
-    caption: 'Click Export. CSV. Keep all fields.',
-    sub: 'Verify the "Choose visitor type" still reads Assessor\'s Office. Pick CSV (PDF is for human-readable reports). Leave Default Fields and Custom Fields all checked — removing them breaks downstream column expectations.',
+    es: { "step":{"num":12,"label":"Exportar"},"caption":"Haga clic en Export. Configure cada sección.","sub":"Se abre el modal \"Export visitor data\". Cuatro cosas que configurar, después clic en Export.","bullets":[{"text":"Visitor type — verifique que diga Assessor's Office"},{"text":"Format — CSV para análisis, PDF para humano-legible"},{"text":"Default fields — déjelos TODOS marcados"},{"text":"Custom fields — déjelos TODOS marcados (ej. Spanish speaking required)"}] },
+    duration: 17,
+    step: { num: 12, label: 'Export' },
+    caption: 'Click Export. Configure each section.',
+    sub: 'The "Export visitor data" modal opens. Four things to set, then click Export.',
     src: A + 'a7294ca6605a6a66180fbdc921af22ead99a1fc0.png',
-    imgPos: 'right', imgFit: 'contain',
+    imgPos: 'right', imgFit: 'contain', imgAspect: 1110/892,
+    bullets: [
+      { text: 'Visitor type — verify it reads Assessor\'s Office', color: SOP_PALETTE.bosque },
+      { text: 'Format — CSV for analysis, PDF for human-readable', color: SOP_PALETTE.terracotta },
+      { text: 'Default fields — leave ALL checked', color: SOP_PALETTE.cypress },
+      { text: 'Custom fields — leave ALL checked (e.g. Spanish speaking required)', color: SOP_PALETTE.cypress },
+    ],
   },
 
-  {
-    kind: 'screenshot',
-    duration: 8,
-    step: { num: 7, label: 'Analytics path' },
-    caption: 'Analytics → Visitors (secondary path).',
-    sub: 'Use this for traffic-pattern analysis — Invites, Visitors, Hosts tiles and a busiest-hours heatmap. The filter here is called "Sign-in Flow" instead of "Multiple types" — same underlying data.',
-    src: A + '7ac58a4b6953e15bb55c7faa54e89a3438e5a26f.png',
-    imgPos: 'right', imgFit: 'contain',
-  },
-
+  // 18 — Default fields explained
   {
     kind: 'steps',
-    duration: 10,
-    title: 'Verify every export',
-    sub: 'Before you save it anywhere, spot-check the CSV.',
+    es: { "title":"Qué hay en la exportación","sub":"Default fields disponibles en la configuración actual. Quitarlos rompe las expectativas de columnas downstream.","steps":[{"label":"Identidad","desc":"Name · Phone number · E-mail · Company name · Group name"},{"label":"Visita","desc":"Sign in time · Sign out time · Host · Sign-in flow · Invite status · Location name"},{"label":"Operaciones","desc":"Desk · Entry Status · Legal docs · Private notes · Security"},{"label":"Custom fields","desc":"Específicos del flujo de la oficina — Spanish speaking required, campos de propiedad, etc. Aparecen solo si el flujo los capturó en el rango de fechas."}] },
+    duration: 17,
+    title: 'What\'s in the export',
+    sub: 'Default fields available in the current configuration. Removing them breaks downstream column expectations.',
+    steps: [
+      { label: 'Identity', desc: 'Name · Phone number · E-mail · Company name · Group name' },
+      { label: 'Visit', desc: 'Sign in time · Sign out time · Host · Sign-in flow · Invite status · Location name' },
+      { label: 'Operations', desc: 'Desk · Entry Status · Legal docs · Private notes · Security' },
+      { label: 'Custom fields', desc: 'Specific to the office\'s flow — Spanish speaking required, property fields, etc. These show up only if the flow has captured them in the date range.' },
+    ],
+  },
+
+  // 19 — Verify
+  {
+    kind: 'steps',
+    es: { "title":"Antes de guardar el CSV","sub":"Ábralo. Verifique cuatro cosas.","steps":[{"label":"El conteo de filas coincide con la vista previa del modal","desc":"Si el modal dijo 5,194 registros, su CSV tiene 5,194 filas."},{"label":"Sign-in flow muestra solo Assessor's Office","desc":"Sin Treasurer, sin Probate, sin Clerk. Fallo de filtro = contaminación silenciosa."},{"label":"Los Sign in times caen dentro del rango solicitado","desc":"Filas fuera de rango significa que el filtro de fechas no se aplicó."},{"label":"Los Default y Custom fields están poblados","desc":"Name, Phone, Host, Sign in time, Spanish speaking required, etc. Columnas vacías = fallo de selección de campos."}] },
+    duration: 15,
+    title: 'Before you save the CSV',
+    sub: 'Open it. Spot-check four things.',
     steps: [
       { label: 'Row count matches the modal preview', desc: 'If the modal said 5,194 records, your CSV has 5,194 rows.' },
       { label: 'Sign-in flow shows only Assessor\'s Office', desc: 'No Treasurer, no Probate, no Clerk. Filter failure = silent contamination.' },
-      { label: 'Sign-in times fall inside the date range', desc: 'Out-of-range rows mean the date filter didn\'t apply.' },
-      { label: 'Default and Custom fields are populated', desc: 'Name, Phone, Host, Sign-in time, Spanish-speaking required, etc.' },
+      { label: 'Sign in times fall inside the requested range', desc: 'Out-of-range rows mean the date filter didn\'t apply.' },
+      { label: 'Default & Custom fields are populated', desc: 'Name, Phone, Host, Sign in time, Spanish speaking required, etc. Empty columns = field selection failure.' },
     ],
   },
 
+  // 20 — Save and document
+  {
+    kind: 'steps',
+    es: { "title":"Guardar y documentar","sub":"El nombre de archivo y la entrada de registro ambos importan para trazabilidad.","steps":[{"label":"Guarde en el drive compartido aprobado","desc":"NO escritorio, NO nube personal, NO USB."},{"label":"El nombre incluye fechas","desc":"ej. Visitors_AssessorsOffice_2026-03-06_through_2026-05-05.csv"},{"label":"Regístrelo en el registro de pipeline de datos","desc":"Fecha sacada, rango de fechas, filtro de tipo de visitante, conteo de filas, quién sacó, uso intencionado."}] },
+    duration: 13,
+    title: 'Save and document',
+    sub: 'Filename and log entry both matter for traceability.',
+    steps: [
+      { label: 'Save to the approved shared drive', desc: 'NOT desktop, NOT personal cloud, NOT USB.' },
+      { label: 'Filename includes dates', desc: 'e.g. Visitors_AssessorsOffice_2026-03-06_through_2026-05-05.csv' },
+      { label: 'Log it in the data pipeline log', desc: 'Date pulled, date range, visitor type filter, row count, who pulled, intended use.' },
+    ],
+  },
+
+  // ─────────────────────────── 6 — Analytics secondary path ───────────────────────────
+
+  // 21 — Analytics overview
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":13,"label":"Ruta de Analytics"},"caption":"Analytics → Visitors — para patrones.","sub":"Mosaicos para Invites, Visitors, Hosts. Un mapa de calor de horas pico debajo. Use esto cuando quiera patrones de tráfico, no descargas por fila." },
+    duration: 14,
+    step: { num: 13, label: 'Analytics path' },
+    caption: 'Analytics → Visitors — for patterns.',
+    sub: 'Tiles for Invites, Visitors, Hosts. A busiest-hours heatmap underneath. Use this when you want traffic patterns, not row-level dumps.',
+    src: A + 'a88b68177a5f2090361619b3f5c6b0a1c2507606.png',
+    imgPos: 'right', imgFit: 'contain', imgAspect: 1736/928,
+  },
+
+  // 22 — Filter to Assessor's Office
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":14,"label":"Sign-in Flow"},"caption":"Configure Sign-in Flow a Assessor's Office.","sub":"Mismo filtro que antes — nombre diferente. Los mosaicos se actualizan: 11,507 sin filtrar → 3,655 filtrado en este ejemplo de Last-30-days. El mapa de calor revela picos alrededor de las 10–11 AM lunes/miércoles." },
+    duration: 13,
+    step: { num: 14, label: 'Sign-in Flow' },
+    caption: 'Set Sign-in Flow to Assessor\'s Office.',
+    sub: 'Same filter as before — different name. Tiles update: 11,507 unfiltered → 3,655 filtered in this Last-30-days example. Heatmap reveals peaks around 10–11 AM Mon/Wed.',
+    src: A + '7ac58a4b6953e15bb55c7faa54e89a3438e5a26f.png',
+    imgPos: 'right', imgFit: 'contain', imgAspect: 1736/928,
+  },
+
+  // 23 — Per-element export menu
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":15,"label":"Exportar mosaico"},"caption":"Pase el cursor sobre un mosaico → ⋯ → Export.","sub":"El menú de tres puntos abre un menú de exportación granular. Para trabajo analítico por fila la ruta del Visitor log es mejor — pero los datos subyacentes aquí son el respaldo.","bullets":[{"text":"CSV / Excel — límite de descarga de 1M de filas"},{"text":"JSON — para uso programático"},{"text":"Underlying data → CSV o Excel — por fila"},{"text":"Send → Export — asíncrono, entregado por correo (use para rangos enormes)"}] },
+    duration: 15,
+    step: { num: 15, label: 'Tile export' },
+    caption: 'Hover a tile → ⋯ → Export.',
+    sub: 'The three-dot menu opens a granular export menu. For row-level analytical work the Visitor log path is better — but underlying data here is the fallback.',
+    src: A + 'b5e08cdd80e2791d1c321cf3ef03acae43c944d3.png',
+    imgPos: 'right', imgFit: 'contain', imgAspect: 1737/901,
+    bullets: [
+      { text: 'CSV / Excel — 1M row download limit', color: SOP_PALETTE.bosque },
+      { text: 'JSON — for programmatic use', color: SOP_PALETTE.bosque },
+      { text: 'Underlying data → CSV or Excel — row-level', color: SOP_PALETTE.terracotta },
+      { text: 'Send → Export — async, delivered by email (use for huge ranges)', color: SOP_PALETTE.cypress },
+    ],
+  },
+
+  // ─────────────────────────── 7 — Other export paths ───────────────────────────
+
+  // 24 — Full history
+  {
+    kind: 'steps',
+    es: { "title":"Historia Completa de Visitantes","sub":"Cada visitante en registro, sin filtro. Use con moderación — la única ruta que incluye archivos NDA y fotos de visitantes.","steps":[{"label":"Confirme autorización","desc":"Aprobación del CSM + notificación al Subtasador. No lo corra sin esto."},{"label":"Visitors → Settings → Account","desc":"Encuentre la fila \"Export full visitor history\" y haga clic en Export."},{"label":"Espere la compilación","desc":"Una barra de estado muestra conteo de entradas y progreso. Exportaciones grandes tardan varios minutos."},{"label":"Maneje los enlaces NDA y de fotos dentro de 24 horas","desc":"Los enlaces expiran. Si la auditoría los necesita, descargue cada archivo dentro de 24 horas y guárdelos junto al CSV."},{"label":"Filtre a Assessor's Office después de descargar","desc":"La exportación misma no está filtrada. Filtre el CSV por tipo de visitante antes de procesamiento adicional."}] },
+    duration: 17,
+    title: 'Full Visitor History',
+    sub: 'Every visitor on record, no filter. Use sparingly — the only path that includes NDA files and visitor photos.',
+    steps: [
+      { label: 'Confirm authorization', desc: 'CSM approval + Deputy Assessor notification. Don\'t run without it.' },
+      { label: 'Visitors → Settings → Account', desc: 'Find the "Export full visitor history" row and click Export.' },
+      { label: 'Wait for compilation', desc: 'A status bar shows entry count and progress. Large exports take several minutes.' },
+      { label: 'Handle NDA & photo links within 24 hours', desc: 'Links expire. If the audit needs them, download every file inside 24 hours and store alongside the CSV.' },
+      { label: 'Filter to Assessor\'s Office after download', desc: 'The export itself is unfiltered. Filter the CSV by visitor type before further processing.' },
+    ],
+  },
+
+  // 25 — Invite exports
+  {
+    kind: 'steps',
+    es: { "title":"Exportaciones de Invitaciones","sub":"Invitaciones enviadas, independientemente de si el visitante realmente llegó. Para reconciliación de no-shows.","steps":[{"label":"Visitors → Invites","desc":"Mismas reglas de filtro aplican."},{"label":"Configure Multiple types a Assessor's Office","desc":"De lo contrario, la exportación incluye invitaciones de cada departamento."},{"label":"Haga clic en Export","desc":"Mismo modal que Visitor log: tipo de visitante, formato, default fields, custom fields. Clic en Export."}] },
+    duration: 13,
+    title: 'Invite Exports',
+    sub: 'Sent invitations, regardless of whether the visitor actually arrived. For no-show reconciliation.',
+    steps: [
+      { label: 'Visitors → Invites', desc: 'Same filter rules apply.' },
+      { label: 'Set Multiple types to Assessor\'s Office', desc: 'Otherwise the export includes invites from every department.' },
+      { label: 'Click Export', desc: 'Same modal as Visitor log: visitor type, format, default fields, custom fields. Click Export.' },
+    ],
+  },
+
+  // 26 — Scheduled reports
+  {
+    kind: 'steps',
+    es: { "title":"Reportes Recurrentes Programados","sub":"Analytics → Reports → Create a New Report. Para entregas repetidas a una lista estable de destinatarios.","steps":[{"label":"Basado en panel existente","desc":"Elija \"Location Visitors\" para datos de visitantes. Nombre el reporte con destinatario o propósito — ej. \"Weekly visitor count — Assessor's Office — CSM\"."},{"label":"Destinatario","desc":"Correo electrónico — debe estar en el directorio de empleados. Verifique que sigan empleados."},{"label":"Horario","desc":"Send date, Repeat (Daily / Weekly on / Monthly on / Annually / Every weekday), Time, Time zone."},{"label":"Rango de datos","desc":"Past 7 days para un reporte semanal de lunes. Past 30 days para mensual. Year-to-date para totales anuales."},{"label":"Formato","desc":"PDF visual · Excel agregado · CSV crudo (Entries o Invites). Clic en Schedule report."}] },
+    duration: 17,
+    title: 'Scheduled Recurring Reports',
+    sub: 'Analytics → Reports → Create a New Report. For repeating deliveries to a stable recipient list.',
+    steps: [
+      { label: 'Based on existing dashboard', desc: 'Pick "Location Visitors" for visitor data. Name the report with recipient or purpose — e.g. "Weekly visitor count — Assessor\'s Office — CSM".' },
+      { label: 'Recipient', desc: 'Email address — must be in the employee directory. Verify they\'re still employed.' },
+      { label: 'Schedule', desc: 'Send date, Repeat (Daily / Weekly on / Monthly on / Annually / Every weekday), Time, Time zone.' },
+      { label: 'Data range', desc: 'Past 7 days for a Monday weekly report. Past 30 days for monthly. Year-to-date for annual rollups.' },
+      { label: 'Format', desc: 'PDF visual · Excel aggregated · CSV raw (Entries or Invites). Click Schedule report.' },
+    ],
+  },
+
+  // 27 — Restrict scheduled to AO
+  {
+    kind: 'bigstat',
+    es: { "stat":"Panel personalizado","caption":"Gotcha de los reportes programados","sub":"Si el panel subyacente no está pre-filtrado por Sign-in Flow, el reporte programado incluye cada departamento de BernCo Alvarado. Báselo en un Custom Dashboard con el filtro pre-aplicado a Assessor's Office." },
+    duration: 10,
+    stat: 'Custom dash',
+    caption: 'Scheduled-report gotcha',
+    sub: 'If the underlying dashboard isn\'t pre-filtered by Sign-in Flow, the scheduled report includes every BernCo Alvarado department. Base it on a Custom Dashboard with the filter pre-applied to Assessor\'s Office.',
+    accent: SOP_PALETTE.terracotta,
+  },
+
+  // ─────────────────────────── 8 — Handling ───────────────────────────
+
+  // 28 — Privacy & handling
   {
     kind: 'comparison',
-    duration: 10,
-    title: 'Handle with care.',
-    sub: 'Visitor data is sensitive. Three rules.',
+    es: { "title":"Maneje con cuidado","sub":"Los datos de visitantes son personalmente identificables. Tres reglas, cada exportación.","items":[{"tag":"Almacenamiento","label":"Solo folders seguros","desc":"Drive compartido aprobado. Nunca escritorio, nube personal o USB."},{"tag":"Compartir","label":"Aprobación primero","desc":"Destinatarios externos — el Subtasador aprueba ANTES de que el archivo salga. Solo transferencia encriptada aprobada por el condado."},{"tag":"Retención","label":"Borrar al terminar","desc":"Copias de trabajo → borre después del análisis. Archivos NDA y fotos → borre inmediatamente después del uso de auditoría."}] },
+    duration: 15,
+    title: 'Handle with care',
+    sub: 'Visitor data is personally identifiable. Three rules, every export.',
     items: [
-      { tag: 'Storage', label: 'Secure folders only', accent: SOP_PALETTE.bosque, desc: 'Save to the approved shared drive. Never desktops, personal cloud, or USB.' },
-      { tag: 'Sharing', label: 'Approval first', accent: SOP_PALETTE.terracotta, desc: 'Auditors, vendors, public records — Deputy Assessor approves BEFORE the file leaves the office.' },
-      { tag: 'Retention', label: 'Delete when done', accent: SOP_PALETTE.cypress, desc: 'Working copies — delete after analysis. NDA & photo links expire 24 hours after a full-history export.' },
+      { tag: 'Storage', label: 'Secure folders only', accent: SOP_PALETTE.bosque, desc: 'Approved shared drive. Never desktop, personal cloud, or USB.' },
+      { tag: 'Sharing', label: 'Approval first', accent: SOP_PALETTE.terracotta, desc: 'External recipients — Deputy Assessor approves BEFORE the file leaves. County-approved encrypted transfer only.' },
+      { tag: 'Retention', label: 'Delete when done', accent: SOP_PALETTE.cypress, desc: 'Working copies → delete after analysis. NDA files & photos → delete immediately after audit use.' },
     ],
+  },
+
+  // 29 — Change control
+  {
+    kind: 'steps',
+    es: { "title":"Cuándo entra el control de cambios","sub":"Las exportaciones rutinarias ad-hoc solo necesitan el registro de pipeline de datos. Estas cuatro disparan una entrada de control de cambios:","steps":[{"label":"Nuevo reporte programado o cambio de destinatario","desc":"Gerente de Servicio al Cliente."},{"label":"Compartir con partes externas","desc":"Aprobación del Subtasador antes de la transmisión."},{"label":"Otorgar acceso admin de Envoy a más personal","desc":"CSM con notificación al Subtasador."},{"label":"Cambios en custom-fields del sign-in flow","desc":"CSM con notificación a cualquiera cuyo flujo de trabajo downstream dependa de esos campos."}] },
+    duration: 15,
+    title: 'When change control kicks in',
+    sub: 'Routine ad-hoc exports just need the data pipeline log. These four trigger a change-control entry:',
+    steps: [
+      { label: 'New scheduled report or recipient change', desc: 'Customer Service Manager.' },
+      { label: 'Sharing with external parties', desc: 'Deputy Assessor approval before transmission.' },
+      { label: 'Granting Envoy admin access to staff', desc: 'CSM with Deputy Assessor notification.' },
+      { label: 'Sign-in flow custom-field changes', desc: 'CSM with notification to anyone whose downstream workflow depends on those fields.' },
+    ],
+  },
+
+  // 30 — Outro
+  // Quiz
+  {
+    kind: 'quiz',
+    es: { "title":"Filtrar. Exportar. Verificar. Registrar.","sub":"El filtro es la diferencia entre un CSV listo para auditoría y contaminación silenciosa. Verifique el conteo, verifique las columnas, después guárdelo donde diga la política." }, duration: 17,
+    qNum: 1, qTotal: 2,
+    question: 'Today the Visitor log shows 220 visitors unfiltered, 31 filtered to Assessor\'s Office. What is the most common SOP mistake?',
+    options: [
+      'Exporting in PDF instead of CSV',
+      'Skipping the visitor type filter — exporting all 220 rows mixed together',
+      'Picking the wrong date range',
+      'Forgetting to log the export',
+    ],
+    correctIndex: 1,
+    explanation: 'The Alvarado account is shared with every county department. Without the filter, your "Assessor" report silently includes Treasurer, Clerk, Probate, and everyone else.',
+  },
+  {
+    kind: 'quiz',
+    es: { "question":"El Visitor log de hoy muestra 220 visitantes sin filtrar, 31 filtrados a Assessor's Office. ¿Cuál es el error más común del POE?","options":["Exportar en PDF en vez de CSV","Saltarse el filtro de tipo de visitante — exportando las 220 filas mezcladas","Elegir el rango de fechas equivocado","Olvidar registrar la exportación"],"explanation":"La cuenta Alvarado es compartida con cada departamento del condado. Sin el filtro, su reporte de \"Assessor\" silenciosamente incluye Treasurer, Clerk, Probate y todos los demás." }, duration: 17,
+    qNum: 2, qTotal: 2,
+    question: 'What\'s the filter called on the Visitor log vs. on the Analytics → Visitors dashboard?',
+    options: [
+      '"Multiple types" everywhere',
+      '"Sign-in Flow" everywhere',
+      '"Multiple types" on Visitor log; "Sign-in Flow" on Analytics',
+      '"Visitor type" everywhere',
+    ],
+    correctIndex: 2,
+    explanation: 'Different labels, same data underneath. Both filter to the same departmental categorization (e.g. Assessor\'s Office).',
   },
 
   {
     kind: 'outro',
-    duration: 6,
+    es: { "question":"¿Cómo se llama el filtro en el Visitor log vs. en el panel Analytics → Visitors?","options":["\"Multiple types\" en todos lados","\"Sign-in Flow\" en todos lados","\"Multiple types\" en Visitor log; \"Sign-in Flow\" en Analytics","\"Visitor type\" en todos lados"],"explanation":"Etiquetas diferentes, mismos datos. Ambos filtran por la misma categoría departamental (ej. Assessor's Office)." },
+    duration: 10,
     title: 'Filter. Export. Verify. Log.',
-    sub: 'The filter is the difference between an audit-ready CSV and silent contamination.',
+    sub: 'The filter is the difference between an audit-ready CSV and silent contamination. Verify the count, verify the columns, then save it where the policy says.',
   },
 ];
 
@@ -149,5 +469,17 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <SOPVideo sopId="CS09" title="Envoy Visitor Data Export" scenes={scenes} />
 );
 </script>
+<template id="__bundler_thumbnail" data-bg-color="#0a0a0a">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#0a0a0a"/>
+    <rect x="0" y="0" width="1200" height="120" fill="#285952"/>
+    <rect x="0" y="117" width="1200" height="3" fill="#e47756"/>
+    <g transform="translate(540, 320)">
+      <circle cx="60" cy="60" r="60" fill="#e47756"/>
+      <polygon points="48,32 48,88 96,60" fill="#faf8f4"/>
+    </g>
+    <text x="600" y="560" text-anchor="middle" font-family="sans-serif" font-size="48" font-weight="900" fill="#faf8f4" letter-spacing="-1">SOP VIDEO</text>
+  </svg>
+</template>
 </body>
 </html>

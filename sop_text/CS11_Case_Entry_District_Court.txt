@@ -1,0 +1,112 @@
+Process Title: Case Entry for District Court AAs
+Department: Operational Services – LEAP 
+SOP ID: N/A
+Last Reviewed: 05/04/2026
+Effective Date: 05/04/2026
+Version: 1.0
+
+Purpose
+This SOP outlines the standardized steps for performing Case Entry for District Court cases in accordance with LEAP procedural requirements.
+Scope
+This procedure applies to all staff responsible for performing Assessor Authorization (Case Entry) processing within IASWorld and related documentation management.
+Definitions
+AA – Assessor Authorization document used for District Court processing.
+IASWorld – Property tax assessment and appeals system.
+Related Documents
+Documents referenced in this SOP are either available within the shared LEAP directories or within a given AA packet as applicable.
+Statutes
+Applicable statutory references may include NMSA 1978 property tax procedures as relevant to District Court filings.
+Procedure
+Initial Setup
+Open IASWorld Production.
+Select the “Appeals” Role from the top right dropdown menu
+Click the top left menu icon (three horizontal bars) to open the Menu
+Select “Transactions” then select “Inquiries & Appeals By Parcel”
+Selecting the Parcel to be worked.
+Select the correct tax year from the top right corner “Tax Year” dropdown (Your selection should match the marked Tax Year on the Assessor Authorization (AA) form).
+Type in the 18-digit UPC number from the AA form in the top left “Parcel ID” search bar and enter or click the magnifying glass button.
+This should open the Parcel File (If the file fails to pull up ensure that the correct tax year and UPC have been entered.
+NOTE: Before continuing, ensure that the AA form has all necessary signatures (all lines but “Case Entry”) and that the name on the AA form matches the name in the “Owner Name” field in IASWorld (additional titles do not need to be an exact match).
+Verify Assessed Values are correct
+Select “Asmt” from the tabs near the top of the screen.
+Compare the values by category from the AA form to the entered values on screen. 
+Do Values match? If yes then continue to Step 4, otherwise continue to Step 3.c.
+The discrepancies must be clarified with whoever entered the information before continuing. Review who signed for entering in the data on the AA form and attempt to clarify any discrepancies with that individual. If discrepancies were corrected then continue to step 4, otherwise STOP.
+Changing Parcel Status
+Select “Hearings” from the top tabs.
+Select the dropdown for “Hearing Status”.
+Select “Resolved” from the dropdown.
+Validating Reviewed Parcel
+Select the “Validate” option (underneath the “Parcel ID” search bar). The “Hearing Status” line should be highlighted in green once “Validate” has been selected.
+Select “Commit” (to the right of “Validate”)
+The Info line underneath the “Hearings” tab should update with a new line with your name and date/time (i.e. JDOE 01/01/2026 12:35PM).
+Create a New Record.
+Select “Add Record” (underneath the “Parcel ID” search bar). This opens a new record for the AA Parcel.
+Setting Up the New Record.
+Select the “Type” dropdown and choose “AUT”.
+Add a Case #.
+Select the “Assign” button. This generates a Case # into the field.
+In red ink, write the Case # along the right side of the AA form AND in the forms first blank “Case #” line.
+On the AA form, write the tax year in the “YR” section on the same line you wrote the Case #.
+Add the Filing Date.
+Included with the AA form there should be the Claim for Refund Notice. Find the Filing Date on this notice. 
+NOTE: If the Claim for Refund (Complaint for Refund of Property Taxes Paid) Notice is unavailable then you may use the Filing Date from the Stipulated Final Judgement Notice instead.
+In IASWorld, fill in the same Filing Date from the selected form into the “Filing Date” field either by typing it in or selecting it by clicking the calendar icon.
+Select the “Action” dropdown and choose “Authorization”
+Select the “Reason” dropdown and choose the same Reason Code marked on the AA form.
+Select the “Hearing Status” dropdown and choose “Active”
+Add the Owner’s Personal Information
+Click the three horizontal bars next to the “Owner’s Name” line. The owner’s information should auto-populate in a popup window.
+Select the owner’s information if it’s not already selected and click “Okay”. This should automatically fill in the owner’s name and address.
+Note: If the owner’s info doesn’t auto-populate or automatically fill in then type out the information from the AA form into the “Owner Name” and “Address” fields.
+Scroll down and select the “District Court Rec Date” and choose the same date used for the “Filing Date”
+Add the District Court Case #.
+You can find the District Court Case # on either the Claim for Refund or the Stipulated Final Judgement (Format: CV-YYYY-#####, i.e. “CV-2025-12345”).
+NOTE: The year stipulated on the Case # IS NOT always the same as the selected Tax Year. Write the year as it appears in the Case #.
+Enter the District Court Case # on the “District Court Case #” line (Using spaces instead of dashes)
+EXAMPLE: CV-2025-12345 is entered as “CV 2025 12345”
+Validate New Record.
+Select “Validate”. This will generate a new blank line above the previously generated line with your name and date/time.
+Add Notes.
+Select “Notes1” from the tabs near the top of the screen.
+Select “Add”
+Type in the next # in descending sequence from the previous notes. Hit Tab or select the blank area in the Code column.
+Select “District Court”. Hit Tab twice or select the area in the Comment column.
+In the “Comment” column, write:
+“Treasure claim for refund for AA#[6-digit AA # from Step 7.b] CV#[CV# from Step 7.i, include dashes] [Any Extra Notes] [Entering Staff Initials] [DD.MM.YYYY]
+EXAMPLE: “Treasure claim for refund for AA123456 CV 2025-12345 JD 01.01.2026”
+NOTE: If extra space is needed then you can create add rows to your notes. Each additional row starts with the original sequence # from your initial note then has “.01, .02, .03…” added to it, reflecting the number of additional rows.  (i.e. Sequence 22 branches into 22.01 then 22.02 if there are two extra rows).
+ Finalize the Parcel
+Select “Validate”. The Validate button should turn green.
+Once “Validate” is selected select “Commit” to finalize the new Parcel.
+ Send Confirmation Email.
+Address the email to the designated Treasury contact person (Typically the Compliance Officer) and CC the Deputy Treasurer.
+Additionally, CC yourself, the Assessor, Deputy Assessor, the Chief Appraiser, and any other personnel per local instructions.
+Attach (as available) both the Claim for Refund and the Stipulated Final Judgement to the email.
+To find these documents digitally go to the Shared Drive and pull up the Claim for Refunds folder for the appropriate tax year.
+NOTE: For the 2025 tax year this would be the file path: Shared Drive(asadmin)>L.E.A.P. 2025 District Courts>2025 Claim for Refund.
+Find the folder that matches the name and the 18-digit UPC number of your current AA.
+Review available documents and attach the Claim for Refund and the Stipulated Final Judgement.
+NOTE: If you cannot attach the documents directly from the shared drive then download a local copy to your computer and then attach them.
+In the subject line write: Assessor AA# [AA# from Step 7.b] for [Client Name] [Full District Court Case #] UPC: [UPC#].
+Example: 
+“Assessor AA# 123456 for Jane Doe CV 2026 12345 UPC: 123456789123456789”
+Your message should include the same information from Step 11.d and written acknowledgement that the necessary forms were attached (or why they were not).
+Example:
+“The Assessor’s office has completed an AA# 123456 for John Doe Trustee CV 2026 12345 UPC: 123456789123456789.
+Attached are copies of the Claim for Refund and the Stipulated Final Judgment.
+Please contact our office if you have any questions.”
+Mark email as High Importance.
+Send the email, verify there were no issues in sending.
+Sign Off on Case Entry
+Sign and date the “Case Entry” on the physical AA form.
+Scan and Upload Physical AA Form Packet
+Scan the entire physical AA Form packet.
+Transfer scanned form to your employee OneDrive or to your email.
+Copy the scanned form into the folder for completed AA Case Entrys. File name should be: [Owner Name] [AA#] [District Court Case# (excluding dashes)] [UPC#].
+EXAMPLE: Jane Doe AA#123456 CV 1234 56789 UPC 123456789123456789)
+NOTE: For the 2025 tax year the file path would be:
+Shared Drive(asadmin)>L.E.A.P 2025 District Courts>2025 AAs
+Transfer Scan and Physical AA Packet
+Forward a copy of the complete scan of the AA to your office’s designated Records and Information Management Specialist.
+Transfer the completed physical AA packet to the office Records and Information Management Specialist.

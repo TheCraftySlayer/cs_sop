@@ -18,109 +18,184 @@ const A = '../sop_assets/CS03_Queue_Member_Management/';
 const scenes = [
   {
     kind: 'title',
-    duration: 5.5,
+    es: { "title":"Gestión de Miembros de Cola","plainTitle":"Cómo agregar una persona a una cola telefónica, retirarla, o pausarla temporalmente.","kicker":"Mantenimiento de roster rutinario y ajustes de cobertura a corto plazo. En caso de duda — deshabilitar en vez de eliminar." },
+    duration: 8,
     sopId: 'CS03',
     title: 'Queue Member Management',
-    plainTitle: 'How to add, remove, or temporarily disable a person in a phone queue.',
-    kicker: 'Disable when in doubt — disabling is reversible, deleting is not.',
+    plainTitle: 'How to add a person to a phone queue, take them off, or pause them temporarily.',
+    kicker: 'Routine roster maintenance and short-term coverage adjustments. When in doubt — disable instead of delete.',
   },
 
+  // Authorization
   {
     kind: 'comparison',
-    duration: 9,
-    title: 'Two toggles. One result.',
-    sub: 'A person rings on a queue only when BOTH switches are on.',
+    es: { "title":"Quién aprueba qué","sub":"Dos niveles de autorización. Las eliminaciones por terminación necesitan una segunda firma.","items":[{"tag":"Rutina","label":"CSM aprueba","desc":"Adiciones, deshabilitaciones temporales — el Gerente de Servicio al Cliente. El CSM puede delegar adiciones rutinarias a un líder designado."},{"tag":"Terminación","label":"Diputado también","desc":"Eliminaciones por terminación o reasignaciones a largo plazo requieren confirmación del Subtasador además del CSM."}] },
+    duration: 15,
+    title: 'Who can approve what',
+    sub: 'Two tiers of authorization. Removals tied to termination need a second sign-off.',
     items: [
-      {
-        tag: 'Set by admin',
-        label: 'Member Status',
-        accent: SOP_PALETTE.bosque,
-        desc: 'Per-queue switch. ON means this queue is allowed to route calls to this person.',
-      },
-      {
-        tag: 'Set by the user',
-        label: 'Queue Status',
-        accent: SOP_PALETTE.terracotta,
-        desc: 'The person\'s own switch — they can pause themselves across all their queues.',
-      },
-      {
-        tag: 'The outcome',
-        label: 'Ring Member',
-        accent: SOP_PALETTE.cypress,
-        desc: 'Yes only when both switches are ON. Otherwise No — the phone won\'t ring.',
-      },
+      { tag: 'Routine', label: 'CSM approves', accent: SOP_PALETTE.bosque, desc: 'Additions, temporary disables — Customer Service Manager. CSM may delegate routine additions to a designated lead.' },
+      { tag: 'Termination', label: 'Deputy too', accent: SOP_PALETTE.terracotta, desc: 'Removals tied to terminations or long-term reassignments require Deputy Assessor confirmation in addition to CSM.' },
     ],
   },
 
+  // The two toggles
+  {
+    kind: 'comparison',
+    es: { "title":"Dos interruptores. Un resultado.","sub":"Una persona suena en una cola solo cuando AMBOS interruptores están en ON. De lo contrario, No.","items":[{"tag":"Lo pone el admin","label":"Member Status","desc":"Interruptor por cola que usted controla. ON = esta cola puede enviarle llamadas a este miembro."},{"tag":"Lo pone el usuario","label":"Queue Status","desc":"Interruptor del lado del miembro. ON = está aceptando llamadas de cola en general (en todas sus colas). Puede cambiarlo el mismo si \"Allow members to change queue status\" está en Allow."},{"tag":"Resultado","label":"Ring Member","desc":"Derivado Sí/No. Sí solo cuando ambos interruptores están en ON. De lo contrario, No."}] },
+    duration: 18,
+    title: 'Two toggles. One outcome.',
+    sub: 'A person rings on a queue only when BOTH switches are ON. Otherwise No.',
+    items: [
+      { tag: 'Set by admin', label: 'Member Status', accent: SOP_PALETTE.bosque, desc: 'Per-queue switch you control. ON = this queue may route calls to this member.' },
+      { tag: 'Set by user', label: 'Queue Status', accent: SOP_PALETTE.terracotta, desc: 'Member-side switch. ON = they\'re accepting queue calls overall (across every queue they belong to). They can flip it themselves if "Allow members to change queue status" is set to Allow.' },
+      { tag: 'Outcome', label: 'Ring Member', accent: SOP_PALETTE.cypress, desc: 'Derived Yes/No. Yes only when both switches are ON. Otherwise No.' },
+    ],
+  },
+
+  // Worked examples
+  {
+    kind: 'steps',
+    es: { "title":"Ejemplos reales (roster Q2)","sub":"Misma idea, tres personas reales del POE.","steps":[{"label":"Sarah Condit","desc":"Member Status ON, Queue Status OFF → Ring Member No. El admin la asignó, pero ella se marcó como no disponible. Las llamadas no le suenan."},{"label":"Jovana Arvizu","desc":"Member Status OFF, Queue Status ON → Ring Member No. Disponible globalmente, pero el admin la deshabilitó aquí. Las llamadas no le suenan en esta cola."},{"label":"Amanda Baca","desc":"Member Status ON, Queue Status ON → Ring Member Sí. Miembro activo estándar."}] },
+    duration: 17,
+    title: 'Worked examples (Q2 roster)',
+    sub: 'Same idea, three different live people from the SOP.',
+    steps: [
+      { label: 'Sarah Condit', desc: 'Member Status ON, Queue Status OFF → Ring Member No. Admin assigned her, but she marked herself unavailable. Calls don\'t ring her.' },
+      { label: 'Jovana Arvizu', desc: 'Member Status OFF, Queue Status ON → Ring Member No. Available globally, but admin disabled her here. Calls don\'t ring her in this queue.' },
+      { label: 'Amanda Baca', desc: 'Member Status ON, Queue Status ON → Ring Member Yes. Standard active member.' },
+    ],
+  },
+
+  // 1 — Open Members
   {
     kind: 'screenshot',
-    duration: 7,
+    es: { "step":{"num":1,"label":"Abrir Miembros"},"caption":"Call Handling & Members → Primary Members.","sub":"Dentro del panel de la cola, expanda Call Handling & Members. La pestaña Work hours está seleccionada por defecto. Baje hasta Primary Members. Haga clic en + Add Member." },
+    duration: 13,
     step: { num: 1, label: 'Open Members' },
-    caption: 'Find the Primary Members list.',
-    sub: 'Inside the queue, expand Call Handling & Members. Work hours is selected by default. Scroll to Primary Members. Click + Add Member.',
+    caption: 'Call Handling & Members → Primary Members.',
+    sub: 'Inside the queue panel, expand Call Handling & Members. The Work hours tab is selected by default. Scroll to Primary Members at the bottom. Click + Add Member.',
     src: A + '61023d8144b5ff9f356b63a015af86eb305b93f9.png',
     imgPos: 'right', imgFit: 'contain',
   },
 
+  // 2 — Search not scroll
   {
     kind: 'screenshot',
-    duration: 7,
+    es: { "step":{"num":2,"label":"Buscar"},"caption":"No baje en la lista. Busque.","sub":"El modal Call Queue Members se abre con todo el directorio de BernCo — más de 2,000 entradas en varios sitios. Use el menú Sites para filtrar, O (mejor) escriba el nombre o extensión en el campo Search. La lista se reduce mientras escribe." },
+    duration: 13,
     step: { num: 2, label: 'Search' },
     caption: 'Don\'t scroll. Search.',
-    sub: 'The directory has 2,000+ people across multiple sites. Type the name or extension in the Search field — never page through.',
+    sub: 'The Call Queue Members modal opens to the full BernCo directory — 2,000+ entries across multiple sites. Use the Sites dropdown to filter, OR (better) type the name or extension in the Search field. The list narrows as you type.',
     src: A + '80f874911c43bd0439cae33119cf847dad451600.png',
     imgPos: 'right', imgFit: 'contain',
   },
 
+  // 3 — Select
   {
     kind: 'screenshot',
-    duration: 7,
-    step: { num: 3, label: 'Select' },
+    es: { "step":{"num":3,"label":"Seleccionar y confirmar"},"caption":"Marque la casilla. Haga clic en Done.","sub":"Puede acumular selecciones en varias búsquedas. Confirme que el conteo \"Show Selected (N)\" coincida con lo que pretendía, luego haga clic en Done." },
+    duration: 11,
+    step: { num: 3, label: 'Select & confirm' },
     caption: 'Check the box. Click Done.',
-    sub: 'You can stack picks across multiple searches. Confirm the "Show Selected" count matches what you intended, then click Done.',
+    sub: 'You can stack picks across multiple searches. Confirm the "Show Selected (N)" count matches what you intended, then click Done.',
     src: A + 'cc2e3c182868e03e70bab0a7fff484426abb286f.png',
     imgPos: 'right', imgFit: 'contain',
   },
 
+  // 4 — Verify Ring Member
   {
     kind: 'steps',
-    duration: 9,
-    title: 'After you add',
-    sub: 'Always verify before walking away.',
+    es: { "title":"Después de que se cierre el modal","sub":"Cuatro cosas que verificar antes de irse.","steps":[{"label":"Aparece el miembro en Primary Members","desc":"Con Member Status en ON por defecto."},{"label":"La columna Ring Member dice Sí","desc":"Si dice No, verifique que Queue Status también esté en ON."},{"label":"Las colas Fixed order necesitan posicionamiento","desc":"Arrastre al miembro nuevo al lugar correcto en la columna Order (vea CS04)."},{"label":"Haga clic en Save","desc":"Nada es real hasta que presione Save."}] },
+    duration: 15,
+    title: 'After the modal closes',
+    sub: 'Four things to verify before walking away.',
     steps: [
-      { label: 'Ring Member = Yes', desc: 'If it shows No, check that Queue Status is also ON.' },
-      { label: 'Fixed-order queues', desc: 'Drag the new person to the right position in the Order column (see CS04).' },
+      { label: 'Member appears in Primary Members', desc: 'With Member Status ON by default.' },
+      { label: 'Ring Member column shows Yes', desc: 'If it shows No, check that Queue Status is also ON.' },
+      { label: 'Fixed-order queues need positioning', desc: 'Drag the new member to the right slot in the Order column (see CS04).' },
       { label: 'Click Save', desc: 'Nothing is real until you press Save.' },
-      { label: 'Log the change', desc: 'Date, queue, who you added, who authorized, why.' },
     ],
   },
 
+  // Remove vs disable
   {
     kind: 'comparison',
-    duration: 8,
-    title: 'Removing? Disable first.',
-    sub: 'Default to Disable when in doubt — it\'s reversible.',
+    es: { "title":"Deshabilitar, no eliminar (en duda)","sub":"Primero decida si el cambio es temporal o permanente. Deshabilitar es reversible.","items":[{"tag":"Temporal","label":"Deshabilitar","desc":"Para entrenamiento, licencia, reasignación temporal. Encuentre al usuario. Apague Member Status. Ring Member cambia a No. Haga clic en Save. Vuelva a encenderlo cuando regrese."},{"tag":"Permanente","label":"Eliminar","desc":"Para cambios de rol o terminaciones. Haga clic en Delete en la columna más a la derecha. Confirme. Haga clic en Save. Luego agregue la aprobación del Subtasador al registro de cambios."}] },
+    duration: 18,
+    title: 'Disable, don\'t delete (when in doubt)',
+    sub: 'Decide first whether the change is temporary or permanent. Disabling is reversible.',
     items: [
-      {
-        tag: 'Temporary',
-        label: 'Disable',
-        accent: SOP_PALETTE.bosque,
-        desc: 'Find the person in Primary Members. Toggle Member Status OFF. Click Save. Ring Member becomes No. Flip back ON when they\'re back.',
-      },
-      {
-        tag: 'Permanent',
-        label: 'Delete',
-        accent: SOP_PALETTE.terracotta,
-        desc: 'Click Delete on the right end of their row. Confirm. Click Save. Used for role changes or terminations — and only with Deputy Assessor confirmation.',
-      },
+      { tag: 'Temporary', label: 'Disable', accent: SOP_PALETTE.bosque, desc: 'For training, leave, temporary reassignment. Find the user. Toggle Member Status OFF. Ring Member changes to No. Click Save. Flip back ON when they\'re back.' },
+      { tag: 'Permanent', label: 'Delete', accent: SOP_PALETTE.terracotta, desc: 'For role changes or terminations. Click Delete in the rightmost column. Confirm. Click Save. Then add the Deputy Assessor approval to the change log.' },
     ],
+  },
+
+  // Verify coverage
+  {
+    kind: 'steps',
+    es: { "title":"Después de cada cambio","sub":"Confirme que la cobertura de la cola no se rompió.","steps":[{"label":"Cuente los Ring Members = Sí","desc":"Longest idle y Rotating necesitan al menos 2 miembros activos. Fixed order con un solo miembro activo efectivamente se convierte en una cola de un solo destino."},{"label":"Verifique en la lista Call Queues","desc":"Members Availability (en línea / total) debe reflejar el roster nuevo."},{"label":"Haga una llamada de prueba cuando sea posible","desc":"O revise las primeras llamadas reales después del cambio en el registro de llamadas."}] },
+    duration: 14,
+    title: 'After every change',
+    sub: 'Confirm queue coverage didn\'t break.',
+    steps: [
+      { label: 'Count Ring Members = Yes', desc: 'Longest idle and Rotating need at least 2 active members. Fixed order with one active member effectively becomes a single-target queue.' },
+      { label: 'Cross-check the Call Queues list', desc: 'Members Availability (online / total) should reflect the new roster.' },
+      { label: 'Place a test call when possible', desc: 'Or review the first live calls after the change in the call log.' },
+    ],
+  },
+
+  // Change control
+  {
+    kind: 'steps',
+    es: { "title":"Registre el cambio","sub":"La misma entrada de cinco campos cada vez — su yo futuro se lo agradecerá.","steps":[{"label":"Fecha y hora · nombre e ID de cola","desc":"Cuándo y dónde."},{"label":"Ajuste cambiado · valor anterior · valor nuevo","desc":"Lo que realmente movió."},{"label":"Quién autorizó · quién aplicó","desc":"Dos personas distintas a menos que el CSM mismo lo esté haciendo."},{"label":"Motivo de negocio · resultado de verificación","desc":"Por qué pasó, y qué confirmó la llamada de prueba."}] },
+    duration: 14,
+    title: 'Log the change',
+    sub: 'Same five-field entry every time — your future self will thank you.',
+    steps: [
+      { label: 'Date and time · queue name and ID', desc: 'When and where.' },
+      { label: 'Setting changed · prior value · new value', desc: 'What you actually moved.' },
+      { label: 'Who authorized · who applied', desc: 'Two distinct people unless the CSM is doing it themselves.' },
+      { label: 'Business reason · verification result', desc: 'Why it happened, and what the test call confirmed.' },
+    ],
+  },
+
+  // Quiz
+  {
+    kind: 'quiz',
+    es: { "title":"Roster actualizado. Llamadas cubiertas.","sub":"Confirme que la cola todavía tiene suficientes miembros activos. Registre el cambio. Después conteste la siguiente llamada." }, duration: 17,
+    qNum: 1, qTotal: 2,
+    question: 'A queue member shows Member Status ON and Queue Status OFF. Will the queue ring their phone?',
+    options: [
+      'Yes, calls will ring them',
+      'No — both switches must be ON',
+      'Only on Tuesdays',
+      'Only if they\'re the only member',
+    ],
+    correctIndex: 1,
+    explanation: 'Ring Member = Yes only when BOTH Member Status (admin-set) and Queue Status (user-set) are ON.',
+  },
+  {
+    kind: 'quiz',
+    es: { "question":"Un miembro de cola muestra Member Status en ON y Queue Status en OFF. ¿La cola hará sonar su teléfono?","options":["Sí, las llamadas le sonarán","No — ambos interruptores deben estar en ON","Solo los martes","Solo si es el único miembro"],"explanation":"Ring Member = Sí solo cuando AMBOS Member Status (puesto por admin) y Queue Status (puesto por usuario) están en ON." }, duration: 17,
+    qNum: 2, qTotal: 2,
+    question: 'When in doubt about removing a queue member, what should you do?',
+    options: [
+      'Delete — quicker',
+      'Disable temporarily — reversible',
+      'Ask the member to log themselves out',
+      'Restart the queue',
+    ],
+    correctIndex: 1,
+    explanation: 'Disable is reversible — flip Member Status back ON when they return. Delete is permanent.',
   },
 
   {
     kind: 'outro',
-    duration: 6,
-    title: 'Roster updated, calls covered.',
-    sub: 'Confirm the queue still has enough active members before you walk away.',
+    es: { "question":"En caso de duda sobre retirar a un miembro de cola, ¿qué debe hacer?","options":["Eliminar — es más rápido","Deshabilitar temporalmente — es reversible","Pedir al miembro que cierre sesión","Reiniciar la cola"],"explanation":"Deshabilitar es reversible — vuelva a encender Member Status cuando regresen. Eliminar es permanente." },
+    duration: 10,
+    title: 'Roster updated. Calls covered.',
+    sub: 'Confirm the queue still has enough active members. Log the change. Then go answer the next call.',
   },
 ];
 
@@ -128,5 +203,17 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <SOPVideo sopId="CS03" title="Queue Member Management" scenes={scenes} />
 );
 </script>
+<template id="__bundler_thumbnail" data-bg-color="#0a0a0a">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#0a0a0a"/>
+    <rect x="0" y="0" width="1200" height="120" fill="#285952"/>
+    <rect x="0" y="117" width="1200" height="3" fill="#e47756"/>
+    <g transform="translate(540, 320)">
+      <circle cx="60" cy="60" r="60" fill="#e47756"/>
+      <polygon points="48,32 48,88 96,60" fill="#faf8f4"/>
+    </g>
+    <text x="600" y="560" text-anchor="middle" font-family="sans-serif" font-size="48" font-weight="900" fill="#faf8f4" letter-spacing="-1">SOP VIDEO</text>
+  </svg>
+</template>
 </body>
 </html>

@@ -18,88 +18,198 @@ const A = '../sop_assets/CS02_RingCentral_Admin_Portal_Reference/';
 const scenes = [
   {
     kind: 'title',
-    duration: 5.5,
+    es: { "title":"Portal de Administración de RingCentral","plainTitle":"Cómo iniciar sesión en el Portal de Administración de RingCentral, encontrar una cola de llamadas y leer la estructura del panel.","kicker":"Esto es una referencia. Citado como prerequisito por CS03 a CS08 — hágalo bien y el resto sigue." },
+    duration: 8,
     sopId: 'CS02',
     title: 'RingCentral Admin Portal',
-    plainTitle: 'How to sign in and find a call queue — the starting point for almost every phone-system change.',
-    kicker: 'Used by every other phone SOP (CS03–CS08). Get this part right and the rest is easy.',
+    plainTitle: 'How to sign in to the RingCentral Admin Portal, find a call queue, and read the queue panel structure.',
+    kicker: 'This is a reference. Cited as a prerequisite by CS03 through CS08 — get this part right and the rest follows.',
   },
 
+  // Definitions
+  {
+    kind: 'steps',
+    es: { "title":"Cuatro términos que debe conocer","sub":"Aparecen en cada uno de los demás POE telefónicos.","steps":[{"label":"Portal de Administración","desc":"La interfaz web en service.ringcentral.com usada para configurar RingCentral a nivel de empresa."},{"label":"Cola de Llamadas","desc":"Un grupo de miembros configurados para contestar llamadas entrantes dirigidas a una sola extensión."},{"label":"Marcación Directa (DID)","desc":"Un número telefónico directo asignado a un usuario o extensión individual."},{"label":"Panel de Cola","desc":"El área de configuración a la derecha que se abre al seleccionar una cola en la lista de Call Queues."}] },
+    duration: 15,
+    title: 'Four terms to know',
+    sub: 'These appear in every other phone SOP.',
+    steps: [
+      { label: 'Admin Portal', desc: 'The web interface at service.ringcentral.com used for company-wide RingCentral configuration.' },
+      { label: 'Call Queue', desc: 'A group of members configured to answer inbound calls routed to a single extension.' },
+      { label: 'Direct Inward Dial (DID)', desc: 'A direct phone number assigned to an individual user or extension.' },
+      { label: 'Queue Panel', desc: 'The right-hand configuration area that opens when you select a queue from the Call Queues list.' },
+    ],
+  },
+
+  // Queue inventory
+  {
+    kind: 'comparison',
+    es: { "title":"Colas principales para el público","sub":"Las cuatro colas de primera línea en la Oficina del Tasador.","items":[{"tag":"Q1 · Ext 160001","label":"Oficina del Tasador","desc":"Conmutador / cola de primer contacto."},{"tag":"Q2 · Ext 160002","label":"Servicio al Cliente","desc":"Cola de desbordamiento / primer piso."},{"tag":"Ext 160011","label":"Hispanohablantes","desc":"Llamadas en idioma español."},{"tag":"Especialidad","label":"Veteranos y Congelación de Valor","desc":"Consultas sobre exención para veteranos y congelación de valuación."}] },
+    duration: 17,
+    title: 'Primary citizen-facing queues',
+    sub: 'The four front-line queues at the Assessor\'s Office.',
+    items: [
+      { tag: 'Q1 · Ext 160001', label: 'Assessor\'s Office', accent: SOP_PALETTE.bosque, desc: 'Switchboard / first-touch queue.' },
+      { tag: 'Q2 · Ext 160002', label: 'Customer Service', accent: SOP_PALETTE.cypress, desc: 'Overflow / 1st-floor queue.' },
+      { tag: 'Ext 160011', label: 'Spanish Speakers', accent: SOP_PALETTE.terracotta, desc: 'Spanish-language calls.' },
+      { tag: 'Specialty', label: 'Veteran & Value Freeze', accent: SOP_PALETTE.sage, desc: 'Veteran exemption + valuation freeze inquiries.' },
+    ],
+  },
+
+  // Other queues
+  {
+    kind: 'bigstat',
+    es: { "stat":"+ más","caption":"Más colas por división","sub":"Business & Personal Property, GIS, División LEAP, Comercial / No Residencial, Casas Móviles, variantes Residencial. Lista completa en Phone System → Groups → Call Queues." },
+    duration: 8,
+    stat: '+ more',
+    caption: 'Plus division-specific queues',
+    sub: 'Business & Personal Property, GIS, LEAP Division, Commercial / Non-Residential, Manufactured Homes, Residential variants. Full roster: Phone System → Groups → Call Queues.',
+  },
+
+  // 1 — Open the portal
   {
     kind: 'screenshot',
-    duration: 7,
+    es: { "step":{"num":1,"label":"Abrir el portal"},"caption":"Abra service.ringcentral.com.","sub":"Escriba la URL, o busque \"RingCentral Admin\" y elija el resultado de service.ringcentral.com. Guárdelo en favoritos." },
+    duration: 11,
     step: { num: 1, label: 'Open the portal' },
-    caption: 'Go to the portal.',
-    sub: 'Open a browser and type service.ringcentral.com — or search "RingCentral Admin" and pick the result. Bookmark it; you\'ll be back.',
+    caption: 'Open service.ringcentral.com.',
+    sub: 'Type the URL, or search "RingCentral Admin" and pick the service.ringcentral.com result. Bookmark it.',
     src: A + '5f53819c03b37e6aa3dd0a27757122671c801106.png',
     imgPos: 'right', imgFit: 'contain',
   },
 
+  // 2 — Sign in
   {
     kind: 'screenshot',
-    duration: 7,
+    es: { "step":{"num":2,"label":"Iniciar sesión"},"caption":"Correo del condado, luego su contraseña de RingCentral.","sub":"El formato es inicialdenombre+apellido@bernco.gov. Haga clic en Siguiente, ingrese su contraseña de RingCentral y haga clic en Iniciar Sesión. ¿La olvidó? Haga clic en Forgot Password — el enlace de restablecimiento va a su correo del condado." },
+    duration: 11,
     step: { num: 2, label: 'Sign in' },
-    caption: 'Use your county email.',
-    sub: 'Enter your Bernalillo County email (firstinitial+lastname@bernco.gov). Click Next, then type your RingCentral password. Don\'t click Google, Apple, or SSO unless IT told you to.',
+    caption: 'County email, then your RingCentral password.',
+    sub: 'Format is firstinitial+lastname@bernco.gov. Click Next, then enter your RingCentral password and click Sign In. Forgot it? Click Forgot Password — the reset link goes to your county email.',
     src: A + '181f739e767a403c5ade7b91054aede2b29e2433.png',
     imgPos: 'right', imgFit: 'contain',
   },
 
+  // 3 — Password
   {
     kind: 'screenshot',
-    duration: 6.5,
-    step: { num: 3, label: 'Confirm' },
-    caption: 'Check the top-right says Admin Portal.',
-    sub: 'You should see Bernalillo County, 415 Silver Ave SW. The top nav reads Home, Users, Phone System, Analytics & Logs, Account, More.',
+    es: { "step":{"num":3,"label":"No use SSO"},"caption":"No haga clic en Google / Apple / SSO.","sub":"No haga clic en las otras opciones de inicio de sesión a menos que TI lo haya indicado específicamente. El acceso a RingCentral usa su contraseña de RingCentral — no SSO de Microsoft." },
+    duration: 11,
+    step: { num: 3, label: 'Don\'t use SSO' },
+    caption: 'Skip Google / Apple / SSO.',
+    sub: 'Don\'t click any of the other sign-in options unless IT specifically directed you to. RingCentral access uses your RingCentral password — not Microsoft SSO.',
+    src: A + '4d4246225c03b67e502b0d67cd177692f06c0fe7.png',
+    imgPos: 'right', imgFit: 'contain',
+  },
+
+  // 4 — Confirm admin portal
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":4,"label":"Confirmar"},"caption":"Arriba a la derecha debe decir Admin Portal.","sub":"Después de iniciar sesión, verifique tres cosas en la página de inicio:","bullets":[{"text":"Menú desplegable superior derecho dice \"Admin Portal\""},{"text":"La empresa dice \"Bernalillo County\", dirección \"415 Silver Ave SW\""},{"text":"Navegación superior: Home · Users · Phone System · Analytics & Logs · Account · More"}] },
+    duration: 13,
+    step: { num: 4, label: 'Confirm' },
+    caption: 'Top-right should read Admin Portal.',
+    sub: 'After sign-in, verify three things on the home page:',
     src: A + 'd4d3b539254aac207353580725ceab9722fa594c.png',
     imgPos: 'right', imgFit: 'contain',
+    bullets: [
+      { text: 'Upper-right dropdown reads "Admin Portal"', color: SOP_PALETTE.bosque },
+      { text: 'Company reads "Bernalillo County", address "415 Silver Ave SW"', color: SOP_PALETTE.bosque },
+      { text: 'Top nav: Home · Users · Phone System · Analytics & Logs · Account · More', color: SOP_PALETTE.terracotta },
+    ],
   },
 
+  // 5 — Find Call Queues
   {
     kind: 'screenshot',
-    duration: 8,
-    step: { num: 4, label: 'Find the queue' },
-    caption: 'Find Call Queues.',
-    sub: 'In the top nav: Phone System → Groups → Call Queues. Each row shows status, name, site, direct numbers, extension, voicemail count, and how many members are online. Search by name or extension — 160001 finds the Assessor\'s Office switchboard.',
+    es: { "step":{"num":5,"label":"Encontrar una cola"},"caption":"Phone System → Groups → Call Queues.","sub":"O use el acceso rápido de Quick Access en la página de Inicio. Cada cola aparece con su estado, nombre, sitio, números directos, extensión, conteo de mensajes y disponibilidad de miembros (en línea / total).","bullets":[{"text":"Use Search para filtrar — por nombre O extensión"},{"text":"\"160001\" encuentra el conmutador de la Oficina del Tasador"}] },
+    duration: 15,
+    step: { num: 5, label: 'Find a queue' },
+    caption: 'Phone System → Groups → Call Queues.',
+    sub: 'Or use the Home page Quick Access shortcut. Every queue appears with its status, name, site, direct numbers, extension, voicemail count, and members availability (online / total).',
     src: A + '8477254a65842b7fec3c30ec846b9322fc8d0138.png',
     imgPos: 'right', imgFit: 'contain',
+    bullets: [
+      { text: 'Search to filter — by name OR extension', color: SOP_PALETTE.bosque },
+      { text: '"160001" finds the Assessor\'s Office switchboard', color: SOP_PALETTE.terracotta },
+    ],
   },
 
+  // 6 — Open a queue
   {
     kind: 'screenshot',
-    duration: 8,
-    step: { num: 5, label: 'Open it' },
-    caption: 'Click a queue to open its panel.',
-    sub: 'Every queue has six expandable sections. Different SOPs cover different sections:',
+    es: { "step":{"num":6,"label":"Ábrala"},"caption":"Haga clic en el nombre de la cola.","sub":"Su panel de configuración se desliza a la derecha. El encabezado muestra el nombre y extensión de la cola. Seis secciones expandibles esperan debajo." },
+    duration: 13,
+    step: { num: 6, label: 'Open it' },
+    caption: 'Click the queue name.',
+    sub: 'Its configuration panel slides in on the right. The header shows the queue name and extension. Six expandable sections wait below.',
     src: A + 'c22f2f851fa9dd613caa2fbe49b56da899012a0d.png',
     imgPos: 'right', imgFit: 'contain',
-    bullets: [
-      { text: 'Call Queue Details — CS07', color: SOP_PALETTE.bosque },
-      { text: 'Direct Numbers — CS07', color: SOP_PALETTE.bosque },
-      { text: 'Greeting & Hold Music — CS06', color: SOP_PALETTE.terracotta },
-      { text: 'Call Handling & Members — CS03, CS04, CS05', color: SOP_PALETTE.terracotta },
-      { text: 'Pickup Settings & Voicemail — CS07', color: SOP_PALETTE.cypress },
+  },
+
+  // The six sections
+  {
+    kind: 'steps',
+    es: { "title":"Las seis secciones del panel de cola","sub":"Cada sección la cubre un POE de tarea diferente — mostrado entre paréntesis.","steps":[{"label":"Call Queue Details (CS07)","desc":"Identidad, estado, gerentes, PIN, destinatarios de SMS."},{"label":"Direct Numbers (CS07)","desc":"Números telefónicos asignados."},{"label":"Greeting & Hold Music (CS06)","desc":"Audio, llamadas bloqueadas."},{"label":"Call Handling & Members (CS03 + CS04 + CS05)","desc":"Pestañas: Work hours, Wait settings, Display settings, After hours, Custom rules."},{"label":"Pickup Settings & Members (CS07)","desc":"Permisos de toma de llamadas."},{"label":"Voicemail & Notifications (CS07)","desc":"Buzón de voz de la cola."}] },
+    duration: 20,
+    title: 'The six queue panel sections',
+    sub: 'Each section is covered by a different task SOP — shown in parentheses.',
+    steps: [
+      { label: 'Call Queue Details (CS07)', desc: 'Identity, status, managers, PIN, SMS recipients.' },
+      { label: 'Direct Numbers (CS07)', desc: 'Assigned phone numbers.' },
+      { label: 'Greeting & Hold Music (CS06)', desc: 'Audio, blocked calls.' },
+      { label: 'Call Handling & Members (CS03 + CS04 + CS05)', desc: 'Tabs: Work hours, Wait settings, Display settings, After hours, Custom rules.' },
+      { label: 'Pickup Settings & Members (CS07)', desc: 'Pickup permissions.' },
+      { label: 'Voicemail & Notifications (CS07)', desc: 'Queue voicemail.' },
     ],
   },
 
+  // Change control principles
   {
     kind: 'steps',
-    duration: 8,
-    title: 'Before every change',
-    sub: 'These five steps apply to any RingCentral edit — no exceptions.',
+    es: { "title":"Cada cambio. Cada vez.","sub":"Cuatro principios en todas las ediciones de colas de RingCentral.","steps":[{"label":"Capture el estado actual","desc":"Tome captura de pantalla o anote los valores que pretende modificar — esa es su forma de revertir."},{"label":"Guarde Y verifique","desc":"Haga clic en Save en el portal, luego haga una llamada de prueba o revise el registro de llamadas."},{"label":"Regístrelo en el RingCentral Change Log","desc":"Fecha/hora, cola, ajuste, valor anterior, valor nuevo, quien autorizó, quien aplicó, motivo, resultado de la verificación."},{"label":"Vigile el panel por un día hábil","desc":"Para cambios de enrutamiento o tasa de respuesta, monitoree Call Records durante un día hábil completo."}] },
+    duration: 17,
+    title: 'Every change. Every time.',
+    sub: 'Four principles across all RingCentral queue edits.',
     steps: [
-      { label: 'Snapshot the current state', desc: 'Screenshot or note the values you\'re about to change.' },
-      { label: 'Save AND verify', desc: 'Place a test call or watch the live call log after saving.' },
-      { label: 'Log the change', desc: 'Date, queue, setting, prior value, new value, who authorized, who applied, reason, result.' },
-      { label: 'Monitor for a business day', desc: 'For routing or answer-rate changes, watch the Call Records dashboard.' },
+      { label: 'Snapshot the current state', desc: 'Screenshot or note the values you intend to modify — that\'s your rollback.' },
+      { label: 'Save AND verify', desc: 'Click Save in the portal, then place a test call or review the call log.' },
+      { label: 'Log it in the RingCentral Change Log', desc: 'Date/time, queue, setting, prior value, new value, authorizer, applier, reason, verification result.' },
+      { label: 'Watch the dashboard for a business day', desc: 'For answer-rate or routing changes, monitor Call Records for one full business day.' },
     ],
+  },
+
+  // Quiz
+  {
+    kind: 'quiz',
+    es: { "title":"Ya está dentro. Ahora puede editar.","sub":"CS03 a CS08 comienzan desde esta pantalla. Guarde service.ringcentral.com en favoritos para no tener que buscarlo otra vez." }, duration: 17,
+    qNum: 1, qTotal: 2,
+    question: 'Which navigation path opens the call queue list?',
+    options: [
+      'Users → Users with Extensions',
+      'Phone System → Groups → Call Queues',
+      'Account → Phone Numbers',
+      'Analytics → Reports',
+    ],
+    correctIndex: 1,
+    explanation: 'Phone System → Groups → Call Queues. The Home page Quick Access shortcut works too.',
+  },
+  {
+    kind: 'quiz',
+    es: { "question":"¿Qué ruta de navegación abre la lista de colas de llamadas?","options":["Users → Users with Extensions","Phone System → Groups → Call Queues","Account → Phone Numbers","Analytics → Reports"],"explanation":"Phone System → Groups → Call Queues. El atajo de Quick Access en la página de Inicio también funciona." }, duration: 17,
+    qNum: 2, qTotal: 2,
+    question: 'Which extension is the switchboard / first-touch queue (Q1)?',
+    options: ['160001', '160002', '160011', '415'],
+    correctIndex: 0,
+    explanation: '160001 = Q1 (Assessor\'s Office, switchboard). 160002 = Q2 (Customer Service, 1st floor). 160011 = Spanish speakers.',
   },
 
   {
     kind: 'outro',
-    duration: 6,
+    es: { "question":"¿Qué extensión es la cola del conmutador / primer contacto (Q1)?","options":["160001","160002","160011","415"],"explanation":"160001 = Q1 (Oficina del Tasador, conmutador). 160002 = Q2 (Servicio al Cliente, primer piso). 160011 = Hispanohablantes." },
+    duration: 10,
     title: 'You\'re in. Now you can edit.',
-    sub: 'CS03 through CS08 all start from here.',
+    sub: 'CS03 through CS08 all start from this screen. Bookmark service.ringcentral.com so you don\'t have to search again.',
   },
 ];
 
@@ -107,5 +217,17 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <SOPVideo sopId="CS02" title="RingCentral Admin Portal" scenes={scenes} />
 );
 </script>
+<template id="__bundler_thumbnail" data-bg-color="#0a0a0a">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#0a0a0a"/>
+    <rect x="0" y="0" width="1200" height="120" fill="#285952"/>
+    <rect x="0" y="117" width="1200" height="3" fill="#e47756"/>
+    <g transform="translate(540, 320)">
+      <circle cx="60" cy="60" r="60" fill="#e47756"/>
+      <polygon points="48,32 48,88 96,60" fill="#faf8f4"/>
+    </g>
+    <text x="600" y="560" text-anchor="middle" font-family="sans-serif" font-size="48" font-weight="900" fill="#faf8f4" letter-spacing="-1">SOP VIDEO</text>
+  </svg>
+</template>
 </body>
 </html>

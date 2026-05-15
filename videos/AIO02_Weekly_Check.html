@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AIO02 · Weekly Chatbot Conversation Review · Animated SOP</title>
+<link rel="stylesheet" href="../lib/video.css">
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="../lib/animations.jsx"></script>
+<script type="text/babel" src="../lib/sop-video.jsx"></script>
+<script type="text/babel">
+const A = '../sop_assets/AIO02_Weekly_Check/';
+
+const scenes = [
+  {
+    kind: 'title',
+    duration: 8,
+    sopId: 'AIO02',
+    title: 'Weekly Chatbot Conversation Review',
+    plainTitle: 'A 30-minute Monday-morning review of A.C.E. conversations — detect quality problems, confirm bilingual function, and back up the week.',
+    kicker: 'Department: AI Operations. Sample of 20 conversations. Spanish canary. Export and archive.',
+    es: {
+      title: 'Revisión Semanal de Conversaciones del Chatbot',
+      plainTitle: 'Una revisión de 30 minutos los lunes por la mañana de las conversaciones de A.C.E. — detecte problemas de calidad, confirme la función bilingüe y respalde la semana.',
+      kicker: 'Departamento: Operaciones de IA. Muestra de 20 conversaciones. Canary en español. Exportar y archivar.',
+    },
+  },
+
+  {
+    kind: 'bigstat',
+    duration: 10,
+    stat: '30 minutes · Monday',
+    caption: 'The cadence',
+    sub: 'Monday morning every week. Sample 20 from the past 7 days, run the Spanish canary, export the backup.',
+    es: {
+      stat: '30 minutos · Lunes',
+      caption: 'La cadencia',
+      sub: 'Lunes por la mañana cada semana. Muestre 20 de los últimos 7 días, corra el canary en español, exporte el respaldo.',
+    },
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 17,
+    step: { num: 1, label: 'Ask tab' },
+    caption: 'CustomGPT.ai → A.C.E. → Ask.',
+    sub: 'The conversation list shows newest first. This is your sampling surface for the week.',
+    src: A + 'cd6c0932c3e321da97c88de0a0bf53bfaaffd928.jpg',
+    imgPos: 'right', imgFit: 'contain', imgAspect: 1708/912,
+    bullets: [
+      { text: 'Click Ask in the left sidebar', color: SOP_PALETTE.bosque },
+      { text: 'Conversation list — newest first', color: SOP_PALETTE.cypress },
+      { text: 'Past 7 days is the sample window', color: SOP_PALETTE.terracotta },
+    ],
+    es: {
+      step: { num: 1, label: 'Pestaña Ask' },
+      caption: 'CustomGPT.ai → A.C.E. → Ask.',
+      sub: 'La lista de conversaciones muestra las más nuevas primero. Esta es su superficie de muestreo para la semana.',
+      bullets: [
+        { text: 'Clic en Ask en la barra lateral izquierda', color: SOP_PALETTE.bosque },
+        { text: 'Lista de conversaciones — más nuevas primero', color: SOP_PALETTE.cypress },
+        { text: 'Los últimos 7 días son la ventana de muestreo', color: SOP_PALETTE.terracotta },
+      ],
+    },
+  },
+
+  {
+    kind: 'bigstat',
+    duration: 10,
+    stat: '20',
+    caption: 'Step 2 — Sample size',
+    sub: 'Pick 20 conversations from the past 7 days. Skip near-duplicates. Aim for variety.',
+    accent: SOP_PALETTE.terracotta,
+    es: {
+      stat: '20',
+      caption: 'Paso 2 — Tamaño de muestra',
+      sub: 'Elija 20 conversaciones de los últimos 7 días. Salte casi-duplicados. Busque variedad.',
+    },
+  },
+
+  {
+    kind: 'steps',
+    duration: 15,
+    title: 'Step 3 — Tag each conversation',
+    sub: 'Three buckets. Every conversation in the sample gets exactly one tag.',
+    steps: [
+      { label: 'Good', desc: 'Answered correctly.' },
+      { label: 'Wrong', desc: 'Factually wrong, misleading, or off-policy.' },
+      { label: 'Empty', desc: 'Declined or returned no useful answer.' },
+    ],
+    es: {
+      title: 'Paso 3 — Etiquete cada conversación',
+      sub: 'Tres categorías. Cada conversación en la muestra recibe exactamente una etiqueta.',
+      steps: [
+        { label: 'Good', desc: 'Respondió correctamente.' },
+        { label: 'Wrong', desc: 'Incorrecto, engañoso o fuera de política.' },
+        { label: 'Empty', desc: 'Declinó o no devolvió respuesta útil.' },
+      ],
+    },
+  },
+
+  {
+    kind: 'comparison',
+    duration: 17,
+    title: 'Steps 4–5 — Process Wrong and Empty',
+    sub: 'Different follow-up for each. Good entries need no action.',
+    items: [
+      { tag: 'Wrong', label: 'Record + schedule fix this week', accent: SOP_PALETTE.terracotta, desc: 'Question, A.C.E.\'s answer, correct answer, which AIO03 sub-procedure applies (Persona or KB File). Schedule the fix.' },
+      { tag: 'Empty', label: 'Check Missing Content', accent: SOP_PALETTE.bosque, desc: 'On the Analyze tab, check whether the topic is already in Missing Content. If not, add it.' },
+    ],
+    es: {
+      title: 'Pasos 4–5 — Procese Wrong y Empty',
+      sub: 'Seguimiento diferente para cada uno. Las entradas Good no necesitan acción.',
+      items: [
+        { tag: 'Wrong', label: 'Registre + agende arreglo esta semana', desc: 'Pregunta, respuesta de A.C.E., respuesta correcta, qué sub-procedimiento de AIO03 aplica (Persona o KB File). Agende el arreglo.' },
+        { tag: 'Empty', label: 'Revise Missing Content', desc: 'En la pestaña Analyze, revise si el tema ya está en Missing Content. Si no, añádalo.' },
+      ],
+    },
+  },
+
+  {
+    kind: 'bigstat',
+    duration: 10,
+    stat: '$44,200',
+    caption: 'Step 6 — Spanish canary',
+    sub: 'Ask in Spanish: "¿Cuál es el límite de ingresos para el congelamiento de valor para el año fiscal 2026?" A.C.E. must answer in Spanish AND return $44,200.',
+    accent: SOP_PALETTE.bosque,
+    es: {
+      stat: '$44,200',
+      caption: 'Paso 6 — Canary en español',
+      sub: 'Pregunte en español: "¿Cuál es el límite de ingresos para el congelamiento de valor para el año fiscal 2026?" A.C.E. debe responder en español Y devolver $44,200.',
+    },
+  },
+
+  {
+    kind: 'steps',
+    duration: 15,
+    title: 'Canary — two checks, both must pass',
+    sub: 'In a New conversation. If either fails, this is a persona regression.',
+    steps: [
+      { label: 'Language detection', desc: 'A.C.E. detects Spanish and responds in Spanish (or offers to continue in Spanish).' },
+      { label: 'Factual answer', desc: 'The number is $44,200 — Low-Income Value Freeze income limit for TY 2026.' },
+      { label: 'On failure', desc: 'Escalate per AIO05 Type A and fix per AIO03 → Persona Change.' },
+    ],
+    es: {
+      title: 'Canary — dos verificaciones, ambas deben pasar',
+      sub: 'En una conversación New. Si falla cualquiera, esto es una regresión de persona.',
+      steps: [
+        { label: 'Detección de idioma', desc: 'A.C.E. detecta español y responde en español (u ofrece continuar en español).' },
+        { label: 'Respuesta factual', desc: 'El número es $44,200 — límite de ingresos del Low-Income Value Freeze para TY 2026.' },
+        { label: 'En caso de falla', desc: 'Escale según AIO05 Tipo A y arregle según AIO03 → Cambio de Persona.' },
+      ],
+    },
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 15,
+    step: { num: 7, label: 'Spanish %' },
+    caption: 'Customer Intelligence → Top Languages.',
+    sub: 'Note Spanish % and Spanish count. Record for AIO04 monthly report.',
+    src: A + '22f2913a4ede231c5904603b2bb988735746dc75.jpg',
+    imgPos: 'left', imgFit: 'contain', imgAspect: 382/393,
+    bullets: [
+      { text: 'Note Spanish % and absolute count', color: SOP_PALETTE.bosque },
+      { text: 'Record for AIO04 monthly tracker', color: SOP_PALETTE.cypress },
+      { text: 'Small samples = volatile weeks. Trend over 4 weeks is the real signal.', color: SOP_PALETTE.terracotta },
+    ],
+    es: {
+      step: { num: 7, label: '% Español' },
+      caption: 'Customer Intelligence → Top Languages.',
+      sub: 'Anote el % en español y el conteo. Registre para el reporte mensual AIO04.',
+      bullets: [
+        { text: 'Anote % en español y conteo absoluto', color: SOP_PALETTE.bosque },
+        { text: 'Registre para el tracker mensual AIO04', color: SOP_PALETTE.cypress },
+        { text: 'Muestras pequeñas = semanas volátiles. La tendencia de 4 semanas es la señal real.', color: SOP_PALETTE.terracotta },
+      ],
+    },
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 13,
+    step: { num: 8, label: 'Export' },
+    caption: 'Export all conversations.',
+    sub: 'Bottom of the Ask tab. Save to the backup folder with today\'s date.',
+    src: A + '87c090c0e8e216eddebf3454b6260c40461a4dd3.jpg',
+    imgPos: 'right', imgFit: 'contain', imgAspect: 291/98,
+    bullets: [
+      { text: 'Click Export all conversations', color: SOP_PALETTE.bosque },
+      { text: 'Save to backup folder, named with today\'s date', color: SOP_PALETTE.cypress },
+      { text: 'This is the weekly archive for audit & recovery', color: SOP_PALETTE.muted },
+    ],
+    es: {
+      step: { num: 8, label: 'Exportar' },
+      caption: 'Exportar todas las conversaciones.',
+      sub: 'Fondo de la pestaña Ask. Guarde en la carpeta de respaldo con la fecha de hoy.',
+      bullets: [
+        { text: 'Clic en Export all conversations', color: SOP_PALETTE.bosque },
+        { text: 'Guarde en carpeta de respaldo, nombrado con la fecha de hoy', color: SOP_PALETTE.cypress },
+        { text: 'Este es el archivo semanal para auditoría y recuperación', color: SOP_PALETTE.muted },
+      ],
+    },
+  },
+
+  {
+    kind: 'steps',
+    duration: 22,
+    title: 'Notify Assessor & Deputy — same day',
+    sub: 'Any one of these triggers an immediate notification.',
+    steps: [
+      { label: 'Wrong rate > 10%', desc: '2 or more "Wrong" tags in the 20-conversation sample.' },
+      { label: 'PII exposed', desc: 'Any conversation contains PII that A.C.E. produced or revealed.' },
+      { label: 'Spanish canary fails', desc: 'Either the language detection or the $44,200 answer is wrong. Treat as persona regression.' },
+      { label: 'Repeated mishandling', desc: 'A topic appears repeatedly that A.C.E. consistently mishandles.' },
+      { label: 'Spanish < 3% for 4 weeks', desc: 'Four consecutive weekly checks under 3% — bilingual service underutilized.' },
+    ],
+    es: {
+      title: 'Notifique al Tasador y Subtasador — el mismo día',
+      sub: 'Cualquiera de estos dispara una notificación inmediata.',
+      steps: [
+        { label: 'Tasa Wrong > 10%', desc: '2 o más etiquetas "Wrong" en la muestra de 20 conversaciones.' },
+        { label: 'PII expuesto', desc: 'Cualquier conversación contiene PII que A.C.E. produjo o reveló.' },
+        { label: 'Canary en español falla', desc: 'O la detección de idioma o la respuesta de $44,200 está mal. Trate como regresión de persona.' },
+        { label: 'Mal manejo repetido', desc: 'Un tema aparece repetidamente que A.C.E. consistentemente maneja mal.' },
+        { label: 'Spanish < 3% por 4 semanas', desc: 'Cuatro revisiones semanales consecutivas bajo 3% — servicio bilingüe subutilizado.' },
+      ],
+    },
+  },
+
+  {
+    kind: 'quiz', duration: 17,
+    qNum: 1, qTotal: 2,
+    question: 'In this week\'s sample of 20, you tag 3 conversations as Wrong. Do you notify the Assessor?',
+    options: [
+      'No — only at 4 or more',
+      'Yes — 3 of 20 is 15%, above the 10% threshold',
+      'Only if one of them involves PII',
+      'Only at the end of the month',
+    ],
+    correctIndex: 1,
+    explanation: 'Wrong rate > 10% (2 or more in 20) triggers a same-day notification. 3 of 20 is 15% — well over.',
+    es: {
+      question: 'En la muestra de esta semana de 20, etiqueta 3 conversaciones como Wrong. ¿Notifica al Tasador?',
+      options: [
+        'No — solo en 4 o más',
+        'Sí — 3 de 20 es 15%, por encima del umbral de 10%',
+        'Solo si una involucra PII',
+        'Solo al final del mes',
+      ],
+      explanation: 'Tasa Wrong > 10% (2 o más en 20) dispara una notificación el mismo día. 3 de 20 es 15% — muy por encima.',
+    },
+  },
+  {
+    kind: 'quiz', duration: 17,
+    qNum: 2, qTotal: 2,
+    question: 'You ask the Spanish canary. A.C.E. responds in English but gives $44,200. Pass or fail?',
+    options: [
+      'Pass — the number is correct',
+      'Fail — both language detection AND factual answer must pass',
+      'Pass — Spanish is optional',
+      'Pass — log it but don\'t escalate',
+    ],
+    correctIndex: 1,
+    explanation: 'The canary has two checks: language detection AND factual answer. BOTH must pass. Language failure here means the bilingual persona regressed — escalate per AIO05 Type A and fix per AIO03 → Persona.',
+    es: {
+      question: 'Pregunta el canary en español. A.C.E. responde en inglés pero da $44,200. ¿Pasa o falla?',
+      options: [
+        'Pasa — el número es correcto',
+        'Falla — detección de idioma Y respuesta factual deben pasar',
+        'Pasa — el español es opcional',
+        'Pasa — registre pero no escale',
+      ],
+      explanation: 'El canary tiene dos verificaciones: detección de idioma Y respuesta factual. AMBAS deben pasar. Una falla de idioma aquí significa que la persona bilingüe regresó — escale según AIO05 Tipo A y arregle según AIO03 → Persona.',
+    },
+  },
+
+  {
+    kind: 'outro',
+    duration: 10,
+    title: 'Twenty conversations. One canary. One export.',
+    sub: 'Thirty minutes on Monday morning catches drift early — and the weekly export means there\'s always a backup if you need one.',
+    es: {
+      title: 'Veinte conversaciones. Un canary. Una exportación.',
+      sub: 'Treinta minutos el lunes por la mañana captan la deriva temprano — y la exportación semanal significa que siempre hay un respaldo si lo necesita.',
+    },
+  },
+];
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <SOPVideo sopId="AIO02" title="Weekly Chatbot Conversation Review" scenes={scenes} />
+);
+</script>
+<template id="__bundler_thumbnail" data-bg-color="#0a0a0a"><svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg"><rect width="1200" height="800" fill="#0a0a0a"/><rect x="0" y="0" width="1200" height="120" fill="#285952"/><rect x="0" y="117" width="1200" height="3" fill="#e47756"/><g transform="translate(540, 320)"><circle cx="60" cy="60" r="60" fill="#e47756"/><polygon points="48,32 48,88 96,60" fill="#faf8f4"/></g><text x="600" y="560" text-anchor="middle" font-family="sans-serif" font-size="48" font-weight="900" fill="#faf8f4" letter-spacing="-1">SOP VIDEO</text></svg></template>
+</body>
+</html>

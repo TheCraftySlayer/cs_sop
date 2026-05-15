@@ -194,6 +194,214 @@
     .doc h2 { break-after: avoid; }
     .doc figure, .doc p, .meta-row { break-inside: avoid; }
   }
+
+.sop-tabs { display:flex; gap:8px; margin:-20px 0 28px; position:sticky; top:88px; z-index:5; background:var(--paper); padding:14px 0 6px; border-bottom:1px solid var(--line); }
+.sop-tabs .tab-btn {
+  appearance:none; background:transparent; border:1px solid var(--line); color:var(--muted);
+  font-family:inherit; font-size:13px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+  padding:9px 18px; border-radius:999px; cursor:pointer;
+  transition:all 180ms cubic-bezier(0.4,0,0.2,1);
+}
+.sop-tabs .tab-btn:hover { color:var(--cypress); border-color:var(--cypress); }
+.sop-tabs .tab-btn.active { background:var(--bosque); color:var(--paper); border-color:var(--bosque); }
+.pane[hidden] { display:none; }
+.pane-card { margin:24px 0; }
+.pane-card .sheet { margin:0; padding:32px 36px; box-shadow:none; width:100%; min-height:auto; }
+@media print {
+  .sop-tabs { display:none; }
+  .pane[hidden] { display:block !important; }
+  .pane-full, .pane-card { page-break-before:always; }
+  .pane-full { page-break-before:auto; }
+}
+
+.pane-card 400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Card sheet — sized for letter portrait */
+.sheet {
+  width: 8.5in;
+  min-height: 11in;
+  margin: 24px auto;
+  background: var(--paper);
+  padding: 0.4in 0.5in;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 12px 36px rgba(15, 30, 27, 0.08);
+  display: flex; flex-direction: column;
+}.pane-card .sheet header {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 24px;
+  border-bottom: 4px solid var(--bosque);
+  padding-bottom: 14px;
+  margin-bottom: 18px;
+}.pane-card .sheet header .lhs {
+  display: flex; flex-direction: column;
+}.pane-card .sheet header .eyebrow {
+  font-size: 11px; font-weight: 700;
+  color: var(--terracotta);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}.pane-card .sheet header h1 {
+  font-family: "Gotham Display", "Montserrat", sans-serif;
+  font-size: 36px; font-weight: 900;
+  line-height: 0.96;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--bosque);
+  margin: 0;
+  text-wrap: balance;
+}.pane-card .sheet header .id {
+  font-family: "Gotham Display", sans-serif;
+  font-size: 64px; font-weight: 900;
+  color: var(--cypress);
+  letter-spacing: -0.04em;
+  line-height: 0.85;
+}.pane-card .sheet header .id .small {
+  display: block;
+  font-size: 11px; font-weight: 700;
+  color: var(--muted); letter-spacing: 0.24em;
+  text-transform: uppercase;
+  text-align: right;
+  margin-bottom: 4px;
+}.pane-card .purpose {
+  background: var(--mist-soft);
+  border-left: 4px solid var(--bosque);
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  font-size: 12.5px;
+  color: var(--cypress);
+  line-height: 1.5;
+  border-radius: 0 4px 4px 0;
+}.pane-card .purpose strong { color: var(--bosque); }.pane-card .grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}.pane-card .grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}.pane-card .block {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 12px;
+}.pane-card .block.accent { border-color: var(--terracotta); border-width: 1.5px; }.pane-card .block.dark { background: var(--cypress); color: var(--paper); border: 0; }.pane-card .block.dark h3 { color: var(--terracotta); }.pane-card .block.dark .label { color: rgba(255,255,255,0.5); }.pane-card .block.dark code { background: rgba(255,255,255,0.1); color: var(--paper); }.pane-card .block h3 {
+  font-family: "Gotham Display", sans-serif;
+  font-size: 13px; font-weight: 900;
+  color: var(--bosque);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 0 0 8px;
+  display: flex; align-items: center; gap: 8px;
+}.pane-card .block h3 .num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--terracotta);
+  color: var(--paper);
+  font-size: 10px;
+}.pane-card .block ul, .pane-card .block ol { margin: 0; padding-left: 18px; line-height: 1.55; }.pane-card .block li { margin: 2px 0; }.pane-card .block dl { margin: 0; }.pane-card .block dt {
+  font-weight: 700;
+  color: var(--cypress);
+  margin-top: 6px;
+}.pane-card .block dt:first-child { margin-top: 0; }.pane-card .block dd { margin: 1px 0 0 0; color: var(--ink); line-height: 1.4; }.pane-card .block .label {
+  font-size: 9.5px; font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}.pane-card .block .path, .pane-card .block code {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11.5px;
+  background: var(--mist);
+  padding: 1.5px 6px;
+  border-radius: 3px;
+  color: var(--cypress);
+  font-weight: 500;
+}.pane-card .block .big {
+  font-family: "Gotham Display", sans-serif;
+  font-size: 28px; font-weight: 900;
+  color: var(--bosque);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 4px;
+}.pane-card .block .big.terra { color: var(--terracotta); }.pane-card .warn {
+  background: #fceee7;
+  border-left: 4px solid var(--terracotta);
+  padding: 10px 14px;
+  border-radius: 0 4px 4px 0;
+  font-size: 12px;
+  color: var(--cypress);
+  line-height: 1.5;
+}.pane-card .warn strong { color: var(--terracotta); }.pane-card .steps-line {
+  display: flex;
+  gap: 0;
+  margin: 8px 0 0;
+  font-size: 11px;
+}.pane-card .steps-line .step {
+  flex: 1;
+  position: relative;
+  padding: 8px 10px 8px 24px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-right: 0;
+}.pane-card .steps-line .step:last-child { border-right: 1px solid var(--line); border-radius: 0 4px 4px 0; }.pane-card .steps-line .step:first-child { border-radius: 4px 0 0 4px; }.pane-card .steps-line .step .n {
+  position: absolute;
+  left: 6px; top: 50%; transform: translateY(-50%);
+  font-family: "Gotham Display", sans-serif;
+  font-size: 14px; font-weight: 900;
+  color: var(--terracotta);
+}.pane-card .steps-line .step strong {
+  font-family: "Gotham Display", sans-serif;
+  font-size: 11px;
+  color: var(--bosque);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  display: block;
+}.pane-card .table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11.5px;
+}.pane-card .table th, .pane-card .table td {
+  text-align: left;
+  padding: 5px 8px;
+  border-bottom: 1px solid var(--line);
+}.pane-card .table th {
+  font-size: 9.5px; font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}.pane-card .table td.code { font-family: 'JetBrains Mono', ui-monospace, monospace; font-weight: 700; color: var(--bosque); }.pane-card .table .terra { color: var(--terracotta); }.pane-card .table tr:last-child td { border-bottom: 0; }.pane-card .row-list { columns: 2; column-gap: 16px; font-size: 12px; line-height: 1.5; }.pane-card .row-list code { font-family: 'JetBrains Mono', ui-monospace, monospace; font-weight: 600; color: var(--bosque); }.pane-card .footer {
+  margin-top: auto; padding-top: 14px;
+  border-top: 1px solid var(--line);
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 9.5px; color: var(--muted);
+  letter-spacing: 0.14em; text-transform: uppercase;
+}.pane-card .footer .tag {
+  font-family: "Gotham Display", sans-serif;
+  font-size: 14px; font-weight: 900;
+  color: var(--terracotta);
+  text-transform: lowercase;
+  letter-spacing: 0;
+}
+
+
+/* card-specific print rules omitted to avoid conflicts */
+
 </style>
 </head>
 <body>
@@ -203,12 +411,17 @@
   <div class="crumb"><b>SOP CS05</b><br>Source document</div>
   <div class="actions">
     <a class="action secondary" href="../index.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M6 4L3 7l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Library</a>
-    <a class="action secondary" href="../videos/CS05_Holiday_and_Custom_Rules.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg> Watch video</a>
+    <a class="action secondary" href="../videos/CS05_Holiday_and_Custom_Rules.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg> Watch</a>
+    <a class="action secondary" href="../cards/CS05.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1.5" y="2.5" width="11" height="9" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M3.5 5h4M3.5 7h7M3.5 9h5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg> Card</a>
+    <a class="action secondary" href="../scripts/CS05.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 1.5h6L11 4v8.5H3z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M4.5 6.5h5M4.5 8.5h5M4.5 10.5h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg> Script</a>
+    <a class="action secondary" href="../docs/CS05_Holiday_and_Custom_Rules.docx" download><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v9M3 7l4 4 4-4M2 13h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> .docx</a>
     <button class="action primary" onclick="window.print()" style="border: 0; font-family: inherit; cursor: pointer;"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M4 1h6v3M4 11h6v2H4zM2 4h10v6H2z M4 7h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Save as PDF</button>
   </div>
 </header>
 
 <article class="doc">
+  <nav class="sop-tabs"><button class="tab-btn active" data-tab="full" type="button">Full SOP</button><button class="tab-btn" data-tab="card" type="button">Quick Reference</button></nav>
+  <div class="pane pane-full" data-pane="full">
   <div class="doc-header">
     <div class="eyebrow">Bernalillo County Assessor · Customer Service</div>
     <h1>Holiday and Custom Rules</h1>
@@ -370,7 +583,100 @@
     <div class="tag">Count on us.</div>
     <div class="sig">Bernalillo County Assessor · Damian R. Lara, County Assessor</div>
   </div>
+  </div><!-- /pane-full -->
+  <div class="pane pane-card" data-pane="card" hidden>
+    <article class="sheet">
+  <header>
+    <div class="lhs">
+      <div class="eyebrow">Bernalillo County Assessor · Customer Service</div>
+      <h1>Holiday & Custom Rules</h1>
+    </div>
+    <div class="id"><span class="small">SOP</span>05</div>
+  </header>
+  
+  <div class="purpose"><strong>Purpose.</strong> Make a queue behave differently on a holiday, during lunch, when caller ID matches, or when the office is unexpectedly closed. <strong>Custom rules always win over Work hours &amp; After hours.</strong></div>
+
+  <div class="grid-3" style="margin-bottom: 12px;">
+    <div class="block accent">
+      <h3>3 condition types</h3>
+      <dl>
+        <dt>Date and/or Time</dt><dd>Weekly Schedule OR Specific Date Range</dd>
+        <dt>Caller ID</dt><dd>By number, area code, or country code</dd>
+        <dt>Called Number</dt><dd>Which DID they dialed (if queue has multiple)</dd>
+      </dl>
+    </div>
+    <div class="block accent">
+      <h3>6 actions</h3>
+      <ul>
+        <li>Ring call queue members</li>
+        <li><strong>Send to voicemail</strong> (holiday default)</li>
+        <li>Play an announcement</li>
+        <li>Forward to extension (e.g. A.C.E. chatbot)</li>
+        <li>Forward to external number</li>
+        <li>Forward to site (multi-site only)</li>
+      </ul>
+    </div>
+    <div class="block dark">
+      <h3>Office Closed</h3>
+      <div class="label" style="color: rgba(255,255,255,0.6);">Pre-built · Normally OFF</div>
+      <strong>Snow day:</strong> Toggle Active ON. Save. Notify staff.<br>
+      <strong>Reopen:</strong> Toggle Active OFF. Save. Test call.
+    </div>
+  </div>
+
+  <div class="block" style="margin-bottom: 12px;">
+    <h3>Add a holiday rule — 3-step wizard</h3>
+    <div class="steps-line">
+      <div class="step"><span class="n">1</span><strong>Conditions</strong> Date and/or Time → Specific Date Range. Set start + end.</div>
+      <div class="step"><span class="n">2</span><strong>Call Handling</strong> Pick action (Send to voicemail is the holiday default).</div>
+      <div class="step"><span class="n">3</span><strong>Summary</strong> Name "<em>Holiday 2027</em>". Save. <strong>Validate Rules.</strong></div>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-bottom: 12px;">
+    <div class="block">
+      <h3>Annual January refresh</h3>
+      <ol>
+        <li>Open the Custom rules list</li>
+        <li>For each prior-year rule, create the next year (use Save as Template)</li>
+        <li>Update dates against the federal holiday calendar</li>
+        <li>Click <strong>Validate Rules</strong></li>
+      </ol>
+      <div class="label" style="margin-top: 6px;">Holiday rules do NOT auto-renew — year-suffix in names makes this easier.</div>
+    </div>
+    <div class="block">
+      <h3>Federal holiday checklist</h3>
+      <div class="row-list">
+        Memorial Day · Independence Day · Labor Day · Veterans Day · Indigenous Peoples Day · Juneteenth · Thanksgiving + day after · Christmas Eve → Christmas · Plus state &amp; local closures
+      </div>
+    </div>
+  </div>
+
+  <div class="warn">
+    <strong>Authorization.</strong> Holiday rules → Deputy Assessor. Office Closed toggle → CSM or Deputy.
+    &nbsp;·&nbsp; <strong>Master "Forward all queue calls"</strong> at the top of Custom rules tab — leave OFF unless an office-wide emergency diversion is needed.
+  </div>
+
+  <div class="footer">
+    <div>Revision: this card · v1 · 2026</div>
+    <div class="tag">Count on us.</div>
+    <div>Print &amp; laminate for desk reference</div>
+  </div>
+</article>
+  </div>
 </article>
 
+
+<script>
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.sop-tabs .tab-btn');
+  if (!btn) return;
+  const target = btn.dataset.tab;
+  document.querySelectorAll('.sop-tabs .tab-btn').forEach(b => b.classList.toggle('active', b === btn));
+  document.querySelectorAll('.pane').forEach(p => {
+    p.hidden = p.dataset.pane !== target;
+  });
+});
+</script>
 </body>
 </html>

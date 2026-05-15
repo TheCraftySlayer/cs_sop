@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>When to Notify the Assessor &amp; Deputy — Consolidated Reference</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+@font-face { font-family: 'Gotham Display'; src: url('../fonts/Gotham-Black.otf') format('opentype'); font-weight: 900; font-style: normal; font-display: swap; }
+:root { --bosque:#285952; --bosque-dark:#1d4640; --cypress:#013942; --terracotta:#e47756; --mist:#e8f1ee; --mist-soft:#f4f8f6; --paper:#faf8f4; --ink:#1a2620; --line:#cfd8d3; --muted:#5a6b65; --critical:#a3361a; }
+* { box-sizing: border-box; }
+html, body { margin:0; padding:0; font-family: "Montserrat",system-ui,sans-serif; color:var(--ink); background:var(--mist-soft); -webkit-font-smoothing:antialiased; line-height:1.55; }
+.top-bar { background:var(--paper); border-bottom:2px solid var(--line); padding:16px 56px; display:flex; align-items:center; gap:24px; position:sticky; top:0; z-index:10; }
+.top-bar img.logo { height:56px; width:auto; display:block; }
+.top-bar .crumb { padding-left:24px; border-left:1px solid var(--line); font-size:12px; font-weight:600; color:var(--muted); letter-spacing:0.18em; text-transform:uppercase; line-height:1.6; }
+.top-bar .crumb b { color:var(--cypress); }
+.top-bar .actions { margin-left:auto; display:flex; gap:10px; flex-wrap:wrap; }
+.top-bar .action { display:inline-flex; align-items:center; gap:8px; padding:9px 16px; font-size:13px; font-weight:600; text-decoration:none; border-radius:999px; background:transparent; color:var(--cypress); border:1px solid var(--line); cursor:pointer; font-family:inherit; }
+.top-bar .action.primary { background:var(--terracotta); color:var(--paper); border-color:var(--terracotta); }
+.top-bar .action:hover { background:var(--mist); border-color:var(--cypress); }
+
+.sheet { max-width:1280px; margin:36px auto 60px; padding:0 40px; }
+.banner {
+  background:var(--cypress); color:var(--paper);
+  border-radius:14px; padding:36px 40px; position:relative; overflow:hidden;
+  margin-bottom:28px;
+}
+.banner::before { content:''; position:absolute; right:-180px; top:-180px; width:480px; height:480px; border-radius:50%; background:var(--terracotta); opacity:0.18; pointer-events:none; }
+.banner .eyebrow { font-size:12px; font-weight:700; color:var(--terracotta); letter-spacing:0.24em; text-transform:uppercase; margin-bottom:14px; position:relative; }
+.banner h1 { font-family:"Gotham Display","Montserrat",sans-serif; font-size:56px; font-weight:900; line-height:0.96; letter-spacing:-0.02em; text-transform:uppercase; margin:0 0 14px; position:relative; text-wrap:balance; }
+.banner p { font-size:17px; max-width:780px; opacity:0.88; margin:0; position:relative; line-height:1.5; }
+
+.legend { display:flex; gap:20px; margin-bottom:24px; align-items:center; flex-wrap:wrap; font-size:13px; color:var(--muted); }
+.legend .sw { display:inline-flex; align-items:center; gap:8px; font-weight:600; color:var(--cypress); }
+.legend .sw .dot { width:12px; height:12px; border-radius:3px; }
+
+.matrix { display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:18px; }
+.col {
+  background:var(--paper); border:1px solid var(--line); border-radius:12px;
+  padding:24px 26px 28px;
+  box-shadow:0 2px 10px rgba(15,30,27,0.04);
+}
+.col h2 {
+  font-family:"Gotham Display","Montserrat",sans-serif; font-size:20px; font-weight:900;
+  color:var(--bosque); letter-spacing:-0.005em; text-transform:uppercase;
+  margin:0 0 4px; line-height:1.1;
+}
+.col .sopid { font-size:11px; font-weight:700; color:var(--terracotta); letter-spacing:0.18em; text-transform:uppercase; margin-bottom:14px; }
+.col .triggers { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px; }
+.col .trig {
+  display:grid; grid-template-columns:14px 1fr;
+  gap:12px; align-items:flex-start;
+  padding:11px 12px 11px 0;
+  border-bottom:1px dashed var(--line);
+}
+.col .trig:last-child { border-bottom:0; padding-bottom:2px; }
+.col .trig .dot { width:10px; height:10px; border-radius:50%; margin-top:6px; flex-shrink:0; }
+.col .trig .dot.critical { background:var(--critical); }
+.col .trig .dot.standard { background:var(--terracotta); }
+.col .trig .label { font-size:14.5px; line-height:1.4; }
+.col .trig .label strong { color:var(--cypress); font-weight:700; }
+.col .trig .label .src { display:block; font-size:11px; color:var(--muted); letter-spacing:0.06em; text-transform:uppercase; font-weight:700; margin-top:3px; }
+
+.also { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:18px; }
+.also .box { background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:22px 26px; }
+.also .box h3 { font-family:"Gotham Display","Montserrat",sans-serif; font-size:16px; font-weight:900; color:var(--cypress); text-transform:uppercase; margin:0 0 8px; letter-spacing:0.04em; }
+.also .box p { margin:0 0 6px; font-size:14.5px; line-height:1.5; }
+.also .box .channel { font-family:'JetBrains Mono','SF Mono',monospace; font-size:13px; color:var(--bosque); background:var(--mist-soft); padding:8px 12px; border-radius:6px; display:inline-block; margin-top:6px; }
+
+.also-foot { margin-top:24px; padding:18px 26px; background:var(--mist-soft); border:1px solid var(--line); border-radius:12px; font-size:14px; color:var(--muted); }
+.also-foot strong { color:var(--cypress); }
+@media (max-width: 900px) { .also { grid-template-columns:1fr; } .banner h1 { font-size:40px; } }
+@media print {
+  body { background:white; }
+  .top-bar { display:none; }
+  .sheet { padding:0; margin:0; max-width:none; }
+  .banner { background:var(--cypress) !important; -webkit-print-color-adjust:exact; color-adjust:exact; print-color-adjust:exact; }
+  .col { break-inside:avoid; box-shadow:none; }
+}
+</style>
+</head>
+<body>
+<header class="top-bar">
+  <img src="../assets/bernco-assessor-logo.png" alt="BernCo County Assessor" class="logo">
+  <div class="crumb"><b>AI Operations</b><br>Escalation Reference</div>
+  <div class="actions">
+    <a class="action" href="../index.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M6 4L3 7l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Library</a>
+    <a class="action" href="flow.html">Flow diagram</a>
+    <a class="action" href="dashboard.html">Quiz dashboard</a>
+    <button class="action primary" onclick="window.print()" style="border:0; font-family:inherit; cursor:pointer;">Print / Save PDF</button>
+  </div>
+</header>
+
+<main class="sheet">
+  <section class="banner">
+    <div class="eyebrow">When in doubt, notify</div>
+    <h1>When to notify the Assessor &amp; Deputy</h1>
+    <p>Every same-day escalation trigger across the AI Operations SOPs, on one page. Print and post by your desk. If you see any of the conditions below — send the notification today, then follow the linked SOP.</p>
+  </section>
+
+  <div class="legend">
+    <span class="sw"><span class="dot" style="background:#a3361a;"></span> Critical · contain first, then notify within 1 hour</span>
+    <span class="sw"><span class="dot" style="background:#e47756;"></span> Same-day · notify before end of business</span>
+  </div>
+
+  <div class="matrix">
+
+    <article class="col">
+      <h2>Daily check</h2>
+      <div class="sopid">AIO01</div>
+      <ul class="triggers">
+        <li class="trig"><span class="dot critical"></span><span class="label"><strong>PII produced or exposed.</strong> Any prompt contains personally identifiable information that A.C.E. produced or revealed. <span class="src">AIO01 · Contain first per AIO05 Type C</span></span></li>
+        <li class="trig"><span class="dot critical"></span><span class="label"><strong>Threats against staff or office.</strong> Any prompt with threatening language toward people or the building. <span class="src">AIO01 · Notify County security per AIO05 Type D</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Persona Failure elevated.</strong> Persona Failure incidents on the day are clearly above the 7-day pattern. <span class="src">AIO01 · Investigate per AIO05 Type A</span></span></li>
+        <li class="trig"><span class="dot critical"></span><span class="label"><strong>Agent unreachable.</strong> A.C.E. is unreachable from the public site. <span class="src">AIO01 · Follow AIO05 Type B in parallel</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Plan cap + service degraded.</strong> Words Processed at plan cap AND user-facing service is degraded. <span class="src">AIO01</span></span></li>
+      </ul>
+    </article>
+
+    <article class="col">
+      <h2>Weekly review</h2>
+      <div class="sopid">AIO02</div>
+      <ul class="triggers">
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Wrong rate &gt; 10%.</strong> 2 or more "Wrong" tags in the 20-conversation sample. <span class="src">AIO02 · Schedule fixes per AIO03</span></span></li>
+        <li class="trig"><span class="dot critical"></span><span class="label"><strong>PII in a conversation.</strong> Any conversation contains PII that A.C.E. produced or revealed. <span class="src">AIO02 · AIO05 Type C</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Spanish canary fails.</strong> Either language detection or the $44,200 answer is wrong. <span class="src">AIO02 · AIO05 Type A + AIO03 Persona</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Repeated mishandling.</strong> A topic appears repeatedly that A.C.E. consistently mishandles. <span class="src">AIO02</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Spanish &lt; 3% for 4 weeks.</strong> Four consecutive weekly checks under 3% — bilingual service underutilized. <span class="src">AIO02</span></span></li>
+      </ul>
+    </article>
+
+    <article class="col">
+      <h2>Monthly report</h2>
+      <div class="sopid">AIO04</div>
+      <ul class="triggers">
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Not found &gt; 15%</strong> (monthly figure). <span class="src">AIO04 · KB coverage gap</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Persona Failure &gt; 15%</strong> (monthly figure). <span class="src">AIO04 · Drift; review AIO03 history</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Spanish &lt; 3%</strong> across the month (2+ month trend). <span class="src">AIO04</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Success rate &lt; 97%.</strong> Platform or integration concern. <span class="src">AIO04</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Plan cap reached.</strong> Persistent across cycles → recommend plan upsize. <span class="src">AIO04</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Single non-US country &gt; 15%</strong> of conversations. Possible bot traffic. <span class="src">AIO04 · Verify with IT</span></span></li>
+      </ul>
+    </article>
+
+    <article class="col">
+      <h2>Change management</h2>
+      <div class="sopid">AIO03</div>
+      <ul class="triggers">
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Notify BEFORE Publish</strong> for: legal/statutory content · public-facing form or process · complaint or media inquiry · bilingual or accessibility. <span class="src">AIO03 universal rules</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>AI Model selection</strong> — especially switching to/from the Reasoning variant. <span class="src">AIO03 Section D</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Data Source Control</strong> — broadening to "My Data + General LLM". <span class="src">AIO03 Section D</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Whitelisted Domains</strong> — disables Share Link. Also notify office IT. <span class="src">AIO03 Section D</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Conversation Retention / Visibility.</strong> Also notify office IT. <span class="src">AIO03 Section D</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Citations enable/disable · Agent Language.</strong> <span class="src">AIO03 Section D</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>External or removed sources.</strong> Adding sources outside Bernalillo County government domains, or removing a source currently in use. <span class="src">AIO03 Section D</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Beta Actions.</strong> Web Search, Orchestrate, Drive Conversions, Verify Responses, or Document Analyst. <span class="src">AIO03 Section C</span></span></li>
+      </ul>
+    </article>
+
+    <article class="col">
+      <h2>Incident response</h2>
+      <div class="sopid">AIO05</div>
+      <ul class="triggers">
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Type A · Wrong answer reproducible.</strong> If legal/statutory content, notify Assessor or Deputy BEFORE fix. <span class="src">AIO05 Type A</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Type B · Agent down &gt; 1 hour.</strong> Email with start time, current status, expected resolution if known. <span class="src">AIO05 Type B</span></span></li>
+        <li class="trig"><span class="dot critical"></span><span class="label"><strong>Type C · PII disclosure.</strong> PAUSE the agent first (Deploy → disable public access), then notify Assessor and office IT within 1 hour. <span class="src">AIO05 Type C</span></span></li>
+        <li class="trig"><span class="dot critical"></span><span class="label"><strong>Type D · Threats present.</strong> Notify Assessor and County security within 1 hour with full prompt text and metadata. <span class="src">AIO05 Type D</span></span></li>
+      </ul>
+    </article>
+
+    <article class="col">
+      <h2>Baseline reconciliation</h2>
+      <div class="sopid">AIO06</div>
+      <ul class="triggers">
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Unexplained baseline difference.</strong> Reconciliation finds a configuration change that isn't backed by a change-log entry. <span class="src">AIO06 · Possible unauthorized change</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Baseline cannot be produced.</strong> Access blocked or a Personalize sub-tab won't load. <span class="src">AIO06</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Canary fails during baseline.</strong> $44,200 not returned. <span class="src">AIO06 · Escalate per AIO05 Type A</span></span></li>
+      </ul>
+    </article>
+
+  </div>
+
+  <div class="also">
+    <div class="box">
+      <h3>How to notify</h3>
+      <p>Email both the Assessor and the Deputy on the same thread. Use a subject line that starts with the SOP ID and the severity word.</p>
+      <span class="channel">Subject: AIO05 / CRITICAL — short description</span>
+      <p style="margin-top:8px;">For Critical items (PII, threats, agent-down), also send a phone or chat ping in addition to the email. Don't wait for a reply before containment steps.</p>
+    </div>
+    <div class="box">
+      <h3>What the email should include</h3>
+      <p>Five lines, in this order. Keep it tight — detail goes in the linked tracker or incident log.</p>
+      <ul style="margin:6px 0 0; padding-left:20px;">
+        <li>What happened — one sentence.</li>
+        <li>When — timestamp.</li>
+        <li>Scope — how many users / which conversations.</li>
+        <li>What you've done — containment, rollback, or holding action.</li>
+        <li>What you need from them — acknowledge, decision, or just FYI.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="also-foot">
+    <strong>Thresholds note.</strong> All AIO04 thresholds (Not found, Persona Failure, Spanish, success rate, plan cap, single-country share) apply to the <em>monthly</em> figure only. Daily and weekly snapshots crossing thresholds is expected sample-size volatility — not a flag. Notify on the monthly only, unless the daily-check rule for that metric independently applies.
+  </div>
+</main>
+</body>
+</html>

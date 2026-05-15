@@ -18,110 +18,294 @@ const A = '../sop_assets/CS05_Holiday_and_Custom_Rules/';
 const scenes = [
   {
     kind: 'title',
-    duration: 5.5,
+    es: { "title":"Reglas de Feriados y Personalizadas","plainTitle":"Cómo hacer que una cola haga algo diferente en un feriado, durante el almuerzo, cuando el ID de llamadas coincide, o cuando la oficina cierra inesperadamente.","kicker":"Las reglas personalizadas ganan. Se evalúan ANTES de Work hours y After hours — cualquier regla personalizada coincidente toma prioridad." },
+    duration: 8,
     sopId: 'CS05',
     title: 'Holiday & Custom Rules',
-    plainTitle: 'How to make a queue do something different on a holiday, during lunch, or when the office is unexpectedly closed.',
-    kicker: 'Custom rules win. They are checked BEFORE the regular work-hours and after-hours settings.',
+    plainTitle: 'How to make a queue do something different on a holiday, during lunch, when caller ID matches, or when the office is unexpectedly closed.',
+    kicker: 'Custom rules win. They are checked BEFORE the queue\'s Work hours and After hours settings — any matching custom rule takes priority.',
   },
 
+  // Authorization
+  {
+    kind: 'comparison',
+    es: { "title":"Dos niveles de autorización","sub":"Cambios diferentes necesitan firmas diferentes.","items":[{"tag":"Reglas de feriado","label":"Diputado aprueba","desc":"Agregar o editar reglas de feriado — Subtasador a cargo del Servicio al Cliente."},{"tag":"Interruptor Office Closed","label":"CSM o Diputado","desc":"Activar/desactivar Office Closed — CSM O Subtasador. Actívelo rápido cuando pase algo inesperado. Desactívelo cuando vuelva a abrir."}] },
+    duration: 14,
+    title: 'Two authorization tiers',
+    sub: 'Different changes need different sign-offs.',
+    items: [
+      { tag: 'Holiday rules', label: 'Deputy approves', accent: SOP_PALETTE.bosque, desc: 'Adding or editing holiday rules — Deputy Assessor overseeing Customer Service.' },
+      { tag: 'Office Closed switch', label: 'CSM or Deputy', accent: SOP_PALETTE.terracotta, desc: 'Toggle Office Closed on or off — Customer Service Manager OR Deputy Assessor. Activate promptly when something unexpected happens. Turn off when you reopen.' },
+    ],
+  },
+
+  // Three condition types
+  {
+    kind: 'steps',
+    es: { "title":"Tres tipos de condiciones","sub":"Combine cualquiera en una sola regla. Al menos una se requiere.","steps":[{"label":"Date and/or Time","desc":"Dos sub-modos dentro de esta condición: Weekly Schedule (interruptores día-de-la-semana para reglas recurrentes como horas de almuerzo) y Specific Date Range (fechas de inicio y fin para eventos de una vez como feriados)."},{"label":"Caller ID","desc":"Enruta según el número del llamante. Soporta números completos o coincidencias parciales como códigos de país o área."},{"label":"Called Number","desc":"Enruta según el número que marcó el llamante. Útil cuando una cola es alcanzable por múltiples números directos y cada uno necesita manejo diferente."}] },
+    duration: 17,
+    title: 'Three condition types',
+    sub: 'Combine any of them in a single rule. At least one is required.',
+    steps: [
+      { label: 'Date and/or Time', desc: 'Two sub-modes inside this condition: Weekly Schedule (day-of-week toggles for recurring rules like lunch hours) and Specific Date Range (start and end dates for one-time events like holidays).' },
+      { label: 'Caller ID', desc: 'Routes based on the incoming caller\'s number. Supports full numbers or partial matches like country codes or area codes.' },
+      { label: 'Called Number', desc: 'Routes based on which number the caller dialed. Useful when one queue is reachable through multiple direct numbers and each needs different handling.' },
+    ],
+  },
+
+  // Six actions
+  {
+    kind: 'steps',
+    es: { "title":"Seis acciones posibles","sub":"Lo que hace la cola cuando una regla coincide.","steps":[{"label":"Ring call queue members","desc":"Aplica el enrutamiento usando los miembros y reglas estándar de la cola."},{"label":"Send to voicemail","desc":"Envía al llamante a un buzón de voz — el de la cola, o el de otra extensión. Opción usual para feriados."},{"label":"Play an announcement","desc":"Reproduce una grabación predeterminada o personalizada. La llamada se desconecta después."},{"label":"Forward to extension","desc":"Reenvía a una extensión específica en la cuenta — ej. el chatbot A.C.E."},{"label":"Forward to external number","desc":"Reenvía a un número fuera de la cuenta."},{"label":"Forward to site","desc":"Cuentas multi-sitio solamente. No aplica aquí."}] },
+    duration: 20,
+    title: 'Six possible actions',
+    sub: 'What the queue does when a rule matches.',
+    steps: [
+      { label: 'Ring call queue members', desc: 'Apply queue routing using the queue\'s standard members and rules.' },
+      { label: 'Send to voicemail', desc: 'Send the caller to a voicemail box — the queue\'s own, or another extension\'s. The usual holiday choice.' },
+      { label: 'Play an announcement', desc: 'Play a default or custom recording. The call disconnects after playback.' },
+      { label: 'Forward to extension', desc: 'Forward to a specific extension on the account — e.g. the A.C.E. chatbot.' },
+      { label: 'Forward to external number', desc: 'Forward to a phone number outside the account.' },
+      { label: 'Forward to site', desc: 'Multi-site accounts only. Not applicable here.' },
+    ],
+  },
+
+  // 1 — Find the tab
   {
     kind: 'screenshot',
-    duration: 7,
+    es: { "step":{"num":1,"label":"Encontrar la pestaña"},"caption":"Call Handling & Members → Custom rules.","sub":"Una cola nueva empieza vacía. La pestaña muestra un panel de explicación y un botón \"+ Add Rule\"." },
+    duration: 11,
     step: { num: 1, label: 'Find the tab' },
     caption: 'Call Handling & Members → Custom rules.',
-    sub: 'A new queue starts empty. Click + Add Rule to begin.',
+    sub: 'A new queue starts empty. The tab shows an explanation panel and a "+ Add Rule" button.',
     src: A + '162eed8776dc410f3e55c4215708489f04cc1f1a.png',
     imgPos: 'right', imgFit: 'contain',
   },
 
+  // 2 — What a production queue looks like
   {
     kind: 'screenshot',
-    duration: 8,
-    step: { num: '·', label: 'Already in production' },
+    es: { "step":{"num":"·","label":"En producción"},"caption":"Cómo se ve una cola en producción.","sub":"Una fila por regla. Cada una muestra un interruptor Active, Edit y Delete. \"Validate Rules\" aparece una vez que existe al menos una regla.","bullets":[{"text":"Reglas de feriados — una por feriado federal"},{"text":"\"ACE Forward\" — enruta al chatbot bajo condiciones"},{"text":"\"Office Closed\" — normalmente OFF, actívelo para días de nieve"}] },
+    duration: 14,
+    step: { num: '·', label: 'In production' },
     caption: 'What a working queue looks like.',
-    sub: 'One row per holiday. ACE Forward routes to the chatbot. Office Closed sits idle as the emergency switch — flip it on for snow days, off when you reopen.',
+    sub: 'One row per rule. Each shows an Active toggle, Edit, and Delete. "Validate Rules" appears once at least one rule exists.',
     src: A + 'e3422d1f4fb34cbc8b95fe2a9bea10c965fe23e5.png',
     imgPos: 'right', imgFit: 'contain',
+    bullets: [
+      { text: 'Holiday rules — one per federal holiday', color: SOP_PALETTE.bosque },
+      { text: '"ACE Forward" — routes to the chatbot under set conditions', color: SOP_PALETTE.terracotta },
+      { text: '"Office Closed" — normally OFF, flip on for snow days', color: SOP_PALETTE.cypress },
+    ],
   },
 
+  // 3 — Add a rule — Conditions step
   {
     kind: 'screenshot',
-    duration: 8,
-    step: { num: 2, label: 'Conditions' },
-    caption: 'Step 1: pick when the rule fires.',
-    sub: 'Three condition types. Check Date and/or Time for a holiday. Caller ID and Called Number can be added for finer control.',
+    es: { "step":{"num":2,"label":"Paso 1 de 3"},"caption":"Haga clic en + Add Rule → Conditions.","sub":"El asistente abre en el paso 1. Tres tarjetas de condición — marque al menos una. Para un feriado, marque Date and/or Time. La tarjeta se expande para revelar la selección de sub-modo." },
+    duration: 14,
+    step: { num: 2, label: 'Step 1 of 3' },
+    caption: 'Click + Add Rule → Conditions.',
+    sub: 'The wizard opens at step 1. Three condition cards — check at least one. For a holiday, check Date and/or Time. The card expands to reveal sub-mode selection.',
     src: A + '2f71f6de175f32686526a5b364b21f6ded13a7a7.png',
     imgPos: 'right', imgFit: 'contain',
+  },
+
+  // 4 — Specific Date Range
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":3,"label":"Specific Date Range"},"caption":"Elija Specific Date Range para un feriado.","sub":"Aparecen dos radios: Weekly Schedule (para reglas recurrentes como almuerzo) y Specific Date Range (para eventos de una vez). Elija Specific Date Range. Establezca inicio y fin del cierre.","bullets":[{"text":"Día único → inicio del día a fin del día"},{"text":"Múltiples días (Acción de Gracias, Navidad) → ventana completa del cierre"}] },
+    duration: 14,
+    step: { num: 3, label: 'Specific Date Range' },
+    caption: 'Pick Specific Date Range for a holiday.',
+    sub: 'Two radios appear: Weekly Schedule (for recurring rules like lunch) and Specific Date Range (for one-time events). Pick Specific Date Range. Set start and end of the closure.',
+    src: A + '8bf00dad309d2f628fa502f22d60dd33152d71e5.png',
+    imgPos: 'right', imgFit: 'contain',
     bullets: [
-      { text: 'Date and/or Time — holidays, lunch hours', color: SOP_PALETTE.bosque },
-      { text: 'Caller ID — by phone number or area code', color: SOP_PALETTE.terracotta },
-      { text: 'Called Number — which DID they dialed', color: SOP_PALETTE.cypress },
+      { text: 'Single-day → start of day to end of day', color: SOP_PALETTE.bosque },
+      { text: 'Multi-day (Thanksgiving, Christmas) → full closure window', color: SOP_PALETTE.terracotta },
     ],
   },
 
+  // 5 — Optional additional conditions
   {
     kind: 'screenshot',
-    duration: 8,
-    step: { num: 3, label: 'Specific Date Range' },
-    caption: 'Pick Specific Date Range for a holiday.',
-    sub: 'Weekly Schedule is for recurring rules like lunch. For Memorial Day or Christmas, you want Specific Date Range — set start and end of the closure.',
-    src: A + '8bf00dad309d2f628fa502f22d60dd33152d71e5.png',
+    es: { "step":{"num":4,"label":"Extras opcionales"},"caption":"Combine con Caller ID o Called Number.","sub":"Para una regla de feriado general, deje los otros dos sin marcar. Para un bloqueo de código de país o manejo por DID, expándalos y agregue los valores." },
+    duration: 13,
+    step: { num: 4, label: 'Optional extras' },
+    caption: 'Combine with Caller ID or Called Number.',
+    sub: 'For a blanket holiday rule, leave the other two unchecked. For a country-code block or per-DID handling, expand them and add the values.',
+    src: A + '832624726e19b0585cbf8d4efe135d863801a02b.png',
     imgPos: 'right', imgFit: 'contain',
   },
 
-  {
-    kind: 'comparison',
-    duration: 11,
-    title: 'Step 2: what happens?',
-    sub: 'Six possible actions when the rule matches. Pick one.',
-    items: [
-      { tag: 'Most common', label: 'Send to voicemail', accent: SOP_PALETTE.bosque, desc: 'The usual holiday choice. Caller hears the holiday greeting and leaves a message.' },
-      { tag: 'For self-service', label: 'Forward to extension', accent: SOP_PALETTE.terracotta, desc: 'Send to a different extension on the account — like the A.C.E. chatbot at 160091.' },
-      { tag: 'Announce only', label: 'Play an announcement', accent: SOP_PALETTE.cypress, desc: 'Play a recording and disconnect. Record a holiday-specific greeting first.' },
-      { tag: 'Normal routing', label: 'Ring queue members', accent: SOP_PALETTE.sage, desc: 'Keep ringing members but change how. Rare for holidays.' },
-    ],
-  },
-
+  // 6 — Caller ID / Called Number
   {
     kind: 'screenshot',
-    duration: 8,
-    step: { num: 4, label: 'Send to voicemail' },
+    es: { "step":{"num":"·","label":"Cuando los necesite"},"caption":"Caller ID expandido.","sub":"Agrega un campo \"Type Phone Number or Contact Name\" con un botón Add. Apile múltiples números, códigos de área o de país." },
+    duration: 11,
+    step: { num: '·', label: 'When you need them' },
+    caption: 'Caller ID expanded.',
+    sub: 'Adds a "Type Phone Number or Contact Name" input with an Add button. Stack multiple numbers, area codes, or country codes.',
+    src: A + '2513bc13e077430fdc90d9a67e8062f67ebc1b85.png',
+    imgPos: 'right', imgFit: 'contain',
+  },
+
+  // 7 — Step 2 Call Handling
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":5,"label":"Paso 2 de 3"},"caption":"Call Handling — elija una de seis acciones.","sub":"Cada radio puebla un panel de configuración a la derecha. Haga clic en Next una vez que la acción esté configurada." },
+    duration: 14,
+    step: { num: 5, label: 'Step 2 of 3' },
+    caption: 'Call Handling — pick one of six actions.',
+    sub: 'Each radio populates a configuration panel on the right. Click Next once the action is set up.',
+    src: A + '5111e7fe8eb952c567c95b15ab1bd637bd15f9b0.png',
+    imgPos: 'right', imgFit: 'contain',
+  },
+
+  // 8 — Send to voicemail (the common one)
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":6,"label":"Send to voicemail"},"caption":"Send to voicemail — predeterminado para feriados.","sub":"Elija un saludo personalizado (grabe uno específico del feriado) y decida si el buzón va a esta cola o a otra extensión.","bullets":[{"text":"Saludo Custom o Default (reproductor + Edit)"},{"text":"Enviar buzón a: esta extensión U otra"}] },
+    duration: 15,
+    step: { num: 6, label: 'Send to voicemail' },
     caption: 'Send to voicemail — the holiday default.',
     sub: 'Pick a custom greeting (record a holiday-specific one) and decide whether voicemail goes to this queue or another extension.',
     src: A + '23258bf12df1b82d588c7c18324fbaa9841e6fae.png',
     imgPos: 'right', imgFit: 'contain',
+    bullets: [
+      { text: 'Custom or Default greeting (player + Edit)', color: SOP_PALETTE.bosque },
+      { text: 'Send voicemail to: this extension OR another', color: SOP_PALETTE.terracotta },
+    ],
   },
 
+  // 9 — Play an announcement (warning)
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":"·","label":"Play an announcement"},"caption":"Reproduce una grabación, después desconecta.","sub":"El saludo PREDETERMINADO es \"Announcement. No one is available to take your call. Thank you for calling. Goodbye!\" — grabe un anuncio específico del feriado antes de depender de esta acción." },
+    duration: 13,
+    step: { num: '·', label: 'Play an announcement' },
+    caption: 'Plays a recording, then disconnects.',
+    sub: 'The DEFAULT greeting is "Announcement. No one is available to take your call. Thank you for calling. Goodbye!" — record a holiday-specific announcement before relying on this action.',
+    src: A + '25f519651d07681ca596ffde90e1e3d5ef2633af.png',
+    imgPos: 'right', imgFit: 'contain',
+  },
+
+  // 10 — Forward to extension (ACE)
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":"·","label":"Forward to extension"},"caption":"Reenviar a otra extensión en la cuenta.","sub":"Ej. la extensión del chatbot A.C.E. Haga clic en \"Select extension\" para elegir el destino." },
+    duration: 13,
+    step: { num: '·', label: 'Forward to extension' },
+    caption: 'Forward to another extension on the account.',
+    sub: 'E.g. the A.C.E. chatbot extension. Click "Select extension" to pick the target.',
+    src: A + 'e1249e7a97b0132445aa69215cf43e8e3f4ed572.png',
+    imgPos: 'right', imgFit: 'contain',
+  },
+
+  // 11 — Step 3 Summary
   {
     kind: 'steps',
-    duration: 9,
-    title: 'Step 3: name, save, validate',
+    es: { "title":"Paso 3 — nombre y guardar","sub":"El mantenimiento anual es más fácil cuando los nombres incluyen el año.","steps":[{"label":"Nómbrelo con el año","desc":"ej. \"Memorial Day 2027\". Las reglas de feriado no se auto-renuevan — el sufijo del año hace la actualización de enero sin dolor."},{"label":"Haga clic en Save","desc":"La regla aparece en la lista Custom rules con el interruptor Active en ON."},{"label":"Haga clic en Validate Rules","desc":"Arriba de la lista. Verifica el conjunto de reglas por solapamiento o conflictos."},{"label":"Pruebe con una fecha futura o espere al día","desc":"Haga una llamada real para confirmar que los llamantes lleguen al destino configurado."}] },
+    duration: 14,
+    title: 'Step 3 — name and save',
     sub: 'Annual maintenance is easier when names include the year.',
     steps: [
-      { label: 'Name it "Memorial Day 2027"', desc: 'Always include the year. Holiday rules don\'t auto-renew — the year suffix makes January refresh painless.' },
-      { label: 'Click Save', desc: 'The rule appears in the list with the Active toggle ON.' },
-      { label: 'Click Validate Rules', desc: 'Above the list. Checks for overlap with other rules.' },
-      { label: 'Test with a future date', desc: 'Or wait for the day and place a test call.' },
+      { label: 'Name it with the year', desc: 'e.g. "Memorial Day 2027". Holiday rules don\'t auto-renew — the year suffix makes January refresh painless.' },
+      { label: 'Click Save', desc: 'The rule appears in the Custom rules list with the Active toggle ON.' },
+      { label: 'Click Validate Rules', desc: 'Above the rule list. Checks the rule set for overlap or conflicts.' },
+      { label: 'Test with a future date or wait for the day', desc: 'Place a real call to confirm callers reach the configured destination.' },
     ],
   },
 
+  // 12 — Office Closed override
   {
     kind: 'comparison',
-    duration: 9,
-    title: 'Office Closed: the emergency switch',
-    sub: 'Pre-built. Normally off. Use for unscheduled closures.',
+    es: { "title":"Office Closed — el interruptor de emergencia","sub":"Regla pre-construida. Normalmente OFF. Use solo para cierres no programados.","items":[{"tag":"Activar","label":"Día de nieve","desc":"Encuentre la regla Office Closed. Active el interruptor. Guarde. Notifique al personal por el canal interno estándar que la cola está ahora en enrutamiento de oficina cerrada."},{"tag":"Desactivar","label":"Volvió a abrir","desc":"Apague el interruptor Active. Guarde. Haga una llamada de prueba para confirmar que el enrutamiento normal de la cola se reanudó."}] },
+    duration: 15,
+    title: 'Office Closed — the emergency switch',
+    sub: 'Pre-built rule. Normally OFF. Use for unscheduled closures only.',
     items: [
-      { tag: 'Activate', label: 'Snow day', accent: SOP_PALETTE.terracotta, desc: 'Find the Office Closed rule. Toggle Active ON. Save. Notify staff via the standard internal channel.' },
-      { tag: 'Deactivate', label: 'You reopened', accent: SOP_PALETTE.bosque, desc: 'Toggle Active OFF. Save. Place a test call to confirm normal routing resumed.' },
+      { tag: 'Activate', label: 'Snow day', accent: SOP_PALETTE.terracotta, desc: 'Find the Office Closed rule. Toggle Active ON. Save. Notify staff via the standard internal channel that the queue is now in closed-office routing.' },
+      { tag: 'Deactivate', label: 'You reopened', accent: SOP_PALETTE.bosque, desc: 'Toggle Active OFF. Save. Place a test call to confirm normal queue routing has resumed.' },
     ],
+  },
+
+  // 13 — Annual maintenance
+  {
+    kind: 'steps',
+    es: { "title":"Actualización anual de enero","sub":"Las reglas de feriado atadas a fechas específicas NO se auto-renuevan.","steps":[{"label":"Revise la lista Custom rules","desc":"Mire cada regla de feriado del año anterior."},{"label":"Cree la versión del próximo año","desc":"Use Save as Template en una regla anterior, después actualice las fechas. Nómbrela \"Memorial Day 2027\" etc."},{"label":"Verifique contra el calendario federal de feriados","desc":"Memorial Day, Independence Day, Labor Day, Veterans Day, Indigenous Peoples Day, Juneteenth, Acción de Gracias + día siguiente, Navidad Eve hasta Navidad, más cierres estatales/locales."},{"label":"Haga clic en Validate Rules","desc":"Resuelva cualquier conflicto antes de depender de las nuevas reglas."}] },
+    duration: 15,
+    title: 'January annual refresh',
+    sub: 'Holiday rules tied to specific dates do NOT auto-renew.',
+    steps: [
+      { label: 'Review the Custom rules list', desc: 'Look at every prior-year holiday rule.' },
+      { label: 'Create the next year\'s version', desc: 'Use Save as Template on a prior rule, then update dates. Name it "Memorial Day 2027" etc.' },
+      { label: 'Verify against the federal holiday calendar', desc: 'Memorial Day, Independence Day, Labor Day, Veterans Day, Indigenous Peoples Day, Juneteenth, Thanksgiving + day after, Christmas Eve through Christmas, plus state/local closures.' },
+      { label: 'Click Validate Rules', desc: 'Resolve any conflicts before relying on the new rules.' },
+    ],
+  },
+
+  // 14 — Templates
+  {
+    kind: 'comparison',
+    es: { "title":"Las plantillas guardan la acción y el saludo","sub":"Dos mecanismos relacionados de plantillas existen en RingCentral.","items":[{"tag":"Por regla","label":"Save as template","desc":"Una vez guardada una regla, su fila expone la acción \"save the rule as a template\". Reúse la plantilla para reglas similares — solo configure el nombre y las fechas cada vez."},{"tag":"Multi-cola","label":"Aplicar a varias","desc":"Característica de Noviembre 2024 para aplicar una plantilla de regla en múltiples colas a la vez. Administrada a nivel de cuenta (Phone System → Templates). Procedimiento para nuestra oficina aún no capturado."}] },
+    duration: 14,
+    title: 'Templates save the action & greeting',
+    sub: 'Two related template mechanisms exist in RingCentral.',
+    items: [
+      { tag: 'Per-rule', label: 'Save as template', accent: SOP_PALETTE.bosque, desc: 'Once a rule is saved, its row exposes a "save the rule as a template" action. Reuse the template for similar rules — only set the rule name and dates each time.' },
+      { tag: 'Cross-queue', label: 'Apply to many', accent: SOP_PALETTE.terracotta, desc: 'A November 2024 feature for applying a rule template across multiple queues at once. Administered at the account level (Phone System → Templates). Procedure for our office not yet captured.' },
+    ],
+  },
+
+  // 15 — Master toggle warning
+  {
+    kind: 'bigstat',
+    es: { "stat":"OFF","caption":"Interruptor maestro Forward all queue calls","sub":"Parte superior de la pestaña Custom rules. Si está en ON, TODAS las llamadas saltan la lista de reglas y se reenvían a un destino configurado. Déjelo en OFF a menos que se necesite una desviación de emergencia para toda la oficina." },
+    duration: 8,
+    stat: 'OFF',
+    caption: 'Forward all queue calls master toggle',
+    sub: 'Top of the Custom rules tab. If ON, ALL calls bypass the rule list and forward to a configured destination. Leave OFF unless an emergency office-wide diversion is needed.',
+    accent: SOP_PALETTE.terracotta,
+  },
+
+  // Quiz
+  {
+    kind: 'quiz',
+    es: { "title":"Reglas primero. Horario segundo.","sub":"Las reglas personalizadas se evalúan antes de Work hours y After hours — una regla coincidente siempre gana. Valide después de cada cambio." }, duration: 17,
+    qNum: 1, qTotal: 2,
+    question: 'A custom rule and the queue\'s Work hours BOTH match a call. Which one wins?',
+    options: [
+      'Work hours — they\'re the default',
+      'The custom rule — custom rules are evaluated first',
+      'Whichever has a more specific condition',
+      'Both run in sequence',
+    ],
+    correctIndex: 1,
+    explanation: 'Custom rules are evaluated BEFORE Work hours and After hours. A matching custom rule always takes priority.',
+  },
+  {
+    kind: 'quiz',
+    es: { "question":"Una regla personalizada y los Work hours de la cola AMBOS coinciden con una llamada. ¿Cuál gana?","options":["Work hours — son el predeterminado","La regla personalizada — las reglas personalizadas se evalúan primero","La que tenga una condición más específica","Ambas corren en secuencia"],"explanation":"Las reglas personalizadas se evalúan ANTES de Work hours y After hours. Una regla personalizada coincidente siempre toma prioridad." }, duration: 17,
+    qNum: 2, qTotal: 2,
+    question: 'The office unexpectedly closes for snow. What\'s the fastest right answer?',
+    options: [
+      'Add a new Specific Date Range rule for today',
+      'Toggle the pre-built "Office Closed" rule ON',
+      'Flip the master "Forward all queue calls" toggle',
+      'Delete the queue temporarily',
+    ],
+    correctIndex: 1,
+    explanation: 'Office Closed is pre-built and ready. Flip Active ON, save, notify staff. Flip OFF when you reopen.',
   },
 
   {
     kind: 'outro',
-    duration: 6,
+    es: { "question":"La oficina cierra inesperadamente por nieve. ¿Cuál es la respuesta correcta más rápida?","options":["Agregar una nueva regla Specific Date Range para hoy","Activar la regla pre-construida \"Office Closed\"","Activar el interruptor maestro \"Forward all queue calls\"","Eliminar la cola temporalmente"],"explanation":"Office Closed está pre-construida y lista. Active, guarde, notifique al personal. Desactive cuando vuelva a abrir." },
+    duration: 10,
     title: 'Rules first. Schedule second.',
-    sub: 'Custom rules are evaluated before Work hours and After hours — a matching rule always wins.',
+    sub: 'Custom rules are evaluated before Work hours and After hours — a matching rule always wins. Validate after every change.',
   },
 ];
 
@@ -129,5 +313,17 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <SOPVideo sopId="CS05" title="Holiday and Custom Rules" scenes={scenes} />
 );
 </script>
+<template id="__bundler_thumbnail" data-bg-color="#0a0a0a">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#0a0a0a"/>
+    <rect x="0" y="0" width="1200" height="120" fill="#285952"/>
+    <rect x="0" y="117" width="1200" height="3" fill="#e47756"/>
+    <g transform="translate(540, 320)">
+      <circle cx="60" cy="60" r="60" fill="#e47756"/>
+      <polygon points="48,32 48,88 96,60" fill="#faf8f4"/>
+    </g>
+    <text x="600" y="560" text-anchor="middle" font-family="sans-serif" font-size="48" font-weight="900" fill="#faf8f4" letter-spacing="-1">SOP VIDEO</text>
+  </svg>
+</template>
 </body>
 </html>

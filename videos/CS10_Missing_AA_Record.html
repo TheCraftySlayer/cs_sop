@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CS10 · Missing AA Record for Case Entry · Animated SOP</title>
+<link rel="stylesheet" href="../lib/video.css">
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="../lib/animations.jsx"></script>
+<script type="text/babel" src="../lib/sop-video.jsx"></script>
+<script type="text/babel">
+// No screenshots in source document — diagrammatic scenes only.
+
+const scenes = [
+  {
+    kind: 'title',
+    es: { "title":"Registro AA Faltante para Case Entry","plainTitle":"Cómo crear un registro AA faltante en IASWorld cuando la página Hearings está en blanco — un sub-procedimiento usado dentro de CS11.","kicker":"Use solo cuando la página Hearings esté vacía Y los valores de Asmt coincidan con el formulario AA. Lo regresa al Paso 6 de CS11." },
+    duration: 8,
+    sopId: 'CS10',
+    title: 'Missing AA Record for Case Entry',
+    plainTitle: 'How to create a missing AA record in IASWorld when the Hearings page is blank — a sub-procedure used inside CS11.',
+    kicker: 'Use only when the Hearings page is empty AND the Asmt values match the AA form. Returns you to CS11 Step 6.',
+  },
+
+  // When to use
+  {
+    kind: 'bigstat',
+    es: { "stat":"¿Cuándo?","caption":"Cuándo aplica este POE","sub":"Está haciendo Case Entry para un formulario AA por lo demás completado, sacó el Parcel, Y la página Hearings está en blanco. Confirme que los valores en la página Asmt coincidan con el formulario AA PRIMERO, luego empiece aquí." },
+    duration: 15,
+    stat: 'When?',
+    caption: 'When this SOP applies',
+    sub: 'You\'re doing Case Entry for an otherwise completed AA form, you pulled up the Parcel, AND the Hearings page is blank. Confirm the values on the Asmt page match the AA form FIRST, then start here.',
+    accent: SOP_PALETTE.terracotta,
+  },
+
+  // Step 1
+  {
+    kind: 'bigstat',
+    es: { "stat":"+ Add","caption":"Paso 1 — Crear el nuevo registro","sub":"Haga clic en Add Record (bajo la búsqueda Parcel ID). Se abre un registro en blanco para el AA Parcel." },
+    duration: 10,
+    stat: '+ Add',
+    caption: 'Step 1 — Create the new record',
+    sub: 'Click Add Record (under the Parcel ID search). A blank record opens for the AA Parcel.',
+  },
+
+  // Step 2 — set type & dates
+  {
+    kind: 'steps',
+    es: { "title":"Paso 2a — Tipo y fechas","sub":"Dos campos clave al principio.","steps":[{"label":"Type → DIST","desc":"Del menú Type. \"DIST\" significa District Court — diferente del AUT usado en CS11."},{"label":"Filing Date — del documento fuente","desc":"Sacado de Claim for Refund Notice cuando esté disponible, O del Stipulated Final Judgement como respaldo."},{"label":"Escríbalo o use el ícono de calendario","desc":"IASWorld acepta cualquier estilo de entrada."}] },
+    duration: 18,
+    title: 'Step 2a — Type & dates',
+    sub: 'Two key fields up front.',
+    steps: [
+      { label: 'Type → DIST', desc: 'From the Type dropdown. "DIST" stands for District Court — different from the AUT used in CS11.' },
+      { label: 'Filing Date — from the source document', desc: 'Pulled from the Claim for Refund Notice when available, OR from the Stipulated Final Judgement as a fallback.' },
+      { label: 'Type it or use the calendar icon', desc: 'IASWorld accepts either input style.' },
+    ],
+  },
+
+  // Comparison: filing date sources
+  {
+    kind: 'comparison',
+    es: { "title":"El Filing Date — dos fuentes","sub":"Use la primera si la tiene.","items":[{"tag":"Preferida","label":"Claim for Refund","desc":"Encuentre el Filing Date en el Claim for Refund (Complaint for Refund of Property Taxes Paid) Notice."},{"tag":"Respaldo","label":"Stipulated Final Judgement","desc":"Si el Claim for Refund Notice no está disponible, use el Filing Date del Stipulated Final Judgement."}] },
+    duration: 15,
+    title: 'The Filing Date — two sources',
+    sub: 'Use the first one if you have it.',
+    items: [
+      { tag: 'Preferred', label: 'Claim for Refund', accent: SOP_PALETTE.bosque, desc: 'Find the Filing Date on the Claim for Refund (Complaint for Refund of Property Taxes Paid) Notice.' },
+      { tag: 'Fallback', label: 'Stipulated Final Judgement', accent: SOP_PALETTE.terracotta, desc: 'If the Claim for Refund Notice is unavailable, use the Filing Date from the Stipulated Final Judgement instead.' },
+    ],
+  },
+
+  // Step 2b — Action / Reason / Status
+  {
+    kind: 'steps',
+    es: { "title":"Paso 2b — Tres menús","sub":"Diferentes opciones que CS11 — preste atención.","steps":[{"label":"Action → Authorization","desc":"Igual que CS11."},{"label":"Reason → CR: Claim for Refund","desc":"Diferente de CS11. Siempre Claim for Refund para un registro faltante."},{"label":"Hearing Status → Resolved","desc":"Diferente de CS11. El nuevo registro se crea ya-resuelto."}] },
+    duration: 17,
+    title: 'Step 2b — Three dropdowns',
+    sub: 'Different choices than CS11 — pay attention.',
+    steps: [
+      { label: 'Action → Authorization', desc: 'Same as CS11.' },
+      { label: 'Reason → CR: Claim for Refund', desc: 'Different from CS11. Always Claim for Refund for a missing record.' },
+      { label: 'Hearing Status → Resolved', desc: 'Different from CS11. The new record is created already-resolved.' },
+    ],
+  },
+
+  // Owner info
+  {
+    kind: 'steps',
+    es: { "title":"Paso 3 — Información del propietario","sub":"Auto-rellenar cuando sea posible.","steps":[{"label":"Haga clic en las tres barras junto a \"Owner's Name\"","desc":"Se abre una ventana con la información del propietario."},{"label":"Seleccione el propietario → haga clic en Okay","desc":"Auto-rellena los campos de nombre y dirección."},{"label":"Alternativa manual","desc":"Si nada se auto-rellena, escriba el Owner Name y Address del formulario AA en los campos."}] },
+    duration: 15,
+    title: 'Step 3 — Owner information',
+    sub: 'Auto-populate when possible.',
+    steps: [
+      { label: 'Click the three-bars next to "Owner\'s Name"', desc: 'A popup opens with the owner\'s information.' },
+      { label: 'Select the owner → click Okay', desc: 'Auto-fills name and address fields.' },
+      { label: 'Manual fallback', desc: 'If nothing auto-populates, type the Owner Name and Address from the AA form into the fields.' },
+    ],
+  },
+
+  // District Court Rec Date
+  {
+    kind: 'bigstat',
+    es: { "stat":"Misma fecha","caption":"District Court Rec Date","sub":"Baje. Configure \"District Court Rec Date\" a la MISMA fecha que usó para Filing Date." },
+    duration: 10,
+    stat: 'Same date',
+    caption: 'District Court Rec Date',
+    sub: 'Scroll down. Set "District Court Rec Date" to the SAME date you used for Filing Date.',
+  },
+
+  // District Court Case #
+  {
+    kind: 'steps',
+    es: { "title":"District Court Case #","sub":"Encuéntrelo en el documento fuente. Ingréselo con cuidado.","steps":[{"label":"Fuente: Claim for Refund O Stipulated Final Judgement","desc":"Formato en el documento: CV-AAAA-#####, ej. \"CV-2025-12345\"."},{"label":"Cuide el año","desc":"El año en el Case # NO siempre es el mismo que el Tax Year seleccionado. Escriba el año exactamente como aparece en el Case #."},{"label":"Ingrese con ESPACIOS, no guiones","desc":"CV-2025-12345 se convierte en \"CV 2025 12345\" en el campo District Court Case #."}] },
+    duration: 18,
+    title: 'District Court Case #',
+    sub: 'Find it on the source document. Enter it carefully.',
+    steps: [
+      { label: 'Source: Claim for Refund OR Stipulated Final Judgement', desc: 'Format on the document: CV-YYYY-#####, e.g. "CV-2025-12345".' },
+      { label: 'Watch the year', desc: 'The year in the Case # is NOT always the same as the selected Tax Year. Write the year exactly as it appears in the Case #.' },
+      { label: 'Enter with SPACES, not dashes', desc: 'CV-2025-12345 becomes "CV 2025 12345" in the District Court Case # field.' },
+    ],
+  },
+
+  // Step 3 — Validate
+  {
+    kind: 'bigstat',
+    es: { "stat":"Validate","caption":"Paso 4 — Validar el nuevo registro","sub":"Haga clic en Validate. Aparece una nueva línea en blanco sobre la línea anterior, marcada con su nombre y fecha/hora." },
+    duration: 10,
+    stat: 'Validate',
+    caption: 'Step 4 — Validate the new record',
+    sub: 'Click Validate. A new blank line appears above the previous line, stamped with your name and date/time.',
+  },
+
+  // Step 5 — Add Note
+  {
+    kind: 'steps',
+    es: { "title":"Paso 5 — Agregar una Nota","sub":"Pestaña Notes1. Mismo patrón que CS11, diferente plantilla de comentario.","steps":[{"label":"Abra la pestaña Notes1","desc":"Cerca de la parte superior."},{"label":"Haga clic en Add","desc":"Inserta una nueva fila de nota."},{"label":"Número de secuencia en orden descendente","desc":"Próximo número después de la última nota. Presione Tab o haga clic en la columna Code."},{"label":"Seleccione \"District Court\" en la columna Code","desc":"Presione Tab dos veces o haga clic en la columna Comment."}] },
+    duration: 18,
+    title: 'Step 5 — Add a Note',
+    sub: 'Notes1 tab. Same pattern as CS11, different comment template.',
+    steps: [
+      { label: 'Open the Notes1 tab', desc: 'Near the top of the screen.' },
+      { label: 'Click Add', desc: 'Inserts a new note row.' },
+      { label: 'Sequence # in descending order', desc: 'Next number after the last note. Hit Tab or click the Code column.' },
+      { label: 'Select "District Court" in the Code column', desc: 'Hit Tab twice or click the Comment column.' },
+    ],
+  },
+
+  // Comment template (different from CS11)
+  {
+    kind: 'bigstat',
+    es: { "stat":"Plantilla","caption":"Plantilla de comentario — escríbala exacta","sub":"Claim for Refund for CV#[CV# del Paso 2 CON guiones] [Notas extras] [Sus iniciales] [DD.MM.AAAA]" },
+    duration: 15,
+    stat: 'Template',
+    caption: 'Comment template — write it exactly',
+    sub: 'Claim for Refund for CV#[CV# from Step 2 with DASHES] [Any extra notes] [Your initials] [DD.MM.YYYY]',
+  },
+
+  {
+    kind: 'bigstat',
+    es: { "stat":"Ejemplo","caption":"Un comentario real","sub":"\"Claim for Refund for CV-2025-12345 JD 01.01.2026\"" },
+    duration: 13,
+    stat: 'Example',
+    caption: 'A real comment',
+    sub: '"Claim for Refund for CV-2025-12345 JD 01.01.2026"',
+    accent: SOP_PALETTE.bosque,
+  },
+
+  // Continuation rows
+  {
+    kind: 'bigstat',
+    es: { "stat":".01 .02","caption":"¿Necesita más espacio?","sub":"Agregue filas. Cada fila adicional usa el número de secuencia original más \".01, .02, .03…\". Así que la secuencia 22 continúa como 22.01, luego 22.02 para dos filas extras." },
+    duration: 11,
+    stat: '.01 .02',
+    caption: 'Need more space?',
+    sub: 'Add rows. Each additional row uses the original sequence # plus ".01, .02, .03…". So sequence 22 continues as 22.01, then 22.02 for two extra rows.',
+  },
+
+  // Step 6 — Finalize
+  {
+    kind: 'steps',
+    es: { "title":"Paso 6 — Finalizar el parcel","sub":"Los mismos dos botones. El mismo orden.","steps":[{"label":"Haga clic en Validate","desc":"El botón Validate debe ponerse verde."},{"label":"Haga clic en Commit","desc":"Finaliza el registro del nuevo Parcel."}] },
+    duration: 14,
+    title: 'Step 6 — Finalize the parcel',
+    sub: 'Same two buttons. Same order.',
+    steps: [
+      { label: 'Click Validate', desc: 'The Validate button should turn green.' },
+      { label: 'Click Commit', desc: 'Finalizes the new Parcel record.' },
+    ],
+  },
+
+  // Return to CS11
+  {
+    kind: 'bigstat',
+    es: { "stat":"↩ CS11","caption":"Paso 7 — De regreso a Case Entry","sub":"Regrese a CS11 (Case Entry for District Court AAs) y continúe desde el Paso 6 para terminar de procesar el Case Entry normalmente." },
+    duration: 13,
+    stat: '↩ CS11',
+    caption: 'Step 7 — Back to Case Entry',
+    sub: 'Return to CS11 (Case Entry for District Court AAs) and continue from Step 6 to finish processing the Case Entry as normal.',
+    accent: SOP_PALETTE.terracotta,
+  },
+
+  // Quiz
+  {
+    kind: 'quiz',
+    es: { "question":"¿Cuál valor del menú Type usa al crear un registro AA faltante (CS10) — versus un registro normal (CS11)?","options":["AUT para ambos","DIST para CS10, AUT para CS11","DIST para ambos","CR para CS10, AUT para CS11"],"explanation":"Los registros AA faltantes usan \"DIST\" (District Court). Las entradas normales de CS11 usan \"AUT\" (Authorization)." }, duration: 17,
+    qNum: 1, qTotal: 2,
+    question: 'Which Type dropdown value do you use when creating a missing AA record (CS10) — versus a normal new record (CS11)?',
+    options: [
+      'AUT for both',
+      'DIST for CS10, AUT for CS11',
+      'DIST for both',
+      'CR for CS10, AUT for CS11',
+    ],
+    correctIndex: 1,
+    explanation: 'Missing AA records use "DIST" (District Court). Normal CS11 case entries use "AUT" (Authorization).',
+  },
+  {
+    kind: 'quiz',
+    es: { "question":"En el comentario Notes1 para CS10, ¿cómo escribe el número CV?","options":["Con espacios (\"CV 2025 12345\") — igual que el campo de IASWorld","Con guiones (\"CV-2025-12345\") — diferente del campo de IASWorld","Sin separadores (\"CV202512345\")","Cualquier forma está bien"],"explanation":"En el campo District Court Case # de IASWorld usa ESPACIOS. En el texto del comentario Notes1 usa GUIONES. Se ven diferentes a propósito." }, duration: 17,
+    qNum: 2, qTotal: 2,
+    question: 'In the Notes1 comment for CS10, how do you write the CV number?',
+    options: [
+      'With spaces ("CV 2025 12345") — same as the IASWorld field',
+      'With dashes ("CV-2025-12345") — different from the IASWorld field',
+      'No separators ("CV202512345")',
+      'Either way is fine',
+    ],
+    correctIndex: 1,
+    explanation: 'In the IASWorld District Court Case # field you use SPACES. In the Notes1 comment text you use DASHES. They look different on purpose.',
+  },
+
+  {
+    kind: 'outro',
+    es: { "title":"Registro faltante creado.","sub":"Ahora regrese al Paso 6 de CS11 para terminar el Case Entry normalmente." },
+    duration: 10,
+    title: 'Missing record created.',
+    sub: 'Now return to CS11 Step 6 to finish the Case Entry as normal.',
+  },
+];
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <SOPVideo sopId="CS10" title="Missing AA Record for Case Entry" scenes={scenes} />
+);
+</script>
+<template id="__bundler_thumbnail" data-bg-color="#0a0a0a"><svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg"><rect width="1200" height="800" fill="#0a0a0a"/><rect x="0" y="0" width="1200" height="120" fill="#285952"/><rect x="0" y="117" width="1200" height="3" fill="#e47756"/><g transform="translate(540, 320)"><circle cx="60" cy="60" r="60" fill="#e47756"/><polygon points="48,32 48,88 96,60" fill="#faf8f4"/></g><text x="600" y="560" text-anchor="middle" font-family="sans-serif" font-size="48" font-weight="900" fill="#faf8f4" letter-spacing="-1">SOP VIDEO</text></svg></template>
+</body>
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AIO01 · Daily Chatbot Operations Check · Animated SOP</title>
+<link rel="stylesheet" href="../lib/video.css">
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="../lib/animations.jsx"></script>
+<script type="text/babel" src="../lib/sop-video.jsx"></script>
+<script type="text/babel">
+const A = '../sop_assets/AIO01_Daily_Check_simple/';
+
+const scenes = [
+  {
+    kind: 'title',
+    duration: 8,
+    sopId: 'AIO01',
+    title: 'Daily Chatbot Operations Check',
+    plainTitle: 'A 10-minute morning review of the A.C.E. chatbot — catch knowledge gaps and operational issues before they affect more users.',
+    kicker: 'Department: AI Operations. Every workday morning. About 10 minutes start to finish.',
+    es: {
+      title: 'Revisión Diaria del Chatbot',
+      plainTitle: 'Una revisión matutina de 10 minutos del chatbot A.C.E. — detecte vacíos de conocimiento y problemas operativos antes de que afecten a más usuarios.',
+      kicker: 'Departamento: Operaciones de IA. Cada mañana laboral. Unos 10 minutos de principio a fin.',
+    },
+  },
+
+  // 1 — Open
+  {
+    kind: 'bigstat',
+    duration: 10,
+    stat: 'Analyze',
+    caption: 'Step 1 — Open the Analyze tab',
+    sub: 'In CustomGPT.ai, open the A.C.E. agent. Click Analyze in the left sidebar. The view defaults to Overview.',
+    es: {
+      stat: 'Analyze',
+      caption: 'Paso 1 — Abrir la pestaña Analyze',
+      sub: 'En CustomGPT.ai, abra el agente A.C.E. Haga clic en Analyze en la barra lateral izquierda. La vista predeterminada es Overview.',
+    },
+  },
+
+  // 2 — Triage Missing Content (screenshot 1)
+  {
+    kind: 'screenshot',
+    duration: 17,
+    step: { num: 2, label: 'Triage' },
+    caption: 'Triage Missing Content.',
+    sub: 'Read each new entry since yesterday. Tag each one — three buckets.',
+    src: A + '27e905eeae5e7df539bb440c9a4a0fd5b3750131.jpg',
+    imgPos: 'right', imgFit: 'contain', imgAspect: 1227/375,
+    bullets: [
+      { text: 'Fix it — in-scope, KB entry needed (use AIO05)', color: SOP_PALETTE.bosque },
+      { text: 'Send elsewhere — belongs to another department', color: SOP_PALETTE.terracotta },
+      { text: 'Skip — noise, test, or abuse', color: SOP_PALETTE.muted },
+    ],
+    es: {
+      step: { num: 2, label: 'Triaje' },
+      caption: 'Clasificar Missing Content.',
+      sub: 'Lea cada entrada nueva desde ayer. Etiquete cada una — tres categorías.',
+      bullets: [
+        { text: 'Arreglarlo — en alcance, se necesita entrada KB (use AIO05)', color: SOP_PALETTE.bosque },
+        { text: 'Enviar a otro lado — pertenece a otro departamento', color: SOP_PALETTE.terracotta },
+        { text: 'Omitir — ruido, prueba o abuso', color: SOP_PALETTE.muted },
+      ],
+    },
+  },
+
+  // 3 — Content Source Ratio
+  {
+    kind: 'bigstat',
+    duration: 11,
+    stat: '< 15%',
+    caption: 'Step 3 — Content Source ratio',
+    sub: '"Not found" on the donut chart should be under 15%. If it\'s over, note it for follow-up.',
+    accent: SOP_PALETTE.terracotta,
+    es: {
+      stat: '< 15%',
+      caption: 'Paso 3 — Proporción Content Source',
+      sub: '"Not found" en la gráfica circular debe estar por debajo del 15%. Si está arriba, anótelo para seguimiento.',
+    },
+  },
+
+  // 4 — Top 5 Latest Prompts
+  {
+    kind: 'steps',
+    duration: 15,
+    title: 'Step 4 — Skim Top 5 prompts',
+    sub: 'Look for anything that needs escalation. Four signals to watch for.',
+    steps: [
+      { label: 'Sensitive content', desc: 'Personal, medical, financial, or otherwise private.' },
+      { label: 'Hostile or threatening', desc: 'Threats against staff or the office.' },
+      { label: 'PII-containing', desc: 'Real names, addresses, account numbers in the prompt itself.' },
+      { label: 'Politically charged', desc: 'Escalate per AIO05 if warranted.' },
+    ],
+    es: {
+      title: 'Paso 4 — Revisar los Top 5 prompts',
+      sub: 'Busque cualquier cosa que necesite escalación. Cuatro señales que vigilar.',
+      steps: [
+        { label: 'Contenido sensible', desc: 'Personal, médico, financiero, u otro privado.' },
+        { label: 'Hostil o amenazante', desc: 'Amenazas contra el personal o la oficina.' },
+        { label: 'Contiene PII', desc: 'Nombres reales, direcciones, números de cuenta en el prompt mismo.' },
+        { label: 'Cargado políticamente', desc: 'Escale según AIO05 si lo amerita.' },
+      ],
+    },
+  },
+
+  // 5 — Risk Monitoring (screenshot 2)
+  {
+    kind: 'screenshot',
+    duration: 17,
+    step: { num: 5, label: 'Risk Monitoring' },
+    caption: 'Click Customer Intelligence → Risk Monitoring.',
+    sub: 'Today\'s Incidents bar should match the 7-day pattern. Elevated? Investigate same-day per AIO05.',
+    src: A + '460e9cd03f2ee11f6fa1c80b2a9bc6fc40f2c982.jpg',
+    imgPos: 'right', imgFit: 'contain', imgAspect: 1200/383,
+    bullets: [
+      { text: 'Security Events — donut chart, watch Persona Failure', color: SOP_PALETTE.bosque },
+      { text: 'Prevented Incidents — profanity blocks', color: SOP_PALETTE.cypress },
+      { text: 'Incidents — bar chart, compare today vs 7-day pattern', color: SOP_PALETTE.terracotta },
+    ],
+    es: {
+      step: { num: 5, label: 'Monitoreo de Riesgo' },
+      caption: 'Clic en Customer Intelligence → Risk Monitoring.',
+      sub: 'La barra de Incidents de hoy debe coincidir con el patrón de 7 días. ¿Elevada? Investigue el mismo día según AIO05.',
+      bullets: [
+        { text: 'Security Events — gráfica circular, vigile Persona Failure', color: SOP_PALETTE.bosque },
+        { text: 'Prevented Incidents — bloqueos de profanidad', color: SOP_PALETTE.cypress },
+        { text: 'Incidents — gráfica de barras, compare hoy vs patrón de 7 días', color: SOP_PALETTE.terracotta },
+      ],
+    },
+  },
+
+  // 6 — Main Dashboard
+  {
+    kind: 'bigstat',
+    duration: 10,
+    stat: 'Red?',
+    caption: 'Step 6 — Check the main Dashboard',
+    sub: 'Return to Dashboard. Note any tile with a red border — typically Words Processed approaching the plan cap.',
+    accent: SOP_PALETTE.terracotta,
+    es: {
+      stat: '¿Rojo?',
+      caption: 'Paso 6 — Revise el Dashboard principal',
+      sub: 'Regrese al Dashboard. Note cualquier mosaico con borde rojo — típicamente Words Processed acercándose al límite del plan.',
+    },
+  },
+
+  // 7 — End of Day
+  {
+    kind: 'comparison',
+    duration: 13,
+    title: 'Step 7 — End of day',
+    sub: 'Close the loop on what you triaged this morning.',
+    items: [
+      { tag: 'Triaged "Fix it"', label: 'Fix or schedule', accent: SOP_PALETTE.bosque, desc: 'Write the KB entry now, or schedule it on tomorrow\'s list. Don\'t let "Fix it" items drift.' },
+      { tag: 'Notifications', label: 'Confirm sent', accent: SOP_PALETTE.terracotta, desc: 'Any escalations you raised earlier — confirm the notification went out and was acknowledged.' },
+    ],
+    es: {
+      title: 'Paso 7 — Fin del día',
+      sub: 'Cierre el ciclo de lo que clasificó esta mañana.',
+      items: [
+        { tag: 'Clasificado "Arreglar"', label: 'Arreglar o agendar', desc: 'Escriba la entrada KB ahora, o agéndela en la lista de mañana. No deje que los pendientes se acumulen.' },
+        { tag: 'Notificaciones', label: 'Confirmar envío', desc: 'Cualquier escalación que haya levantado más temprano — confirme que la notificación se envió y se reconoció.' },
+      ],
+    },
+  },
+
+  // 8 — Escalation triggers
+  {
+    kind: 'steps',
+    duration: 20,
+    title: 'Notify Assessor & Deputy — same day',
+    sub: 'Any one of these triggers an immediate notification.',
+    steps: [
+      { label: 'PII produced or exposed', desc: 'A prompt contains personally identifiable information that A.C.E. produced or exposed.' },
+      { label: 'Threats against staff or office', desc: 'Any prompt with threatening language toward people or the building.' },
+      { label: 'Persona Failure elevated', desc: 'Persona Failure incidents clearly above the 7-day pattern.' },
+      { label: 'Agent unreachable', desc: 'The agent is unreachable from the public site.' },
+      { label: 'Plan cap + service degraded', desc: 'Words Processed has hit the plan cap AND service is degraded.' },
+    ],
+    es: {
+      title: 'Notificar al Tasador y Subtasador — el mismo día',
+      sub: 'Cualquiera de estos dispara una notificación inmediata.',
+      steps: [
+        { label: 'PII producida o expuesta', desc: 'Un prompt contiene información personalmente identificable que A.C.E. produjo o expuso.' },
+        { label: 'Amenazas al personal u oficina', desc: 'Cualquier prompt con lenguaje amenazante hacia personas o el edificio.' },
+        { label: 'Persona Failure elevada', desc: 'Incidentes de Persona Failure claramente por encima del patrón de 7 días.' },
+        { label: 'Agente inalcanzable', desc: 'El agente no responde desde el sitio público.' },
+        { label: 'Límite del plan + servicio degradado', desc: 'Words Processed alcanzó el límite del plan Y el servicio está degradado.' },
+      ],
+    },
+  },
+
+  // 9 — Quiz
+  {
+    kind: 'quiz', duration: 17,
+    qNum: 1, qTotal: 2,
+    question: 'You see today\'s Incidents bar is much higher than the 7-day pattern. What do you do?',
+    options: [
+      'Ignore it — bars fluctuate',
+      'Investigate same-day per AIO05',
+      'Wait a week to confirm',
+      'Email the vendor',
+    ],
+    correctIndex: 1,
+    explanation: 'Elevated Incidents — especially Persona Failure — trigger same-day investigation per AIO05.',
+    es: {
+      question: 'Ve que la barra de Incidents de hoy está mucho más alta que el patrón de 7 días. ¿Qué hace?',
+      options: [
+        'Ignorarla — las barras fluctúan',
+        'Investigar el mismo día según AIO05',
+        'Esperar una semana para confirmar',
+        'Enviar correo al proveedor',
+      ],
+      explanation: 'Incidents elevados — especialmente Persona Failure — disparan investigación el mismo día según AIO05.',
+    },
+  },
+  {
+    kind: 'quiz', duration: 17,
+    qNum: 2, qTotal: 2,
+    question: 'What threshold should the "Not found" slice of the Content Source donut stay under?',
+    options: ['5%', '15%', '25%', 'No threshold — just monitor'],
+    correctIndex: 1,
+    explanation: 'Under 15%. If it climbs above, note it for follow-up — it usually means new questions A.C.E. can\'t answer yet.',
+    es: {
+      question: '¿Qué umbral debe mantener bajo el sector "Not found" de la gráfica Content Source?',
+      options: ['5%', '15%', '25%', 'Sin umbral — solo monitorear'],
+      explanation: 'Bajo 15%. Si sube por encima, anótelo para seguimiento — usualmente significa preguntas nuevas que A.C.E. todavía no puede responder.',
+    },
+  },
+
+  // Outro
+  {
+    kind: 'outro',
+    duration: 10,
+    title: 'Ten minutes. Every morning.',
+    sub: 'Triage, scan, monitor, document. One small habit keeps A.C.E. helpful and the office safe.',
+    es: {
+      title: 'Diez minutos. Cada mañana.',
+      sub: 'Clasifique, revise, monitoree, documente. Un pequeño hábito mantiene a A.C.E. útil y a la oficina segura.',
+    },
+  },
+];
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <SOPVideo sopId="AIO01" title="Daily Chatbot Operations Check" scenes={scenes} />
+);
+</script>
+<template id="__bundler_thumbnail" data-bg-color="#0a0a0a"><svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg"><rect width="1200" height="800" fill="#0a0a0a"/><rect x="0" y="0" width="1200" height="120" fill="#285952"/><rect x="0" y="117" width="1200" height="3" fill="#e47756"/><g transform="translate(540, 320)"><circle cx="60" cy="60" r="60" fill="#e47756"/><polygon points="48,32 48,88 96,60" fill="#faf8f4"/></g><text x="600" y="560" text-anchor="middle" font-family="sans-serif" font-size="48" font-weight="900" fill="#faf8f4" letter-spacing="-1">SOP VIDEO</text></svg></template>
+</body>
+</html>

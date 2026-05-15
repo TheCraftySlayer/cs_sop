@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AIO04 · Monthly Chatbot Metrics Report · Animated SOP</title>
+<link rel="stylesheet" href="../lib/video.css">
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="../lib/animations.jsx"></script>
+<script type="text/babel" src="../lib/sop-video.jsx"></script>
+<script type="text/babel">
+const A = '../sop_assets/AIO04_Monthly_Metrics/';
+
+const scenes = [
+  {
+    kind: 'title',
+    duration: 8,
+    sopId: 'AIO04',
+    title: 'Monthly Chatbot Metrics Report',
+    plainTitle: 'A 30-minute monthly compilation of A.C.E. metrics for executive reporting and governance.',
+    kicker: 'Department: AI Operations. First business day of each month. Reports on the prior month.',
+    es: {
+      title: 'Reporte Mensual de Métricas del Chatbot',
+      plainTitle: 'Una compilación mensual de 30 minutos de métricas de A.C.E. para reportes ejecutivos y gobernanza.',
+      kicker: 'Departamento: Operaciones de IA. Primer día hábil de cada mes. Reporta sobre el mes anterior.',
+    },
+  },
+
+  {
+    kind: 'bigstat',
+    duration: 10,
+    stat: '30 minutes · once a month',
+    caption: 'The cadence',
+    sub: 'First business day. Always reporting on the prior calendar month. Three sources of metrics, one tracker row, one email.',
+    es: {
+      stat: '30 minutos · una vez al mes',
+      caption: 'La cadencia',
+      sub: 'Primer día hábil. Siempre reportando sobre el mes calendario anterior. Tres fuentes de métricas, una fila en el tracker, un correo.',
+    },
+  },
+
+  {
+    kind: 'comparison',
+    duration: 17,
+    title: 'Three places to collect from',
+    sub: 'Same order, every month. All inside CustomGPT.ai → A.C.E. agent.',
+    items: [
+      { tag: 'Step 1', label: 'Analyze → Overview', accent: SOP_PALETTE.bosque, desc: 'Total queries, conversations, queries per conversation, Found and Not found rates.' },
+      { tag: 'Step 2', label: 'Customer Intelligence', accent: SOP_PALETTE.terracotta, desc: 'Persona Failure %, Spanish %, top intent category, any non-English language &gt; 1%.' },
+      { tag: 'Step 3', label: 'Dashboard', accent: SOP_PALETTE.cypress, desc: 'Query credits, words processed, documents added vs. read, top three countries.' },
+    ],
+    es: {
+      title: 'Tres lugares para recolectar',
+      sub: 'Mismo orden, cada mes. Todos dentro de CustomGPT.ai → agente A.C.E.',
+      items: [
+        { tag: 'Paso 1', label: 'Analyze → Overview', desc: 'Total de consultas, conversaciones, consultas por conversación, tasas Found y Not found.' },
+        { tag: 'Paso 2', label: 'Customer Intelligence', desc: 'Persona Failure %, Spanish %, categoría de intent principal, cualquier idioma no inglés &gt; 1%.' },
+        { tag: 'Paso 3', label: 'Dashboard', desc: 'Créditos de consultas, palabras procesadas, documentos añadidos vs. leídos, principales tres países.' },
+      ],
+    },
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 17,
+    step: { num: 1, label: 'Overview' },
+    caption: 'Analyze → Overview — top-of-funnel metrics.',
+    sub: 'Volume and KB coverage. Four numbers to record.',
+    src: A + '27e905eeae5e7df539bb440c9a4a0fd5b3750131.jpg',
+    imgPos: 'bottom', imgFit: 'contain', imgAspect: 1226/408,
+    bullets: [
+      { text: 'Total queries (last 30 days)', color: SOP_PALETTE.bosque },
+      { text: 'Total conversations', color: SOP_PALETTE.cypress },
+      { text: 'Queries per conversation', color: SOP_PALETTE.muted },
+      { text: 'Found % and Not found % — watch Not found vs. 15% threshold', color: SOP_PALETTE.terracotta },
+    ],
+    es: {
+      step: { num: 1, label: 'Overview' },
+      caption: 'Analyze → Overview — métricas de la cima del embudo.',
+      sub: 'Volumen y cobertura del KB. Cuatro números que registrar.',
+      bullets: [
+        { text: 'Total de consultas (últimos 30 días)', color: SOP_PALETTE.bosque },
+        { text: 'Total de conversaciones', color: SOP_PALETTE.cypress },
+        { text: 'Consultas por conversación', color: SOP_PALETTE.muted },
+        { text: 'Found % y Not found % — vigile Not found vs. umbral de 15%', color: SOP_PALETTE.terracotta },
+      ],
+    },
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 17,
+    step: { num: 2, label: 'Customer Intelligence' },
+    caption: 'Customer Intelligence — quality and audience.',
+    sub: 'Whether A.C.E. is staying in character and who is using it.',
+    src: A + '5e2e7c069f05086d62c4a6e67a097650dfd6f3c2.jpg',
+    imgPos: 'bottom', imgFit: 'contain', imgAspect: 1187/397,
+    bullets: [
+      { text: 'Persona Failure % — Risk Monitoring panel', color: SOP_PALETTE.terracotta },
+      { text: 'Spanish % and Spanish count — Top Languages', color: SOP_PALETTE.bosque },
+      { text: 'Top intent category and its share', color: SOP_PALETTE.cypress },
+      { text: 'Any non-English language with > 1% share', color: SOP_PALETTE.muted },
+    ],
+    es: {
+      step: { num: 2, label: 'Customer Intelligence' },
+      caption: 'Customer Intelligence — calidad y audiencia.',
+      sub: 'Si A.C.E. se mantiene en personaje y quién lo está usando.',
+      bullets: [
+        { text: 'Persona Failure % — panel Risk Monitoring', color: SOP_PALETTE.terracotta },
+        { text: 'Spanish % y conteo Spanish — Top Languages', color: SOP_PALETTE.bosque },
+        { text: 'Categoría de intent principal y su porcentaje', color: SOP_PALETTE.cypress },
+        { text: 'Cualquier idioma no inglés con > 1% de participación', color: SOP_PALETTE.muted },
+      ],
+    },
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 17,
+    step: { num: 3, label: 'Dashboard' },
+    caption: 'Dashboard — usage and capacity.',
+    sub: 'Plan burn and source geography. Four data points.',
+    src: A + 'c651ae1452d4619feb92b97bb14ea406929cae75.jpg',
+    imgPos: 'bottom', imgFit: 'contain', imgAspect: 1905/935,
+    bullets: [
+      { text: 'Query credits used this billing cycle', color: SOP_PALETTE.bosque },
+      { text: 'Words processed — note if at plan cap', color: SOP_PALETTE.terracotta },
+      { text: 'Documents added vs. documents read (ratio)', color: SOP_PALETTE.cypress },
+      { text: 'Top three countries by conversation count', color: SOP_PALETTE.muted },
+    ],
+    es: {
+      step: { num: 3, label: 'Dashboard' },
+      caption: 'Dashboard — uso y capacidad.',
+      sub: 'Consumo del plan y geografía de origen. Cuatro datos.',
+      bullets: [
+        { text: 'Créditos de consultas usados este ciclo de facturación', color: SOP_PALETTE.bosque },
+        { text: 'Words processed — note si está en el límite del plan', color: SOP_PALETTE.terracotta },
+        { text: 'Documentos añadidos vs. documentos leídos (proporción)', color: SOP_PALETTE.cypress },
+        { text: 'Principales tres países por conteo de conversaciones', color: SOP_PALETTE.muted },
+      ],
+    },
+  },
+
+  {
+    kind: 'bigstat',
+    duration: 10,
+    stat: 'Month-over-month',
+    caption: 'Step 4 — Update the tracker',
+    sub: 'Add a new row dated for the reporting month. Compare against the prior MONTH, not the prior day. Mark any threshold crossings.',
+    accent: SOP_PALETTE.terracotta,
+    es: {
+      stat: 'Mes contra mes',
+      caption: 'Paso 4 — Actualizar el tracker',
+      sub: 'Añada una fila nueva con fecha del mes reportado. Compare contra el MES anterior, no el día anterior. Marque cualquier cruce de umbral.',
+    },
+  },
+
+  {
+    kind: 'steps',
+    duration: 15,
+    title: 'Step 5 — Email summary',
+    sub: 'One paragraph to Assessor and Deputy. Same shape every month.',
+    steps: [
+      { label: 'Totals', desc: 'The headline numbers — queries, conversations, Spanish share.' },
+      { label: 'Within / outside ranges', desc: 'Which metrics are inside expected ranges and which are not.' },
+      { label: 'Threshold breaches + proposed action', desc: 'Each month-over-month breach gets a one-line proposed action.' },
+      { label: 'Link to tracker', desc: 'Just the link — full detail lives in the tracker, not the email.' },
+    ],
+    es: {
+      title: 'Paso 5 — Resumen por correo',
+      sub: 'Un párrafo al Tasador y Subtasador. Misma forma cada mes.',
+      steps: [
+        { label: 'Totales', desc: 'Los números principales — consultas, conversaciones, participación en español.' },
+        { label: 'Dentro / fuera de rangos', desc: 'Qué métricas están dentro de rangos esperados y cuáles no.' },
+        { label: 'Cruces de umbral + acción propuesta', desc: 'Cada cruce mes contra mes recibe una línea de acción propuesta.' },
+        { label: 'Enlace al tracker', desc: 'Solo el enlace — el detalle completo vive en el tracker, no en el correo.' },
+      ],
+    },
+  },
+
+  {
+    kind: 'bigstat',
+    duration: 8,
+    stat: 'Flag thresholds',
+    caption: 'Apply to the monthly figure only',
+    sub: 'Daily and weekly snapshots may cross these because of small-sample volatility — that is expected and not a flag.',
+    es: {
+      stat: 'Umbrales de marca',
+      caption: 'Aplican solo a la cifra mensual',
+      sub: 'Los snapshots diarios y semanales pueden cruzarlos por volatilidad de muestra pequeña — eso se espera y no es una marca.',
+    },
+  },
+
+  {
+    kind: 'steps',
+    duration: 22,
+    title: 'The six thresholds',
+    sub: 'Any one of these on the monthly figure triggers a flag.',
+    steps: [
+      { label: 'Not found > 15%', desc: 'KB coverage gap. New questions A.C.E. cannot yet answer.' },
+      { label: 'Persona Failure > 15%', desc: 'Persona may be drifting. Review recent changes per AIO03.' },
+      { label: 'Spanish < 3%', desc: 'Bilingual service underutilized. Trend over 2+ months is the signal — single month is not.' },
+      { label: 'Success rate < 97%', desc: 'Platform or integration concern. Check vendor status and recent config changes.' },
+      { label: 'Words Processed at plan cap', desc: 'Persistent across cycles → consider plan adjustment rather than a workaround.' },
+      { label: 'Single non-US country > 15%', desc: 'Possible bot traffic or unexpected exposure. Verify with IT.' },
+    ],
+    es: {
+      title: 'Los seis umbrales',
+      sub: 'Cualquiera de estos en la cifra mensual dispara una marca.',
+      steps: [
+        { label: 'Not found > 15%', desc: 'Brecha de cobertura del KB. Nuevas preguntas que A.C.E. aún no puede responder.' },
+        { label: 'Persona Failure > 15%', desc: 'La persona puede estar derivando. Revise cambios recientes según AIO03.' },
+        { label: 'Spanish < 3%', desc: 'Servicio bilingüe subutilizado. Tendencia de 2+ meses es la señal — un mes solo no.' },
+        { label: 'Success rate < 97%', desc: 'Preocupación de plataforma o integración. Revise estado del proveedor y cambios recientes.' },
+        { label: 'Words Processed en límite', desc: 'Persistente entre ciclos → considere ajuste de plan en lugar de un workaround.' },
+        { label: 'Un solo país no-EE.UU. > 15%', desc: 'Posible tráfico de bots o exposición inesperada. Verifique con TI.' },
+      ],
+    },
+  },
+
+  {
+    kind: 'quiz', duration: 17,
+    qNum: 1, qTotal: 2,
+    question: 'On the daily check, you see "Not found" at 22% for one day. Do you flag it on the monthly tracker?',
+    options: [
+      'Yes — 22% is well above 15%',
+      'No — thresholds apply to the monthly figure only',
+      'Only if the next day is also above 15%',
+      'Only if the Assessor asks',
+    ],
+    correctIndex: 1,
+    explanation: 'Thresholds apply to the monthly figure only. Daily and weekly snapshots cross thresholds because of small-sample volatility — that\'s expected, not a flag. Note it for follow-up via AIO01 instead.',
+    es: {
+      question: 'En la revisión diaria, ve "Not found" en 22% para un día. ¿Lo marca en el tracker mensual?',
+      options: [
+        'Sí — 22% está muy por encima de 15%',
+        'No — los umbrales aplican solo a la cifra mensual',
+        'Solo si el siguiente día también está sobre 15%',
+        'Solo si el Tasador pregunta',
+      ],
+      explanation: 'Los umbrales aplican solo a la cifra mensual. Los snapshots diarios y semanales cruzan umbrales por volatilidad de muestra pequeña — eso se espera, no es una marca. Anótelo para seguimiento vía AIO01 en su lugar.',
+    },
+  },
+  {
+    kind: 'quiz', duration: 17,
+    qNum: 2, qTotal: 2,
+    question: 'When updating the monthly tracker, what do you compare each metric against?',
+    options: [
+      'The same metric from yesterday',
+      'The same metric from the prior month',
+      'The same metric from one year ago',
+      'The annual average',
+    ],
+    correctIndex: 1,
+    explanation: 'Compare against the prior MONTH, not the prior day. Day-over-day comparisons are noisy; month-over-month surfaces real trend changes.',
+    es: {
+      question: 'Al actualizar el tracker mensual, ¿con qué compara cada métrica?',
+      options: [
+        'La misma métrica de ayer',
+        'La misma métrica del mes anterior',
+        'La misma métrica de hace un año',
+        'El promedio anual',
+      ],
+      explanation: 'Compare contra el MES anterior, no el día anterior. Las comparaciones día a día son ruidosas; mes a mes revela cambios reales de tendencia.',
+    },
+  },
+
+  {
+    kind: 'outro',
+    duration: 10,
+    title: 'Three sources. One tracker. One email.',
+    sub: 'Thirty minutes on the first of the month keeps the office\'s AI governance posture documented and auditable.',
+    es: {
+      title: 'Tres fuentes. Un tracker. Un correo.',
+      sub: 'Treinta minutos el primero del mes mantiene la postura de gobernanza de IA de la oficina documentada y auditable.',
+    },
+  },
+];
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <SOPVideo sopId="AIO04" title="Monthly Chatbot Metrics Report" scenes={scenes} />
+);
+</script>
+<template id="__bundler_thumbnail" data-bg-color="#0a0a0a"><svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg"><rect width="1200" height="800" fill="#0a0a0a"/><rect x="0" y="0" width="1200" height="120" fill="#285952"/><rect x="0" y="117" width="1200" height="3" fill="#e47756"/><g transform="translate(540, 320)"><circle cx="60" cy="60" r="60" fill="#e47756"/><polygon points="48,32 48,88 96,60" fill="#faf8f4"/></g><text x="600" y="560" text-anchor="middle" font-family="sans-serif" font-size="48" font-weight="900" fill="#faf8f4" letter-spacing="-1">SOP VIDEO</text></svg></template>
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Operations · Flow Diagram</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+@font-face { font-family: 'Gotham Display'; src: url('../fonts/Gotham-Black.otf') format('opentype'); font-weight:900; font-style:normal; font-display:swap; }
+:root { --bosque:#285952; --bosque-dark:#1d4640; --cypress:#013942; --terracotta:#e47756; --mist:#e8f1ee; --mist-soft:#f4f8f6; --paper:#faf8f4; --ink:#1a2620; --line:#cfd8d3; --muted:#5a6b65; --critical:#a3361a; }
+* { box-sizing:border-box; }
+html, body { margin:0; padding:0; font-family:"Montserrat",system-ui,sans-serif; color:var(--ink); background:var(--mist-soft); -webkit-font-smoothing:antialiased; line-height:1.55; }
+.top-bar { background:var(--paper); border-bottom:2px solid var(--line); padding:16px 56px; display:flex; align-items:center; gap:24px; position:sticky; top:0; z-index:10; }
+.top-bar img.logo { height:56px; width:auto; display:block; }
+.top-bar .crumb { padding-left:24px; border-left:1px solid var(--line); font-size:12px; font-weight:600; color:var(--muted); letter-spacing:0.18em; text-transform:uppercase; line-height:1.6; }
+.top-bar .crumb b { color:var(--cypress); }
+.top-bar .actions { margin-left:auto; display:flex; gap:10px; flex-wrap:wrap; }
+.top-bar .action { display:inline-flex; align-items:center; gap:8px; padding:9px 16px; font-size:13px; font-weight:600; text-decoration:none; border-radius:999px; background:transparent; color:var(--cypress); border:1px solid var(--line); cursor:pointer; font-family:inherit; }
+.top-bar .action.primary { background:var(--bosque); color:var(--paper); border-color:var(--bosque); }
+.top-bar .action:hover { background:var(--mist); border-color:var(--cypress); }
+
+.sheet { max-width:1400px; margin:36px auto 60px; padding:0 40px; }
+.intro { margin-bottom:30px; }
+.intro .eyebrow { font-size:12px; font-weight:700; color:var(--terracotta); letter-spacing:0.24em; text-transform:uppercase; margin-bottom:10px; }
+.intro h1 { font-family:"Gotham Display","Montserrat",sans-serif; font-size:54px; font-weight:900; line-height:0.98; letter-spacing:-0.025em; text-transform:uppercase; color:var(--bosque); margin:0 0 14px; text-wrap:balance; }
+.intro p { font-size:17px; color:var(--ink); max-width:840px; margin:0; line-height:1.5; }
+
+.legend { display:flex; gap:24px; align-items:center; flex-wrap:wrap; padding:16px 24px; background:var(--paper); border:1px solid var(--line); border-radius:10px; margin-bottom:26px; font-size:13px; color:var(--muted); }
+.legend .item { display:inline-flex; align-items:center; gap:10px; font-weight:600; color:var(--cypress); }
+.legend .swatch { width:18px; height:14px; border-radius:3px; }
+
+.canvas { position:relative; background:var(--paper); border:1px solid var(--line); border-radius:14px; padding:38px 30px 32px; overflow:hidden; }
+.canvas::before { content:''; position:absolute; inset:0; background:
+  linear-gradient(0deg, transparent 96%, rgba(40,89,82,0.06) 100%),
+  linear-gradient(90deg, transparent 96%, rgba(40,89,82,0.06) 100%);
+  background-size:32px 32px; pointer-events:none; opacity:0.5;
+}
+.grid {
+  display:grid;
+  grid-template-columns:1.05fr 1fr 1fr 1fr 1fr;
+  grid-template-rows:auto auto auto auto;
+  gap:30px 32px;
+  position:relative; z-index:1;
+}
+.lane-label {
+  font-family:"Gotham Display","Montserrat",sans-serif;
+  font-size:11px; font-weight:900; color:var(--terracotta);
+  letter-spacing:0.22em; text-transform:uppercase;
+  align-self:center; justify-self:start;
+  padding:6px 14px; background:var(--mist-soft); border-radius:999px;
+  border:1px solid var(--line);
+}
+.node {
+  position:relative;
+  background:var(--paper); border:2px solid var(--bosque);
+  border-radius:12px; padding:18px 18px 16px;
+  text-decoration:none; color:inherit; display:block;
+  box-shadow:0 4px 14px rgba(15,30,27,0.06);
+  transition:transform 180ms cubic-bezier(0.4,0,0.2,1), box-shadow 180ms, border-color 180ms;
+  min-height:120px;
+}
+.node:hover { transform:translateY(-3px); box-shadow:0 14px 30px rgba(15,30,27,0.12); border-color:var(--terracotta); }
+.node .sopid { font-size:11px; font-weight:800; letter-spacing:0.22em; color:var(--terracotta); text-transform:uppercase; }
+.node h3 { font-family:"Gotham Display","Montserrat",sans-serif; font-size:18px; font-weight:900; line-height:1.05; letter-spacing:-0.01em; text-transform:uppercase; color:var(--bosque); margin:6px 0 8px; text-wrap:balance; }
+.node .cad { font-size:11px; font-weight:700; color:var(--cypress); letter-spacing:0.12em; text-transform:uppercase; background:var(--mist); display:inline-block; padding:3px 9px; border-radius:999px; margin-bottom:8px; }
+.node p { font-size:13px; color:var(--ink); margin:0; line-height:1.45; }
+.node.detection { border-color:var(--bosque); }
+.node.detection .sopid { color:var(--bosque); }
+.node.detection h3 { color:var(--bosque); }
+.node.action { border-color:var(--terracotta); background:#fffaf7; }
+.node.action .sopid, .node.action h3 { color:var(--terracotta); }
+.node.critical { border-color:var(--critical); background:#fdf2ee; }
+.node.critical .sopid, .node.critical h3 { color:var(--critical); }
+.node.reference { border-color:var(--cypress); border-style:dashed; background:var(--mist-soft); }
+.node.reference .sopid, .node.reference h3 { color:var(--cypress); }
+
+.svg-overlay { position:absolute; inset:38px 30px 32px; pointer-events:none; z-index:0; }
+
+.lane-detection { grid-column:1; grid-row:2 / 4; }
+.lane-action { grid-column:1; grid-row:5; }
+
+/* Specific node placement on the grid */
+.n-aio01 { grid-column:2; grid-row:2; }
+.n-aio02 { grid-column:3; grid-row:2; }
+.n-aio04 { grid-column:4; grid-row:2; }
+.n-aio06-ref { grid-column:5; grid-row:2; }
+.n-aio03 { grid-column:2 / 4; grid-row:3; }
+.n-aio05 { grid-column:4 / 6; grid-row:3; }
+
+.row-label {
+  display:flex; align-items:center; gap:14px;
+  grid-column:2 / 6; grid-row:1;
+  margin-bottom:-8px;
+}
+.row-label.det { grid-row:1; }
+.row-label.act { grid-row:4; }
+.row-label .line { flex:1; height:1px; background:var(--line); }
+.row-label .text {
+  font-family:"Gotham Display","Montserrat",sans-serif;
+  font-size:13px; font-weight:900; color:var(--terracotta);
+  letter-spacing:0.22em; text-transform:uppercase;
+}
+
+.notes {
+  margin-top:28px;
+  display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:18px;
+}
+.notes .note { background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:22px 24px; }
+.notes .note h4 { font-family:"Gotham Display","Montserrat",sans-serif; font-size:14px; font-weight:900; color:var(--cypress); margin:0 0 8px; letter-spacing:0.06em; text-transform:uppercase; }
+.notes .note p { margin:0 0 8px; font-size:14px; line-height:1.5; }
+.notes .note p:last-child { margin-bottom:0; }
+.notes .note .pill { display:inline-block; padding:3px 9px; background:var(--mist); color:var(--cypress); font-size:11px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; border-radius:999px; margin-right:6px; }
+
+@media (max-width:1200px) {
+  .grid { grid-template-columns:repeat(2, 1fr); grid-template-rows:auto auto auto auto auto auto auto auto; }
+  .lane-detection, .lane-action, .row-label { display:none; }
+  .n-aio01, .n-aio02, .n-aio04, .n-aio06-ref, .n-aio03, .n-aio05 { grid-column:auto; grid-row:auto; }
+  .svg-overlay { display:none; }
+}
+@media print { body { background:white; } .top-bar { display:none; } .sheet { padding:0; margin:0; max-width:none; } .canvas { box-shadow:none; } .node { box-shadow:none; } }
+</style>
+</head>
+<body>
+<header class="top-bar">
+  <img src="../assets/bernco-assessor-logo.png" alt="BernCo County Assessor" class="logo">
+  <div class="crumb"><b>AI Operations</b><br>Flow Diagram</div>
+  <div class="actions">
+    <a class="action" href="../index.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M6 4L3 7l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Library</a>
+    <a class="action" href="notify.html">Notify card</a>
+    <a class="action" href="dashboard.html">Quiz dashboard</a>
+    <button class="action primary" onclick="window.print()" style="border:0; font-family:inherit; cursor:pointer;">Print / Save PDF</button>
+  </div>
+</header>
+
+<main class="sheet">
+  <section class="intro">
+    <div class="eyebrow">How the AI Operations SOPs fit together</div>
+    <h1>One system, six SOPs</h1>
+    <p>The AI Operations SOPs are organized into two lanes — <strong>detection</strong> (daily, weekly, monthly checks plus a reference baseline) feeds <strong>action</strong> (change management for fixes, incident response for emergencies). Most of the time the work flows from top to bottom; when something is critical, it skips straight to incident response.</p>
+  </section>
+
+  <div class="legend">
+    <span class="item"><span class="swatch" style="background:var(--bosque);"></span> Detection · routine monitoring</span>
+    <span class="item"><span class="swatch" style="background:var(--cypress); opacity:0.6; border:1.5px dashed var(--cypress);"></span> Reference · the baseline truth</span>
+    <span class="item"><span class="swatch" style="background:var(--terracotta);"></span> Action · planned change</span>
+    <span class="item"><span class="swatch" style="background:var(--critical);"></span> Action · emergency response</span>
+  </div>
+
+  <section class="canvas">
+    <svg class="svg-overlay" viewBox="0 0 1340 540" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <marker id="arrow-bosque" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#285952"/>
+        </marker>
+        <marker id="arrow-terra" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#e47756"/>
+        </marker>
+        <marker id="arrow-crit" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#a3361a"/>
+        </marker>
+      </defs>
+      <!-- Horizontal flow across detection row: 01 → 02 → 04 -->
+      <path d="M 372 105 C 410 105, 415 105, 450 105" stroke="#285952" stroke-width="2" fill="none" marker-end="url(#arrow-bosque)"/>
+      <path d="M 700 105 C 740 105, 745 105, 780 105" stroke="#285952" stroke-width="2" fill="none" marker-end="url(#arrow-bosque)"/>
+      <!-- AIO06 reference arrow into AIO03 (downward dashed) -->
+      <path d="M 1175 195 C 1175 240, 770 220, 770 295" stroke="#013942" stroke-width="2" stroke-dasharray="6 5" fill="none" marker-end="url(#arrow-bosque)"/>
+      <!-- AIO01/02/04 → AIO03 (issues become changes) -->
+      <path d="M 215 195 C 215 250, 480 240, 480 295" stroke="#e47756" stroke-width="2" fill="none" marker-end="url(#arrow-terra)"/>
+      <path d="M 540 195 C 540 250, 540 270, 540 295" stroke="#e47756" stroke-width="2" fill="none" marker-end="url(#arrow-terra)"/>
+      <path d="M 870 195 C 870 250, 600 270, 600 295" stroke="#e47756" stroke-width="2" fill="none" marker-end="url(#arrow-terra)"/>
+      <!-- AIO01 → AIO05 (critical bypass) -->
+      <path d="M 245 195 C 245 350, 1020 350, 1020 295" stroke="#a3361a" stroke-width="2.5" fill="none" marker-end="url(#arrow-crit)"/>
+      <!-- AIO03 → AIO06 (changes update baseline) -->
+      <path d="M 600 295 C 600 250, 1140 235, 1140 195" stroke="#013942" stroke-width="2" stroke-dasharray="6 5" fill="none" marker-end="url(#arrow-bosque)"/>
+    </svg>
+
+    <div class="grid">
+      <div class="row-label det"><span class="text">Detection · routine monitoring</span><span class="line"></span></div>
+
+      <a class="node detection n-aio01" href="../sops/AIO01.html">
+        <div class="sopid">AIO01</div>
+        <h3>Daily Check</h3>
+        <span class="cad">Daily · ~10 min</span>
+        <p>Triage Missing Content, scan latest prompts, check risk monitoring. Catches problems within one business day.</p>
+      </a>
+
+      <a class="node detection n-aio02" href="../sops/AIO02.html">
+        <div class="sopid">AIO02</div>
+        <h3>Weekly Review</h3>
+        <span class="cad">Mon · ~30 min</span>
+        <p>Sample 20 conversations, tag them, run the Spanish canary, export the backup.</p>
+      </a>
+
+      <a class="node detection n-aio04" href="../sops/AIO04.html">
+        <div class="sopid">AIO04</div>
+        <h3>Monthly Metrics</h3>
+        <span class="cad">1st of month · ~30 min</span>
+        <p>Compile metrics from three CustomGPT tabs. Update tracker. Apply monthly thresholds for governance.</p>
+      </a>
+
+      <a class="node reference n-aio06-ref" href="../sops/AIO06.html">
+        <div class="sopid">AIO06</div>
+        <h3>Baseline Reference</h3>
+        <span class="cad" style="background:var(--paper); border:1px solid var(--line);">As needed · annual</span>
+        <p>Authoritative "as configured" snapshot. The source of truth that reviews check against and changes update.</p>
+      </a>
+
+      <div class="row-label act" style="grid-row:4;"><span class="text">Action · response to what detection found</span><span class="line"></span></div>
+
+      <a class="node action n-aio03" href="../sops/AIO03.html">
+        <div class="sopid">AIO03</div>
+        <h3>Change Management</h3>
+        <span class="cad">Planned · per change</span>
+        <p>The four-section playbook for safely changing A.C.E. — Persona, KB file, Actions, Configuration. Every planned change flows through here.</p>
+      </a>
+
+      <a class="node critical n-aio05" href="../sops/AIO05.html">
+        <div class="sopid">AIO05</div>
+        <h3>Incident Response</h3>
+        <span class="cad" style="background:#fdf2ee;">Emergency · same-day</span>
+        <p>Four classes of incident — wrong answer, agent down, PII disclosure, abusive user. Severity order is <strong>C → B → A → D</strong>.</p>
+      </a>
+    </div>
+  </section>
+
+  <section class="notes">
+    <div class="note">
+      <h4>How to read this</h4>
+      <p><span class="pill">Detection</span> finds something — wrong answer, drift, threshold breach. <span class="pill">Action</span> resolves it.</p>
+      <p>Most of the time problems flow from detection (AIO01/02/04) into change management (AIO03). When something is critical — PII, threats, agent down — it skips straight to incident response (AIO05). The baseline (AIO06) is the reference frame: detection compares against it, and every change updates it.</p>
+    </div>
+    <div class="note">
+      <h4>Detection → Action</h4>
+      <p><strong>Wrong answer</strong> in AIO01/02 → fix per <strong>AIO03</strong> (KB file or Persona).</p>
+      <p><strong>Threshold breach</strong> in AIO04 → adjust per <strong>AIO03</strong> (Configuration), or plan upsize.</p>
+      <p><strong>PII / threat / outage</strong> in any check → <strong>AIO05</strong> first, AIO03 after.</p>
+    </div>
+    <div class="note">
+      <h4>The baseline loop</h4>
+      <p>Every <strong>AIO03</strong> change updates the <strong>AIO06</strong> baseline. Reviews use the baseline to spot unauthorized drift. Without a current baseline, change history is unverifiable.</p>
+    </div>
+  </section>
+</main>
+</body>
+</html>

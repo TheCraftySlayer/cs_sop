@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BIO01 · Internal Agent Change Management · Source SOP</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+@font-face { font-family: 'Gotham Display'; src: url('../fonts/Gotham-Black.otf') format('opentype'); font-weight: 900; font-style: normal; font-display: swap; }
+:root {
+  --bosque:#285952; --bosque-dark:#1d4640; --cypress:#013942;
+  --terracotta:#e47756; --mist:#e8f1ee; --mist-soft:#f4f8f6;
+  --paper:#faf8f4; --ink:#1a2620; --line:#cfd8d3; --muted:#5a6b65;
+  --internal:#5a3b8c; --internal-dark:#3b2660; --internal-soft:#efe9f8;
+  --critical:#a3361a;
+}
+* { box-sizing: border-box; }
+html, body { margin:0; padding:0; font-family: "Montserrat",system-ui,sans-serif; color:var(--ink); background:var(--mist-soft); -webkit-font-smoothing:antialiased; line-height:1.55; }
+.top-bar { background:var(--paper); border-bottom:2px solid var(--line); padding:16px 56px; display:flex; align-items:center; gap:24px; position:sticky; top:0; z-index:10; }
+.top-bar img.logo { height:56px; width:auto; display:block; }
+.top-bar .crumb { padding-left:24px; border-left:1px solid var(--line); font-size:12px; font-weight:600; color:var(--muted); letter-spacing:0.18em; text-transform:uppercase; line-height:1.6; }
+.top-bar .crumb b { color:var(--internal); }
+.top-bar .actions { margin-left:auto; display:flex; gap:10px; flex-wrap:wrap; }
+.top-bar .action { display:inline-flex; align-items:center; gap:8px; padding:9px 16px; font-size:13px; font-weight:600; text-decoration:none; border-radius:999px; letter-spacing:0.04em; background:transparent; color:var(--cypress); border:1px solid var(--line); cursor:pointer; font-family:inherit; transition:all 180ms cubic-bezier(0.4,0,0.2,1); }
+.top-bar .action.primary { background:var(--internal); color:var(--paper); border-color:var(--internal); }
+.top-bar .action:hover { background:var(--internal-soft); border-color:var(--internal); color:var(--internal-dark); }
+.top-bar .action.primary:hover { background:var(--internal-dark); }
+
+.doc { max-width:960px; margin:48px auto 80px; background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:60px 64px 72px; box-shadow:0 12px 36px rgba(15,30,27,0.06); }
+.doc-header { border-bottom:3px solid var(--internal); padding-bottom:28px; margin-bottom:30px; }
+.doc-header .eyebrow { font-size:12px; font-weight:700; color:var(--internal); letter-spacing:0.24em; text-transform:uppercase; margin-bottom:12px; }
+.doc-header h1 { font-family:"Gotham Display","Montserrat",sans-serif; font-size:46px; font-weight:900; line-height:1; letter-spacing:-0.02em; text-transform:uppercase; color:var(--internal-dark); margin:0; text-wrap:balance; }
+.meta-row { display:flex; gap:16px; font-size:14px; padding:6px 0; border-bottom:1px dashed var(--line); }
+.meta-row:last-of-type { border-bottom:0; margin-bottom:24px; }
+.meta-row .meta-k { color:var(--muted); font-weight:600; letter-spacing:0.06em; text-transform:uppercase; font-size:12px; flex:0 0 180px; padding-top:2px; }
+.meta-row .meta-v { color:var(--ink); font-weight:500; }
+
+.doc h2 { font-family:"Gotham Display","Montserrat",sans-serif; font-size:22px; font-weight:900; color:var(--internal-dark); letter-spacing:-0.005em; text-transform:uppercase; margin:36px 0 12px; padding-bottom:8px; border-bottom:1px solid var(--line); }
+.doc h2.section {
+  font-size:28px; color:var(--cypress); border-bottom:3px solid var(--terracotta);
+  padding-bottom:10px; margin-top:44px;
+  display:flex; align-items:baseline; gap:14px;
+}
+.doc h2.section .marker {
+  display:inline-flex; align-items:center; justify-content:center;
+  min-width:42px; height:42px; padding:0 12px; border-radius:8px;
+  background:var(--internal); color:var(--paper);
+  font-size:18px; vertical-align:-4px;
+  font-family:"Gotham Display","Montserrat",sans-serif; font-weight:900;
+}
+.doc h3.agent {
+  font-family:"Gotham Display","Montserrat",sans-serif; font-size:18px; font-weight:900;
+  letter-spacing:-0.005em; text-transform:uppercase;
+  margin:24px 0 8px; padding-bottom:6px; border-bottom:1px dashed var(--line);
+  display:flex; align-items:center; gap:12px;
+}
+.doc h3.agent .chip { font-size:11px; font-weight:800; letter-spacing:0.14em; text-transform:uppercase; padding:4px 10px; border-radius:999px; color:var(--paper); }
+.doc h3.agent .chip.compliance { background:var(--terracotta); }
+.doc h3.agent .chip.paralegal { background:var(--internal); }
+.doc h3.agent .chip.onboarding { background:var(--bosque); }
+.doc h3.agent .label { color:var(--cypress); }
+
+.doc p { font-size:14.5px; color:var(--ink); margin:0 0 12px; text-wrap:pretty; }
+.doc p strong { color:var(--cypress); font-weight:700; }
+.doc ul { font-size:14.5px; color:var(--ink); margin:0 0 12px; padding-left:22px; text-wrap:pretty; }
+.doc ul li { margin-bottom:6px; }
+.doc ul li::marker { color:var(--terracotta); }
+.doc code, .mono { font-family:'JetBrains Mono','SF Mono',monospace; font-size:13px; color:var(--internal-dark); background:var(--internal-soft); padding:2px 7px; border-radius:4px; }
+
+/* Agents-this-covers grid */
+.agents-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; margin:14px 0 18px; }
+.agents-grid .ag {
+  padding:16px 18px; border-radius:10px; border:1px solid var(--line);
+  background:var(--paper);
+}
+.agents-grid .ag.compliance { border-top:4px solid var(--terracotta); background:#fffaf7; }
+.agents-grid .ag.paralegal { border-top:4px solid var(--internal); background:#f5f4fc; }
+.agents-grid .ag.onboarding { border-top:4px solid var(--bosque); background:var(--mist-soft); }
+.agents-grid .ag .nm { font-family:"Gotham Display","Montserrat",sans-serif; font-size:15px; font-weight:900; color:var(--cypress); letter-spacing:-0.005em; text-transform:uppercase; margin:0 0 6px; }
+.agents-grid .ag .desc { font-size:13px; color:var(--ink); margin:0; line-height:1.45; }
+
+/* Commit-pattern bullet cards */
+.commit-cards { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px; margin:10px 0 18px; }
+.commit-cards .cc {
+  padding:14px 16px; background:var(--mist-soft); border:1px solid var(--line); border-radius:8px;
+}
+.commit-cards .cc .k { font-size:11px; font-weight:700; color:var(--terracotta); letter-spacing:0.16em; text-transform:uppercase; margin-bottom:6px; }
+.commit-cards .cc .v { font-size:13.5px; color:var(--ink); line-height:1.45; }
+.commit-cards .cc .v strong { color:var(--cypress); }
+
+/* Callouts */
+.callout { background:var(--mist-soft); border-left:4px solid var(--terracotta); border-radius:0 8px 8px 0; padding:18px 22px; margin:14px 0 18px; }
+.callout strong.k { color:var(--cypress); display:block; font-size:12px; letter-spacing:0.14em; text-transform:uppercase; margin-bottom:6px; }
+.callout.critical { border-left-color:var(--critical); background:#fdf2ee; }
+.callout.critical strong.k { color:var(--critical); }
+.callout.directive { border-left-color:var(--internal); background:var(--internal-soft); }
+.callout.directive strong.k { color:var(--internal-dark); }
+.callout p:last-child, .callout ul:last-child { margin-bottom:0; }
+
+.tag-line { margin-top:48px; padding-top:36px; border-top:2px solid var(--line); text-align:center; }
+.tag-line .tag { font-family:"Gotham Display","Montserrat",sans-serif; font-size:28px; font-weight:900; color:var(--terracotta); text-transform:lowercase; margin-bottom:6px; }
+.tag-line .sig { font-size:11px; font-weight:600; color:var(--muted); letter-spacing:0.14em; text-transform:uppercase; }
+
+@media (max-width: 760px) { .agents-grid { grid-template-columns:1fr; } }
+@media print { body { background:white; } .top-bar { display:none; } .doc { box-shadow:none; border:0; margin:0; padding:0; max-width:none; } }
+</style>
+</head>
+<body>
+<header class="top-bar">
+  <img src="../assets/bernco-assessor-logo.png" alt="BernCo County Assessor" class="logo">
+  <div class="crumb"><b>SOP BIO01</b><br>Internal-agent change management</div>
+  <div class="actions">
+    <a class="action" href="../index.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M6 4L3 7l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Library</a>
+    <a class="action" href="BIO04.html">Baseline (BIO04)</a>
+    <a class="action" href="../docs/BIO01_Internal_Agent_Change_Management.docx" download><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v9M3 7l4 4 4-4M2 13h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> .docx</a>
+    <button class="action primary" onclick="window.print()" style="border:0; font-family:inherit; cursor:pointer;">Save as PDF</button>
+  </div>
+</header>
+
+<article class="doc">
+  <div class="doc-header">
+    <div class="eyebrow">Bernalillo County Assessor · AI Operations · Internal Agents</div>
+    <h1>Internal Agent Change Management</h1>
+  </div>
+  <div class="meta-row"><span class="meta-k">Process Title</span><span class="meta-v">Internal Agent Change Management</span></div>
+  <div class="meta-row"><span class="meta-k">Department</span><span class="meta-v">AI Operations</span></div>
+  <div class="meta-row"><span class="meta-k">SOP ID</span><span class="meta-v">BIO01</span></div>
+  <div class="meta-row"><span class="meta-k">Last Reviewed</span><span class="meta-v">05/15/2026</span></div>
+  <div class="meta-row"><span class="meta-k">Effective Date</span><span class="meta-v">05/15/2026</span></div>
+  <div class="meta-row"><span class="meta-k">Version</span><span class="meta-v">1.1</span></div>
+
+  <h2>Purpose</h2>
+  <p>Change management for internal CustomGPT agents: <strong>Compliance Expert</strong>, <strong>Paralegal</strong>, and <strong>Onboarding</strong>. Same <strong>Save → Publish</strong> discipline as the public agent (AIO03), with adjusted notification and review requirements because internal agents serve narrower, higher-stakes audiences.</p>
+  <div class="callout directive">
+    <strong class="k">For public-agent changes</strong>
+    <p style="margin:0;">Use <strong><a href="AIO03.html" style="color:var(--internal-dark); text-decoration:underline;">AIO03</a></strong>. This SOP applies only to internal CustomGPT agents.</p>
+  </div>
+
+  <h2>Which Agents This Covers</h2>
+  <div class="agents-grid">
+    <div class="ag compliance">
+      <div class="nm">Compliance Expert</div>
+      <p class="desc">Internal legal research for office staff.</p>
+    </div>
+    <div class="ag paralegal">
+      <div class="nm">Paralegal</div>
+      <p class="desc">Statewide reference for NM county assessors (33 counties via Affiliate).</p>
+    </div>
+    <div class="ag onboarding">
+      <div class="nm">Onboarding</div>
+      <p class="desc">New-hire orientation at Bernalillo Assessor's Office.</p>
+    </div>
+  </div>
+  <p style="font-size:13.5px; color:var(--muted); font-style:italic;">Phone and Email agents are separate platforms not covered here.</p>
+
+  <h2>How Changes Commit</h2>
+  <p>Same model as the public agent:</p>
+  <div class="commit-cards">
+    <div class="cc"><div class="k">Save</div><div class="v">Per tab. Commits the edit within CustomGPT.</div></div>
+    <div class="cc"><div class="k">Publish</div><div class="v">Top right. Pushes saved changes to users of <strong>that agent</strong>.</div></div>
+    <div class="cc"><div class="k">Actions toggles</div><div class="v">Immediate &mdash; no Save, no Publish.</div></div>
+    <div class="cc"><div class="k">KB file uploads / deletes</div><div class="v">Commit on the action itself.</div></div>
+  </div>
+
+  <h2>Universal Rules</h2>
+  <ul>
+    <li><strong>Confirm the right agent.</strong> Multiple agents share the platform UI. Verify the agent name in the breadcrumb at the top of the screen before editing.</li>
+    <li><strong>Source the reason.</strong> For Compliance Expert and Paralegal, sources must trace to controlling authority (statute, AG opinion, court decision, PTD order, ordinance). For Onboarding, sources should reflect current office practice.</li>
+    <li><strong>Screenshot before.</strong> Rollback reference.</li>
+    <li><strong>Save then Publish.</strong> Most common failure mode is doing one without the other.</li>
+    <li><strong>Test with the agent's canary query</strong> (see <a href="BIO04.html" style="color:var(--internal); text-decoration:underline;">BIO04 Baseline</a>). Plus one regression query.</li>
+    <li><strong>Log the change.</strong> Single change log across all agents; tag the entry with the agent name.</li>
+  </ul>
+
+  <!-- ═══════════════ SECTION A ═══════════════ -->
+  <h2 class="section"><span class="marker">A</span>Persona Change</h2>
+  <p>Same procedure as <strong>AIO03 Section A</strong> (backup persona file, edit in <strong>Personalize → Persona</strong>, Save Changes, three test queries, Publish). The notification rules differ.</p>
+
+  <h3 class="agent"><span class="chip compliance">Compliance Expert</span><span class="label">Persona Changes — County Attorney Review Required</span></h3>
+  <p>The Compliance Expert persona encodes a hierarchy of legal authority, analytical method, and statutory citations. Edits can subtly shift legal analysis presented to staff.</p>
+  <ul>
+    <li><strong>Substantive persona edits</strong> (rules of analysis, hierarchy of authority, exemption order, valuation methodology, protest procedure, case law principles, edge cases) require <strong>written sign-off from the County Attorney</strong> before Publish.</li>
+    <li><strong>Non-substantive edits</strong> (typo fixes, formatting, contact phone numbers, referral text) do not require legal review but must still be logged.</li>
+  </ul>
+  <div class="callout critical">
+    <strong class="k">When in doubt</strong>
+    <p style="margin:0;">Treat the edit as substantive. The cost of an unnecessary review is small. The cost of a published legal-analysis change without review is large.</p>
+  </div>
+
+  <h3 class="agent"><span class="chip paralegal">Paralegal</span><span class="label">Persona Changes</span></h3>
+  <p>The Paralegal agent serves <strong>33 NM county assessor offices</strong> via the Assessor Affiliate. Persona changes affect all 33 counties simultaneously.</p>
+  <ul>
+    <li>Persona edits must be <strong>reviewed with the Assessor before Publish</strong>. Per January 2025 directive from Assessor Damian Lara.</li>
+    <li>Edits touching <strong>cross-county practice</strong> should be coordinated with the statewide affiliate before Publish.</li>
+    <li>After Publish, <strong>notify the affiliate distribution list</strong> so the 33 counties know what changed.</li>
+  </ul>
+
+  <h3 class="agent"><span class="chip onboarding">Onboarding</span><span class="label">Persona Changes</span></h3>
+  <p>No external review required. Notify Deputy if the change affects how the office presents itself to new hires (mission language, tone, organizational structure).</p>
+
+  <!-- ═══════════════ SECTION B ═══════════════ -->
+  <h2 class="section"><span class="marker">B</span>KB File Change</h2>
+  <p>Same procedure as <strong>AIO03 Section B</strong>. <strong>Build → Sources → File Upload</strong>. Test after the Documents tab shows Added/Available = Ok.</p>
+
+  <h3 class="agent"><span class="chip compliance">Compliance Expert</span><span class="label">KB Files</span></h3>
+  <p>Source documents informing legal analysis (statutes, AG opinions, PTD orders, case digests) must come from <strong>authoritative sources only</strong>. Do not upload unofficial summaries, blog posts, or industry commentary. If a document is uncertain, route to County Attorney before upload.</p>
+
+  <h3 class="agent"><span class="chip paralegal">Paralegal</span><span class="label">KB Files — Assessor Review Required</span></h3>
+  <p>Per <strong>January 2025 directive</strong> from Assessor Damian Lara: <strong>KB additions to the Paralegal agent require Assessor review before upload.</strong> This applies to documents submitted by:</p>
+  <ul>
+    <li>Bernalillo County Assessor's Office staff.</li>
+    <li>County assessor offices participating in the Assessor Affiliate (court cases, AG opinions, quick reference guides shared by other counties).</li>
+    <li>Any other source.</li>
+  </ul>
+  <div class="callout directive">
+    <strong class="k">Standing directive</strong>
+    <p style="margin:0;">Maintain Assessor review as a <strong>hard prerequisite</strong> until rescinded in writing. The Paralegal KB is the only cross-county-shared KB in the program; uncontrolled additions affect every participating county.</p>
+  </div>
+
+  <h3 class="agent"><span class="chip onboarding">Onboarding</span><span class="label">KB Files</span></h3>
+  <p>Standard discipline applies. Source must be office-approved (HR documents, org chart, IAAO/USPAP references, policy documents). Log the change.</p>
+
+  <!-- ═══════════════ SECTION C ═══════════════ -->
+  <h2 class="section"><span class="marker">C</span>Actions Change</h2>
+  <p>Same as <strong>AIO03 Section C</strong> &mdash; toggle is immediate, no Save, no Publish. <strong>Document Analyst</strong> conflicts with <strong>Webpage Awareness</strong> and <strong>Custom Button</strong>.</p>
+  <div class="callout critical">
+    <strong class="k">Web Search (Beta) on Compliance Expert &amp; Paralegal</strong>
+    <p style="margin:0;">Strongly discouraged. Legal research grounded in unverified web content carries citation risk. If enabling is contemplated, <strong>notify Assessor and County Attorney</strong>.</p>
+  </div>
+
+  <!-- ═══════════════ SECTION D ═══════════════ -->
+  <h2 class="section"><span class="marker">D</span>Configuration Change</h2>
+  <p>Same as <strong>AIO03 Section D</strong>. <strong>Save Settings</strong> (per tab) then <strong>Publish</strong> (top right). Configuration changes that affect the model, grounding, retention, visibility, or whitelisted domains require <strong>Assessor and IT notification before Publish</strong>, same as the public agent.</p>
+
+  <h3 class="agent"><span class="chip compliance">Compliance Expert</span><span class="label">Additional Rule — AI Model</span></h3>
+  <p>Changing AI Model requires <strong>re-running the agent's canary query plus three diverse statutory questions before Publish</strong>. Model changes affect tone and analytical structure even when factual output is similar; for a legal research tool, that matters.</p>
+
+  <h3 class="agent"><span class="chip paralegal">Paralegal</span><span class="label">Additional Rule — Access</span></h3>
+  <p>Configuration changes that affect access (<strong>whitelisted domains, visibility</strong>) must be <strong>coordinated with the Assessor Affiliate distribution list before Publish</strong>, because they may break access for participating counties.</p>
+
+  <!-- ═══════════════ NOTIFY ═══════════════ -->
+  <h2>Notify Before Publishing If</h2>
+  <div class="callout">
+    <strong class="k">For all internal agents</strong>
+    <ul>
+      <li>The change affects how the agent represents office practice or policy.</li>
+      <li>The change responds to a complaint or correction request.</li>
+      <li>The change affects model selection, data source control, or security settings.</li>
+    </ul>
+  </div>
+  <div class="callout critical">
+    <strong class="k">For Compliance Expert specifically</strong>
+    <ul>
+      <li>Any <strong>substantive persona edit</strong> — County Attorney written sign-off required.</li>
+      <li>Any KB document of <strong>uncertain authority</strong> — County Attorney review before upload.</li>
+      <li><strong>Enabling Web Search (Beta)</strong> — Assessor and County Attorney notification required.</li>
+    </ul>
+  </div>
+  <div class="callout directive">
+    <strong class="k">For Paralegal specifically</strong>
+    <ul>
+      <li>Any <strong>persona edit</strong> — Assessor review required <em>(per January 2025 directive)</em>.</li>
+      <li>Any <strong>KB addition</strong> — Assessor review required <em>(per January 2025 directive)</em>.</li>
+      <li>Configuration changes affecting <strong>access</strong> — coordinate with Assessor Affiliate before Publish.</li>
+    </ul>
+  </div>
+
+  <div class="tag-line">
+    <div class="tag">Count on us.</div>
+    <div class="sig">Bernalillo County Assessor &middot; Damian R. Lara, County Assessor</div>
+  </div>
+</article>
+</body>
+</html>

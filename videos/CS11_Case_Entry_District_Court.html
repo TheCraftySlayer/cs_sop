@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CS11 · Case Entry for District Court AAs · Animated SOP</title>
+<link rel="stylesheet" href="../lib/video.css">
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="../lib/animations.jsx"></script>
+<script type="text/babel" src="../lib/sop-video.jsx"></script>
+<script type="text/babel">
+// No screenshots in source document — diagrammatic scenes only.
+
+const scenes = [
+  {
+    kind: 'title',
+    es: { "title":"Case Entry — AAs de Corte de Distrito","plainTitle":"Cómo registrar una Autorización del Tasador (AA) para una Reclamación de Reembolso de Corte de Distrito en IASWorld — de principio a fin.","kicker":"Departamento: Servicios Operacionales — LEAP. Sigue el POE sección por sección." },
+    duration: 8,
+    sopId: 'CS11',
+    title: 'Case Entry — District Court AAs',
+    plainTitle: 'How to log an Assessor Authorization (AA) for a District Court Claim for Refund into IASWorld — start to finish.',
+    kicker: 'Department: Operational Services — LEAP. Follows the SOP section by section.',
+  },
+
+  // Definitions
+  {
+    kind: 'steps',
+    es: { "title":"Dos términos primero","sub":"Aparecen en cada paso.","steps":[{"label":"AA","desc":"Documento de Autorización del Tasador (Assessor Authorization) usado para procesamiento de Corte de Distrito."},{"label":"IASWorld","desc":"Sistema de evaluación y apelaciones de impuestos a la propiedad."}] },
+    duration: 11,
+    title: 'Two terms first',
+    sub: 'They appear in every step.',
+    steps: [
+      { label: 'AA', desc: 'Assessor Authorization document used for District Court processing.' },
+      { label: 'IASWorld', desc: 'Property tax assessment and appeals system.' },
+    ],
+  },
+
+  // Initial Setup
+  {
+    kind: 'steps',
+    es: { "title":"Paso 1 — Configuración Inicial","sub":"Abra el lugar correcto en IASWorld.","steps":[{"label":"Abra IASWorld Production","desc":"El ambiente de producción en vivo, no una instancia de prueba."},{"label":"Cambie el rol a \"Appeals\"","desc":"Menú arriba a la derecha. Toda la interfaz cambia según el rol."},{"label":"Abra el menú","desc":"Haga clic en el ícono de tres barras arriba a la izquierda."},{"label":"Transactions → Inquiries & Appeals By Parcel","desc":"Esto abre la pantalla que usará para el resto del procedimiento."}] },
+    duration: 17,
+    title: 'Step 1 — Initial Setup',
+    sub: 'Open the right place in IASWorld.',
+    steps: [
+      { label: 'Open IASWorld Production', desc: 'The live production environment, not a test instance.' },
+      { label: 'Switch role to "Appeals"', desc: 'Top-right dropdown. The whole UI changes based on role.' },
+      { label: 'Open the menu', desc: 'Click the three-bars icon at the top-left.' },
+      { label: 'Transactions → Inquiries & Appeals By Parcel', desc: 'This opens the screen you\'ll use for the rest of the procedure.' },
+    ],
+  },
+
+  // Pick the parcel
+  {
+    kind: 'steps',
+    es: { "title":"Paso 2 — Elija el parcel","sub":"El año fiscal primero, después el UPC. El orden importa.","steps":[{"label":"Configure el año fiscal","desc":"Menú \"Tax Year\" arriba a la derecha. Debe coincidir con el Tax Year marcado en el formulario AA."},{"label":"Ingrese el UPC de 18 dígitos","desc":"Barra de búsqueda \"Parcel ID\" arriba a la izquierda. Presione Enter o haga clic en la lupa."},{"label":"El archivo debe abrirse","desc":"Si no, verifique de nuevo el año fiscal y el UPC."}] },
+    duration: 15,
+    title: 'Step 2 — Pick the parcel',
+    sub: 'Tax year first, then UPC. The order matters.',
+    steps: [
+      { label: 'Set the tax year', desc: 'Top-right "Tax Year" dropdown. It must match the marked Tax Year on the AA form.' },
+      { label: 'Enter the 18-digit UPC', desc: 'Top-left "Parcel ID" search bar. Press Enter or click the magnifying glass.' },
+      { label: 'File should open', desc: 'If it doesn\'t, double-check the tax year and UPC.' },
+    ],
+  },
+
+  // Pre-flight checks
+  {
+    kind: 'bigstat',
+    es: { "stat":"Verifique","caption":"Antes de continuar","sub":"Confirme que el formulario AA tenga todas las firmas necesarias (cada línea excepto \"Case Entry\"). El nombre del propietario en el formulario AA debe coincidir con el \"Owner Name\" en IASWorld — títulos adicionales no necesitan ser una coincidencia exacta." },
+    duration: 11,
+    stat: 'Check it',
+    caption: 'Before continuing',
+    sub: 'Confirm the AA form has all the necessary signatures (every line except "Case Entry"). The owner name on the AA form must match the "Owner Name" in IASWorld — additional titles do not need to be an exact match.',
+    accent: SOP_PALETTE.terracotta,
+  },
+
+  // Step 3 — Asmt verification
+  {
+    kind: 'steps',
+    es: { "title":"Paso 3 — Verifique los Valores Evaluados","sub":"Pestaña Asmt. Compare cada categoría con el formulario AA.","steps":[{"label":"Haga clic en la pestaña Asmt","desc":"Cerca de la parte superior."},{"label":"Compare por categoría","desc":"Cada valor en el formulario AA con el valor en la pantalla."},{"label":"Si coinciden","desc":"Salte al Paso 4."},{"label":"Si no coinciden","desc":"PARE. Encuentre a quien firmó por ingresar los datos en el formulario AA. Aclare la discrepancia antes de continuar."}] },
+    duration: 18,
+    title: 'Step 3 — Verify Assessed Values',
+    sub: 'Asmt tab. Match each category to the AA form.',
+    steps: [
+      { label: 'Click Asmt tab', desc: 'Near the top of the screen.' },
+      { label: 'Compare by category', desc: 'Each value on the AA form to the value on the screen.' },
+      { label: 'If they match', desc: 'Skip to Step 4.' },
+      { label: 'If they don\'t match', desc: 'STOP. Find whoever signed for entering the data on the AA form. Clarify the discrepancy before continuing.' },
+    ],
+  },
+
+  // Step 4 — Change parcel status
+  {
+    kind: 'steps',
+    es: { "title":"Paso 4 — Cambiar el Estado del Parcel","sub":"Tres clics en la pestaña Hearings.","steps":[{"label":"Abra la pestaña Hearings","desc":"Pestañas de la fila superior."},{"label":"Haga clic en el menú \"Hearing Status\"","desc":"Lista los estados disponibles."},{"label":"Elija \"Resolved\"","desc":"Esto cierra el registro de audiencia anterior."}] },
+    duration: 14,
+    title: 'Step 4 — Change Parcel Status',
+    sub: 'Three clicks on the Hearings tab.',
+    steps: [
+      { label: 'Open Hearings tab', desc: 'Top-row tabs.' },
+      { label: 'Click the "Hearing Status" dropdown', desc: 'Lists the available statuses.' },
+      { label: 'Pick "Resolved"', desc: 'This closes the prior hearing record.' },
+    ],
+  },
+
+  // Step 5 — Validate the change
+  {
+    kind: 'steps',
+    es: { "title":"Paso 5 — Validar y Commit","sub":"Dos botones. Siempre en orden.","steps":[{"label":"Haga clic en Validate","desc":"Bajo la búsqueda Parcel ID. La línea Hearing Status se resalta en verde."},{"label":"Haga clic en Commit","desc":"Justo al lado de Validate. La línea de info marca su nombre + fecha + hora."}] },
+    duration: 14,
+    title: 'Step 5 — Validate & Commit',
+    sub: 'Two buttons. Always in order.',
+    steps: [
+      { label: 'Click Validate', desc: 'Under the Parcel ID search. Hearing Status line highlights green.' },
+      { label: 'Click Commit', desc: 'Right next to Validate. The info line stamps your name + date + time.' },
+    ],
+  },
+
+  // Special path — blank hearings
+  {
+    kind: 'bigstat',
+    es: { "stat":"¿En blanco?","caption":"¿Página Hearings vacía después de sacar el parcel?","sub":"No continúe aquí. Use el POE CS10 — Crear un Registro AA Faltante — para crear la entrada faltante primero, después regrese al Paso 6 abajo." },
+    duration: 13,
+    stat: 'Blank?',
+    caption: 'Hearings page empty after pulling up the parcel?',
+    sub: 'Don\'t continue here. Use SOP CS10 — Creating a Missing AA Record — to create the missing entry first, then come back to Step 6 below.',
+    accent: SOP_PALETTE.terracotta,
+  },
+
+  // Step 6 — Add Record
+  {
+    kind: 'bigstat',
+    es: { "stat":"+ Add","caption":"Paso 6 — Crear el nuevo registro","sub":"Haga clic en Add Record (bajo la búsqueda Parcel ID). Se abre un registro en blanco para el AA Parcel." },
+    duration: 10,
+    stat: '+ Add',
+    caption: 'Step 6 — Create the new record',
+    sub: 'Click Add Record (under the Parcel ID search). A blank record opens for the AA Parcel.',
+  },
+
+  // Step 7 — Setup the new record
+  {
+    kind: 'steps',
+    es: { "title":"Paso 7a — Configurar Type y Case #","sub":"Los primeros dos campos del nuevo registro.","steps":[{"label":"Type → AUT","desc":"Del menú Type."},{"label":"Haga clic en Assign para generar un Case #","desc":"IASWorld auto-genera y lo pone en el campo."},{"label":"Escriba el Case # en el formulario AA — en TINTA ROJA","desc":"A lo largo del lado derecho del formulario Y en la primera línea en blanco \"Case #\" del formulario."},{"label":"Escriba el año fiscal en la sección \"YR\"","desc":"La misma línea que el Case #."}] },
+    duration: 17,
+    title: 'Step 7a — Set Type & Case #',
+    sub: 'First two fields on the new record.',
+    steps: [
+      { label: 'Type → AUT', desc: 'From the Type dropdown.' },
+      { label: 'Click Assign to generate a Case #', desc: 'IASWorld auto-generates and drops it into the field.' },
+      { label: 'Write the Case # on the AA form — in RED INK', desc: 'Along the right side of the form AND in the form\'s first blank "Case #" line.' },
+      { label: 'Write the tax year in the "YR" section', desc: 'Same line as the Case #.' },
+    ],
+  },
+
+  // Filing date
+  {
+    kind: 'comparison',
+    es: { "title":"Paso 7b — El Filing Date","sub":"Sacado de uno de dos documentos fuente.","items":[{"tag":"Preferida","label":"Claim for Refund","desc":"Encuentre el Filing Date en el Claim for Refund (Complaint for Refund of Property Taxes Paid) Notice."},{"tag":"Respaldo","label":"Stipulated Final Judgement","desc":"Si el Claim for Refund Notice no está disponible, use el Filing Date del Stipulated Final Judgement."}] },
+    duration: 15,
+    title: 'Step 7b — The Filing Date',
+    sub: 'Pulled from one of two source documents.',
+    items: [
+      { tag: 'Preferred', label: 'Claim for Refund', accent: SOP_PALETTE.bosque, desc: 'Find the Filing Date on the Claim for Refund (Complaint for Refund of Property Taxes Paid) Notice.' },
+      { tag: 'Fallback', label: 'Stipulated Final Judgement', accent: SOP_PALETTE.terracotta, desc: 'If the Claim for Refund Notice is unavailable, use the Filing Date from the Stipulated Final Judgement instead.' },
+    ],
+  },
+
+  // Step 7c–e — Action / Reason / Hearing Status
+  {
+    kind: 'steps',
+    es: { "title":"Paso 7c–e — Tres menús","sub":"Llene en IASWorld en orden.","steps":[{"label":"Filing Date","desc":"Escríbalo O haga clic en el ícono del calendario y elija."},{"label":"Action → Authorization","desc":"Del menú Action."},{"label":"Reason → coincida con el formulario AA","desc":"Elija el mismo Reason Code marcado en el formulario AA."},{"label":"Hearing Status → Active","desc":"El nuevo registro está ahora Activo."}] },
+    duration: 15,
+    title: 'Step 7c–e — Three dropdowns',
+    sub: 'Fill in IASWorld in order.',
+    steps: [
+      { label: 'Filing Date', desc: 'Type it in OR click the calendar icon and pick.' },
+      { label: 'Action → Authorization', desc: 'From the Action dropdown.' },
+      { label: 'Reason → match the AA form', desc: 'Pick the same Reason Code that\'s marked on the AA form.' },
+      { label: 'Hearing Status → Active', desc: 'New record is now Active.' },
+    ],
+  },
+
+  // Step 7f — Owner info
+  {
+    kind: 'steps',
+    es: { "title":"Paso 7f — Información del propietario","sub":"Auto-rellenar cuando sea posible. Manual si no.","steps":[{"label":"Haga clic en las tres barras junto a \"Owner's Name\"","desc":"Se abre una ventana con la información del propietario."},{"label":"Seleccione el propietario → haga clic en Okay","desc":"Auto-rellena los campos de nombre y dirección."},{"label":"Alternativa manual","desc":"Si nada se auto-rellena, escriba el Owner Name y Address del formulario AA directamente en los campos."}] },
+    duration: 15,
+    title: 'Step 7f — Owner information',
+    sub: 'Auto-populate when possible. Manual fallback if it doesn\'t.',
+    steps: [
+      { label: 'Click the three-bars next to "Owner\'s Name"', desc: 'A popup opens with the owner\'s information.' },
+      { label: 'Select the owner → click Okay', desc: 'Auto-fills both name and address fields.' },
+      { label: 'Manual fallback', desc: 'If nothing auto-populates, type the Owner Name and Address from the AA form directly into the fields.' },
+    ],
+  },
+
+  // Step 7g — District Court Rec Date
+  {
+    kind: 'bigstat',
+    es: { "stat":"Misma fecha","caption":"Paso 7g — District Court Rec Date","sub":"Baje. Configure \"District Court Rec Date\" a la MISMA fecha que usó para Filing Date." },
+    duration: 10,
+    stat: 'Same date',
+    caption: 'Step 7g — District Court Rec Date',
+    sub: 'Scroll down. Set "District Court Rec Date" to the SAME date you used for Filing Date.',
+  },
+
+  // Step 7h–i — District Court Case #
+  {
+    kind: 'steps',
+    es: { "title":"Paso 7h-i — District Court Case #","sub":"Búsquelo en el Claim for Refund o Stipulated Final Judgement.","steps":[{"label":"Formato en el documento fuente","desc":"CV-AAAA-##### — por ejemplo, \"CV-2025-12345\"."},{"label":"Cuide el año","desc":"El año en el Case # NO siempre es el mismo que el Tax Year seleccionado. Escriba el año exactamente como aparece en el Case #."},{"label":"Ingrese en IASWorld con ESPACIOS, no guiones","desc":"CV-2025-12345 se convierte en \"CV 2025 12345\" en el campo District Court Case #."}] },
+    duration: 20,
+    title: 'Step 7h-i — District Court Case #',
+    sub: 'Look it up on the Claim for Refund or Stipulated Final Judgement.',
+    steps: [
+      { label: 'Format on the source document', desc: 'CV-YYYY-##### — for example, "CV-2025-12345".' },
+      { label: 'Watch the year', desc: 'The year in the Case # is NOT always the same as the selected Tax Year. Write the year exactly as it appears in the Case #.' },
+      { label: 'Enter in IASWorld with SPACES, not dashes', desc: 'CV-2025-12345 becomes "CV 2025 12345" in the District Court Case # field.' },
+    ],
+  },
+
+  // Step 8 — Validate
+  {
+    kind: 'bigstat',
+    es: { "stat":"Validate","caption":"Paso 8 — Validar el nuevo registro","sub":"Haga clic en Validate. Aparece una nueva línea en blanco sobre la línea anterior, marcada con su nombre y fecha/hora." },
+    duration: 10,
+    stat: 'Validate',
+    caption: 'Step 8 — Validate the new record',
+    sub: 'Click Validate. A new blank line appears above the previous line, stamped with your name and date/time.',
+  },
+
+  // Step 9 — Notes 1
+  {
+    kind: 'steps',
+    es: { "title":"Paso 9 — Agregar una Nota","sub":"Pestaña Notes1. Mismo patrón cada vez.","steps":[{"label":"Abra la pestaña Notes1","desc":"Cerca de la parte superior."},{"label":"Haga clic en Add","desc":"Inserta una nueva fila de nota."},{"label":"Número de secuencia en orden descendente","desc":"Próximo número después de la última nota. Presione Tab o haga clic en la columna Code."},{"label":"Seleccione \"District Court\" en la columna Code","desc":"Presione Tab dos veces o haga clic en la columna Comment."}] },
+    duration: 18,
+    title: 'Step 9 — Add a Note',
+    sub: 'Notes1 tab. Same pattern every time.',
+    steps: [
+      { label: 'Open the Notes1 tab', desc: 'Near the top of the screen.' },
+      { label: 'Click Add', desc: 'Inserts a new note row.' },
+      { label: 'Sequence # in descending order', desc: 'Next number after the last note. Hit Tab or click the Code column.' },
+      { label: 'Select "District Court" in the Code column', desc: 'Hit Tab twice or click the Comment column.' },
+    ],
+  },
+
+  // Comment format
+  {
+    kind: 'bigstat',
+    es: { "stat":"Plantilla","caption":"Plantilla de comentario — escríbala exacta","sub":"Treasure claim for refund for AA#[AA # de 6 dígitos] CV#[CV# con guiones] [Notas extras] [Sus iniciales] [DD.MM.AAAA]" },
+    duration: 15,
+    stat: 'Template',
+    caption: 'Comment template — write it exactly',
+    sub: 'Treasure claim for refund for AA#[6-digit AA #] CV#[CV# with dashes] [Any extra notes] [Your initials] [DD.MM.YYYY]',
+  },
+
+  {
+    kind: 'bigstat',
+    es: { "stat":"Ejemplo","caption":"Un comentario real","sub":"\"Treasure claim for refund for AA123456 CV 2025-12345 JD 01.01.2026\"" },
+    duration: 13,
+    stat: 'Example',
+    caption: 'A real comment',
+    sub: '"Treasure claim for refund for AA123456 CV 2025-12345 JD 01.01.2026"',
+    accent: SOP_PALETTE.bosque,
+  },
+
+  // Continuation rows
+  {
+    kind: 'bigstat',
+    es: { "stat":".01 .02","caption":"¿Necesita más espacio?","sub":"Agregue filas. Cada fila adicional usa el número de secuencia original más \".01, .02, .03…\". Así que la secuencia 22 continúa como 22.01, después 22.02 para dos filas extras." },
+    duration: 13,
+    stat: '.01 .02',
+    caption: 'Need more space?',
+    sub: 'Add rows. Each additional row uses the original sequence # plus ".01, .02, .03…". So sequence 22 continues as 22.01, then 22.02 for two extra rows.',
+  },
+
+  // Step 10 — Validate + Commit
+  {
+    kind: 'steps',
+    es: { "title":"Paso 10 — Finalizar el Parcel","sub":"Los mismos dos botones. El mismo orden.","steps":[{"label":"Haga clic en Validate","desc":"El botón Validate debe ponerse verde."},{"label":"Haga clic en Commit","desc":"Finaliza el registro del nuevo Parcel."}] },
+    duration: 14,
+    title: 'Step 10 — Finalize the Parcel',
+    sub: 'Same two buttons. Same order.',
+    steps: [
+      { label: 'Click Validate', desc: 'The Validate button should turn green.' },
+      { label: 'Click Commit', desc: 'Finalizes the new Parcel record.' },
+    ],
+  },
+
+  // Step 11 — Confirmation Email
+  {
+    kind: 'steps',
+    es: { "title":"Paso 11 — Correo de Confirmación","sub":"Destinatarios, archivos adjuntos, y línea de asunto todos importan.","steps":[{"label":"Para: contacto designado de Tesorería","desc":"Típicamente el Compliance Officer."},{"label":"CC: Diputado de Tesorería + usted mismo + el Tasador + Subtasador + Chief Appraiser","desc":"Más cualquier otro según instrucciones locales."},{"label":"Adjunte Claim for Refund + Stipulated Final Judgement","desc":"Sacados del folder del drive compartido para el año fiscal apropiado. Si no puede adjuntar directamente del drive, baje una copia local primero."},{"label":"Marque como High Importance","desc":"Después envíe. Verifique que no haya problemas de envío."}] },
+    duration: 20,
+    title: 'Step 11 — Confirmation Email',
+    sub: 'Recipients, attachments, and subject line all matter.',
+    steps: [
+      { label: 'To: designated Treasury contact', desc: 'Typically the Compliance Officer.' },
+      { label: 'CC: Deputy Treasurer + yourself + the Assessor + Deputy Assessor + Chief Appraiser', desc: 'Plus any others per local instructions.' },
+      { label: 'Attach Claim for Refund + Stipulated Final Judgement', desc: 'Pulled from the shared drive folder for the appropriate tax year. If you can\'t attach from the drive directly, download a local copy first.' },
+      { label: 'Mark as High Importance', desc: 'Then send. Verify there were no sending issues.' },
+    ],
+  },
+
+  // Email subject + body
+  {
+    kind: 'bigstat',
+    es: { "stat":"Asunto","caption":"Línea de asunto — escríbala exacta","sub":"\"Assessor AA# [AA# del Paso 7a] for [Nombre del Cliente] [Case # completo del Distrito] UPC: [UPC#]\"" },
+    duration: 15,
+    stat: 'Subject',
+    caption: 'Subject line — write it exactly',
+    sub: '"Assessor AA# [AA# from Step 7a] for [Client Name] [Full District Court Case #] UPC: [UPC#]"',
+  },
+  {
+    kind: 'bigstat',
+    es: { "stat":"Ejemplo","caption":"Un asunto real","sub":"\"Assessor AA# 123456 for Jane Doe CV 2026 12345 UPC: 123456789123456789\"" },
+    duration: 13,
+    stat: 'Example',
+    caption: 'A real subject',
+    sub: '"Assessor AA# 123456 for Jane Doe CV 2026 12345 UPC: 123456789123456789"',
+    accent: SOP_PALETTE.bosque,
+  },
+
+  // Shared drive path
+  {
+    kind: 'bigstat',
+    es: { "stat":"📁","caption":"Donde viven los adjuntos","sub":"Shared Drive (asadmin) → L.E.A.P. 2025 District Courts → 2025 Claim for Refund. Encuentre el folder que coincida con el nombre del cliente Y el UPC de 18 dígitos. (Sustituya el año fiscal actual según sea necesario.)" },
+    duration: 14,
+    stat: '📁',
+    caption: 'Where the attachments live',
+    sub: 'Shared Drive (asadmin) → L.E.A.P. 2025 District Courts → 2025 Claim for Refund. Find the folder that matches the client name AND the 18-digit UPC. (Substitute the current tax year as needed.)',
+  },
+
+  // Step 12 — Sign off
+  {
+    kind: 'bigstat',
+    es: { "stat":"Firme","caption":"Paso 12 — Firme el AA físico","sub":"Firme y feche la línea \"Case Entry\" en el formulario AA físico." },
+    duration: 10,
+    stat: 'Sign',
+    caption: 'Step 12 — Sign the physical AA',
+    sub: 'Sign and date the "Case Entry" line on the physical AA form.',
+  },
+
+  // Step 13 — Scan + upload
+  {
+    kind: 'steps',
+    es: { "title":"Paso 13 — Escanear y Subir","sub":"Escanee el paquete físico completo, después archívelo digitalmente.","steps":[{"label":"Escanee el paquete completo del formulario AA","desc":"Cada página."},{"label":"Mueva el escaneo a OneDrive o a su correo primero","desc":"Después cópielo al folder de AAs completados."},{"label":"Formato del nombre de archivo","desc":"[Nombre del Propietario] [AA#] [Case # de Distrito sin guiones] [UPC#] — ej. \"Jane Doe AA#123456 CV 1234 56789 UPC 123456789123456789\"."},{"label":"Ruta del drive compartido","desc":"Shared Drive (asadmin) → L.E.A.P 2025 District Courts → 2025 AAs (sustituya el año fiscal actual)."}] },
+    duration: 20,
+    title: 'Step 13 — Scan & Upload',
+    sub: 'Scan the entire physical packet, then file it digitally.',
+    steps: [
+      { label: 'Scan the entire physical AA Form packet', desc: 'Every page.' },
+      { label: 'Move scan to OneDrive or your email first', desc: 'Then copy into the completed-AAs folder.' },
+      { label: 'File name format', desc: '[Owner Name] [AA#] [District Court Case # without dashes] [UPC#] — e.g. "Jane Doe AA#123456 CV 1234 56789 UPC 123456789123456789".' },
+      { label: 'Shared drive path', desc: 'Shared Drive (asadmin) → L.E.A.P 2025 District Courts → 2025 AAs (substitute the current tax year).' },
+    ],
+  },
+
+  // Step 14 — Transfer
+  {
+    kind: 'comparison',
+    es: { "title":"Paso 14 — Transferir el paquete","sub":"Tanto la copia digital como el paquete físico.","items":[{"tag":"Digital","label":"Reenviar el escaneo","desc":"Reenvíe una copia del escaneo completo del AA al Records and Information Management Specialist designado de su oficina."},{"tag":"Físico","label":"Entregar el paquete","desc":"Lleve el paquete físico completo del AA al mismo Records and Information Management Specialist."}] },
+    duration: 14,
+    title: 'Step 14 — Transfer the packet',
+    sub: 'Both the digital copy and the physical packet.',
+    items: [
+      { tag: 'Digital', label: 'Forward scan', accent: SOP_PALETTE.bosque, desc: 'Forward a copy of the complete scan of the AA to your office\'s designated Records and Information Management Specialist.' },
+      { tag: 'Physical', label: 'Hand off packet', accent: SOP_PALETTE.terracotta, desc: 'Walk the completed physical AA packet over to the same Records and Information Management Specialist.' },
+    ],
+  },
+
+  // Quiz
+  {
+    kind: 'quiz',
+    es: { "question":"El District Court Case # en el documento fuente es CV-2025-12345. ¿Cómo lo ingresa en IASWorld?","options":["CV-2025-12345 (exactamente como está escrito)","CV 2025 12345 (espacios en vez de guiones)","CV202512345 (sin espacios, sin guiones)","2025-12345 (omitir el prefijo CV)"],"explanation":"En IASWorld, reemplace los guiones con espacios. El formato con guiones va en el comentario Notes1." }, duration: 17,
+    qNum: 1, qTotal: 2,
+    question: 'The District Court Case # on the source document is CV-2025-12345. How do you enter it in IASWorld?',
+    options: [
+      'CV-2025-12345 (exactly as written)',
+      'CV 2025 12345 (spaces instead of dashes)',
+      'CV202512345 (no spaces, no dashes)',
+      '2025-12345 (drop the CV prefix)',
+    ],
+    correctIndex: 1,
+    explanation: 'In IASWorld, replace the dashes with spaces. The dashed format goes into the Notes1 comment instead.',
+  },
+  {
+    kind: 'quiz',
+    es: { "question":"Saca un parcel y la página Hearings está en blanco. ¿Qué hace?","options":["Continuar con el Paso 4 — cambiar Hearing Status a Resolved","Pare. Use el POE CS10 para crear el registro AA faltante primero, después regrese al Paso 6.","Vuelva a ingresar el UPC y el año fiscal","Salte Hearings, vaya directo a Add Record"],"explanation":"Una página Hearings en blanco significa que no hay un registro AA para marcar como Resolved. Créelo vía CS10, después continúe desde el Paso 6." }, duration: 17,
+    qNum: 2, qTotal: 2,
+    question: 'You pull up a parcel and the Hearings page is blank. What do you do?',
+    options: [
+      'Continue with Step 4 — change Hearing Status to Resolved',
+      'Stop. Use SOP CS10 to create the missing AA record first, then come back to Step 6.',
+      'Re-enter the UPC and tax year',
+      'Skip Hearings, go straight to Add Record',
+    ],
+    correctIndex: 1,
+    explanation: 'A blank Hearings page means there\'s no AA record to mark Resolved. Create it via CS10, then continue from Step 6.',
+  },
+
+  {
+    kind: 'outro',
+    es: { "title":"Caso ingresado. Correo enviado. Paquete archivado.","sub":"Cada contacto de Tesorería informado, cada firma recolectada, cada registro en el folder compartido correcto." },
+    duration: 10,
+    title: 'Case entered. Email sent. Packet filed.',
+    sub: 'Every Treasury contact informed, every signature collected, every record in the right shared folder.',
+  },
+];
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <SOPVideo sopId="CS11" title="Case Entry for District Court AAs" scenes={scenes} />
+);
+</script>
+<template id="__bundler_thumbnail" data-bg-color="#0a0a0a"><svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg"><rect width="1200" height="800" fill="#0a0a0a"/><rect x="0" y="0" width="1200" height="120" fill="#285952"/><rect x="0" y="117" width="1200" height="3" fill="#e47756"/><g transform="translate(540, 320)"><circle cx="60" cy="60" r="60" fill="#e47756"/><polygon points="48,32 48,88 96,60" fill="#faf8f4"/></g><text x="600" y="560" text-anchor="middle" font-family="sans-serif" font-size="48" font-weight="900" fill="#faf8f4" letter-spacing="-1">SOP VIDEO</text></svg></template>
+</body>
+</html>

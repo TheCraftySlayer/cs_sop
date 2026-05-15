@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AIO03 · Chatbot Change Management · Animated SOP</title>
+<link rel="stylesheet" href="../lib/video.css">
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="../lib/animations.jsx"></script>
+<script type="text/babel" src="../lib/sop-video.jsx"></script>
+<script type="text/babel">
+const A = '../sop_assets/AIO03_Change_Management/';
+
+const scenes = [
+  {
+    kind: 'title',
+    duration: 8,
+    sopId: 'AIO03',
+    title: 'Chatbot Change Management',
+    plainTitle: 'How to change A.C.E. safely — Persona, KB files, Actions, and Configuration. One pattern, four change types.',
+    kicker: 'Department: AI Operations. Source, screenshot, save, test, publish, log.',
+    es: {
+      title: 'Gestión de Cambios del Chatbot',
+      plainTitle: 'Cómo cambiar A.C.E. de forma segura — Persona, archivos KB, Actions y Configuración. Un patrón, cuatro tipos de cambio.',
+      kicker: 'Departamento: Operaciones de IA. Fuente, captura, guardar, probar, publicar, registrar.',
+    },
+  },
+
+  // ═══════════════ THE COMMIT PATTERN ═══════════════
+  {
+    kind: 'bigstat',
+    duration: 11,
+    stat: 'Save + Publish',
+    caption: 'How changes commit in CustomGPT',
+    sub: 'Most changes require BOTH a Save (per tab) AND a Publish (top right). Editing a field is not enough — without both, your change does not reach the public A.C.E.',
+    accent: SOP_PALETTE.terracotta,
+    es: {
+      stat: 'Guardar + Publicar',
+      caption: 'Cómo se comprometen los cambios en CustomGPT',
+      sub: 'La mayoría de los cambios requieren AMBOS un Save (por pestaña) Y un Publish (arriba a la derecha). Editar un campo no es suficiente — sin ambos, su cambio no llega al A.C.E. público.',
+    },
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 17,
+    step: { num: 0, label: 'Commit pattern' },
+    caption: 'Two clicks. Both required.',
+    sub: 'If a change does not appear to take effect, this is almost always why.',
+    src: A + '2303ef4da7bc3eee648d1374683b3ee5febde5f3.jpg',
+    imgPos: 'right', imgFit: 'contain', imgAspect: 599/562,
+    bullets: [
+      { text: 'Save — bottom of the tab. Commits within CustomGPT.', color: SOP_PALETTE.bosque },
+      { text: 'Publish — top right. Pushes to end users.', color: SOP_PALETTE.terracotta },
+      { text: 'Exceptions: Actions toggle immediately. KB file uploads commit on upload.', color: SOP_PALETTE.muted },
+    ],
+    es: {
+      step: { num: 0, label: 'Patrón de commit' },
+      caption: 'Dos clics. Ambos requeridos.',
+      sub: 'Si un cambio no parece tomar efecto, casi siempre es por esto.',
+      bullets: [
+        { text: 'Save — fondo de la pestaña. Compromete dentro de CustomGPT.', color: SOP_PALETTE.bosque },
+        { text: 'Publish — arriba a la derecha. Empuja a usuarios finales.', color: SOP_PALETTE.terracotta },
+        { text: 'Excepciones: Actions activa al instante. Subidas de archivos KB se comprometen al subir.', color: SOP_PALETTE.muted },
+      ],
+    },
+  },
+
+  // ═══════════════ UNIVERSAL RULES ═══════════════
+  {
+    kind: 'steps',
+    duration: 22,
+    title: 'Universal rules — every change',
+    sub: 'Apply to all four change types. Skipping any of these is how mistakes ship to the public.',
+    steps: [
+      { label: 'Source the reason', desc: 'Statute citation, official form, written direction from Assessor or Deputy, or documented error from AIO01/AIO02. Never on hearsay.' },
+      { label: 'Screenshot before', desc: 'Capture the current state. This is your rollback reference.' },
+      { label: 'Save, then Publish', desc: 'Skipping either is the most common failure. Both, in that order.' },
+      { label: 'Test after', desc: 'Confirming test (the thing you changed works) + regression test (something you didn\'t touch still works).' },
+      { label: 'Canary query', desc: 'Ask: "What is the Low-Income Value Freeze income limit for TY 2026?" Must answer $44,200.' },
+      { label: 'Log the change', desc: 'Date, editor, what changed, source, test results. One change log covers all four types.' },
+    ],
+    es: {
+      title: 'Reglas universales — todo cambio',
+      sub: 'Aplican a los cuatro tipos. Saltarse cualquiera de estas es como llegan los errores al público.',
+      steps: [
+        { label: 'Documente la razón', desc: 'Cita de estatuto, formulario oficial, dirección escrita del Tasador o Subtasador, o error documentado de AIO01/AIO02. Nunca por rumor.' },
+        { label: 'Capture antes', desc: 'Capture el estado actual. Esta es su referencia de rollback.' },
+        { label: 'Save, después Publish', desc: 'Saltarse cualquiera es la falla más común. Ambos, en ese orden.' },
+        { label: 'Pruebe después', desc: 'Prueba confirmatoria (lo que cambió funciona) + prueba de regresión (algo que no tocó sigue funcionando).' },
+        { label: 'Canary query', desc: 'Pregunte: "¿Cuál es el límite de ingresos del Low-Income Value Freeze para el TY 2026?" Debe responder $44,200.' },
+        { label: 'Registre el cambio', desc: 'Fecha, editor, qué cambió, fuente, resultados de pruebas. Un solo registro cubre los cuatro tipos.' },
+      ],
+    },
+  },
+
+  // ═══════════════ FOUR CHANGE TYPES OVERVIEW ═══════════════
+  {
+    kind: 'comparison',
+    duration: 22,
+    title: 'Four change types',
+    sub: 'Pick the section that matches the change you are making.',
+    items: [
+      { tag: 'Section A', label: 'Persona', accent: SOP_PALETTE.bosque, desc: 'Tone, identity, rules, boundaries. ≈15 min per change. Publishes immediately — affects every conversation.' },
+      { tag: 'Section B', label: 'KB File', accent: SOP_PALETTE.terracotta, desc: 'Upload, replace, or remove a file source. ≈10 min per file. Commits on the upload/delete action itself.' },
+      { tag: 'Section C', label: 'Actions', accent: SOP_PALETTE.cypress, desc: 'Toggle agentic features. Takes effect on toggle — no separate Save, no separate Publish.' },
+      { tag: 'Section D', label: 'Configuration', accent: SOP_PALETTE.sage, desc: 'Personalize sub-tabs + source management. Requires BOTH Save Settings AND Publish.' },
+    ],
+    es: {
+      title: 'Cuatro tipos de cambio',
+      sub: 'Elija la sección que coincide con el cambio que está haciendo.',
+      items: [
+        { tag: 'Sección A', label: 'Persona', desc: 'Tono, identidad, reglas, límites. ≈15 min por cambio. Publica inmediatamente — afecta cada conversación.' },
+        { tag: 'Sección B', label: 'Archivo KB', desc: 'Subir, reemplazar o eliminar una fuente de archivo. ≈10 min por archivo. Se compromete al subir/eliminar.' },
+        { tag: 'Sección C', label: 'Actions', desc: 'Activar funciones agénticas. Toma efecto al activar — sin Save separado, sin Publish separado.' },
+        { tag: 'Sección D', label: 'Configuración', desc: 'Sub-pestañas de Personalize + gestión de fuentes. Requiere AMBOS Save Settings Y Publish.' },
+      ],
+    },
+  },
+
+  // ═══════════════ SECTION A — PERSONA ═══════════════
+  {
+    kind: 'bigstat',
+    duration: 8,
+    stat: 'Section A',
+    caption: 'Persona Change',
+    sub: 'Tone, identity, rules, and boundaries. Edits affect every conversation immediately on publish. Use only when a real change is required.',
+    es: {
+      stat: 'Sección A',
+      caption: 'Cambio de Persona',
+      sub: 'Tono, identidad, reglas y límites. Las ediciones afectan cada conversación inmediatamente al publicar. Use solo cuando se requiera un cambio real.',
+    },
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 20,
+    step: { num: 1, label: 'Persona' },
+    caption: 'Personalize → Persona.',
+    sub: 'Back up first, edit surgically, test three queries, then publish.',
+    src: A + '50c20336bb7a50f846a0022027bfff6698aa12c0.jpg',
+    imgPos: 'right', imgFit: 'contain', imgAspect: 1376/892,
+    bullets: [
+      { text: 'Back up — copy current persona to ace_persona_YYYY-MM-DD_before.txt', color: SOP_PALETTE.bosque },
+      { text: 'Edit + Save Changes — surgical edit, save inside editor', color: SOP_PALETTE.cypress },
+      { text: 'Test 3 queries — change + regression + canary', color: SOP_PALETTE.terracotta },
+      { text: 'Publish — top right. Or roll back if any test fails.', color: SOP_PALETTE.muted },
+    ],
+    es: {
+      step: { num: 1, label: 'Persona' },
+      caption: 'Personalize → Persona.',
+      sub: 'Respalde primero, edite con precisión, pruebe tres consultas, después publique.',
+      bullets: [
+        { text: 'Respalde — copie persona actual a ace_persona_YYYY-MM-DD_before.txt', color: SOP_PALETTE.bosque },
+        { text: 'Edite + Save Changes — edición quirúrgica, guarde dentro del editor', color: SOP_PALETTE.cypress },
+        { text: 'Pruebe 3 consultas — cambio + regresión + canary', color: SOP_PALETTE.terracotta },
+        { text: 'Publish — arriba a la derecha. O rollback si falla cualquier prueba.', color: SOP_PALETTE.muted },
+      ],
+    },
+  },
+
+  // ═══════════════ SECTION B — KB FILE ═══════════════
+  {
+    kind: 'bigstat',
+    duration: 8,
+    stat: 'Section B',
+    caption: 'KB File Change',
+    sub: 'Upload, replace, or remove a file source. ≈10 min per file. Commits on upload/delete — no separate Save.',
+    accent: SOP_PALETTE.terracotta,
+    es: {
+      stat: 'Sección B',
+      caption: 'Cambio de Archivo KB',
+      sub: 'Subir, reemplazar o eliminar una fuente de archivo. ≈10 min por archivo. Se compromete al subir/eliminar — sin Save separado.',
+    },
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 20,
+    step: { num: 2, label: 'KB File' },
+    caption: 'Build → Sources → File Upload.',
+    sub: 'Replace, add, or remove. Three ways to change a file source.',
+    src: A + '07e1d6d6ed99936f1c3f2df283615a26d35c7ba2.jpg',
+    imgPos: 'right', imgFit: 'contain', imgAspect: 1243/942,
+    bullets: [
+      { text: 'Replace — three-dot menu, delete old, upload new', color: SOP_PALETTE.bosque },
+      { text: 'Add — click + Add Source and upload', color: SOP_PALETTE.cypress },
+      { text: 'Remove — three-dot menu, delete', color: SOP_PALETTE.terracotta },
+    ],
+    es: {
+      step: { num: 2, label: 'Archivo KB' },
+      caption: 'Build → Sources → File Upload.',
+      sub: 'Reemplazar, añadir o eliminar. Tres formas de cambiar una fuente de archivo.',
+      bullets: [
+        { text: 'Reemplazar — menú de tres puntos, eliminar antiguo, subir nuevo', color: SOP_PALETTE.bosque },
+        { text: 'Añadir — clic en + Add Source y subir', color: SOP_PALETTE.cypress },
+        { text: 'Eliminar — menú de tres puntos, eliminar', color: SOP_PALETTE.terracotta },
+      ],
+    },
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 17,
+    step: { num: 3, label: 'Re-index' },
+    caption: 'Wait for re-indexing, then test.',
+    sub: 'Switch to Documents tab. Wait until Added and Available columns show "Ok" — usually 2-5 minutes.',
+    src: A + '6191a2f9cd5dba597582b04536c4f4403b3415e5.jpg',
+    imgPos: 'right', imgFit: 'contain', imgAspect: 1204/927,
+    bullets: [
+      { text: 'Added column = Ok — file has been processed', color: SOP_PALETTE.bosque },
+      { text: 'Available column = Ok — file is queryable', color: SOP_PALETTE.cypress },
+      { text: 'Test: ask the question this file should answer + one regression', color: SOP_PALETTE.terracotta },
+    ],
+    es: {
+      step: { num: 3, label: 'Re-indexar' },
+      caption: 'Espere la re-indexación, después pruebe.',
+      sub: 'Cambie a la pestaña Documents. Espere hasta que las columnas Added y Available muestren "Ok" — usualmente 2-5 minutos.',
+      bullets: [
+        { text: 'Columna Added = Ok — archivo procesado', color: SOP_PALETTE.bosque },
+        { text: 'Columna Available = Ok — archivo consultable', color: SOP_PALETTE.cypress },
+        { text: 'Pruebe: pregunte lo que este archivo debe responder + una regresión', color: SOP_PALETTE.terracotta },
+      ],
+    },
+  },
+
+  // ═══════════════ SECTION C — ACTIONS ═══════════════
+  {
+    kind: 'bigstat',
+    duration: 8,
+    stat: 'Section C',
+    caption: 'Actions Change',
+    sub: 'Toggle agentic features. Takes effect immediately on toggle. No Save, no Publish.',
+    es: {
+      stat: 'Sección C',
+      caption: 'Cambio de Actions',
+      sub: 'Activar funciones agénticas. Toma efecto inmediatamente al activar. Sin Save, sin Publish.',
+    },
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 20,
+    step: { num: 4, label: 'Actions' },
+    caption: 'Toggle, test, verify.',
+    sub: 'Document Analyst is mutually exclusive with Webpage Awareness and Custom Button. Disable conflicts first.',
+    src: A + '248ba5ce17c17b8a223e8e12019137bdebf0917e.jpg',
+    imgPos: 'left', imgFit: 'contain', imgAspect: 627/912,
+    bullets: [
+      { text: 'Screenshot the panel first — your rollback reference', color: SOP_PALETTE.bosque },
+      { text: 'Disable conflicts — Document Analyst vs. Webpage Awareness & Custom Button', color: SOP_PALETTE.terracotta },
+      { text: 'Toggle + canary + Action-specific test', color: SOP_PALETTE.cypress },
+      { text: 'Within 1 business day — verify telemetry counter behaves as expected', color: SOP_PALETTE.muted },
+    ],
+    es: {
+      step: { num: 4, label: 'Actions' },
+      caption: 'Active, pruebe, verifique.',
+      sub: 'Document Analyst es mutuamente excluyente con Webpage Awareness y Custom Button. Desactive conflictos primero.',
+      bullets: [
+        { text: 'Capture el panel primero — su referencia de rollback', color: SOP_PALETTE.bosque },
+        { text: 'Desactive conflictos — Document Analyst vs. Webpage Awareness y Custom Button', color: SOP_PALETTE.terracotta },
+        { text: 'Active + canary + prueba específica de la Action', color: SOP_PALETTE.cypress },
+        { text: 'Dentro de 1 día hábil — verifique que el contador de telemetría se comporte como se espera', color: SOP_PALETTE.muted },
+      ],
+    },
+  },
+
+  // ═══════════════ SECTION D — CONFIGURATION ═══════════════
+  {
+    kind: 'bigstat',
+    duration: 10,
+    stat: 'Section D',
+    caption: 'Configuration Change',
+    sub: 'Personalize sub-tabs + KB source management. Requires BOTH Save Settings AND Publish. This is where Save-without-Publish bites people.',
+    accent: SOP_PALETTE.terracotta,
+    es: {
+      stat: 'Sección D',
+      caption: 'Cambio de Configuración',
+      sub: 'Sub-pestañas de Personalize + gestión de fuentes KB. Requiere AMBOS Save Settings Y Publish. Aquí es donde Save-sin-Publish atrapa a la gente.',
+    },
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 20,
+    step: { num: 5, label: 'Configuration' },
+    caption: 'Personalize → target sub-tab.',
+    sub: 'General, Conversation, Citations, Intelligence, Advanced, or Security. One setting at a time — do not bundle.',
+    src: A + '220f95db667afdf7d350a79be98fbd956038c76f.jpg',
+    imgPos: 'right', imgFit: 'contain', imgAspect: 1376/927,
+    bullets: [
+      { text: 'Open sub-tab, change one setting only', color: SOP_PALETTE.bosque },
+      { text: 'Save Settings — bottom of the tab', color: SOP_PALETTE.cypress },
+      { text: 'Publish — top right of Personalize page', color: SOP_PALETTE.terracotta },
+      { text: 'Test: cosmetic, behavioral, model/grounding, or security', color: SOP_PALETTE.muted },
+    ],
+    es: {
+      step: { num: 5, label: 'Configuración' },
+      caption: 'Personalize → sub-pestaña objetivo.',
+      sub: 'General, Conversation, Citations, Intelligence, Advanced o Security. Un ajuste a la vez — no agrupe.',
+      bullets: [
+        { text: 'Abra la sub-pestaña, cambie solo un ajuste', color: SOP_PALETTE.bosque },
+        { text: 'Save Settings — fondo de la pestaña', color: SOP_PALETTE.cypress },
+        { text: 'Publish — arriba a la derecha de la página Personalize', color: SOP_PALETTE.terracotta },
+        { text: 'Pruebe: cosmético, conductual, modelo/grounding o seguridad', color: SOP_PALETTE.muted },
+      ],
+    },
+  },
+
+  {
+    kind: 'screenshot',
+    duration: 20,
+    step: { num: 6, label: 'Sources' },
+    caption: 'Source management — special case.',
+    sub: 'Build → Sources for websites, sitemaps, and YouTube. Three operations, all on the row\'s three-dot menu.',
+    src: A + '32d2e7c814b78c38f0cd0cc379c410eeff2dc0df.jpg',
+    imgPos: 'bottom', imgFit: 'contain', imgAspect: 1216/550,
+    bullets: [
+      { text: 'Add — + Add Source, paste URL. Initial sync: minutes to hours.', color: SOP_PALETTE.bosque },
+      { text: 'Pause sync — keeps existing docs, stops future ingestion', color: SOP_PALETTE.cypress },
+      { text: 'Remove — deletes all docs from that source', color: SOP_PALETTE.terracotta },
+    ],
+    es: {
+      step: { num: 6, label: 'Fuentes' },
+      caption: 'Gestión de fuentes — caso especial.',
+      sub: 'Build → Sources para sitios web, sitemaps y YouTube. Tres operaciones, todas en el menú de tres puntos de la fila.',
+      bullets: [
+        { text: 'Añadir — + Add Source, pegue URL. Sync inicial: minutos a horas.', color: SOP_PALETTE.bosque },
+        { text: 'Pausar sync — mantiene docs existentes, detiene ingestión futura', color: SOP_PALETTE.cypress },
+        { text: 'Eliminar — borra todos los docs de esa fuente', color: SOP_PALETTE.terracotta },
+      ],
+    },
+  },
+
+  // ═══════════════ NOTIFY TRIGGERS ═══════════════
+  {
+    kind: 'steps',
+    duration: 22,
+    title: 'Notify Assessor or Deputy BEFORE Publish',
+    sub: 'Beyond the universal Notify rules — these configuration changes always require advance notice.',
+    steps: [
+      { label: 'AI Model selection', desc: 'Especially switching to or from the Reasoning variant — credit cost doubles.' },
+      { label: 'Data Source Control', desc: 'Switching to "My Data + General LLM" broadens grounding and raises hallucination risk.' },
+      { label: 'Whitelisted Domains', desc: 'Enabling a whitelist disables Share Link deployment. Also notify office IT.' },
+      { label: 'Retention or Visibility', desc: 'Conversation Retention Period or Agent Visibility (Public vs. Private). Also notify office IT.' },
+      { label: 'Citations or Language', desc: 'Citations enable/disable, Agent Language. Affects how end users see and read responses.' },
+      { label: 'External or removed sources', desc: 'Adding a source outside Bernalillo County government domains, or removing a source currently in use.' },
+    ],
+    es: {
+      title: 'Notifique al Tasador o Subtasador ANTES de Publish',
+      sub: 'Más allá de las reglas universales — estos cambios de configuración siempre requieren aviso previo.',
+      steps: [
+        { label: 'Selección de AI Model', desc: 'Especialmente cambiar a/desde la variante Reasoning — el costo de créditos se duplica.' },
+        { label: 'Data Source Control', desc: 'Cambiar a "My Data + General LLM" amplía el grounding y eleva el riesgo de alucinación.' },
+        { label: 'Whitelisted Domains', desc: 'Habilitar una whitelist deshabilita el despliegue por Share Link. También notifique a TI de la oficina.' },
+        { label: 'Retention o Visibility', desc: 'Conversation Retention Period o Agent Visibility (Público vs. Privado). También notifique a TI de la oficina.' },
+        { label: 'Citations o Language', desc: 'Activar/desactivar Citations, Agent Language. Afecta cómo los usuarios finales ven y leen respuestas.' },
+        { label: 'Fuentes externas o eliminadas', desc: 'Añadir una fuente fuera de dominios del condado de Bernalillo, o eliminar una fuente en uso.' },
+      ],
+    },
+  },
+
+  // ═══════════════ QUIZ ═══════════════
+  {
+    kind: 'quiz', duration: 18,
+    qNum: 1, qTotal: 2,
+    question: 'You change a setting in Personalize → Conversation, click Save Settings, and walk away. End users see the change?',
+    options: [
+      'Yes — Save is enough',
+      'No — you also need to click Publish (top right)',
+      'Yes — but only after 5 minutes',
+      'No — Save in CustomGPT is the same as Publish',
+    ],
+    correctIndex: 1,
+    explanation: 'Save commits within CustomGPT. Publish (top right) is what pushes to end users. Skipping Publish is the single most common reason a configuration change doesn\'t appear live.',
+    es: {
+      question: 'Cambia un ajuste en Personalize → Conversation, hace clic en Save Settings y se va. ¿Los usuarios finales ven el cambio?',
+      options: [
+        'Sí — Save es suficiente',
+        'No — también necesita hacer clic en Publish (arriba a la derecha)',
+        'Sí — pero solo después de 5 minutos',
+        'No — Save en CustomGPT es lo mismo que Publish',
+      ],
+      explanation: 'Save compromete dentro de CustomGPT. Publish (arriba a la derecha) es lo que empuja a usuarios finales. Saltarse Publish es la razón más común por la que un cambio de configuración no aparece en vivo.',
+    },
+  },
+  {
+    kind: 'quiz', duration: 18,
+    qNum: 2, qTotal: 2,
+    question: 'After any change, what canary query do you run?',
+    options: [
+      '"What time does the office open?"',
+      '"What is the Low-Income Value Freeze income limit for TY 2026?" — must answer $44,200',
+      '"Who is the Assessor?"',
+      'Any random question',
+    ],
+    correctIndex: 1,
+    explanation: 'The canary is a fixed test with a known answer. If A.C.E. stops returning $44,200, something drifted — roll back and investigate before publishing more changes.',
+    es: {
+      question: 'Después de cualquier cambio, ¿qué canary query corre?',
+      options: [
+        '"¿A qué hora abre la oficina?"',
+        '"¿Cuál es el límite de ingresos del Low-Income Value Freeze para el TY 2026?" — debe responder $44,200',
+        '"¿Quién es el Tasador?"',
+        'Cualquier pregunta aleatoria',
+      ],
+      explanation: 'El canary es una prueba fija con respuesta conocida. Si A.C.E. deja de responder $44,200, algo se desvió — haga rollback e investigue antes de publicar más cambios.',
+    },
+  },
+
+  // Outro
+  {
+    kind: 'outro',
+    duration: 10,
+    title: 'Source. Screenshot. Save. Test. Publish. Log.',
+    sub: 'Same six steps, four change types. The canary keeps you honest.',
+    es: {
+      title: 'Documente. Capture. Save. Pruebe. Publish. Registre.',
+      sub: 'Los mismos seis pasos, cuatro tipos de cambio. El canary lo mantiene honesto.',
+    },
+  },
+];
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <SOPVideo sopId="AIO03" title="Chatbot Change Management" scenes={scenes} />
+);
+</script>
+<template id="__bundler_thumbnail" data-bg-color="#0a0a0a"><svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg"><rect width="1200" height="800" fill="#0a0a0a"/><rect x="0" y="0" width="1200" height="120" fill="#285952"/><rect x="0" y="117" width="1200" height="3" fill="#e47756"/><g transform="translate(540, 320)"><circle cx="60" cy="60" r="60" fill="#e47756"/><polygon points="48,32 48,88 96,60" fill="#faf8f4"/></g><text x="600" y="560" text-anchor="middle" font-family="sans-serif" font-size="48" font-weight="900" fill="#faf8f4" letter-spacing="-1">SOP VIDEO</text></svg></template>
+</body>
+</html>

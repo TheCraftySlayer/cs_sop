@@ -18,102 +18,225 @@ const A = '../sop_assets/CS04_Queue_Routing_and_Wait_Settings/';
 const scenes = [
   {
     kind: 'title',
-    duration: 5.5,
+    es: { "title":"Enrutamiento y Espera de Cola","plainTitle":"Cómo una cola de llamadas distribuye las llamadas a sus miembros y maneja el desbordamiento cuando nadie contesta.","kicker":"Cada cambio de enrutamiento afecta a cada llamante y cada miembro. Confirmación del Subtasador requerida antes de cualquier de esto." },
+    duration: 8,
     sopId: 'CS04',
     title: 'Queue Routing & Wait Settings',
-    plainTitle: 'How a queue picks who to ring, how long callers wait, and where the overflow goes.',
-    kicker: 'These changes affect every caller and every member. Deputy Assessor must confirm every one.',
+    plainTitle: 'How a call queue distributes calls to its members and handles overflow when nobody answers.',
+    kicker: 'Every routing change affects every caller and every member. Deputy Assessor confirmation required before any of this.',
   },
 
+  // Authorization
+  {
+    kind: 'bigstat',
+    es: { "stat":"Diputado","caption":"Autorización","sub":"Todos los cambios de enrutamiento y espera requieren confirmación del Subtasador ANTES de aplicarse. El enrutamiento mal configurado puede degradar el servicio para todos." },
+    duration: 10,
+    stat: 'Deputy',
+    caption: 'Authorization',
+    sub: 'All routing and wait setting changes require Deputy Assessor confirmation BEFORE they are applied. Misconfigured routing can degrade service for everyone.',
+    accent: SOP_PALETTE.terracotta,
+  },
+
+  // Where it lives
   {
     kind: 'screenshot',
-    duration: 8,
+    es: { "step":{"num":1,"label":"Donde vive"},"caption":"Call Handling & Members → Work hours.","sub":"Cinco pestañas en total: Work hours, Wait settings, Display settings, After hours, Custom rules. Un interruptor maestro, \"Forward all queue calls\", está arriba — déjelo en OFF en operación normal.","bullets":[{"text":"Schedule (enlace Edit schedule)"},{"text":"Route calls to members — menú de método de enrutamiento"},{"text":"Maximum concurrent calls per member"},{"text":"Include direct calls when calculating maximum"},{"text":"Number of rings before trying next member"},{"text":"After call wrap-up time"},{"text":"Allow members to change their queue status"}] },
+    duration: 15,
     step: { num: 1, label: 'Where it lives' },
     caption: 'Call Handling & Members → Work hours.',
-    sub: 'One tab. Top to bottom: schedule, routing method, concurrent calls, direct-call counting, rings before next member, wrap-up time, member self-service, then the roster itself.',
+    sub: 'Five tabs total: Work hours, Wait settings, Display settings, After hours, Custom rules. A master "Forward all queue calls" toggle sits at the top — leave OFF in normal operation.',
     src: A + '31edf086ac5b531979d9fa53b25bffdd7685d9c4.png',
     imgPos: 'right', imgFit: 'contain',
-  },
-
-  {
-    kind: 'comparison',
-    duration: 11,
-    title: 'Four ways to ring.',
-    sub: 'Pick the one that matches how your team actually handles calls.',
-    items: [
-      {
-        tag: 'Round-robin',
-        label: 'Rotating',
-        accent: SOP_PALETTE.bosque,
-        desc: 'Starts from the next person after the last answered call. Fair distribution.',
-      },
-      {
-        tag: 'Order matters',
-        label: 'Fixed order',
-        accent: SOP_PALETTE.terracotta,
-        desc: 'Position 1 rings first. Position 2 only if 1 doesn\'t answer. Drag to set order.',
-      },
-      {
-        tag: 'All at once',
-        label: 'Simultaneous',
-        accent: SOP_PALETTE.cypress,
-        desc: 'Everyone\'s phone rings. First to pick up wins.',
-      },
-      {
-        tag: 'Most rested',
-        label: 'Longest idle',
-        accent: SOP_PALETTE.sage,
-        desc: 'Routes to whoever has been idle the longest.',
-      },
+    bullets: [
+      { text: 'Schedule (Edit schedule link)', color: SOP_PALETTE.bosque },
+      { text: 'Route calls to members — routing method dropdown', color: SOP_PALETTE.bosque },
+      { text: 'Maximum concurrent calls per member', color: SOP_PALETTE.terracotta },
+      { text: 'Include direct calls when calculating max', color: SOP_PALETTE.terracotta },
+      { text: 'Number of rings before trying next member', color: SOP_PALETTE.cypress },
+      { text: 'After call wrap-up time', color: SOP_PALETTE.cypress },
+      { text: 'Allow members to change their queue status', color: SOP_PALETTE.cypress },
     ],
   },
 
+  // 4 routing methods
+  {
+    kind: 'comparison',
+    es: { "title":"Cuatro formas de sonar.","sub":"Elija la que coincida con cómo su equipo realmente maneja las llamadas.","items":[{"tag":"Por turnos","label":"Rotating","desc":"Cicla a través de los miembros empezando desde la posición después de la última llamada contestada. Distribución justa con el tiempo."},{"tag":"El orden importa","label":"Fixed order","desc":"Siempre suena en el orden de la lista. La Posición 1 recibe cada llamada primero. Posición 2 solo si 1 no contesta."},{"tag":"Todos a la vez","label":"Simultaneous","desc":"Todos los miembros suenan al mismo tiempo. El primero en contestar se queda con la llamada."},{"tag":"Más descansado","label":"Longest idle","desc":"Enruta la siguiente llamada al miembro que ha estado inactivo más tiempo."}] },
+    duration: 18,
+    title: 'Four ways to ring.',
+    sub: 'Pick the one that matches how your team actually handles calls.',
+    items: [
+      { tag: 'Round-robin', label: 'Rotating', accent: SOP_PALETTE.bosque, desc: 'Cycles through members starting from the next position after the last answered call. Fair distribution over time.' },
+      { tag: 'Order matters', label: 'Fixed order', accent: SOP_PALETTE.terracotta, desc: 'Always rings members in their listed order. Position 1 receives every call first. Position 2 only if 1 doesn\'t answer.' },
+      { tag: 'All at once', label: 'Simultaneous', accent: SOP_PALETTE.cypress, desc: 'All members ring at once. First to answer takes the call.' },
+      { tag: 'Most rested', label: 'Longest idle', accent: SOP_PALETTE.sage, desc: 'Routes the next call to the member who has been idle longest.' },
+    ],
+  },
+
+  // Fixed order
   {
     kind: 'screenshot',
-    duration: 7,
+    es: { "step":{"num":2,"label":"Orden fijo"},"caption":"Arrastre a las personas a su posición.","sub":"Si eligió Fixed order, la columna Order muestra números de posición con manijas para arrastrar. La Posición 1 recibe cada llamada primero; las posiciones 2+ suenan solo cuando la posición anterior no contesta." },
+    duration: 13,
     step: { num: 2, label: 'Fixed order' },
     caption: 'Drag people into position.',
-    sub: 'If you picked Fixed order, the Order column shows position numbers with drag handles. Position 1 receives every call first.',
+    sub: 'If you picked Fixed order, the Order column shows position numbers with drag handles. Position 1 receives every call first; positions 2+ ring only when the prior position fails to answer.',
     src: A + '1b0f715f54a9a6293497dce486b368ef59a1964b.png',
     imgPos: 'right', imgFit: 'contain',
   },
 
+  // Change the method
   {
     kind: 'steps',
-    duration: 10,
-    title: 'Tune the timing',
-    sub: 'Small dials with big consequences.',
+    es: { "title":"Cómo cambiar el método de enrutamiento","sub":"Cuatro clics. Después verifique con una llamada de prueba.","steps":[{"label":"Abra Call Handling & Members → Work hours","desc":"Ya está allí si siguió la escena anterior."},{"label":"Haga clic en el menú \"Route calls to members\"","desc":"Elija la opción deseada."},{"label":"Si es Fixed order — arrastre miembros en orden","desc":"Posición 1 arriba."},{"label":"Haga clic en Save · haga una llamada de prueba","desc":"O observe la siguiente llamada real en el registro de llamadas."}] },
+    duration: 13,
+    title: 'How to change the routing method',
+    sub: 'Four clicks. Then verify with a test call.',
     steps: [
-      { label: 'Rings before next member', desc: 'Shorter (10s) = calls move faster but harder to grab. Longer (50s) = each member has time but callers wait longer.' },
-      { label: 'After-call wrap-up time', desc: 'Zero seconds = back-to-back calls. Ten seconds = time to finish notes before the next call lands.' },
-      { label: 'Max concurrent calls', desc: 'Default is 1. Only increase if the role explicitly handles parallel calls.' },
-      { label: 'Allow members to change queue status', desc: 'Allow = members can pause themselves. Disallow = only admins can.' },
+      { label: 'Open Call Handling & Members → Work hours', desc: 'You\'re already there if you followed the last scene.' },
+      { label: 'Click the "Route calls to members" dropdown', desc: 'Pick the desired option.' },
+      { label: 'If Fixed order — drag members into sequence', desc: 'Position 1 at the top.' },
+      { label: 'Click Save · place a test call', desc: 'Or observe the next live call in the call log.' },
     ],
   },
 
+  // Ring + wrap-up timing
   {
-    kind: 'screenshot',
-    duration: 8,
-    step: { num: 3, label: 'Wait settings' },
-    caption: 'When the queue overflows.',
-    sub: 'On the Wait settings tab: cap callers waiting, set max wait, choose where they go when limits hit, and pick up to three Overflow Group queues.',
-    src: A + 'b4ba5a8d5cd347b27f5982c4048bfe7afa6ace46.png',
-    imgPos: 'right', imgFit: 'contain',
+    kind: 'steps',
+    es: { "title":"Ajustar el tiempo","sub":"Diales pequeños con grandes consecuencias.","steps":[{"label":"Timbres antes del siguiente miembro","desc":"Rango común: 2 timbres / 10 segundos → 10 timbres / 50 segundos. Más corto = las llamadas avanzan rápido pero es más difícil agarrarlas. Más largo = cada miembro tiene más tiempo, los que llaman esperan más."},{"label":"Tiempo de wrap-up después de la llamada","desc":"0 segundos = llamadas pegadas. 10 segundos = tiempo para terminar notas antes de que llegue la siguiente."},{"label":"Máximo de llamadas concurrentes por miembro","desc":"1 es el predeterminado. Auméntelo solo cuando los miembros estén explícitamente esperados a manejar llamadas paralelas."},{"label":"Incluir llamadas directas en el máximo de concurrentes","desc":"Marque la casilla si las llamadas a DID directas deben contar hacia el límite del miembro."},{"label":"Permitir a los miembros cambiar su queue status","desc":"Allow = los miembros pueden pausarse a sí mismos. Disallow = solo los admins."}] },
+    duration: 18,
+    title: 'Tune the timing',
+    sub: 'Small dials with big consequences.',
+    steps: [
+      { label: 'Rings before next member', desc: 'Common range: 2 rings / 10 seconds → 10 rings / 50 seconds. Shorter = calls move faster but harder to grab. Longer = each member has more time, callers wait longer.' },
+      { label: 'After call wrap-up time', desc: '0 seconds = back-to-back calls. 10 seconds = time to finish notes before the next call lands.' },
+      { label: 'Maximum concurrent calls per member', desc: '1 is the default. Only raise it when members are explicitly expected to handle parallel calls.' },
+      { label: 'Include direct calls in concurrent max', desc: 'Check the box if direct DID calls should count toward the per-member limit.' },
+      { label: 'Allow members to change queue status', desc: 'Allow = members can pause themselves. Disallow = only admins.' },
+    ],
   },
 
+  // Wait settings tab
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":3,"label":"Wait settings"},"caption":"Pestaña Wait settings — capacidad y desbordamiento.","sub":"Mismo panel, segunda pestaña. Siete ajustes determinan cuántos llamantes pueden esperar, cuánto tiempo, y a dónde van cuando se alcanzan los límites.","bullets":[{"text":"Number of callers allowed in queue — tope"},{"text":"When queue is full — usualmente Voicemail"},{"text":"Maximum caller wait time"},{"text":"When max wait reached — usualmente Voicemail"},{"text":"When no one answers — Wait for Primary and Overflow Members"},{"text":"Number of rings before next group"},{"text":"Overflow Group — hasta 3 colas de respaldo"}] },
+    duration: 17,
+    step: { num: 3, label: 'Wait settings' },
+    caption: 'Wait settings tab — capacity & overflow.',
+    sub: 'Same panel, second tab. Seven settings determine how many callers can wait, how long, and where they go when limits hit.',
+    src: A + 'b4ba5a8d5cd347b27f5982c4048bfe7afa6ace46.png',
+    imgPos: 'right', imgFit: 'contain',
+    bullets: [
+      { text: 'Number of callers allowed in queue — cap', color: SOP_PALETTE.bosque },
+      { text: 'When queue is full — usually Voicemail', color: SOP_PALETTE.bosque },
+      { text: 'Maximum caller wait time', color: SOP_PALETTE.terracotta },
+      { text: 'When max wait reached — usually Voicemail', color: SOP_PALETTE.terracotta },
+      { text: 'When no one answers — Wait for Primary and Overflow Members', color: SOP_PALETTE.cypress },
+      { text: 'Number of rings before next group', color: SOP_PALETTE.cypress },
+      { text: 'Overflow Group — up to 3 backup queues', color: SOP_PALETTE.cypress },
+    ],
+  },
+
+  // Overflow group
+  {
+    kind: 'steps',
+    es: { "title":"Configure el Overflow Group","sub":"Hasta tres colas de respaldo, en orden.","steps":[{"label":"Configure el disparador de desbordamiento","desc":"\"When members are available, but no members answer or all members are busy or unavailable\" → Wait for Primary and Overflow Members."},{"label":"Configure \"Number of rings before next group\"","desc":"0 timbres / 0 segundos para desbordamiento instantáneo. Valor distinto a cero para retraso."},{"label":"Elija hasta 3 colas de desbordamiento","desc":"Busque por nombre. Arrastre para fijar el orden en que se involucran."}] },
+    duration: 13,
+    title: 'Configure the Overflow Group',
+    sub: 'Up to three backup queues, in order.',
+    steps: [
+      { label: 'Set the overflow trigger', desc: '"When members are available, but no members answer or all members are busy or unavailable" → Wait for Primary and Overflow Members.' },
+      { label: 'Set "Number of rings before next group"', desc: '0 rings / 0 seconds for instant overflow. Non-zero for a delay.' },
+      { label: 'Pick up to 3 overflow queues', desc: 'Search by name. Drag to set the order they\'re engaged in.' },
+    ],
+  },
+
+  // Q1 → Q2 example
   {
     kind: 'bigstat',
-    duration: 6,
-    stat: '0s',
+    es: { "stat":"0 / 0","caption":"Estándar de Q1","sub":"Q1 (Oficina del Tasador, 160001) desborda instantáneamente a Q2 (Servicio al Cliente, 160002) en 0 timbres / 0 segundos. Ningún llamante escucha silencio." },
+    duration: 8,
+    stat: '0 / 0',
     caption: 'Q1 standard',
-    sub: 'Q1 (Assessor\'s Office, 160001) overflows instantly to Q2 (Assessor Customer Service, 160002) at 0 rings, 0 seconds. No caller hears dead silence.',
+    sub: 'Q1 (Assessor\'s Office, 160001) overflows instantly to Q2 (Customer Service, 160002) at 0 rings / 0 seconds. No caller hears dead silence.',
+  },
+
+  // Display + After hours tabs
+  {
+    kind: 'comparison',
+    es: { "title":"Las otras dos pestañas","sub":"Menos común tocarlas, pero vale la pena conocerlas.","items":[{"tag":"Display settings","label":"Cosmético","desc":"Formato de visualización de ID de llamadas que ven los miembros al recibir una llamada de cola. La mayoría son cosméticos — modifique solo cuando una solicitud específica de cambio de configuración lo requiera."},{"tag":"After hours","label":"Fuera del horario","desc":"Qué pasa cuando una llamada llega fuera de Work hours. Elija buzón de voz, una extensión (ej. chatbot A.C.E.), un número externo, o un anuncio. Depende del horario definido en la pestaña Work hours."}] },
+    duration: 15,
+    title: 'The other two tabs',
+    sub: 'Less common to touch, but worth knowing about.',
+    items: [
+      { tag: 'Display settings', label: 'Cosmetic', accent: SOP_PALETTE.bosque, desc: 'Caller ID display formatting members see when receiving a queue call. Most settings are cosmetic — modify only when a specific configuration change request requires it.' },
+      { tag: 'After hours', label: 'When schedule says closed', accent: SOP_PALETTE.terracotta, desc: 'What happens when a call lands outside Work hours. Pick voicemail, an extension (e.g. A.C.E. chatbot), an external number, or an announcement. Depends on the schedule defined on the Work hours tab.' },
+    ],
+  },
+
+  // Master toggle warning
+  {
+    kind: 'bigstat',
+    es: { "stat":"OFF","caption":"Interruptor maestro Forward all queue calls","sub":"Salta cada regla de cola. Déjelo en OFF en operación normal. Activarlo requiere Subtasador o Tasador — solo en circunstancias extraordinarias." },
+    duration: 8,
+    stat: 'OFF',
+    caption: 'Forward all queue calls master toggle',
+    sub: 'Bypasses every queue rule. Leave OFF in normal operation. Toggling it on requires Deputy Assessor or Assessor — used only in extraordinary circumstances.',
+    accent: SOP_PALETTE.terracotta,
+  },
+
+  // Change control
+  {
+    kind: 'steps',
+    es: { "title":"Después de cualquier cambio de enrutamiento","sub":"Cinco cosas — cada vez.","steps":[{"label":"Capture el estado anterior","desc":"Capture el panel. Esa es su forma de revertir."},{"label":"Aplique el cambio","desc":"Haga clic en Save. Confirme que se reflejen los nuevos valores."},{"label":"Verifique con una llamada de prueba","desc":"O revise las primeras llamadas reales en el registro."},{"label":"Monitoree Call Records por un día hábil","desc":"Los cambios de enrutamiento pueden degradar el servicio de formas no obvias."},{"label":"Regístrelo en el RingCentral Change Log","desc":"Fecha, cola, ajuste, anterior, nuevo, autorizador, aplicador, motivo, resultado."}] },
+    duration: 15,
+    title: 'After any routing change',
+    sub: 'Five things — every time.',
+    steps: [
+      { label: 'Snapshot the prior state', desc: 'Screenshot the panel. That\'s your rollback.' },
+      { label: 'Apply the change', desc: 'Click Save. Confirm the new values are reflected.' },
+      { label: 'Verify with a test call', desc: 'Or review the first live calls in the call log.' },
+      { label: 'Monitor Call Records for a business day', desc: 'Routing changes can degrade service in non-obvious ways.' },
+      { label: 'Log in the RingCentral Change Log', desc: 'Date, queue, setting, prior, new, authorizer, applier, reason, result.' },
+    ],
+  },
+
+  // Quiz
+  {
+    kind: 'quiz',
+    es: { "title":"Guardar. Probar. Vigilar el registro.","sub":"Haga una llamada de prueba, después vigile el panel de Call Records por un día hábil completo. Los cambios de enrutamiento se propagan." }, duration: 17,
+    qNum: 1, qTotal: 2,
+    question: 'A queue uses "Fixed order" routing. Position 1 doesn\'t answer. What happens next?',
+    options: [
+      'The call goes to voicemail',
+      'The call rings Position 2',
+      'The call goes immediately to overflow',
+      'The caller is disconnected',
+    ],
+    correctIndex: 1,
+    explanation: 'Fixed order always rings members in their listed sequence. Position 2 only rings AFTER Position 1 fails.',
+  },
+  {
+    kind: 'quiz',
+    es: { "question":"Una cola usa enrutamiento \"Fixed order\". La Posición 1 no contesta. ¿Qué pasa después?","options":["La llamada va a buzón de voz","La llamada suena a la Posición 2","La llamada va inmediatamente al desbordamiento","El llamante se desconecta"],"explanation":"Fixed order siempre suena a los miembros en su secuencia listada. La Posición 2 solo suena DESPUÉS de que la Posición 1 falle." }, duration: 17,
+    qNum: 2, qTotal: 2,
+    question: 'What is the standard Overflow Group setting for Q1?',
+    options: [
+      'Wait 30 seconds, then overflow to Q3',
+      'Instant overflow to Q2 at 0 rings / 0 seconds',
+      'No overflow configured',
+      'Forward to A.C.E. chatbot',
+    ],
+    correctIndex: 1,
+    explanation: 'Q1 (160001) overflows instantly to Q2 (160002). No caller hears dead silence.',
   },
 
   {
     kind: 'outro',
-    duration: 6,
+    es: { "question":"¿Cuál es la configuración estándar de Overflow Group para Q1?","options":["Esperar 30 segundos, luego desbordar a Q3","Desbordamiento instantáneo a Q2 en 0 timbres / 0 segundos","Sin desbordamiento configurado","Reenviar al chatbot A.C.E."],"explanation":"Q1 (160001) desborda instantáneamente a Q2 (160002). Ningún llamante escucha silencio." },
+    duration: 10,
     title: 'Save. Test. Watch the log.',
-    sub: 'Place a test call, then watch the Call Records dashboard for a full business day.',
+    sub: 'Place a test call, then watch the Call Records dashboard for a full business day. Routing changes ripple.',
   },
 ];
 
@@ -121,5 +244,17 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <SOPVideo sopId="CS04" title="Queue Routing & Wait Settings" scenes={scenes} />
 );
 </script>
+<template id="__bundler_thumbnail" data-bg-color="#0a0a0a">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#0a0a0a"/>
+    <rect x="0" y="0" width="1200" height="120" fill="#285952"/>
+    <rect x="0" y="117" width="1200" height="3" fill="#e47756"/>
+    <g transform="translate(540, 320)">
+      <circle cx="60" cy="60" r="60" fill="#e47756"/>
+      <polygon points="48,32 48,88 96,60" fill="#faf8f4"/>
+    </g>
+    <text x="600" y="560" text-anchor="middle" font-family="sans-serif" font-size="48" font-weight="900" fill="#faf8f4" letter-spacing="-1">SOP VIDEO</text>
+  </svg>
+</template>
 </body>
 </html>

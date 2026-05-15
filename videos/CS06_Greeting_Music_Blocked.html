@@ -18,73 +18,209 @@ const A = '../sop_assets/CS06_Queue_Greeting_Hold_Music_Blocked_Calls/';
 const scenes = [
   {
     kind: 'title',
-    duration: 5.5,
+    es: { "title":"Saludos, Música y Llamadas Bloqueadas","plainTitle":"Cómo configurar el saludo de bienvenida, mensajes de espera, música de espera y reglas de bloqueo de llamadas para una cola.","kicker":"Tres pestañas bajo Greeting & Hold Music: Work hours, After hours, y Blocked calls." },
+    duration: 8,
     sopId: 'CS06',
-    title: 'Greetings, Music, & Blocked Calls',
-    plainTitle: 'How a caller\'s ears experience your queue — and how to keep junk traffic out.',
+    title: 'Greetings, Music & Blocked Calls',
+    plainTitle: 'How to configure the welcome greeting, wait messages, hold music, and call-blocking rules for a queue.',
     kicker: 'Three tabs under Greeting & Hold Music: Work hours, After hours, and Blocked calls.',
   },
 
+  // Authorization
   {
-    kind: 'screenshot',
-    duration: 9,
-    step: { num: 1, label: 'Welcome & wait' },
-    caption: 'What plays when they arrive.',
-    sub: 'A welcome greeting plays once when the caller enters the queue. Wait announcements play periodically while they hold. Position-in-queue and estimated wait time are premium features.',
-    src: A + 'dab1781cec1131224cfcbc17e1ceda2e2b36cefc.png',
-    imgPos: 'right', imgFit: 'contain',
-  },
-
-  {
-    kind: 'screenshot',
-    duration: 9,
-    step: { num: 2, label: 'Music' },
-    caption: 'Two different music tracks.',
-    sub: 'Waiting in queue music plays BEFORE an agent picks up. Hold music plays AFTER an agent picks up and puts the caller on hold. They\'re separate — both have Enable toggles and Edit buttons.',
-    src: A + '3d7eea2b50d95e94e7de225c73bf26b8ad69d4c2.png',
-    imgPos: 'right', imgFit: 'contain',
-    bullets: [
-      { text: 'Repeat interval — typically every 15 seconds', color: SOP_PALETTE.bosque },
-      { text: 'Match the queue\'s purpose (Spanish greeting in Spanish, etc.)', color: SOP_PALETTE.terracotta },
+    kind: 'comparison',
+    es: { "title":"Dos niveles de autorización","sub":"Cambios diferentes necesitan firmas diferentes.","items":[{"tag":"Audio","label":"Subtasador","desc":"Cambios de saludo, mensajes de espera y música — Subtasador a cargo del Servicio al Cliente."},{"tag":"Bloqueos","label":"CSM o Subtasador","desc":"Bloqueos por número para llamantes molestos conocidos — Gerente de Servicio al Cliente. Bloqueos por código de área o cambios en la lista blanca que afecten categorías de enrutamiento — Subtasador."}] },
+    duration: 14,
+    title: 'Two authorization tiers',
+    sub: 'Different changes need different sign-offs.',
+    items: [
+      { tag: 'Audio', label: 'Deputy', accent: SOP_PALETTE.bosque, desc: 'Greeting, wait messages, and music changes — Deputy Assessor overseeing Customer Service.' },
+      { tag: 'Blocks', label: 'CSM or Deputy', accent: SOP_PALETTE.terracotta, desc: 'Per-number blocks for known nuisance callers — Customer Service Manager. Area-code blocks or whitelisting changes that affect routing categories — Deputy Assessor.' },
     ],
   },
 
+  // Vocabulary
   {
-    kind: 'screenshot',
-    duration: 9,
-    step: { num: 3, label: 'Block calls' },
-    caption: 'Filter out the junk.',
-    sub: 'On the Blocked calls tab: block specific numbers, whole area codes, calls with no caller ID, and calls from pay phones. The "Callers will hear" message plays to anyone you block.',
-    src: A + '784c3c72f5cf0d10cd18e5777d0b6f2728658e9c.png',
-    imgPos: 'right', imgFit: 'contain',
+    kind: 'steps',
+    es: { "title":"Cinco palabras que mantener claras","sub":"Suenan similar. Se reproducen en momentos diferentes.","steps":[{"label":"Welcome greeting","desc":"Se reproduce UNA VEZ cuando el llamante se agrega a la cola."},{"label":"Wait announcement","desc":"Se reproduce periódicamente mientras el llamante espera."},{"label":"Waiting in queue music","desc":"Música que se reproduce ANTES de que cualquier agente conteste."},{"label":"Hold music","desc":"Música que se reproduce DESPUÉS de que un agente contesta y pone al llamante en espera. Configuración separada de la música de espera en cola."},{"label":"Trusted numbers","desc":"Lista blanca que omite todas las reglas de bloqueo."}] },
+    duration: 17,
+    title: 'Five words to keep straight',
+    sub: 'They sound similar. They play at different moments.',
+    steps: [
+      { label: 'Welcome greeting', desc: 'Plays once when the caller is added to the queue.' },
+      { label: 'Wait announcement', desc: 'Played periodically while the caller waits.' },
+      { label: 'Waiting in queue music', desc: 'Music played BEFORE any agent answers.' },
+      { label: 'Hold music', desc: 'Music played AFTER an agent has answered and then placed the caller on hold. Separate setting from waiting music.' },
+      { label: 'Trusted numbers', desc: 'Whitelist that bypasses all blocking rules.' },
+    ],
   },
 
+  // 1 — Work hours tab (top)
   {
     kind: 'screenshot',
-    duration: 8,
-    step: { num: 4, label: 'Pay phones & no-ID' },
-    caption: 'Two more switches at the bottom.',
-    sub: 'Block calls from pay phones (an enable toggle plus its own recorded message), and decide what to do with calls that come in with no caller ID. Anonymous blocking cuts noise but blocks legitimate privacy-conscious callers too.',
+    es: { "step":{"num":1,"label":"Work hours — arriba"},"caption":"Welcome greeting + mensajes de espera.","sub":"Parte superior de la pestaña Work hours. Los mensajes de espera se reproducen en orden: Wait announcement, Position in queue, Estimated wait time, Callback request.","bullets":[{"text":"Welcome greeting — Enable, tipo (Default o Custom), Edit"},{"text":"Wait announcement — se repite mientras espera"},{"text":"Position in queue — función premium"}] },
+    duration: 15,
+    step: { num: 1, label: 'Work hours — top' },
+    caption: 'Welcome greeting + wait messages.',
+    sub: 'Top of the Work hours tab. The wait messages play in order: Wait announcement, Position in queue, Estimated wait time, Callback request.',
+    src: A + 'dab1781cec1131224cfcbc17e1ceda2e2b36cefc.png',
+    imgPos: 'right', imgFit: 'contain',
+    bullets: [
+      { text: 'Welcome greeting — Enable, type (Default or Custom), Edit', color: SOP_PALETTE.bosque },
+      { text: 'Wait announcement — repeats while caller holds', color: SOP_PALETTE.terracotta },
+      { text: 'Position in queue — premium feature', color: SOP_PALETTE.cypress },
+    ],
+  },
+
+  // 2 — Work hours tab (bottom — music)
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":2,"label":"Work hours — abajo"},"caption":"Controles de tiempo + dos pistas de música.","sub":"Mitad inferior de la pestaña.","bullets":[{"text":"Estimated wait time + Callback request — premium"},{"text":"Cuándo reproducir mensajes — entrada, durante la espera, ambos"},{"text":"Típico: While waiting in queue, cada 15 segundos"},{"text":"Waiting in queue music — Enable, selección (ej. Acoustic), Edit"},{"text":"Hold music — Enable separado, selección separada"}] },
+    duration: 17,
+    step: { num: 2, label: 'Work hours — bottom' },
+    caption: 'Timing controls + two music tracks.',
+    sub: 'Bottom half of the tab.',
+    src: A + '3d7eea2b50d95e94e7de225c73bf26b8ad69d4c2.png',
+    imgPos: 'right', imgFit: 'contain',
+    bullets: [
+      { text: 'Estimated wait time + Callback request — premium', color: SOP_PALETTE.bosque },
+      { text: 'When to play wait messages — entry, while waiting, both', color: SOP_PALETTE.bosque },
+      { text: 'Typical: While waiting in queue, every 15 seconds', color: SOP_PALETTE.terracotta },
+      { text: 'Waiting in queue music — Enable, selection (e.g. Acoustic), Edit', color: SOP_PALETTE.cypress },
+      { text: 'Hold music — separate Enable, separate selection', color: SOP_PALETTE.cypress },
+    ],
+  },
+
+  // 3 — How to update greeting
+  {
+    kind: 'steps',
+    es: { "title":"Actualizar el saludo de bienvenida","sub":"Haga clic en Edit bajo el reproductor de audio.","steps":[{"label":"Haga clic en Edit bajo Welcome greeting","desc":"Tres opciones: subir un archivo pregrabado, grabar desde un teléfono, o grabar desde un micrófono de computadora."},{"label":"Guarde y reproduzca","desc":"Confirme que suene correcto antes de irse."},{"label":"Coincida con el propósito de la cola","desc":"Saludo de cola en español en español. Saludo del conmutador que establece expectativas del llamante."}] },
+    duration: 14,
+    title: 'Update the welcome greeting',
+    sub: 'Click Edit under the audio player.',
+    steps: [
+      { label: 'Click Edit under Welcome greeting', desc: 'Three options: upload a pre-recorded file, record from a phone, or record from a computer microphone.' },
+      { label: 'Save and play back', desc: 'Confirm it sounds correct before walking away.' },
+      { label: 'Match the queue\'s purpose', desc: 'Spanish-queue greeting in Spanish. Switchboard greeting that sets caller expectations.' },
+    ],
+  },
+
+  // 4 — After hours tab
+  {
+    kind: 'bigstat',
+    es: { "stat":"Misma UI","caption":"Pestaña After hours","sub":"Configura el saludo y los mensajes de espera reproducidos fuera del horario de oficina. Típicamente un mensaje breve indicando las horas y dirigiendo a los llamantes a recursos alternativos (chatbot A.C.E., sitio web). Mismo procedimiento de edición que Work hours." },
+    duration: 10,
+    stat: 'Same UI',
+    caption: 'After hours tab',
+    sub: 'Configures the greeting and wait messages played outside business hours. Typically a brief message stating hours and directing callers to alternative resources (A.C.E. chatbot, website). Same edit procedure as Work hours.',
+  },
+
+  // 5 — Blocked calls — top
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":3,"label":"Blocked calls — arriba"},"caption":"Cinco categorías de filtrado en una pestaña.","sub":"Mitad superior. El menú \"Block option\" establece la categoría de nivel superior. Las entradas por número aterrizan en \"Only block these numbers or area codes\".","bullets":[{"text":"Block option — menú de nivel superior"},{"text":"Only block these numbers or area codes — entrada + Add"},{"text":"Callers will hear — mensaje de llamada bloqueada"},{"text":"Robocalls — manejado por ajustes de cuenta"},{"text":"Trusted numbers — lista blanca que omite el bloqueo"}] },
+    duration: 15,
+    step: { num: 3, label: 'Blocked calls — top' },
+    caption: 'Five filtering categories on one tab.',
+    sub: 'Top half. The "Block option" dropdown sets the top-level category. Per-number entries land in "Only block these numbers or area codes".',
+    src: A + '784c3c72f5cf0d10cd18e5777d0b6f2728658e9c.png',
+    imgPos: 'right', imgFit: 'contain',
+    bullets: [
+      { text: 'Block option — top-level dropdown', color: SOP_PALETTE.bosque },
+      { text: 'Only block these numbers or area codes — entry + Add', color: SOP_PALETTE.bosque },
+      { text: 'Callers will hear — the blocked-call message', color: SOP_PALETTE.terracotta },
+      { text: 'Robocalls — handled per account-wide settings', color: SOP_PALETTE.cypress },
+      { text: 'Trusted numbers — whitelist that bypasses blocking', color: SOP_PALETTE.cypress },
+    ],
+  },
+
+  // 6 — Blocked calls — bottom
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":4,"label":"Blocked calls — abajo"},"caption":"Sin ID + teléfonos públicos.","sub":"Mitad inferior. Cada uno tiene su propio interruptor Enable y un mensaje grabable por separado." },
+    duration: 13,
+    step: { num: 4, label: 'Blocked calls — bottom' },
+    caption: 'No caller ID + pay phones.',
+    sub: 'Bottom half. Each has its own Enable toggle and a separately recordable message.',
     src: A + '0de448d8cf3d724d8ea4196d6b1a4817e90f235e.png',
     imgPos: 'right', imgFit: 'contain',
   },
 
+  // 7 — Block vs trust
   {
     kind: 'comparison',
-    duration: 9,
+    es: { "title":"Bloquear vs. confiar","sub":"Misma pestaña. Efectos opuestos.","items":[{"tag":"Lista negra","label":"Bloquear estos","desc":"Ingrese un número completo de 10 dígitos o un código de área de 3 dígitos. Nombre opcional para documentación. Haga clic en + Add. Haga clic en Save. Nunca llegan a una persona — escuchan el mensaje de bloqueo."},{"tag":"Lista blanca","label":"Trusted numbers","desc":"Ingrese el número completo y nombre opcional. Haga clic en + Add. Las llamadas de este número omiten cada regla de bloqueo. Use para funcionarios del condado, proveedores, socios."}] },
+    duration: 15,
     title: 'Block vs. trust',
-    sub: 'Same two-column section on the page. Opposite effects.',
+    sub: 'Same tab. Opposite effects.',
     items: [
-      { tag: 'Blocklist', label: 'Block these', accent: SOP_PALETTE.terracotta, desc: 'Per-number or area-code blocks. Add via the "Only block these numbers or area codes" field. They never reach a person.' },
-      { tag: 'Whitelist', label: 'Trusted numbers', accent: SOP_PALETTE.bosque, desc: 'Calls from these numbers bypass every blocking rule. Use for county officials, vendors, and partners whose calls must always come through.' },
+      { tag: 'Blocklist', label: 'Block these', accent: SOP_PALETTE.terracotta, desc: 'Enter a full 10-digit number or a 3-digit area code. Optional Name for documentation. Click + Add. Click Save. They never reach a person — they hear the blocked-call message.' },
+      { tag: 'Whitelist', label: 'Trusted numbers', accent: SOP_PALETTE.bosque, desc: 'Enter the full phone number and optional Name. Click + Add. Calls from this number bypass every blocking rule. Use for county officials, vendors, partners.' },
     ],
+  },
+
+  // 8 — No caller ID warning
+  {
+    kind: 'bigstat',
+    es: { "stat":"Pondere","caption":"Bloquear llamadas sin ID","sub":"Las llamadas anónimas son fuentes comunes de tráfico no deseado. Bloquearlas reduce el ruido — pero también bloquea a llamantes legítimos con ajustes de privacidad. Pondérelo contra los datos demográficos esperados de llamantes antes de activarlo." },
+    duration: 11,
+    stat: 'Weigh it',
+    caption: 'Block calls with no caller ID',
+    sub: 'Anonymous calls are common sources of unwanted traffic. Blocking them reduces noise — but also blocks legitimate callers with privacy settings. Weigh against expected caller demographics before flipping.',
+    accent: SOP_PALETTE.terracotta,
+  },
+
+  // 9 — Verify
+  {
+    kind: 'steps',
+    es: { "title":"Después de cualquier cambio","sub":"Un bloqueo mal puesto envía llamantes reales al silencio. Siempre pruebe antes de irse.","steps":[{"label":"Haga clic en Save","desc":"Nada aplica hasta que presione Save."},{"label":"Pruebe desde un teléfono real no bloqueado","desc":"Confirme que el tráfico normal sigue fluyendo."},{"label":"Si agregó un número por error","desc":"Los llamantes de ese número escucharán el mensaje de bloqueo en lugar de llegar al personal. Quite la entrada y vuelva a probar."},{"label":"Registre el cambio","desc":"Fecha, cola, ajuste, anterior, nuevo, autorizador, aplicador, motivo, resultado."}] },
+    duration: 14,
+    title: 'After any change',
+    sub: 'A misplaced block sends real callers to silence. Always test before walking away.',
+    steps: [
+      { label: 'Click Save', desc: 'Nothing applies until you press Save.' },
+      { label: 'Test from a real non-blocked phone', desc: 'Confirm normal traffic still flows through.' },
+      { label: 'If a number was added by mistake', desc: 'Callers from that number will hear the blocked-call message instead of reaching staff. Remove the entry and re-test.' },
+      { label: 'Log the change', desc: 'Date, queue, setting, prior, new, authorizer, applier, reason, result.' },
+    ],
+  },
+
+  // Quiz
+  {
+    kind: 'quiz',
+    es: { "title":"Guardar. Probar desde un teléfono real.","sub":"Los oídos del llamante deciden si su cambio funcionó. Siempre verifique con una llamada real antes de registrarlo como hecho." }, duration: 17,
+    qNum: 1, qTotal: 2,
+    question: 'What\'s the difference between "Waiting in queue music" and "Hold music"?',
+    options: [
+      'Hold music is louder',
+      'Waiting music plays BEFORE an agent answers; hold music plays AFTER, when the agent puts the caller on hold',
+      'They\'re the same setting',
+      'Hold music only plays in Q1',
+    ],
+    correctIndex: 1,
+    explanation: 'They\'re separate Enable + Edit controls. Different moments in the call.',
+  },
+  {
+    kind: 'quiz',
+    es: { "question":"¿Cuál es la diferencia entre \"Waiting in queue music\" y \"Hold music\"?","options":["Hold music es más fuerte","Waiting music se reproduce ANTES de que un agente conteste; hold music DESPUÉS, cuando el agente pone al llamante en espera","Son el mismo ajuste","Hold music solo se reproduce en Q1"],"explanation":"Son controles Enable + Edit separados. Momentos diferentes en la llamada." }, duration: 17,
+    qNum: 2, qTotal: 2,
+    question: 'A caller\'s number appears in both the trusted-numbers whitelist AND the blocklist. What happens?',
+    options: [
+      'They\'re blocked',
+      'They reach the queue — trusted numbers bypass all blocking rules',
+      'They hear an error message',
+      'They go straight to voicemail',
+    ],
+    correctIndex: 1,
+    explanation: 'Trusted numbers (whitelist) bypass every blocking rule, including their own appearance on a blocklist.',
   },
 
   {
     kind: 'outro',
-    duration: 6,
+    es: { "question":"El número de un llamante aparece en la lista blanca de trusted-numbers Y en la lista negra. ¿Qué pasa?","options":["Se bloquea","Llega a la cola — los trusted numbers omiten todas las reglas de bloqueo","Escucha un mensaje de error","Va directamente a buzón de voz"],"explanation":"Trusted numbers (lista blanca) omiten cada regla de bloqueo, incluyendo su propia aparición en una lista negra." },
+    duration: 10,
     title: 'Save. Test from a real phone.',
-    sub: 'A misplaced block sends real callers to silence — always test from a non-blocked number before walking away.',
+    sub: 'The caller\'s ears decide whether your change worked. Always verify with a real call before you log it as done.',
   },
 ];
 
@@ -92,5 +228,17 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <SOPVideo sopId="CS06" title="Greetings, Music & Blocked Calls" scenes={scenes} />
 );
 </script>
+<template id="__bundler_thumbnail" data-bg-color="#0a0a0a">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#0a0a0a"/>
+    <rect x="0" y="0" width="1200" height="120" fill="#285952"/>
+    <rect x="0" y="117" width="1200" height="3" fill="#e47756"/>
+    <g transform="translate(540, 320)">
+      <circle cx="60" cy="60" r="60" fill="#e47756"/>
+      <polygon points="48,32 48,88 96,60" fill="#faf8f4"/>
+    </g>
+    <text x="600" y="560" text-anchor="middle" font-family="sans-serif" font-size="48" font-weight="900" fill="#faf8f4" letter-spacing="-1">SOP VIDEO</text>
+  </svg>
+</template>
 </body>
 </html>

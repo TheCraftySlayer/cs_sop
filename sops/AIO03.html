@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AIO03 · Chatbot Change Management · Source SOP</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+@font-face { font-family: 'Gotham Display'; src: url('../fonts/Gotham-Black.otf') format('opentype'); font-weight: 900; font-style: normal; font-display: swap; }
+:root { --bosque:#285952; --bosque-dark:#1d4640; --cypress:#013942; --terracotta:#e47756; --mist:#e8f1ee; --mist-soft:#f4f8f6; --paper:#faf8f4; --ink:#1a2620; --line:#cfd8d3; --muted:#5a6b65; }
+* { box-sizing: border-box; }
+html, body { margin:0; padding:0; font-family: "Montserrat",system-ui,sans-serif; color:var(--ink); background:var(--mist-soft); -webkit-font-smoothing:antialiased; line-height:1.55; }
+.top-bar { background:var(--paper); border-bottom:2px solid var(--line); padding:16px 56px; display:flex; align-items:center; gap:24px; position:sticky; top:0; z-index:10; }
+.top-bar img.logo { height:56px; width:auto; display:block; }
+.top-bar .crumb { padding-left:24px; border-left:1px solid var(--line); font-size:12px; font-weight:600; color:var(--muted); letter-spacing:0.18em; text-transform:uppercase; line-height:1.6; }
+.top-bar .crumb b { color:var(--cypress); }
+.top-bar .actions { margin-left:auto; display:flex; gap:10px; flex-wrap:wrap; }
+.top-bar .action { display:inline-flex; align-items:center; gap:8px; padding:9px 16px; font-size:13px; font-weight:600; text-decoration:none; border-radius:999px; letter-spacing:0.04em; background:transparent; color:var(--cypress); border:1px solid var(--line); cursor:pointer; font-family:inherit; transition:all 180ms cubic-bezier(0.4,0,0.2,1); }
+.top-bar .action.primary { background:var(--bosque); color:var(--paper); border-color:var(--bosque); }
+.top-bar .action:hover { background:var(--mist); border-color:var(--cypress); }
+.top-bar .action.primary:hover { background:var(--bosque-dark); }
+.doc { max-width:920px; margin:48px auto 80px; background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:64px 72px 72px; box-shadow:0 12px 36px rgba(15,30,27,0.06); }
+.doc-header { border-bottom:3px solid var(--bosque); padding-bottom:28px; margin-bottom:36px; }
+.doc-header .eyebrow { font-size:12px; font-weight:700; color:var(--terracotta); letter-spacing:0.24em; text-transform:uppercase; margin-bottom:12px; }
+.doc-header h1 { font-family:"Gotham Display","Montserrat",sans-serif; font-size:48px; font-weight:900; line-height:1; letter-spacing:-0.02em; text-transform:uppercase; color:var(--bosque); margin:0; text-wrap:balance; }
+.meta-row { display:flex; gap:16px; font-size:14px; padding:6px 0; border-bottom:1px dashed var(--line); }
+.meta-row:last-of-type { border-bottom:0; margin-bottom:24px; }
+.meta-row .meta-k { color:var(--muted); font-weight:600; letter-spacing:0.06em; text-transform:uppercase; font-size:12px; flex:0 0 180px; padding-top:2px; }
+.meta-row .meta-v { color:var(--ink); font-weight:500; }
+.doc h2 { font-family:"Gotham Display","Montserrat",sans-serif; font-size:24px; font-weight:900; color:var(--bosque); letter-spacing:-0.005em; text-transform:uppercase; margin:40px 0 14px; padding-bottom:8px; border-bottom:1px solid var(--line); }
+.doc h2.section { font-size:28px; color:var(--cypress); border-bottom:3px solid var(--terracotta); padding-bottom:10px; margin-top:48px; }
+.doc h2.section .marker { display:inline-flex; align-items:center; justify-content:center; min-width:42px; height:42px; padding:0 12px; border-radius:8px; background:var(--terracotta); color:var(--paper); font-size:18px; margin-right:14px; vertical-align:-4px; font-family:"Gotham Display","Montserrat",sans-serif; font-weight:900; }
+.doc h3 { font-family:"Gotham Display","Montserrat",sans-serif; font-size:18px; font-weight:900; color:var(--cypress); letter-spacing:-0.005em; text-transform:uppercase; margin:28px 0 10px; }
+.doc h3 .step-num { display:inline-flex; align-items:center; justify-content:center; width:30px; height:30px; border-radius:50%; background:var(--bosque); color:var(--paper); font-size:13px; font-weight:900; margin-right:12px; vertical-align:1px; font-family:"Gotham Display","Montserrat",sans-serif; }
+.doc p { font-size:15.5px; color:var(--ink); margin:0 0 12px; text-wrap:pretty; }
+.doc p strong { color:var(--cypress); font-weight:700; }
+.doc ul { font-size:15.5px; color:var(--ink); margin:0 0 12px; padding-left:22px; text-wrap:pretty; }
+.doc ul li { margin-bottom:6px; }
+.doc ul li::marker { color:var(--terracotta); }
+.doc .callout { background:var(--mist-soft); border-left:4px solid var(--terracotta); border-radius:0 8px 8px 0; padding:18px 22px; margin:18px 0; }
+.doc .callout strong.k { color:var(--cypress); display:block; font-size:12px; letter-spacing:0.14em; text-transform:uppercase; margin-bottom:6px; }
+.doc figure { margin:24px 0; padding:16px; background:var(--mist-soft); border:1px solid var(--line); border-radius:8px; text-align:center; }
+.doc figure img { max-width:100%; height:auto; border-radius:4px; display:inline-block; }
+.doc figure figcaption { font-size:12px; color:var(--muted); margin-top:10px; letter-spacing:0.06em; text-transform:uppercase; font-weight:600; }
+.doc a { color:var(--bosque); text-decoration:underline; text-decoration-color:var(--line); text-underline-offset:3px; }
+.doc a:hover { text-decoration-color:var(--terracotta); }
+.section-meta { display:flex; gap:16px; flex-wrap:wrap; font-size:13px; color:var(--muted); margin:0 0 14px; }
+.section-meta .pill { background:var(--mist); padding:5px 12px; border-radius:999px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; font-size:11px; color:var(--cypress); }
+.tag-line { margin-top:48px; padding-top:36px; border-top:2px solid var(--line); text-align:center; }
+.tag-line .tag { font-family:"Gotham Display","Montserrat",sans-serif; font-size:28px; font-weight:900; color:var(--terracotta); text-transform:lowercase; margin-bottom:6px; }
+.tag-line .sig { font-size:11px; font-weight:600; color:var(--muted); letter-spacing:0.14em; text-transform:uppercase; }
+@media print { body { background:white; } .top-bar { display:none; } .doc { box-shadow:none; border:0; margin:0; padding:0; max-width:none; } }
+
+.sop-tabs { display:flex; gap:8px; margin:-20px 0 28px; position:sticky; top:88px; z-index:5; background:var(--paper); padding:14px 0 6px; border-bottom:1px solid var(--line); }
+.sop-tabs .tab-btn {
+  appearance:none; background:transparent; border:1px solid var(--line); color:var(--muted);
+  font-family:inherit; font-size:13px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+  padding:9px 18px; border-radius:999px; cursor:pointer;
+  transition:all 180ms cubic-bezier(0.4,0,0.2,1);
+}
+.sop-tabs .tab-btn:hover { color:var(--cypress); border-color:var(--cypress); }
+.sop-tabs .tab-btn.active { background:var(--bosque); color:var(--paper); border-color:var(--bosque); }
+.pane[hidden] { display:none; }
+.pane-card { margin:24px 0; }
+.pane-card .sheet { margin:0; padding:32px 36px; box-shadow:none; width:100%; min-height:auto; }
+@media print {
+  .sop-tabs { display:none; }
+  .pane[hidden] { display:block !important; }
+  .pane-full, .pane-card { page-break-before:always; }
+  .pane-full { page-break-before:auto; }
+}
+
+.pane-card 400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Card sheet — sized for letter portrait */
+.sheet {
+  width: 8.5in;
+  min-height: 11in;
+  margin: 24px auto;
+  background: var(--paper);
+  padding: 0.4in 0.5in;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 12px 36px rgba(15, 30, 27, 0.08);
+  display: flex; flex-direction: column;
+}.pane-card .sheet header {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 24px;
+  border-bottom: 4px solid var(--bosque);
+  padding-bottom: 14px;
+  margin-bottom: 18px;
+}.pane-card .sheet header .lhs {
+  display: flex; flex-direction: column;
+}.pane-card .sheet header .eyebrow {
+  font-size: 11px; font-weight: 700;
+  color: var(--terracotta);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}.pane-card .sheet header h1 {
+  font-family: "Gotham Display", "Montserrat", sans-serif;
+  font-size: 36px; font-weight: 900;
+  line-height: 0.96;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--bosque);
+  margin: 0;
+  text-wrap: balance;
+}.pane-card .sheet header .id {
+  font-family: "Gotham Display", sans-serif;
+  font-size: 64px; font-weight: 900;
+  color: var(--cypress);
+  letter-spacing: -0.04em;
+  line-height: 0.85;
+}.pane-card .sheet header .id .small {
+  display: block;
+  font-size: 11px; font-weight: 700;
+  color: var(--muted); letter-spacing: 0.24em;
+  text-transform: uppercase;
+  text-align: right;
+  margin-bottom: 4px;
+}.pane-card .purpose {
+  background: var(--mist-soft);
+  border-left: 4px solid var(--bosque);
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  font-size: 12.5px;
+  color: var(--cypress);
+  line-height: 1.5;
+  border-radius: 0 4px 4px 0;
+}.pane-card .purpose strong { color: var(--bosque); }.pane-card .grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}.pane-card .grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}.pane-card .block {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 12px;
+}.pane-card .block.accent { border-color: var(--terracotta); border-width: 1.5px; }.pane-card .block.dark { background: var(--cypress); color: var(--paper); border: 0; }.pane-card .block.dark h3 { color: var(--terracotta); }.pane-card .block.dark .label { color: rgba(255,255,255,0.5); }.pane-card .block.dark code { background: rgba(255,255,255,0.1); color: var(--paper); }.pane-card .block h3 {
+  font-family: "Gotham Display", sans-serif;
+  font-size: 13px; font-weight: 900;
+  color: var(--bosque);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 0 0 8px;
+  display: flex; align-items: center; gap: 8px;
+}.pane-card .block h3 .num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--terracotta);
+  color: var(--paper);
+  font-size: 10px;
+}.pane-card .block ul, .pane-card .block ol { margin: 0; padding-left: 18px; line-height: 1.55; }.pane-card .block li { margin: 2px 0; }.pane-card .block dl { margin: 0; }.pane-card .block dt {
+  font-weight: 700;
+  color: var(--cypress);
+  margin-top: 6px;
+}.pane-card .block dt:first-child { margin-top: 0; }.pane-card .block dd { margin: 1px 0 0 0; color: var(--ink); line-height: 1.4; }.pane-card .block .label {
+  font-size: 9.5px; font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}.pane-card .block .path, .pane-card .block code {
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 11.5px;
+  background: var(--mist);
+  padding: 1.5px 6px;
+  border-radius: 3px;
+  color: var(--cypress);
+  font-weight: 500;
+}.pane-card .block .big {
+  font-family: "Gotham Display", sans-serif;
+  font-size: 28px; font-weight: 900;
+  color: var(--bosque);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 4px;
+}.pane-card .block .big.terra { color: var(--terracotta); }.pane-card .warn {
+  background: #fceee7;
+  border-left: 4px solid var(--terracotta);
+  padding: 10px 14px;
+  border-radius: 0 4px 4px 0;
+  font-size: 12px;
+  color: var(--cypress);
+  line-height: 1.5;
+}.pane-card .warn strong { color: var(--terracotta); }.pane-card .steps-line {
+  display: flex;
+  gap: 0;
+  margin: 8px 0 0;
+  font-size: 11px;
+}.pane-card .steps-line .step {
+  flex: 1;
+  position: relative;
+  padding: 8px 10px 8px 24px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-right: 0;
+}.pane-card .steps-line .step:last-child { border-right: 1px solid var(--line); border-radius: 0 4px 4px 0; }.pane-card .steps-line .step:first-child { border-radius: 4px 0 0 4px; }.pane-card .steps-line .step .n {
+  position: absolute;
+  left: 6px; top: 50%; transform: translateY(-50%);
+  font-family: "Gotham Display", sans-serif;
+  font-size: 14px; font-weight: 900;
+  color: var(--terracotta);
+}.pane-card .steps-line .step strong {
+  font-family: "Gotham Display", sans-serif;
+  font-size: 11px;
+  color: var(--bosque);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  display: block;
+}.pane-card .table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11.5px;
+}.pane-card .table th, .pane-card .table td {
+  text-align: left;
+  padding: 5px 8px;
+  border-bottom: 1px solid var(--line);
+}.pane-card .table th {
+  font-size: 9.5px; font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}.pane-card .table td.code { font-family: 'JetBrains Mono', ui-monospace, monospace; font-weight: 700; color: var(--bosque); }.pane-card .table .terra { color: var(--terracotta); }.pane-card .table tr:last-child td { border-bottom: 0; }.pane-card .row-list { columns: 2; column-gap: 16px; font-size: 12px; line-height: 1.5; }.pane-card .row-list code { font-family: 'JetBrains Mono', ui-monospace, monospace; font-weight: 600; color: var(--bosque); }.pane-card .footer {
+  margin-top: auto; padding-top: 14px;
+  border-top: 1px solid var(--line);
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 9.5px; color: var(--muted);
+  letter-spacing: 0.14em; text-transform: uppercase;
+}.pane-card .footer .tag {
+  font-family: "Gotham Display", sans-serif;
+  font-size: 14px; font-weight: 900;
+  color: var(--terracotta);
+  text-transform: lowercase;
+  letter-spacing: 0;
+}
+
+
+/* card-specific print rules omitted to avoid conflicts */
+
+</style>
+</head>
+<body>
+<header class="top-bar">
+  <img src="../assets/bernco-assessor-logo.png" alt="BernCo County Assessor" class="logo">
+  <div class="crumb"><b>SOP AIO03</b><br>Source document</div>
+  <div class="actions">
+    <a class="action" href="../index.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M6 4L3 7l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Library</a>
+    <a class="action" href="../videos/AIO03_Change_Management.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg> Watch</a>
+    <a class="action" href="../docs/AIO03_Change_Management.docx" download><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v9M3 7l4 4 4-4M2 13h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> .docx</a>
+    <button class="action primary" onclick="window.print()" style="border:0; font-family:inherit; cursor:pointer;"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M4 1h6v3M4 11h6v2H4zM2 4h10v6H2z M4 7h6" stroke="currentColor" stroke-width="1.5"/></svg> Save as PDF</button>
+  </div>
+</header>
+<article class="doc">
+  <nav class="sop-tabs"><button class="tab-btn active" data-tab="full" type="button">Full SOP</button><button class="tab-btn" data-tab="card" type="button">Quick Reference</button></nav>
+  <div class="pane pane-full" data-pane="full">
+  <div class="doc-header">
+    <div class="eyebrow">Bernalillo County Assessor · AI Operations · Standard Operating Procedure</div>
+    <h1>Chatbot Change Management</h1>
+  </div>
+  <div class="meta-row"><span class="meta-k">Process Title</span><span class="meta-v">Chatbot Change Management</span></div>
+  <div class="meta-row"><span class="meta-k">Department</span><span class="meta-v">AI Operations</span></div>
+  <div class="meta-row"><span class="meta-k">SOP ID</span><span class="meta-v">AIO03</span></div>
+  <div class="meta-row"><span class="meta-k">Last Reviewed</span><span class="meta-v">05/15/2026</span></div>
+  <div class="meta-row"><span class="meta-k">Effective Date</span><span class="meta-v">05/15/2026</span></div>
+  <div class="meta-row"><span class="meta-k">Version</span><span class="meta-v">2.1</span></div>
+
+  <h2>Purpose</h2>
+  <p>All deliberate changes to A.C.E. follow the same shape: source the reason, screenshot before, change, save, test, publish, log. This SOP covers four change types — <strong>Persona</strong>, <strong>KB File</strong>, <strong>Actions</strong>, and <strong>Configuration</strong>. Pick the section that matches the change you are making.</p>
+
+  <h2>How Changes Commit in CustomGPT</h2>
+  <p>Most changes in CustomGPT.ai require <strong>BOTH a Save and a Publish</strong> to take effect. Editing a field is not enough.</p>
+  <ul>
+    <li><strong>Save</strong> (per tab) commits your edit within CustomGPT. Look for <strong>Save Settings</strong> at the bottom of the tab, or <strong>Save Changes</strong> in the Persona editor. Without Save, your edit is lost when you navigate away.</li>
+    <li><strong>Publish</strong> (top right) pushes saved changes to end users. Without Publish, changes do not reach the public A.C.E.</li>
+    <li><strong>Exceptions:</strong> Actions toggles are immediate (no Save, no Publish). KB file uploads and deletes commit on the upload/delete action itself.</li>
+  </ul>
+  <div class="callout">
+    <strong class="k">If a change does not appear to take effect</strong>
+    <p style="margin:0;">Check that you both <strong>Saved</strong> AND <strong>Published</strong>. This is the single most common reason a configuration change does not appear live.</p>
+  </div>
+  <figure><img src="../sop_assets/AIO03_Change_Management/2303ef4da7bc3eee648d1374683b3ee5febde5f3.jpg" alt="Save Settings and Publish buttons in CustomGPT.ai"><figcaption>Save Settings (per tab) and Publish (top right)</figcaption></figure>
+
+  <h2>Universal Rules (Apply to All Changes)</h2>
+  <ul>
+    <li><strong>Source the reason.</strong> Acceptable sources: statute citation, official form, written direction from Assessor or Deputy, or documented error from AIO01/AIO02. Do not change on hearsay.</li>
+    <li><strong>Screenshot before.</strong> Capture the current state. This is the rollback reference.</li>
+    <li><strong>Save, then Publish.</strong> See "How Changes Commit" above. Skipping either is the most common failure.</li>
+    <li><strong>Test after.</strong> Confirming test (the thing you changed should work) plus regression test (something you did not touch should still work).</li>
+    <li><strong>Canary query:</strong> "What is the Low-Income Value Freeze income limit for TY 2026?" Must answer <strong>$44,200</strong>.</li>
+    <li><strong>Log the change.</strong> Record date, editor, what changed, source, test results. One change log for all four types.</li>
+    <li><strong>Notify Assessor or Deputy before publishing</strong> if the change involves legal/statutory content, affects a public-facing form or process, responds to a complaint or media inquiry, or affects bilingual behavior or accessibility.</li>
+  </ul>
+
+  <h2 class="section"><span class="marker">A</span>Persona Change</h2>
+  <div class="section-meta"><span class="pill">≈15 min per change</span><span class="pill">Publishes immediately</span></div>
+  <p>Use only when a real change is required — statute update, documented error, or drift. Persona edits affect every conversation immediately on publish.</p>
+
+  <h3><span class="step-num">1</span>Back Up the Current Persona</h3>
+  <p>Copy entire persona text into <code>ace_persona_YYYY-MM-DD_before.txt</code>. Save to backup folder.</p>
+
+  <h3><span class="step-num">2</span>Open Persona Editor</h3>
+  <p>Click <strong>Personalize → Persona</strong> tab.</p>
+  <figure><img src="../sop_assets/AIO03_Change_Management/50c20336bb7a50f846a0022027bfff6698aa12c0.jpg" alt="Personalize · Persona editor"><figcaption>Personalize → Persona</figcaption></figure>
+
+  <h3><span class="step-num">3</span>Edit, Save, Test</h3>
+  <p>Make a surgical edit. Click <strong>Save Changes</strong> inside the editor. In the <strong>Ask</strong> tab, run three queries: (1) testing the change, (2) regression check, (3) canary.</p>
+
+  <h3><span class="step-num">4</span>Publish or Roll Back</h3>
+  <p>All pass → click <strong>Publish</strong> (top right of the Personalize page). Any fail → paste backup back, save, do not publish.</p>
+
+  <h2 class="section"><span class="marker">B</span>KB File Change</h2>
+  <div class="section-meta"><span class="pill">≈10 min per file</span><span class="pill">No separate Save</span></div>
+  <p>For uploaded files in the <strong>File Upload</strong> section. For website or sitemap sources, use Section D source-management instructions. KB file uploads and deletes commit on the action itself (no separate Save).</p>
+
+  <h3><span class="step-num">1</span>Open the Build Tab</h3>
+  <p>Click <strong>Build → Sources</strong> tab → <strong>File Upload</strong> section.</p>
+  <figure><img src="../sop_assets/AIO03_Change_Management/07e1d6d6ed99936f1c3f2df283615a26d35c7ba2.jpg" alt="Build · Sources · File Upload"><figcaption>Build → Sources → File Upload</figcaption></figure>
+
+  <h3><span class="step-num">2</span>Make the Change</h3>
+  <ul>
+    <li><strong>Replace:</strong> three-dot Actions menu, delete old, upload new.</li>
+    <li><strong>Add:</strong> click <strong>Add Source</strong> and upload.</li>
+    <li><strong>Remove:</strong> three-dot Actions menu, delete.</li>
+  </ul>
+
+  <h3><span class="step-num">3</span>Wait for Re-Indexing, Then Test</h3>
+  <p>Switch to the <strong>Documents</strong> tab. Wait for <strong>Added</strong> and <strong>Available</strong> columns to show "Ok" (usually 2–5 min). Then in the Ask tab, ask the question this file should answer + one regression query.</p>
+  <figure><img src="../sop_assets/AIO03_Change_Management/6191a2f9cd5dba597582b04536c4f4403b3415e5.jpg" alt="Documents tab with Added and Available columns"><figcaption>Documents tab · Added / Available</figcaption></figure>
+
+  <h2 class="section"><span class="marker">C</span>Actions Change</h2>
+  <div class="section-meta"><span class="pill">Takes effect on toggle</span><span class="pill">No Save · No Publish</span></div>
+  <p>Toggling agentic features. Actions take effect immediately on toggle — no separate Save, no separate Publish. <strong>Document Analyst</strong> is mutually exclusive with <strong>Webpage Awareness</strong> and <strong>Custom Button</strong>.</p>
+
+  <h3><span class="step-num">1</span>Open Actions Tab</h3>
+  <p>Click <strong>Actions</strong> in the sidebar. Screenshot the panel first.</p>
+  <figure><img src="../sop_assets/AIO03_Change_Management/248ba5ce17c17b8a223e8e12019137bdebf0917e.jpg" alt="Actions panel"><figcaption>Actions panel</figcaption></figure>
+
+  <h3><span class="step-num">2</span>Resolve Conflicts</h3>
+  <p>Disable conflicting Actions before enabling the new one. Document Analyst conflicts with Webpage Awareness and Custom Button.</p>
+
+  <h3><span class="step-num">3</span>Toggle, Test, Verify</h3>
+  <p>Click the toggle. Run canary query plus one query that exercises the changed Action. Within 1 business day, verify telemetry counter behaves as expected.</p>
+
+  <div class="callout">
+    <strong class="k">Notify Assessor or Deputy before toggling</strong>
+    <ul style="margin:0;">
+      <li>Web Search (Beta)</li>
+      <li>Orchestrate (Beta)</li>
+      <li>Drive Conversions or Verify Responses (Beta)</li>
+      <li>Document Analyst (enables user file upload, raises PII intake risk)</li>
+    </ul>
+  </div>
+
+  <h2 class="section"><span class="marker">D</span>Configuration Change</h2>
+  <div class="section-meta"><span class="pill">Save + Publish required</span></div>
+  <p>Personalize sub-tabs except Persona: <strong>General, Conversation, Citations, Intelligence, Advanced, Security</strong>. Also covers KB source management (add, pause, or remove a website/sitemap/YouTube source).</p>
+  <div class="callout">
+    <strong class="k">Most common failure mode</strong>
+    <p style="margin:0;">Configuration changes require BOTH <strong>Save Settings</strong> (per tab) AND <strong>Publish</strong> (top right). Edits not Saved are lost on navigation. Saved-but-not-Published edits do not reach end users.</p>
+  </div>
+
+  <h3><span class="step-num">1</span>Open Target Sub-Tab</h3>
+  <p>Click <strong>Personalize → target sub-tab</strong> (General, Conversation, Citations, Intelligence, Advanced, or Security). Or click <strong>Build → Sources</strong> for source management.</p>
+  <figure><img src="../sop_assets/AIO03_Change_Management/220f95db667afdf7d350a79be98fbd956038c76f.jpg" alt="Personalize sub-tabs"><figcaption>Personalize sub-tabs</figcaption></figure>
+
+  <h3><span class="step-num">2</span>Make the Change</h3>
+  <p>Modify only the setting that needs to change. Do not bundle unrelated changes.</p>
+
+  <h3><span class="step-num">3</span>Save Settings (bottom of tab)</h3>
+  <p>Scroll to the bottom of the tab. Click <strong>Save Settings</strong>. This commits the change within CustomGPT but does not yet reach end users. If you navigate away without clicking Save, your edit is lost.</p>
+  <figure><img src="../sop_assets/AIO03_Change_Management/2303ef4da7bc3eee648d1374683b3ee5febde5f3.jpg" alt="Save Settings and Publish"><figcaption>Save Settings · Publish</figcaption></figure>
+
+  <h3><span class="step-num">4</span>Publish (top right)</h3>
+  <p>Click <strong>Publish</strong> in the upper right of the Personalize page. Until Publish is clicked, end users still see the previous configuration.</p>
+
+  <h3><span class="step-num">5</span>Test</h3>
+  <ul>
+    <li><strong>Cosmetic:</strong> visually confirm.</li>
+    <li><strong>Behavioral:</strong> trigger the relevant behavior.</li>
+    <li><strong>Model or grounding:</strong> canary plus three diverse queries.</li>
+    <li><strong>Security:</strong> verify the control behaves as expected.</li>
+  </ul>
+
+  <h3><span class="step-num">6</span>Source Management (special case)</h3>
+  <ul>
+    <li><strong>Add source:</strong> <strong>+ Add Source</strong>, paste URL, save. Initial sync may take minutes to hours.</li>
+    <li><strong>Pause sync:</strong> three-dot Actions menu on the source row. Keeps existing docs, stops future ingestion.</li>
+    <li><strong>Remove source:</strong> three-dot Actions menu. Deletes all docs from that source.</li>
+  </ul>
+  <p>Update AIO06 (Baseline) after any source change.</p>
+  <figure><img src="../sop_assets/AIO03_Change_Management/32d2e7c814b78c38f0cd0cc379c410eeff2dc0df.jpg" alt="Source management"><figcaption>Source management</figcaption></figure>
+
+  <h2>Dependencies (Configuration Changes With Cascading Effects)</h2>
+  <ul>
+    <li><strong>Whitelisted Domains → Share Link:</strong> enabling a whitelist disables Share Link deployment.</li>
+    <li><strong>AI Model = Claude 4.6 Sonnet Reasoning:</strong> consumes 2 query credits per message instead of 1. Doubles burn rate. Confirm plan capacity.</li>
+    <li><strong>Data Source Control:</strong> switching to "My Data + General LLM" broadens grounding and raises hallucination risk.</li>
+    <li><strong>Anti-Hallucination:</strong> disabling is not recommended.</li>
+    <li><strong>Conversation Retention Period:</strong> changing affects records-management posture; consult Records Custodian.</li>
+    <li>Adding a source over 1,000 documents or any source outside Bernalillo County government domains — notify Assessor or Deputy first.</li>
+  </ul>
+
+  <h2>Special Notify Triggers for Configuration Changes</h2>
+  <p>Beyond the universal Notify rules at top, configuration changes that affect any of the following require Assessor or Deputy notification before Publish:</p>
+  <div class="callout">
+    <ul style="margin:0;">
+      <li><strong>AI Model selection</strong> (especially switching to or from the Reasoning variant due to credit cost).</li>
+      <li><strong>Data Source Control.</strong></li>
+      <li><strong>Whitelisted Domains.</strong> Also notify office IT.</li>
+      <li><strong>Conversation Retention Period.</strong> Also notify office IT.</li>
+      <li><strong>Agent Visibility</strong> (Public vs. Private). Also notify office IT.</li>
+      <li><strong>Citations</strong> enable/disable.</li>
+      <li><strong>Agent Language.</strong></li>
+      <li>Adding a source outside Bernalillo County government domains.</li>
+      <li>Removing a source currently in use.</li>
+    </ul>
+  </div>
+
+  <div class="tag-line">
+    <div class="tag">Count on us.</div>
+    <div class="sig">Bernalillo County Assessor · Damian R. Lara, County Assessor</div>
+  </div>
+  </div><!-- /pane-full -->
+  <div class="pane pane-card" data-pane="card" hidden>
+    <article class="sheet">
+  <header>
+    <div class="lhs">
+      <div class="eyebrow">Bernalillo County Assessor · AI Operations</div>
+      <h1>Chatbot Change Management</h1>
+    </div>
+    <div class="id"><span class="small">SOP</span>A03</div>
+  </header>
+
+<div class="purpose"><strong>Purpose.</strong> Change A.C.E. safely. Same six universal steps for all four change types — Persona, KB file, Actions, Configuration.</div>
+
+<div class="block" style="margin-bottom: 12px;">
+  <h3>The six universal steps</h3>
+  <div class="steps-line">
+    <div class="step"><span class="n">1</span><strong>Source</strong> the reason — statute, form, written direction, AIO01/02</div>
+    <div class="step"><span class="n">2</span><strong>Screenshot</strong> before — rollback reference</div>
+    <div class="step"><span class="n">3</span><strong>Save</strong> + <strong>Publish</strong> — both required</div>
+    <div class="step"><span class="n">4</span><strong>Test</strong> — confirm + regression</div>
+    <div class="step"><span class="n">5</span><strong>Canary</strong> — Low-Income Value Freeze TY 2026 = $44,200</div>
+    <div class="step"><span class="n">6</span><strong>Log</strong> the change — one change log for all types</div>
+  </div>
+</div>
+
+<div class="grid-3" style="margin-bottom: 12px;">
+  <div class="block accent">
+    <h3>A · Persona</h3>
+    <dl>
+      <dt>≈15 min</dt><dd>Personalize → Persona tab.</dd>
+      <dt>Save inside editor</dt><dd>Click Save Changes inside Persona editor, then Publish (top right).</dd>
+      <dt>Back up first</dt><dd>Copy persona to ace_persona_YYYY-MM-DD_before.txt.</dd>
+    </dl>
+  </div>
+  <div class="block">
+    <h3>B · KB File</h3>
+    <dl>
+      <dt>≈10 min</dt><dd>Build → Sources → File Upload.</dd>
+      <dt>No separate Save</dt><dd>Commits on upload or delete.</dd>
+      <dt>Wait for re-index</dt><dd>Documents tab: Added + Available = Ok (2–5 min) before testing.</dd>
+    </dl>
+  </div>
+  <div class="block dark">
+    <h3>C · Actions</h3>
+    <div class="big terra">Toggle</div>
+    <div class="label" style="color: rgba(255,255,255,0.6);">No Save · No Publish</div>
+    Document Analyst conflicts with Webpage Awareness &amp; Custom Button. Disable conflicts first.
+  </div>
+</div>
+
+<div class="grid-3" style="margin-bottom: 12px;">
+  <div class="block" style="grid-column: span 2;">
+    <h3>D · Configuration — both Save AND Publish</h3>
+    <dl>
+      <dt>Personalize sub-tabs</dt><dd>General, Conversation, Citations, Intelligence, Advanced, Security.</dd>
+      <dt>Save Settings</dt><dd>Bottom of each tab. Commits within CustomGPT.</dd>
+      <dt>Publish</dt><dd>Top right of Personalize. Pushes to end users. Without both, change does NOT go live.</dd>
+      <dt>Source management</dt><dd>Build → Sources for websites/sitemaps. Add / Pause / Remove via three-dot menu.</dd>
+    </dl>
+  </div>
+  <div class="block accent">
+    <h3>Cascading effects</h3>
+    <ul>
+      <li>Whitelist → disables Share Link</li>
+      <li>Reasoning model → 2× credits</li>
+      <li>"My Data + General LLM" → broader grounding, more hallucinations</li>
+    </ul>
+  </div>
+</div>
+
+<div class="warn">
+  <strong>Notify Assessor or Deputy BEFORE Publish for:</strong>
+  legal/statutory content · public-facing form or process · complaint or media inquiry · bilingual or accessibility · AI Model selection · Data Source Control · Whitelisted Domains · Conversation Retention · Agent Visibility · Citations · Agent Language · external or removed sources.
+</div>
+
+  <div class="footer">
+    <div>Revision: this card · v2.1 · 2026</div>
+    <div class="tag">Count on us.</div>
+    <div>Print &amp; laminate for desk reference</div>
+  </div>
+</article>
+  </div>
+</article>
+
+<script>
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.sop-tabs .tab-btn');
+  if (!btn) return;
+  const target = btn.dataset.tab;
+  document.querySelectorAll('.sop-tabs .tab-btn').forEach(b => b.classList.toggle('active', b === btn));
+  document.querySelectorAll('.pane').forEach(p => {
+    p.hidden = p.dataset.pane !== target;
+  });
+});
+</script>
+</body>
+</html>

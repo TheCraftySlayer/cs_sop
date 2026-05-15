@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AIO05 · Chatbot Incident Response · Animated SOP</title>
+<link rel="stylesheet" href="../lib/video.css">
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="../lib/animations.jsx"></script>
+<script type="text/babel" src="../lib/sop-video.jsx"></script>
+<script type="text/babel">
+
+const scenes = [
+  {
+    kind: 'title',
+    duration: 8,
+    sopId: 'AIO05',
+    title: 'Chatbot Incident Response',
+    plainTitle: 'How to respond to four classes of A.C.E. operational incident — wrong answers, outages, sensitive disclosures, and hostile users.',
+    kicker: 'Department: AI Operations. Identify the type first. If more than one applies, handle the most severe first.',
+    es: {
+      title: 'Respuesta a Incidentes del Chatbot',
+      plainTitle: 'Cómo responder a cuatro clases de incidentes operativos de A.C.E. — respuestas incorrectas, caídas, divulgaciones sensibles y usuarios hostiles.',
+      kicker: 'Departamento: Operaciones de IA. Identifique el tipo primero. Si aplica más de uno, atienda el más grave primero.',
+    },
+  },
+
+  // Severity order
+  {
+    kind: 'bigstat',
+    duration: 13,
+    stat: 'C → B → A → D',
+    caption: 'Severity order',
+    sub: 'If more than one incident type applies, follow the most severe first. C (PII) before B (outage) before A (wrong answer) before D (abuse).',
+    accent: SOP_PALETTE.terracotta,
+    es: {
+      stat: 'C → B → A → D',
+      caption: 'Orden de severidad',
+      sub: 'Si aplica más de un tipo de incidente, siga el más grave primero. C (PII) antes que B (caída) antes que A (respuesta incorrecta) antes que D (abuso).',
+    },
+  },
+
+  // The four types overview
+  {
+    kind: 'comparison',
+    duration: 20,
+    title: 'Four incident types',
+    sub: 'Each has a specific response procedure. Identify the type before you act.',
+    items: [
+      { tag: 'Type A', label: 'Wrong Answer', accent: SOP_PALETTE.bosque, desc: 'A user reports A.C.E. gave them an incorrect or misleading answer. Reproduce, then fix.' },
+      { tag: 'Type B', label: 'Agent Down', accent: SOP_PALETTE.terracotta, desc: 'A.C.E. is unreachable from the public site, or broken. Confirm, check vendor status, notify if > 1 hour.' },
+      { tag: 'Type C', label: 'PII / Sensitive', accent: SOP_PALETTE.cypress, desc: 'A.C.E. produced or exposed personally identifiable or sensitive information. Pause agent first, then notify.' },
+      { tag: 'Type D', label: 'Abusive User', accent: SOP_PALETTE.sage, desc: 'Threats, sustained abuse, or pattern hostility. Log and disengage. Escalate threats within 1 hour.' },
+    ],
+    es: {
+      title: 'Cuatro tipos de incidentes',
+      sub: 'Cada uno tiene un procedimiento específico. Identifique el tipo antes de actuar.',
+      items: [
+        { tag: 'Tipo A', label: 'Respuesta Incorrecta', desc: 'Un usuario reporta que A.C.E. le dio una respuesta incorrecta o engañosa. Reproduzca, después arregle.' },
+        { tag: 'Tipo B', label: 'Agente Caído', desc: 'A.C.E. no responde desde el sitio público, o está roto. Confirme, revise el estado del proveedor, notifique si > 1 hora.' },
+        { tag: 'Tipo C', label: 'PII / Sensible', desc: 'A.C.E. produjo o expuso información personalmente identificable o sensible. Pause el agente primero, después notifique.' },
+        { tag: 'Tipo D', label: 'Usuario Abusivo', desc: 'Amenazas, abuso sostenido o patrón de hostilidad. Registre y desvinculese. Escale amenazas dentro de 1 hora.' },
+      ],
+    },
+  },
+
+  // ═══════════════ TYPE A — WRONG ANSWER ═══════════════
+  {
+    kind: 'bigstat',
+    duration: 8,
+    stat: 'Type A',
+    caption: 'Wrong Answer Reported',
+    sub: 'A user reports A.C.E. gave a wrong or misleading answer. Three steps: reproduce, fix, document.',
+    es: {
+      stat: 'Tipo A',
+      caption: 'Respuesta Incorrecta Reportada',
+      sub: 'Un usuario reporta que A.C.E. dio una respuesta incorrecta o engañosa. Tres pasos: reproducir, arreglar, documentar.',
+    },
+  },
+
+  {
+    kind: 'bigstat',
+    duration: 10,
+    stat: 'Reproduce',
+    caption: 'Step 1 — Try it yourself',
+    sub: 'In the Ask tab, submit the same question. Record what A.C.E. actually says.',
+    es: {
+      stat: 'Reproducir',
+      caption: 'Paso 1 — Inténtelo usted mismo',
+      sub: 'En la pestaña Ask, envíe la misma pregunta. Registre lo que A.C.E. realmente dice.',
+    },
+  },
+
+  {
+    kind: 'comparison',
+    duration: 18,
+    title: 'Step 2 — Two paths',
+    sub: 'Depending on whether you can reproduce the wrong answer.',
+    items: [
+      { tag: 'Reproducible', label: 'Fix in 1 business day', accent: SOP_PALETTE.bosque, desc: 'KB content issue → use AIO05. Persona/tone issue → use AIO03. If the content is legal or statutory, notify the Assessor or Deputy BEFORE fixing.' },
+      { tag: 'Not reproducible', label: 'Log and watch', accent: SOP_PALETTE.terracotta, desc: 'Log the question, the reported answer, the time, and the reporter\'s contact info. Re-check in 3 days. Close the ticket after 7 days if no recurrence.' },
+    ],
+    es: {
+      title: 'Paso 2 — Dos caminos',
+      sub: 'Dependiendo de si puede reproducir la respuesta incorrecta.',
+      items: [
+        { tag: 'Reproducible', label: 'Arreglar en 1 día hábil', desc: 'Problema de contenido KB → use AIO05. Problema de persona/tono → use AIO03. Si es contenido legal o estatutario, notifique al Tasador o Subtasador ANTES de arreglar.' },
+        { tag: 'No reproducible', label: 'Registrar y vigilar', desc: 'Registre la pregunta, la respuesta reportada, la hora y el contacto del reportador. Revise de nuevo en 3 días. Cierre el ticket después de 7 días si no se repite.' },
+      ],
+    },
+  },
+
+  // ═══════════════ TYPE B — AGENT DOWN ═══════════════
+  {
+    kind: 'bigstat',
+    duration: 8,
+    stat: 'Type B',
+    caption: 'Agent Down or Broken',
+    sub: 'A.C.E. is unreachable or broken. Four steps: confirm, check vendor, notify, document.',
+    es: {
+      stat: 'Tipo B',
+      caption: 'Agente Caído o Roto',
+      sub: 'A.C.E. no responde o está roto. Cuatro pasos: confirmar, revisar proveedor, notificar, documentar.',
+    },
+  },
+
+  {
+    kind: 'steps',
+    duration: 18,
+    title: 'Steps 1–4 — Outage response',
+    sub: 'In order. Don\'t skip steps.',
+    steps: [
+      { label: 'Confirm the outage', desc: 'Open the public A.C.E. embed and submit a test query. No response = confirmed.' },
+      { label: 'Check vendor status', desc: 'Open the CustomGPT.ai status page. If it\'s a vendor outage, document it and wait. Do NOT route queries through unapproved tools.' },
+      { label: 'Notify if > 1 hour', desc: 'Email Assessor and Deputy with start time, current status, and expected resolution if known.' },
+      { label: 'Document', desc: 'Record start time, end time, root cause, and resolution in the incident log.' },
+    ],
+    es: {
+      title: 'Pasos 1–4 — Respuesta a caída',
+      sub: 'En orden. No salte pasos.',
+      steps: [
+        { label: 'Confirme la caída', desc: 'Abra el embed público de A.C.E. y envíe una consulta de prueba. Sin respuesta = confirmado.' },
+        { label: 'Revise el estado del proveedor', desc: 'Abra la página de estado de CustomGPT.ai. Si es una caída del proveedor, documéntelo y espere. NO enrute consultas a través de herramientas no aprobadas.' },
+        { label: 'Notifique si > 1 hora', desc: 'Envíe correo al Tasador y Subtasador con hora de inicio, estado actual y resolución esperada si se conoce.' },
+        { label: 'Documente', desc: 'Registre hora de inicio, hora de fin, causa raíz y resolución en el registro de incidentes.' },
+      ],
+    },
+  },
+
+  // ═══════════════ TYPE C — PII / SENSITIVE ═══════════════
+  {
+    kind: 'bigstat',
+    duration: 10,
+    stat: 'Type C',
+    caption: 'PII or Sensitive Disclosure',
+    sub: 'The most severe class. Contain FIRST, then notify. Four strict steps.',
+    accent: SOP_PALETTE.terracotta,
+    es: {
+      stat: 'Tipo C',
+      caption: 'PII o Divulgación Sensible',
+      sub: 'La clase más grave. Contenga PRIMERO, después notifique. Cuatro pasos estrictos.',
+    },
+  },
+
+  {
+    kind: 'steps',
+    duration: 22,
+    title: 'Steps 1–4 — Contain, notify, preserve, hold',
+    sub: 'Order matters. Contain before you notify.',
+    steps: [
+      { label: 'Pause the agent immediately', desc: 'In CustomGPT.ai, click Deploy and disable public access. Contain first.' },
+      { label: 'Notify within 1 hour', desc: 'Notify the Assessor and the office IT contact. Include time, what was disclosed, scope of exposure, and current containment status.' },
+      { label: 'Preserve logs', desc: 'Do NOT delete any conversation, prompt, or telemetry. Do NOT modify the persona or KB until reviewed. Platform retention is set to Never, but preservation discipline still applies in case of records request or oversight review.' },
+      { label: 'Do not restart without review', desc: 'Restart only after the disclosure pathway is closed, affected records are documented, and the Assessor or designee has authorized restart.' },
+    ],
+    es: {
+      title: 'Pasos 1–4 — Contener, notificar, preservar, retener',
+      sub: 'El orden importa. Contenga antes de notificar.',
+      steps: [
+        { label: 'Pause el agente inmediatamente', desc: 'En CustomGPT.ai, haga clic en Deploy y deshabilite el acceso público. Contenga primero.' },
+        { label: 'Notifique dentro de 1 hora', desc: 'Notifique al Tasador y al contacto de TI de la oficina. Incluya hora, qué se divulgó, alcance de la exposición y estado actual de contención.' },
+        { label: 'Preserve los registros', desc: 'NO borre ninguna conversación, prompt o telemetría. NO modifique la persona o KB hasta que se revise. La retención de la plataforma está en Never, pero la disciplina de preservación aplica por solicitudes de registros o revisión.' },
+        { label: 'No reinicie sin revisión', desc: 'Reinicie solo después de que la ruta de divulgación se cierre, los registros afectados se documenten y el Tasador o designado haya autorizado el reinicio.' },
+      ],
+    },
+  },
+
+  // ═══════════════ TYPE D — ABUSIVE USER ═══════════════
+  {
+    kind: 'bigstat',
+    duration: 10,
+    stat: 'Type D',
+    caption: 'Abusive or Hostile User',
+    sub: 'For threats or sustained abuse — routine hostility is handled by the persona itself. Three steps.',
+    es: {
+      stat: 'Tipo D',
+      caption: 'Usuario Abusivo u Hostil',
+      sub: 'Para amenazas o abuso sostenido — la hostilidad rutinaria la maneja la persona misma. Tres pasos.',
+    },
+  },
+
+  {
+    kind: 'steps',
+    duration: 20,
+    title: 'Steps 1–3 — Log, escalate, pattern-block',
+    sub: 'Do not engage from inside the agent.',
+    steps: [
+      { label: 'Log and disengage', desc: 'Log the prompt, time, and any user identifiers. Do NOT engage from inside the agent. Routine hostility is handled by the persona; this SOP is for threats or sustained abuse.' },
+      { label: 'Escalate if threats present', desc: 'If there are threats against staff or office, notify the Assessor and County security within 1 hour with full prompt text and metadata.' },
+      { label: 'Pattern response', desc: 'Same user or IP repeating across conversations — coordinate with IT for IP-level or embed-level blocking.' },
+    ],
+    es: {
+      title: 'Pasos 1–3 — Registrar, escalar, bloquear patrón',
+      sub: 'No se involucre desde dentro del agente.',
+      steps: [
+        { label: 'Registre y desvinculese', desc: 'Registre el prompt, hora y cualquier identificador del usuario. NO se involucre desde dentro del agente. La hostilidad rutinaria la maneja la persona; este POE es para amenazas o abuso sostenido.' },
+        { label: 'Escale si hay amenazas', desc: 'Si hay amenazas contra el personal o la oficina, notifique al Tasador y a seguridad del Condado dentro de 1 hora con el texto completo del prompt y metadatos.' },
+        { label: 'Respuesta a patrón', desc: 'Mismo usuario o IP repitiendo en varias conversaciones — coordine con TI para bloqueo a nivel de IP o embed.' },
+      ],
+    },
+  },
+
+  // Quiz 1
+  {
+    kind: 'quiz', duration: 17,
+    qNum: 1, qTotal: 2,
+    question: 'A.C.E. is down AND a user has reported a wrong answer. Which do you handle first?',
+    options: [
+      'Wrong answer (Type A) — quicker fix',
+      'Agent down (Type B) — affects everyone',
+      'Whichever was reported first',
+      'Both at the same time',
+    ],
+    correctIndex: 1,
+    explanation: 'Severity order is C → B → A → D. An outage (B) affects every user and takes priority over an individual wrong answer (A).',
+    es: {
+      question: 'A.C.E. está caído Y un usuario reportó una respuesta incorrecta. ¿Cuál atiende primero?',
+      options: [
+        'Respuesta incorrecta (Tipo A) — arreglo más rápido',
+        'Agente caído (Tipo B) — afecta a todos',
+        'El que se reportó primero',
+        'Ambos al mismo tiempo',
+      ],
+      explanation: 'El orden de severidad es C → B → A → D. Una caída (B) afecta a todos los usuarios y tiene prioridad sobre una respuesta incorrecta individual (A).',
+    },
+  },
+  {
+    kind: 'quiz', duration: 17,
+    qNum: 2, qTotal: 2,
+    question: 'A.C.E. exposes PII in a conversation. What is your FIRST action?',
+    options: [
+      'Notify the Assessor',
+      'Pause the agent in CustomGPT.ai → Deploy',
+      'Email the user an apology',
+      'Update the knowledge base',
+    ],
+    correctIndex: 1,
+    explanation: 'For Type C incidents: contain FIRST. Pause the agent in CustomGPT.ai (Deploy → disable public access), then notify the Assessor and IT within 1 hour.',
+    es: {
+      question: 'A.C.E. expone PII en una conversación. ¿Cuál es su PRIMERA acción?',
+      options: [
+        'Notificar al Tasador',
+        'Pausar el agente en CustomGPT.ai → Deploy',
+        'Enviar al usuario un correo de disculpa',
+        'Actualizar la base de conocimientos',
+      ],
+      explanation: 'Para incidentes Tipo C: contenga PRIMERO. Pause el agente en CustomGPT.ai (Deploy → deshabilitar acceso público), después notifique al Tasador y a TI dentro de 1 hora.',
+    },
+  },
+
+  {
+    kind: 'outro',
+    duration: 10,
+    title: 'Identify. Contain. Notify. Document.',
+    sub: 'Four types, four procedures, one severity order. When in doubt, default to caution and escalate up.',
+    es: {
+      title: 'Identifique. Contenga. Notifique. Documente.',
+      sub: 'Cuatro tipos, cuatro procedimientos, un orden de severidad. En caso de duda, sea precavido y escale.',
+    },
+  },
+];
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <SOPVideo sopId="AIO05" title="Chatbot Incident Response" scenes={scenes} />
+);
+</script>
+<template id="__bundler_thumbnail" data-bg-color="#0a0a0a"><svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg"><rect width="1200" height="800" fill="#0a0a0a"/><rect x="0" y="0" width="1200" height="120" fill="#285952"/><rect x="0" y="117" width="1200" height="3" fill="#e47756"/><g transform="translate(540, 320)"><circle cx="60" cy="60" r="60" fill="#e47756"/><polygon points="48,32 48,88 96,60" fill="#faf8f4"/></g><text x="600" y="560" text-anchor="middle" font-family="sans-serif" font-size="48" font-weight="900" fill="#faf8f4" letter-spacing="-1">SOP VIDEO</text></svg></template>
+</body>
+</html>

@@ -1,0 +1,57 @@
+Process Title: Creating a Missing AA Record for Case Entry
+Department: Operational Services – LEAP 
+SOP ID: N/A
+Last Reviewed: 03/31/2026
+Effective Date: 03/31/2026
+Version: 1.0
+
+Purpose
+This SOP outlines the standardized steps for Creating a Missing AA Record for Case Entries in accordance with LEAP procedural requirements.
+Scope
+This procedure applies to all staff responsible for performing Assessor Authorization (Case Entry) processing within IASWorld and related documentation management.
+Definitions
+AA – Assessor Authorization document used for District Court processing.
+IASWorld – Property tax assessment and appeals system.
+Related Documents
+Documents referenced in this SOP are either available within the shared LEAP directories or within a given AA packet as applicable.
+Statutes
+Applicable statutory references may include NMSA 1978 property tax procedures as relevant to District Court filings.
+Procedure
+NOTE: Only use these instructions when doing Case Entry for an otherwise completed AA form and the “Hearings” page is blank after pulling up the Parcel. Ensure that the values on the “Asmt” page match indicated values on the AA form before proceeding with these instructions.
+Create a new record for the parcel.
+Select “Add Record” (underneath the “Parcel ID” search bar). This opens a new record for the AA Parcel.
+Setting up the new record.
+Select the “Type” dropdown and choose “DIST”.
+Add the Filing Date.
+Included with the AA form there should be the Claim for Refund Notice. Find the Filing Date on this notice. 
+NOTE: If the Claim for Refund (Complaint for Refund of Property Taxes Paid) Notice is unavailable then you may use the Filing Date from the Stipulated Final Judgement Notice instead.
+In IASWorld, fill in the same Filing Date from the selected form into the “Filing Date” field either by typing it in or selecting it by clicking the calendar icon.
+Select the “Action” dropdown and choose “Authorization”
+Select the “Reason” dropdown and choose “CR: Claim for Refund”.
+Select the “Hearing Status” dropdown and choose “Resolved”
+Add the Owner’s Personal Information
+Click the three horizontal bars next to the “Owner’s Name” line. The owner’s information should auto-populate in a popup window.
+Select the owner’s information if it’s not already selected and click “Okay”. This should automatically fill in the owner’s name and address.
+Note: If the owner’s info doesn’t auto-populate or automatically fill in then type out the information from the AA form into the “Owner Name” and “Address” fields.
+Scroll down and select the “District Court Rec Date” and choose the same date used for the “Filing Date”
+Add the District Court Case #.
+You can find the District Court Case # on either the Claim for Refund or the Stipulated Final Judgement (Format: CV-YYYY-#####, i.e. “CV-2025-12345”).
+NOTE: The year stipulated on the Case # IS NOT always the same as the selected Tax Year. Write the year as it appears in the Case #.
+Enter the District Court Case # on the “District Court Case #” line (Using spaces instead of dashes)
+EXAMPLE: CV-2025-12345 is entered as “CV 2025 12345”
+Validate New Record.
+Select “Validate”. This will generate a new blank line above the previously generated line with your name and date/time.
+Add Notes.
+Select “Notes1” from the tabs near the top of the screen.
+Select “Add”
+Type in the next # in descending sequence from the previous notes. Hit Tab or select the blank area in the Code column.
+Select “District Court”. Hit Tab twice or select the area in the Comment column.
+In the “Comment” column, write:
+“Claim for Refund for CV#[CV# from Step 2.i, include dashes] [Any Extra Notes] [Entering Staff Initials] [DD.MM.YYYY]
+EXAMPLE: “Claim for Refund for CV-2025-12345 JD 01.01.2026”
+NOTE: If extra space is needed then you can create add rows to your notes. Each additional row starts with the original sequence # from your initial note then has “.01, .02, .03…” added to it, reflecting the number of additional rows.  (i.e. Sequence 22 branches into 22.01 then 22.02 if there are two extra rows).
+ Finalize the Parcel
+Select “Validate”. The Validate button should turn green.
+Once “Validate” is selected select “Commit” to finalize the new Parcel.
+Complete the Case Entry
+Return to Case Entry for District Court AAs and continue from Step 6 to finish processing the Case Entry as normal. 

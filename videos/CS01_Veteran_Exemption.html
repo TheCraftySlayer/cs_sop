@@ -3,18 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>CS01 · Veteran Exemption Entry · Animated SOP</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
-  @font-face {
-    font-family: 'Gotham Display';
-    src: url('../fonts/Gotham-Black.otf') format('opentype');
-    font-weight: 900;
-    font-style: normal;
-    font-display: swap;
-  }
-  html, body, #root { margin: 0; padding: 0; height: 100%; width: 100%; background: #0a0a0a; overflow: hidden; }
-  body { font-family: "Montserrat", system-ui, sans-serif; }
-</style>
+<link rel="stylesheet" href="../lib/video.css">
 </head>
 <body>
 <div id="root"></div>
@@ -24,163 +13,718 @@
 <script type="text/babel" src="../lib/animations.jsx"></script>
 <script type="text/babel" src="../lib/sop-video.jsx"></script>
 <script type="text/babel">
-const ASSETS = '../sop_assets/CS01_Veteran_Exemption/';
+const A = '../sop_assets/CS01_Veteran_Exemption/';
 
 const scenes = [
-  // 1 — Title
+
+  // ─────────────────────────── PART 1 — OVERVIEW ───────────────────────────
+
+  // 01 — Title
   {
     kind: 'title',
-    duration: 5.5,
+    es: { "title":"Entrada de Exención para Veteranos","plainTitle":"Cómo recibir un certificado de Exención para Veteranos en el mostrador y aplicarlo a una propiedad en IASWorld — desde la entrada hasta el commit.","kicker":"Sigue el POE CS01 paso a paso. Cada pantalla, cada código, cada guardado." },
+    duration: 8,
     sopId: 'CS01',
     title: 'Veteran Exemption Entry',
-    plainTitle: 'How to take in a Veterans Exemption certificate and apply it to a property.',
-    kicker: 'A standardized, fair, and accurate process — from counter intake all the way to commit.',
+    plainTitle: 'How to take a Veterans Exemption certificate at the counter and apply it to a property in IASWorld — from intake all the way to commit.',
+    kicker: 'Follows SOP CS01 step by step. Every screen, every code, every save.',
   },
 
-  // 2 — Three certificate types
+  // 02 — Definitions
+  {
+    kind: 'steps',
+    es: { "title":"Dos términos antes de empezar","sub":"Se usan a lo largo de este POE. Vale la pena conocerlos desde el primer día.","steps":[{"label":"CAMA","desc":"Computer Assisted Mass Appraisal — nuestro sistema de valuación de propiedades."},{"label":"NMDVS","desc":"New Mexico Department of Veterans Services — quien emite los certificados."}] },
+    duration: 10,
+    title: 'Two terms before we start',
+    sub: 'Used throughout this SOP. Worth knowing on day one.',
+    steps: [
+      { label: 'CAMA', desc: 'Computer Assisted Mass Appraisal — our property valuation system.' },
+      { label: 'NMDVS', desc: 'New Mexico Department of Veterans Services — who issues the certificates.' },
+    ],
+  },
+
+  // 03 — Two kinds of exemption
   {
     kind: 'comparison',
-    duration: 9,
-    title: 'Three colors, three benefits',
-    sub: 'Check the certificate color first. Each one means a different exemption.',
+    es: { "title":"Dos tipos de exención para veteranos","sub":"Estatutos diferentes, papeleo diferente, código diferente en IASWorld.","items":[{"tag":"Estatuto","label":"Veterans Exemption","desc":"Honorablemente dado de baja, 90+ días consecutivos de servicio. Reduce el valor sujeto a impuesto por $10,000. Continúa año tras año. Re-endose el certificado si el veterano se muda."},{"tag":"Estatuto","label":"Disabled Veterans Exemption","desc":"Discapacidad relacionada con el servicio calificada por el VA. Ya sea un porcentaje de la residencia principal (que coincida con la calificación) O una exención completa del 100%. La exención porcentual puede combinarse con la estándar de $10,000. La exención del 100% (VTW) no."}] },
+    duration: 15,
+    title: 'Two kinds of veteran exemption',
+    sub: 'Different statute, different paperwork, different code in IASWorld.',
     items: [
       {
-        tag: 'Green',
-        label: '$10,000 off',
-        src: ASSETS + 'image1.png',
+        tag: 'Statute',
+        label: 'Veterans Exemption',
         accent: SOP_PALETTE.bosque,
-        desc: 'Standard Veterans Exemption. Reduces taxable value by $10,000.',
+        desc: 'Honorably discharged, 90+ consecutive days of service. Drops taxable value by $10,000. Carries over year to year. Endorse the certificate again if the veteran moves.',
       },
       {
-        tag: 'Pink',
-        label: 'Disability %',
-        src: ASSETS + 'image2.png',
+        tag: 'Statute',
+        label: 'Disabled Veterans Exemption',
         accent: SOP_PALETTE.terracotta,
-        desc: 'Exempts a share of the primary residence equal to the rating (e.g. 50% = 50% off).',
-      },
-      {
-        tag: 'Tan',
-        label: '100% waiver',
-        src: ASSETS + 'image3.png',
-        accent: SOP_PALETTE.cypress,
-        desc: 'Full waiver of property tax on the primary residence — total disability.',
+        desc: 'Service-connected disability rated by the VA. Either a percentage off the primary residence (matching the rating) OR a full 100% waiver. The percentage exemption can be combined with the $10,000 standard. The 100% waiver (VTW) cannot.',
       },
     ],
   },
 
-  // 3 — Verify the certificate
+  // ─────────────────────────── PART 2 — CERTIFICATES ───────────────────────────
+
+  // 04 — Three certificate colors
+  {
+    kind: 'comparison',
+    es: { "title":"Tres colores de certificado","sub":"Verifique el color primero. El color le dice qué código usar después.","items":[{"tag":"Verde","label":"$10,000 off","desc":"Exención Estándar para Veteranos. Código: VET1 (un cert) o VET2 (dos)."},{"tag":"Rosa","label":"Discapacidad %","desc":"Calificación porcentual. Código: VETP10 hasta VETP90."},{"tag":"Beige","label":"Exención 100%","desc":"Discapacidad total. Código: VETW."}] },
+    duration: 17,
+    title: 'Three certificate colors',
+    sub: 'Check the color first. The color tells you the code to use later.',
+    items: [
+      {
+        tag: 'Green',
+        label: '$10,000 off',
+        src: A + 'image1.png',
+        accent: SOP_PALETTE.bosque,
+        desc: 'Standard Veterans Exemption. Code: VET1 (one cert) or VET2 (two).',
+      },
+      {
+        tag: 'Pink',
+        label: 'Disability %',
+        src: A + 'image2.png',
+        accent: SOP_PALETTE.terracotta,
+        desc: 'Percentage rating. Code: VETP10 through VETP90.',
+      },
+      {
+        tag: 'Tan',
+        label: '100% waiver',
+        src: A + 'image3.png',
+        accent: SOP_PALETTE.cypress,
+        desc: 'Total disability. Code: VETW.',
+      },
+    ],
+  },
+
+  // 05 — Green cert verification
   {
     kind: 'screenshot',
-    duration: 8,
-    step: { num: 1, label: 'Verify' },
-    caption: 'Match the name. Match the address.',
-    sub: 'The veteran\'s name has to match their ID. The address has to match the property (UPC). Confirm the applicant signed in the bottom-left and the NMDVS endorsement is in the bottom-right.',
-    src: ASSETS + 'image1.png',
+    es: { "step":{"num":1,"label":"Verificar verde"},"caption":"Certificado verde — qué verificar.","sub":"En el frente del certificado, confirme todo lo siguiente antes de aceptarlo.","bullets":[{"text":"El nombre del veterano coincide con la identificación"},{"text":"Línea del solicitante — Veterano O viuda calificada"},{"text":"La dirección física coincide con el UPC"},{"text":"El veterano firmó en la esquina inferior izquierda"},{"text":"El endoso de NMDVS está presente"},{"text":"Voltéelo — ¿algún uso previo? (MVD, otros condados)"}] },
+    duration: 13,
+    step: { num: 1, label: 'Verify green' },
+    caption: 'Green certificate — what to check.',
+    sub: 'On the front of the certificate, confirm everything below before you accept it.',
+    src: A + 'image1.png',
     imgPos: 'right',
     imgFit: 'contain',
     imgAspect: 628/837,
     bullets: [
       { text: 'Veteran name matches the ID', color: SOP_PALETTE.bosque },
-      { text: 'Address matches the property (UPC)', color: SOP_PALETTE.bosque },
-      { text: 'Applicant signature is in the bottom-left', color: SOP_PALETTE.terracotta },
-      { text: 'NMDVS endorsement is in the bottom-right', color: SOP_PALETTE.terracotta },
+      { text: 'Applicant line — Veteran OR qualifying widow', color: SOP_PALETTE.bosque },
+      { text: 'Physical address matches the UPC', color: SOP_PALETTE.terracotta },
+      { text: 'Veteran signed in the bottom-left corner', color: SOP_PALETTE.terracotta },
+      { text: 'NMDVS endorsement is present', color: SOP_PALETTE.cypress },
+      { text: 'Flip it over — any prior use? (MVD, other counties)', color: SOP_PALETTE.cypress },
     ],
   },
 
-  // 4 — Endorse the back
+  // 06 — Pink (percentage) cert
   {
     kind: 'screenshot',
-    duration: 7,
-    step: { num: 2, label: 'Endorse' },
-    caption: 'Endorse the back.',
-    sub: 'On the back of the certificate, write the date, the amount, the UPC, the Assessor name with your initials, and "Bern" for Bernalillo County.',
-    src: ASSETS + 'image4.png',
+    es: { "step":{"num":2,"label":"Verificar rosa"},"caption":"Certificado rosa — registre el porcentaje.","sub":"El porcentaje de discapacidad en este certificado es el código que escribirá después. Anótelo ahora.","bullets":[{"text":"Nombre del veterano"},{"text":"Porcentaje de discapacidad (10–90)"},{"text":"La dirección coincide con el UPC"},{"text":"Firma del solicitante + endoso de NMDVS"}] },
+    duration: 11,
+    step: { num: 2, label: 'Verify pink' },
+    caption: 'Pink certificate — record the percentage.',
+    sub: 'The disability percentage on this certificate is the code you\'ll type later. Note it now.',
+    src: A + 'image2.png',
+    imgPos: 'right',
+    imgFit: 'contain',
+    imgAspect: 628/837,
+    bullets: [
+      { text: 'Veteran name', color: SOP_PALETTE.bosque },
+      { text: 'Disability percentage (10–90)', color: SOP_PALETTE.terracotta },
+      { text: 'Address matches the UPC', color: SOP_PALETTE.bosque },
+      { text: 'Applicant signature + NMDVS endorsement', color: SOP_PALETTE.cypress },
+    ],
+  },
+
+  // 07 — Tan (100%) cert
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":3,"label":"Verificar beige"},"caption":"Certificado beige — exención del 100%.","sub":"Mismas verificaciones que el rosa, pero la calificación es 100%. Esta es la exención completa — usa el código VETW." },
+    duration: 10,
+    step: { num: 3, label: 'Verify tan' },
+    caption: 'Tan certificate — 100% waiver.',
+    sub: 'Same checks as the pink, but the rating is 100%. This is the full waiver — uses code VETW.',
+    src: A + 'image3.png',
+    imgPos: 'right',
+    imgFit: 'contain',
+    imgAspect: 628/837,
+  },
+
+  // 08 — Endorse the back
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":4,"label":"Endosar el reverso"},"caption":"Endose el reverso del certificado.","sub":"Si ya hay un UPC previo escrito, verifique que la exención anterior haya sido retirada. Después escriba:","bullets":[{"text":"La fecha de hoy"},{"text":"Monto siendo endosado (usualmente $10,000)"},{"text":"El número UPC de la propiedad"},{"text":"\"D Lara / sus iniciales\""},{"text":"\"Bern\" — abreviación de Bernalillo County"}] },
+    duration: 13,
+    step: { num: 4, label: 'Endorse the back' },
+    caption: 'Endorse the back of the certificate.',
+    sub: 'If a prior UPC is already written, check that the prior exemption has been removed. Then write:',
+    src: A + 'image4.png',
     imgPos: 'right',
     imgFit: 'contain',
     bullets: [
-      { text: 'Date · Amount · UPC #', color: SOP_PALETTE.bosque },
-      { text: '"D Lara / your initials"', color: SOP_PALETTE.bosque },
-      { text: 'Bern or Bernalillo County', color: SOP_PALETTE.terracotta },
+      { text: 'Today\'s date', color: SOP_PALETTE.bosque },
+      { text: 'Amount being endorsed (usually $10,000)', color: SOP_PALETTE.bosque },
+      { text: 'The property UPC number', color: SOP_PALETTE.terracotta },
+      { text: '"D Lara / your initials"', color: SOP_PALETTE.terracotta },
+      { text: '"Bern" — short for Bernalillo County', color: SOP_PALETTE.cypress },
     ],
   },
 
-  // 5 — Open General Exemption screen
+  // 09 — State form (pink only per SOP)
   {
     kind: 'screenshot',
-    duration: 7,
-    step: { num: 3, label: 'Open the screen' },
-    caption: 'Go to General Exemption by Parcel.',
-    sub: 'In the Transaction Menu, expand Exemptions and click General Exemption by Parcel. Then enter the property UPC.',
-    src: ASSETS + 'image10.png',
+    es: { "step":{"num":5,"label":"Formulario estatal"},"caption":"Formulario estatal — solo certificados porcentuales.","sub":"Para certificados rosas (porcentuales), imprima y llene el formulario State of New Mexico Disabled Veteran Exemption Certification of Ownership and Residence. Tres secciones que llenar, más la copia de la identificación del solicitante.","bullets":[{"text":"Sección I — condado, nombre del veterano, dirección, cert #, UPC"},{"text":"Sección II (Part III) — firma del solicitante + fecha"},{"text":"Sección IV — engrape una copia de la identificación"},{"text":"Selle con fecha el formulario antes de archivarlo"}] },
+    duration: 14,
+    step: { num: 5, label: 'State form' },
+    caption: 'State form — percentage certificates only.',
+    sub: 'For pink (percentage) certificates, print and fill the State of New Mexico Disabled Veteran Exemption Certification of Ownership and Residence form. Three sections to fill, plus the applicant\'s ID copy.',
+    src: A + 'image5.png',
     imgPos: 'right',
     imgFit: 'contain',
+    imgAspect: 738/963,
+    bullets: [
+      { text: 'Section I — county, veteran name, address, cert #, UPC', color: SOP_PALETTE.bosque },
+      { text: 'Section II (Part III) — applicant signature + date', color: SOP_PALETTE.terracotta },
+      { text: 'Section IV — staple a copy of the ID', color: SOP_PALETTE.cypress },
+      { text: 'Date stamp the form before filing', color: SOP_PALETTE.cypress },
+    ],
   },
 
-  // 6 — Add the record, pick the code
+  // 10 — BernCo Exemption Form
   {
     kind: 'screenshot',
+    es: { "step":{"num":6,"label":"Formulario BernCo"},"caption":"Formulario BernCo — cada veterano.","sub":"Imprima y llene el formulario de entrada de la propia oficina. Tres cajas que completar.","bullets":[{"text":"Caja 1: Tax Year, UPC, LUC, Acreage, PID, teléfono, propietario, iniciales del que recibió, fecha"},{"text":"Caja 2 (Sección Veteran): Cert #, tipo de certificado, UPC previo si aplica"},{"text":"Caja 3: firma del veterano o cónyuge sobreviviente"}] },
+    duration: 15,
+    step: { num: 6, label: 'BernCo form' },
+    caption: 'BernCo Exemption Form — every veteran.',
+    sub: 'Print and fill the office\'s own intake form. Three boxes to complete.',
+    src: A + 'image7.png',
+    imgPos: 'right',
+    imgFit: 'contain',
+    imgAspect: 645/834,
+    bullets: [
+      { text: 'Box 1: Tax Year, UPC, LUC, Acreage, PID, phone, owner, received-by initials, date', color: SOP_PALETTE.bosque },
+      { text: 'Box 2 (Veteran section): Cert #, certificate type, prior UPC if any', color: SOP_PALETTE.terracotta },
+      { text: 'Box 3: signature of veteran or surviving spouse', color: SOP_PALETTE.cypress },
+    ],
+  },
+
+  // ─────────────────────────── PART 3 — PRIOR USE RESEARCH ───────────────────────────
+
+  // 11 — Open menu
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":7,"label":"Uso previo"},"caption":"Investigue el uso previo del certificado.","sub":"En IASWorld, haga clic en el menú de tres líneas arriba a la izquierda. Expanda Property Records y haga clic en Owner Name." },
+    duration: 10,
+    step: { num: 7, label: 'Prior use' },
+    caption: 'Look up prior use of the certificate.',
+    sub: 'In IASWorld, click the three-line menu in the top-left. Expand Property Records and click Owner Name.',
+    src: A + 'image8.png',
+    imgPos: 'right',
+    imgFit: 'contain',
+    imgAspect: 437/602,
+  },
+
+  // 12 — Owner search
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":8,"label":"Buscar"},"caption":"Escriba Apellido, Nombre y agregue un asterisco.","sub":"El asterisco amplía la búsqueda. Busque cualquier otro parcels bajo este propietario — asegúrese de que el certificado no esté ya aplicado en otro lado." },
+    duration: 11,
+    step: { num: 8, label: 'Search' },
+    caption: 'Type Last Name, First Name and add an asterisk.',
+    sub: 'The asterisk widens the search. Look for any other parcels under this owner — make sure the certificate isn\'t already applied somewhere else.',
+    src: A + 'image9.png',
+    imgPos: 'right',
+    imgFit: 'contain',
+    imgAspect: 770/360,
+  },
+
+  // 13 — Deactivation note
+  {
+    kind: 'bigstat',
+    es: { "stat":"PARE","caption":"Desactivar un certificado viejo","sub":"Si el certificado ya se usó en otro UPC, la desactivación NO la hace el personal del mostrador. Páselo a un Assessor Tech Lead, Admin Support Assistant o Manager." },
     duration: 8,
-    step: { num: 4, label: 'Pick the code' },
-    caption: 'Type the right code.',
-    sub: 'On the Exemptions tab, click Add Record. Open the Exemption Code menu and type one of:',
-    src: ASSETS + 'image16.png',
+    stat: 'STOP',
+    caption: 'Deactivating an old certificate',
+    sub: 'If the certificate was already used on another UPC, deactivation is NOT done by counter staff. Hand it to an Assessor Tech Lead, Admin Support Assistant, or Manager.',
+    accent: SOP_PALETTE.terracotta,
+  },
+
+  // ─────────────────────────── PART 4 — GENERAL EXEMPTION ───────────────────────────
+
+  // 14 — Open General Exemption
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":9,"label":"Abrir la pantalla"},"caption":"Transaction Menu → Exemptions → General Exemption by Parcel.","sub":"Esto abre la pantalla de entrada para la exención." },
+    duration: 10,
+    step: { num: 9, label: 'Open the screen' },
+    caption: 'Transaction Menu → Exemptions → General Exemption by Parcel.',
+    sub: 'This opens the entry screen for the exemption.',
+    src: A + 'image10.png',
     imgPos: 'right',
     imgFit: 'contain',
+    imgAspect: 990/132,
+  },
+
+  // 15 — Enter UPC
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":10,"label":"Ingresar el UPC"},"caption":"Escriba el UPC de la propiedad.","sub":"Este es el parcel al cual se aplicará la exención." },
+    duration: 8,
+    step: { num: 10, label: 'Enter the UPC' },
+    caption: 'Type the property UPC.',
+    sub: 'This is the parcel the exemption will be applied to.',
+    src: A + 'image11.png',
+    imgPos: 'right',
+    imgFit: 'contain',
+    imgAspect: 990/132,
+  },
+
+  // 16 — Parcel screen LUC
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":11,"label":"Pantalla Parcel"},"caption":"Confirme LUC y Acres.","sub":"Las exenciones para veteranos solo aplican a los primeros 5 acres. El Land Use Code (LUC) tiene que ser residencial — uno de nueve valores válidos.","bullets":[{"text":"LUCs válidos: 1100, 1102, 1103, 1104, 1250"},{"text":"11PT, 11GC, 11HT, 1150"},{"text":"¿Más de 5 acres + 100% discapacitado? Agregue HOHX y/o Standard Vet Cert"}] },
+    duration: 14,
+    step: { num: 11, label: 'Parcel screen' },
+    caption: 'Confirm LUC and Acres.',
+    sub: 'Veteran exemptions only apply to the first 5 acres. The Land Use Code (LUC) has to be residential — one of nine valid values.',
+    src: A + 'image12.png',
+    imgPos: 'right',
+    imgFit: 'contain',
+    imgAspect: 525/642,
     bullets: [
-      { text: 'VET1 — green certificate ($10,000)', color: SOP_PALETTE.bosque },
-      { text: 'VET2 — two green certificates ($20,000)', color: SOP_PALETTE.bosque },
-      { text: 'VETxx — pink (e.g. VET50 for 50% rating)', color: SOP_PALETTE.terracotta },
-      { text: 'VETW — tan (100% full waiver)', color: SOP_PALETTE.cypress },
+      { text: 'Valid LUCs: 1100, 1102, 1103, 1104, 1250', color: SOP_PALETTE.bosque },
+      { text: '11PT, 11GC, 11HT, 1150', color: SOP_PALETTE.bosque },
+      { text: 'Over 5 acres + 100% disabled? Add HOHX and/or Standard Vet Cert', color: SOP_PALETTE.terracotta },
     ],
   },
 
-  // 7 — Validate
+  // 17 — Owners screen
   {
     kind: 'screenshot',
-    duration: 5.5,
-    step: { num: 5, label: 'Validate' },
-    caption: 'Validate before you move on.',
-    sub: 'After each screen — Exemptions, Applicants, EX Details — click Validate. Catch mistakes before they pile up.',
-    src: ASSETS + 'image24.png',
+    es: { "step":{"num":12,"label":"Pantalla Owners"},"caption":"Pestaña Owners — actualice el número de teléfono.","sub":"Reemplace el campo Telephone con el teléfono listado en el formulario de entrada. Esté atento a las marcas Special Assessments y Value Freeze.","bullets":[{"text":"Actualice Telephone para coincidir con el formulario de entrada"},{"text":"Note cualquier Special Assessments"},{"text":"¿Solicitante 100% + Value Freeze? Vea a un Lead o Manager"}] },
+    duration: 13,
+    step: { num: 12, label: 'Owners screen' },
+    caption: 'Owners tab — update the phone number.',
+    sub: 'Replace the Telephone field with the phone listed on the BernCo intake form. Watch for Special Assessments and Value Freeze flags.',
+    src: A + 'image13.png',
     imgPos: 'right',
     imgFit: 'contain',
+    imgAspect: 989/626,
+    bullets: [
+      { text: 'Update Telephone to match the application form', color: SOP_PALETTE.bosque },
+      { text: 'Note any Special Assessments', color: SOP_PALETTE.terracotta },
+      { text: '100% applicant + Value Freeze? See a Lead or Manager', color: SOP_PALETTE.cypress },
+    ],
   },
 
-  // 8 — Notes tab
+  // ─────────────────────────── PART 5 — EXEMPTIONS TAB ───────────────────────────
+
+  // 18 — Exemptions tab Add Record
   {
     kind: 'screenshot',
-    duration: 7,
-    step: { num: 6, label: 'Add a note' },
-    caption: 'Document with the right note code.',
-    sub: 'On the Notes 1 tab, click Add. Use the code that matches the certificate type — VETX for standard, VTP for percentage, VTW for the 100% waiver — and follow the comment template.',
-    src: ASSETS + 'image34.png',
+    es: { "step":{"num":13,"label":"Pestaña Exemptions"},"caption":"Pestaña Exemptions → Add Record.","sub":"Cambie a la pestaña Exemptions. Haga clic en Add Record en la barra de herramientas arriba a la izquierda." },
+    duration: 10,
+    step: { num: 13, label: 'Exemptions tab' },
+    caption: 'Exemptions tab → Add Record.',
+    sub: 'Switch to the Exemptions tab. Click Add Record in the toolbar at the top-left.',
+    src: A + 'image14.png',
     imgPos: 'right',
     imgFit: 'contain',
+    imgAspect: 1067/733,
   },
 
-  // 9 — Commit
+  // 19 — Open Exemption Code menu
   {
     kind: 'screenshot',
-    duration: 6,
-    step: { num: 7, label: 'Commit' },
-    caption: 'Click Commit. You\'re done.',
-    sub: 'Review the entry one last time, then press Commit. IASWorld stamps your initials, date, and time automatically.',
-    src: ASSETS + 'image40.png',
+    es: { "step":{"num":14,"label":"Abrir la lista de códigos"},"caption":"Haga clic en el menú junto a Exemption Code.","sub":"Se abre un selector donde escribirá el código." },
+    duration: 8,
+    step: { num: 14, label: 'Open the code list' },
+    caption: 'Click the menu next to Exemption Code.',
+    sub: 'A picker opens where you\'ll type the code.',
+    src: A + 'image15.png',
+    imgPos: 'right',
+    imgFit: 'contain',
+    imgAspect: 1043/438,
+  },
+
+  // 20 — Pick green code
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":"15a","label":"Ruta verde"},"caption":"Verde — escriba VET1, clic en Find, clic en OK.","sub":"Si el veterano le entregó dos certificados verdes, escriba VET2 en su lugar. Mismo flujo." },
+    duration: 10,
+    step: { num: '15a', label: 'Green path' },
+    caption: 'Green — type VET1, click Find, click OK.',
+    sub: 'If the veteran handed you two green certificates, type VET2 instead. Same flow.',
+    src: A + 'image16.png',
+    imgPos: 'right',
+    imgFit: 'contain',
+    imgAspect: 1107/615,
+  },
+
+  // 21 — Pink path
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":"15b","label":"Ruta rosa"},"caption":"Rosa — escriba VETP, elija el porcentaje.","sub":"Para un certificado porcentual, escriba VETP. La lista se reduce a VETP10 hasta VETP90. Haga clic en la fila que coincida con la calificación del certificado, después OK." },
+    duration: 13,
+    step: { num: '15b', label: 'Pink path' },
+    caption: 'Pink — type VETP, pick the percentage.',
+    sub: 'For a percentage certificate, type VETP. The list narrows to VETP10 through VETP90. Click the row that matches the certificate\'s rating, then OK.',
+    src: A + 'image17.png',
+    imgPos: 'right',
+    imgFit: 'contain',
+    imgAspect: 1107/591,
+  },
+
+  // 22 — Tan path
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":"15c","label":"Ruta beige"},"caption":"Beige — escriba VETW para la exención 100%.","sub":"Una fila: DISABLED VETERAN TAX WAIVER. Haga clic en OK." },
+    duration: 10,
+    step: { num: '15c', label: 'Tan path' },
+    caption: 'Tan — type VETW for the 100% waiver.',
+    sub: 'One row: DISABLED VETERAN TAX WAIVER. Click OK.',
+    src: A + 'image18.png',
+    imgPos: 'right',
+    imgFit: 'contain',
+    imgAspect: 1093/626,
+  },
+
+  // 23 — Fill in details
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":16,"label":"Llenar la fila"},"caption":"Llene el resto de la fila.","sub":"Seis campos que configurar. Use COPY OWNER para la dirección — ahorra tipeo y previene errores.","bullets":[{"text":"Date of Application — hoy"},{"text":"Application Status — A: Approved"},{"text":"Reason Code — VT1, VT2, VTP o VTW"},{"text":"Applicant — como aparece en el certificado"},{"text":"Haga clic en COPY OWNER para llenar Address"},{"text":"Telephone — del formulario de entrada"}] },
+    duration: 17,
+    step: { num: 16, label: 'Fill the row' },
+    caption: 'Fill in the rest of the row.',
+    sub: 'Six fields to set. Use COPY OWNER for the address — saves typing and prevents errors.',
+    src: A + 'image19.png',
+    imgPos: 'right',
+    imgFit: 'contain',
+    imgAspect: 1131/620,
+    bullets: [
+      { text: 'Date of Application — today', color: SOP_PALETTE.bosque },
+      { text: 'Application Status — A: Approved', color: SOP_PALETTE.bosque },
+      { text: 'Reason Code — VT1, VT2, VTP, or VTW', color: SOP_PALETTE.terracotta },
+      { text: 'Applicant — as it appears on the certificate', color: SOP_PALETTE.terracotta },
+      { text: 'Click COPY OWNER to fill Address', color: SOP_PALETTE.cypress },
+      { text: 'Telephone — from the application form', color: SOP_PALETTE.cypress },
+    ],
+  },
+
+  // 23b — Warning: do NOT fill the Veteran Exemption section
+  {
+    kind: 'bigstat',
+    es: { "stat":"NO LO HAGA","caption":"En esta misma pantalla","sub":"Deje la sección \"Veteran Exemption\" en la parte inferior en blanco. El POE es explícito — ese bloque se llena en otro lado." },
+    duration: 8,
+    stat: 'DO NOT',
+    caption: 'On this same screen',
+    sub: 'Leave the "Veteran Exemption" section at the bottom blank. The SOP is explicit — that block is filled elsewhere.',
+    accent: SOP_PALETTE.terracotta,
+  },
+
+  // 24 — Reason codes reference
+  {
+    kind: 'steps',
+    es: { "title":"¿Cuál Reason Code?","sub":"Coincida el código con el certificado que recibió.","steps":[{"label":"VT1","desc":"Un certificado verde."},{"label":"VT2","desc":"Dos certificados verdes (un contribuyente, dos veteranos)."},{"label":"VTP","desc":"Certificado rosa — porcentaje de discapacidad."},{"label":"VTW","desc":"Certificado beige — exención 100%."}] },
+    duration: 13,
+    title: 'Which Reason Code?',
+    sub: 'Match the code to the certificate you took in.',
+    steps: [
+      { label: 'VT1', desc: 'One green certificate.' },
+      { label: 'VT2', desc: 'Two green certificates (one taxpayer, two vets).' },
+      { label: 'VTP', desc: 'Pink certificate — disabled vet percent.' },
+      { label: 'VTW', desc: 'Tan certificate — disabled vet 100% waiver.' },
+    ],
+  },
+
+  // 25 — Validate
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":17,"label":"Validar"},"caption":"Haga clic en Validate antes de continuar.","sub":"Después de cada pantalla — Exemptions, Applicants, EX Details — haga clic en Validate. Detecte errores antes de que se acumulen." },
+    duration: 10,
+    step: { num: 17, label: 'Validate' },
+    caption: 'Click Validate before you move on.',
+    sub: 'After every screen — Exemptions, Applicants, EX Details — click Validate. Catch mistakes before they pile up.',
+    src: A + 'image24.png',
+    imgPos: 'right',
+    imgFit: 'contain',
+    imgAspect: 1051/87,
+  },
+
+  // ─────────────────────────── PART 6 — APPLICANTS TAB ───────────────────────────
+
+  // 26 — Applicants Add Record
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":18,"label":"Pestaña Applicants"},"caption":"Pestaña Applicants → Add Record.","sub":"Cambie de pestaña. Haga clic en Add Record." },
+    duration: 8,
+    step: { num: 18, label: 'Applicants tab' },
+    caption: 'Applicants tab → Add Record.',
+    sub: 'Switch tabs. Click Add Record.',
+    src: A + 'image25.png',
+    imgPos: 'right',
+    imgFit: 'contain',
+    imgAspect: 833/161,
+  },
+
+  // 27 — Applicant fields
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":19,"label":"Elegir el propietario"},"caption":"Owner Reference → COPY OWNER → Telephone.","sub":"Haga clic en el menú junto a Owner Reference, elija el propietario, clic en OK. Después haga clic en COPY OWNER — verifique que el nombre coincida con el certificado. Escriba el número de teléfono." },
+    duration: 14,
+    step: { num: 19, label: 'Pick the owner' },
+    caption: 'Owner Reference → COPY OWNER → Telephone.',
+    sub: 'Click the menu next to Owner Reference, pick the owner, click OK. Then click COPY OWNER — verify the name matches the certificate. Type the phone number.',
+    src: A + 'image26.png',
+    imgPos: 'right',
+    imgFit: 'contain',
+    imgAspect: 967/603,
+  },
+
+  // 28 — User Fields
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":20,"label":"User Fields"},"caption":"Baje hasta User Fields.","sub":"Cinco campos requeridos, más una caja azul para certificados usados previamente.","bullets":[{"text":"Veterans Certificate # — del cert"},{"text":"Application Status — F (primera), L (perdido re-emitido), P (usado previamente)"},{"text":"Date Applied · Received by Initials"},{"text":"Amount Applied — $10K (verde), $20K (dos verdes), o % (rosa/beige)"},{"text":"Caja azul: uso previo — vea la plantilla de nota"}] },
+    duration: 17,
+    step: { num: 20, label: 'User Fields' },
+    caption: 'Scroll down to User Fields.',
+    sub: 'Five required fields, plus a blue box for previously-used certificates.',
+    src: A + 'image27.png',
+    imgPos: 'right',
+    imgFit: 'contain',
+    imgAspect: 977/394,
+    bullets: [
+      { text: 'Veterans Certificate # — from the cert', color: SOP_PALETTE.bosque },
+      { text: 'Application Status — F (first), L (lost re-issued), P (previously used)', color: SOP_PALETTE.terracotta },
+      { text: 'Date Applied · Received by Initials', color: SOP_PALETTE.bosque },
+      { text: 'Amount Applied — $10K (green), $20K (two green), or % (pink/tan)', color: SOP_PALETTE.cypress },
+      { text: 'Blue box: prior use — see the note template', color: SOP_PALETTE.terracotta },
+    ],
+  },
+
+  // ─────────────────────────── PART 7 — EX DETAILS TAB ───────────────────────────
+
+  // 29 — EX Details Add Record
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":21,"label":"Pestaña EX Details"},"caption":"EX Details → Add Record.","sub":"Cambie a la pestaña EX Details. Haga clic en Add Record en la barra de herramientas." },
+    duration: 10,
+    step: { num: 21, label: 'EX Details tab' },
+    caption: 'EX Details → Add Record.',
+    sub: 'Switch to the EX Details tab. Click Add Record in the toolbar.',
+    src: A + 'image28.png',
+    imgPos: 'right',
+    imgFit: 'contain',
+    imgAspect: 831/440,
+  },
+
+  // 30 — EX Details fields
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":22,"label":"Tres selectores"},"caption":"Reason Code · Override · Owner Reference.","sub":"Exemption Code ya está lleno de antes. Tres selectores más que configurar:","bullets":[{"text":"Reason Code = A: Additional (cuando ya existen otros)"},{"text":"Reason Code = N: New Application (sin otras exenciones)"},{"text":"Override = ADD: ADD"},{"text":"Owner Reference — elija el propietario, clic en OK"}] },
+    duration: 15,
+    step: { num: 22, label: 'Three pickers' },
+    caption: 'Reason Code · Override · Owner Reference.',
+    sub: 'Exemption Code is already filled in from earlier. Three more pickers to set:',
+    src: A + 'image29.png',
+    imgPos: 'right',
+    imgFit: 'contain',
+    imgAspect: 946/606,
+    bullets: [
+      { text: 'Reason Code = A: Additional (when others already exist)', color: SOP_PALETTE.bosque },
+      { text: 'Reason Code = N: New Application (no other exemptions)', color: SOP_PALETTE.bosque },
+      { text: 'Override = ADD: ADD', color: SOP_PALETTE.terracotta },
+      { text: 'Owner Reference — pick the owner, click OK', color: SOP_PALETTE.cypress },
+    ],
+  },
+
+  // 31 — Owner picker
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":23,"label":"Confirmar propietario"},"caption":"Elija el propietario, clic en OK.","sub":"El propietario seleccionado puebla el registro Ex Details. Haga clic en Validate una vez más." },
+    duration: 8,
+    step: { num: 23, label: 'Confirm owner' },
+    caption: 'Pick the owner, click OK.',
+    sub: 'The selected owner populates the Ex Details record. Click Validate one more time.',
+    src: A + 'image30.png',
+    imgPos: 'right',
+    imgFit: 'contain',
+    imgAspect: 1057/562,
+  },
+
+  // 32 — Ex Summary
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":24,"label":"Ex Summary"},"caption":"Ex Summary — confirme que llegó.","sub":"Pantalla de solo lectura. La exención que acaba de ingresar se muestra aquí con su monto en dólares. Si aparece aquí, las matemáticas están bien." },
+    duration: 10,
+    step: { num: 24, label: 'Ex Summary' },
+    caption: 'Ex Summary — confirm it landed.',
+    sub: 'A read-only screen. The exemption you just entered shows here with its dollar amount. If it shows here, the math is good.',
+    src: A + 'image32.png',
+    imgPos: 'right',
+    imgFit: 'contain',
+    imgAspect: 1058/146,
+  },
+
+  // ─────────────────────────── PART 8 — NOTES ───────────────────────────
+
+  // 33 — Notes tab Add
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":25,"label":"Notes 1"},"caption":"Pestaña Notes 1 → ADD.","sub":"Última pestaña. Haga clic en ADD para insertar una nueva fila de nota." },
+    duration: 8,
+    step: { num: 25, label: 'Notes 1' },
+    caption: 'Notes 1 tab → ADD.',
+    sub: 'Last tab. Click ADD to insert a new note row.',
+    src: A + 'image33.png',
+    imgPos: 'right',
+    imgFit: 'contain',
+    imgAspect: 691/97,
+  },
+
+  // 34 — Notes numbering
+  {
+    kind: 'steps',
+    es: { "title":"Cómo numerar las notas","sub":"Números enteros para notas nuevas. Decimales cuando una nota continúa en otra línea.","steps":[{"label":"Próxima nota → 16","desc":"Use el siguiente número entero en la secuencia."},{"label":"Segunda línea de la misma nota → 16.01","desc":"Las continuaciones decimales mantienen agrupadas las entradas largas."},{"label":"Tercera línea → 16.02","desc":"Siga incrementando los decimales según se necesite."}] },
+    duration: 11,
+    title: 'How to number notes',
+    sub: 'Whole numbers for new notes. Decimals when a note runs to a second line.',
+    steps: [
+      { label: 'Next note → 16', desc: 'Use the next whole number in the sequence.' },
+      { label: 'Second line of same note → 16.01', desc: 'Decimal continuations let long entries stay grouped.' },
+      { label: 'Third line → 16.02', desc: 'Keep incrementing decimals as needed.' },
+    ],
+  },
+
+  // 35 — Notes table example
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":26,"label":"Notas en acción"},"caption":"Una historia real de Notes 1.","sub":"Así se ve la pestaña Notes 1 de un parcel activo. Cada fila es un evento en la historia del parcel. Usted está agregando la siguiente fila." },
+    duration: 14,
+    step: { num: 26, label: 'Notes in action' },
+    caption: 'A real Notes 1 history.',
+    sub: 'This is what a busy parcel\'s Notes 1 tab looks like. Each row is one event in the parcel\'s history. You\'re adding the next row.',
+    src: A + 'image34.png',
+    imgPos: 'right',
+    imgFit: 'contain',
+    imgAspect: 1041/620,
+  },
+
+  // 36 — Pick the right code
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":27,"label":"Elegir el código"},"caption":"Elija el Note Code que coincida con el certificado.","sub":"La columna del código determina cómo se categoriza la nota en IASWorld.","bullets":[{"text":"VETX — certificado verde estándar"},{"text":"VP** — porcentaje (VP10, VP20 … VP90)"},{"text":"VTW — exención 100%"},{"text":"REXM — al QUITAR una exención"}] },
+    duration: 15,
+    step: { num: 27, label: 'Pick the code' },
+    caption: 'Pick the Note Code that matches the certificate.',
+    sub: 'The code column determines how the note is categorized in IASWorld.',
+    src: A + 'image38.png',
+    imgPos: 'right',
+    imgFit: 'contain',
+    imgAspect: 235/240,
+    bullets: [
+      { text: 'VETX — standard green certificate', color: SOP_PALETTE.bosque },
+      { text: 'VP** — percentage (VP10, VP20 … VP90)', color: SOP_PALETTE.terracotta },
+      { text: 'VTW — 100% waiver', color: SOP_PALETTE.cypress },
+      { text: 'REXM — when REMOVING an exemption', color: SOP_PALETTE.terracotta },
+    ],
+  },
+
+  // 37 — Comment template
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":28,"label":"Escribir el comentario"},"caption":"Siga la plantilla del comentario.","sub":"Escriba el comentario en la estructura mostrada en la tabla de referencia. Cuando hace commit, IASWorld agrega sus iniciales, fecha y hora automáticamente.","bullets":[{"text":"VETX: \"000000 VET CERT ISSUED TO NAME APPLIED FOR 20**\""},{"text":"VTW: \"100% DISABLED VET CERT 0000-0000-0000 ISSUED TO NAME APPLIED FOR 20**\""},{"text":"VP**: \"**% DISABLED VET CERT 0000-0000-0000 ISSUED TO NAME APPLIED FOR 20**\""}] },
+    duration: 15,
+    step: { num: 28, label: 'Write the comment' },
+    caption: 'Follow the comment template.',
+    sub: 'Type the comment in the structure shown in the reference table. When you commit, IASWorld adds your initials, date, and time automatically.',
+    src: A + 'image39.png',
+    imgPos: 'right',
+    imgFit: 'contain',
+    imgAspect: 941/385,
+    bullets: [
+      { text: 'VETX: "000000 VET CERT ISSUED TO NAME APPLIED FOR 20**"', color: SOP_PALETTE.bosque },
+      { text: 'VTW: "100% DISABLED VET CERT 0000-0000-0000 ISSUED TO NAME APPLIED FOR 20**"', color: SOP_PALETTE.terracotta },
+      { text: 'VP**: "**% DISABLED VET CERT 0000-0000-0000 ISSUED TO NAME APPLIED FOR 20**"', color: SOP_PALETTE.cypress },
+    ],
+  },
+
+  // ─────────────────────────── PART 9 — COMMIT ───────────────────────────
+
+  // 38 — Commit
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":29,"label":"Commit"},"caption":"Revise, después haga clic en Commit.","sub":"Lea todo una vez más. Haga clic en Commit en la barra de herramientas. IASWorld registra la entrada con sus iniciales, la fecha y la hora." },
+    duration: 11,
+    step: { num: 29, label: 'Commit' },
+    caption: 'Review, then click Commit.',
+    sub: 'Read everything one more time. Click Commit in the toolbar. IASWorld records the entry with your initials, the date, and the time.',
+    src: A + 'image40.png',
     imgPos: 'center',
     imgFit: 'contain',
   },
 
-  // 10 — Outro
+  // 39 — Quiz
+  {
+    kind: 'quiz',
+    es: { "title":"Exención aplicada.","sub":"Un registro limpio y validado — un Veterano atendido, una propiedad exenta. Devuelva el certificado al solicitante con la identificación." }, duration: 17,
+    qNum: 1, qTotal: 3,
+    question: 'A veteran brings in a pink certificate with a 60% disability rating. Which exemption code do you use?',
+    options: ['VET1', 'VETP60', 'VETW', 'VTW60'],
+    correctIndex: 1,
+    explanation: 'Pink certificates are percentage-rated. Type VETP and pick the matching row — VETP10 through VETP90.',
+  },
+  {
+    kind: 'quiz',
+    es: { "question":"Un veterano trae un certificado rosa con una calificación de discapacidad del 60%. ¿Qué código de exención usa?","options":["VET1","VETP60","VETW","VTW60"],"explanation":"Los certificados rosas son porcentuales. Escriba VETP y elija la fila correspondiente — VETP10 hasta VETP90." }, duration: 17,
+    qNum: 2, qTotal: 3,
+    question: 'On the back of every certificate, you write the date, the amount, the UPC, and your initials with the Assessor name. What\'s the last thing you write?',
+    options: ['"Bern" or "Bernalillo County"', 'The applicant\'s signature', 'A timestamp', 'The veteran\'s rank'],
+    correctIndex: 0,
+    explanation: '"Bern" — short for Bernalillo County — closes out the endorsement and identifies which county processed it.',
+  },
+  {
+    kind: 'quiz',
+    es: { "question":"En el reverso de cada certificado, escribe la fecha, el monto, el UPC y sus iniciales con el nombre del Tasador. ¿Qué es lo último que escribe?","options":["\"Bern\" o \"Bernalillo County\"","La firma del solicitante","Una marca de tiempo","El rango del veterano"],"explanation":"\"Bern\" — abreviación de Bernalillo County — cierra el endoso e identifica qué condado lo procesó." }, duration: 17,
+    qNum: 3, qTotal: 3,
+    question: 'After every screen — Exemptions, Applicants, EX Details — what do you click before moving on?',
+    options: ['Save', 'Commit', 'Validate', 'Add Record'],
+    correctIndex: 2,
+    explanation: 'Click Validate after each screen. Catch mistakes before they pile up. Commit comes only at the very end.',
+  },
+
+  // 40 — Outro
   {
     kind: 'outro',
-    duration: 6,
+    es: { "question":"Después de cada pantalla — Exemptions, Applicants, EX Details — ¿qué hace clic antes de continuar?","options":["Save","Commit","Validate","Add Record"],"explanation":"Haga clic en Validate después de cada pantalla. Detecte errores antes de que se acumulen. Commit viene solo al final." },
+    duration: 10,
     title: 'Exemption applied.',
-    sub: 'A clean, validated record — one Veteran served, one property exempted.',
+    sub: 'A clean, validated record — one Veteran served, one property exempted. Hand the certificate back to the applicant with the ID.',
   },
 ];
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<SOPVideo sopId="CS01" title="Veteran Exemption Entry" scenes={scenes} />);
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <SOPVideo sopId="CS01" title="Veteran Exemption Entry" scenes={scenes} />
+);
 </script>
+<template id="__bundler_thumbnail" data-bg-color="#0a0a0a">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#0a0a0a"/>
+    <rect x="0" y="0" width="1200" height="120" fill="#285952"/>
+    <rect x="0" y="117" width="1200" height="3" fill="#e47756"/>
+    <g transform="translate(540, 320)">
+      <circle cx="60" cy="60" r="60" fill="#e47756"/>
+      <polygon points="48,32 48,88 96,60" fill="#faf8f4"/>
+    </g>
+    <text x="600" y="560" text-anchor="middle" font-family="sans-serif" font-size="48" font-weight="900" fill="#faf8f4" letter-spacing="-1">SOP VIDEO</text>
+  </svg>
+</template>
 </body>
 </html>

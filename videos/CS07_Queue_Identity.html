@@ -18,67 +18,198 @@ const A = '../sop_assets/CS07_Queue_Identity_and_Administration/';
 const scenes = [
   {
     kind: 'title',
-    duration: 5.5,
+    es: { "title":"Identidad y Administración de Cola","plainTitle":"Cómo gestionar la identidad de una cola, sus números directos, permisos de toma y buzón de voz — los ajustes que rara vez se tocan.","kicker":"Cuatro secciones del panel de cola. La mayoría requieren autorización del Subtasador o Tasador." },
+    duration: 8,
     sopId: 'CS07',
     title: 'Queue Identity & Administration',
-    plainTitle: 'The settings that rarely change — names, extensions, managers, PINs, direct numbers, voicemail recipients.',
-    kicker: 'Most of these need Deputy Assessor or Assessor approval. Move carefully.',
+    plainTitle: 'How to manage a queue\'s identity, direct numbers, pickup permissions, and voicemail — the rarely-touched settings.',
+    kicker: 'Four sections of the queue panel. Most require Deputy Assessor or Assessor authorization.',
   },
 
+  // Authorization
+  {
+    kind: 'steps',
+    es: { "title":"Quién aprueba qué","sub":"Cambios diferentes, firmas diferentes.","steps":[{"label":"Habilitar / Deshabilitar una cola","desc":"Aprobación del Subtasador o Tasador."},{"label":"Asignaciones de gerentes · cambios de números directos","desc":"Aprobación del Subtasador o Tasador."},{"label":"Group Name · PIN · destinatarios de SMS","desc":"Gerente de Servicio al Cliente con confirmación del Subtasador."},{"label":"Cambios en destinatarios de buzón de voz","desc":"Gerente de Servicio al Cliente."}] },
+    duration: 17,
+    title: 'Who can approve what',
+    sub: 'Different changes, different sign-offs.',
+    steps: [
+      { label: 'Enable / Disable a queue', desc: 'Deputy Assessor or Assessor approval.' },
+      { label: 'Manager assignments · direct number changes', desc: 'Deputy Assessor or Assessor approval.' },
+      { label: 'Group Name · Call Queue PIN · SMS recipients', desc: 'Customer Service Manager with Deputy Assessor confirmation.' },
+      { label: 'Voicemail recipient changes', desc: 'Customer Service Manager.' },
+    ],
+  },
+
+  // Four sections
+  {
+    kind: 'steps',
+    es: { "title":"Cuatro secciones del panel","sub":"Los ajustes en este POE viven en cuatro de las seis secciones del panel de cola.","steps":[{"label":"Call Queue Details","desc":"Identidad y administración — nombre, extensión, estado, gerentes, PIN, ruteo de SMS."},{"label":"Direct Numbers","desc":"Números telefónicos asignados directamente a la cola."},{"label":"Pickup Settings & Members","desc":"Cuáles otros usuarios pueden tomar una llamada que está sonando en esta cola."},{"label":"Voicemail & Notifications","desc":"Saludo de buzón de voz y a quién se notifica cuando llegan mensajes."}] },
+    duration: 15,
+    title: 'Four panel sections',
+    sub: 'The settings in this SOP live across four of the queue\'s six panel sections.',
+    steps: [
+      { label: 'Call Queue Details', desc: 'Identity and administration — name, extension, status, managers, PIN, SMS routing.' },
+      { label: 'Direct Numbers', desc: 'Phone numbers assigned directly to the queue.' },
+      { label: 'Pickup Settings & Members', desc: 'Which other users can pick up a ringing call from this queue.' },
+      { label: 'Voicemail & Notifications', desc: 'Voicemail greeting and who is notified when voicemails arrive.' },
+    ],
+  },
+
+  // 1 — Call Queue Details (General)
   {
     kind: 'screenshot',
-    duration: 9,
+    es: { "step":{"num":1,"label":"Call Queue Details"},"caption":"Sub-pestaña General — identidad y admin.","sub":"Diez campos. La mayoría son de solo lectura o rara vez se cambian.","bullets":[{"text":"Short / Full Extension Number"},{"text":"Group Name — nombre visible (¡amigable al público!)"},{"text":"Company Name — ID de llamadas salientes opcional"},{"text":"Managers — conteos de Full Access y Member Management"},{"text":"Call Queue PIN — para acciones fuera del portal"},{"text":"Status (interruptor Habilitada / Deshabilitada)"},{"text":"SMS Recipients — quién recibe los textos de la cola"}] },
+    duration: 20,
     step: { num: 1, label: 'Call Queue Details' },
-    caption: 'The queue\'s name and ID live here.',
-    sub: 'On the General sub-tab: short extension, full extension, group name (public-friendly!), managers, PIN, status, SMS recipients. Edit Managers to grant Full Access or Member Management.',
+    caption: 'General sub-tab — identity & admin.',
+    sub: 'Ten fields. Most are display-only or rarely changed.',
     src: A + '779a0a4ab65bfe730162a90d741b80d5ae4b2be6.png',
     imgPos: 'right', imgFit: 'contain',
+    bullets: [
+      { text: 'Short / Full Extension Number', color: SOP_PALETTE.bosque },
+      { text: 'Group Name — display name (public-friendly!)', color: SOP_PALETTE.bosque },
+      { text: 'Company Name — optional outbound caller ID', color: SOP_PALETTE.terracotta },
+      { text: 'Managers — Full Access + Member Management counts', color: SOP_PALETTE.terracotta },
+      { text: 'Call Queue PIN — for actions outside the portal', color: SOP_PALETTE.cypress },
+      { text: 'Status (Enabled / Disabled toggle)', color: SOP_PALETTE.cypress },
+      { text: 'SMS Recipients — who gets queue texts', color: SOP_PALETTE.cypress },
+    ],
   },
 
+  // 2 — Enable / Disable
   {
     kind: 'comparison',
-    duration: 9,
+    es: { "title":"Deshabilitar, no eliminar.","sub":"Dos formas de sacar una cola de servicio.","items":[{"tag":"Reversible","label":"Deshabilitar","desc":"Haga clic en Disable junto a Status. La cola muestra una X roja en la lista de Call Queues y deja de aceptar llamadas — pero se preserva la configuración y el roster de miembros. Haga clic en Enable para reactivarla; las llamadas se reanudan inmediatamente."},{"tag":"No haga esto","label":"Eliminar","desc":"Borra la cola. Reservado para colas verdaderamente retiradas. Cualquier cosa que podría necesitarse otra vez — deshabilítela, nunca elimine."}] },
+    duration: 15,
     title: 'Disable, don\'t delete.',
     sub: 'Two ways to take a queue out of service.',
     items: [
-      { tag: 'Reversible', label: 'Disable', accent: SOP_PALETTE.bosque, desc: 'Click Disable next to Status. The queue gets a red X and stops accepting calls — but everything is preserved. Click Enable to bring it back.' },
-      { tag: 'Permanent', label: 'Delete', accent: SOP_PALETTE.terracotta, desc: 'Wipes the queue, its members, its rules. Reserve for truly retired queues. Anything that might be needed again should be disabled, not deleted.' },
+      { tag: 'Reversible', label: 'Disable', accent: SOP_PALETTE.bosque, desc: 'Click Disable next to Status. The queue gets a red X on the Call Queues list and stops accepting calls — but configuration and member roster are preserved. Click Enable to bring it back; calls resume immediately.' },
+      { tag: 'Don\'t', label: 'Delete', accent: SOP_PALETTE.terracotta, desc: 'Wipes the queue. Reserved for queues that are truly retired. Anything that might be needed again — disable, never delete.' },
     ],
   },
 
+  // 3 — Managers
+  {
+    kind: 'comparison',
+    es: { "title":"Dos roles de gerente","sub":"Haga clic en Edit junto a Managers para asignar.","items":[{"tag":"Full Access","label":"Todo","desc":"Puede cambiar todos los ajustes, el roster de miembros, Y enrutamiento. Reservado para CSM y líderes designados."},{"tag":"Member Management","label":"Solo roster","desc":"Puede agregar y retirar miembros pero no puede cambiar enrutamiento ni ajustes de espera. Asigne a supervisores que necesitan control del roster sin autoridad sobre enrutamiento."}] },
+    duration: 15,
+    title: 'Two manager roles',
+    sub: 'Click Edit next to Managers to assign.',
+    items: [
+      { tag: 'Full Access', label: 'Everything', accent: SOP_PALETTE.bosque, desc: 'Can change all queue settings, member roster, AND routing. Reserved for CSM and designated leads.' },
+      { tag: 'Member Management', label: 'Roster only', accent: SOP_PALETTE.terracotta, desc: 'Can add and remove members but cannot change routing or wait settings. Assign to supervisors who need roster control without routing authority.' },
+    ],
+  },
+
+  // 4 — Group Name, PIN, SMS
+  {
+    kind: 'steps',
+    es: { "title":"Group Name · PIN · SMS","sub":"Tres campos de identidad que podría tocar.","steps":[{"label":"Group Name","desc":"Edite el campo directamente. No afecta el enrutamiento — la extensión no cambia. Use nombres claros y amigables al público (\"Servicio al Cliente\", no \"Q2\")."},{"label":"Call Queue PIN","desc":"Haga clic en \"Change Call Queue PIN\" para actualizarlo. Documéntelo en un lugar seguro accesible solo a administradores autorizados."},{"label":"SMS Recipients","desc":"Configure los usuarios que reciben los textos enviados al número de la cola. Verifique que al menos un destinatario esté activo y empleado actualmente."}] },
+    duration: 15,
+    title: 'Group Name · PIN · SMS',
+    sub: 'Three identity fields you might actually touch.',
+    steps: [
+      { label: 'Group Name', desc: 'Edit the field directly. Doesn\'t affect routing — the extension is unchanged. Use clear, public-friendly names ("Customer Service", not "Q2").' },
+      { label: 'Call Queue PIN', desc: 'Click "Change Call Queue PIN". Document it in a secure location accessible only to authorized administrators.' },
+      { label: 'SMS Recipients', desc: 'Configure who receives texts sent to the queue\'s number. Verify at least one recipient is active and currently employed.' },
+    ],
+  },
+
+  // 5 — Direct Numbers
   {
     kind: 'screenshot',
-    duration: 8,
+    es: { "step":{"num":2,"label":"Direct Numbers"},"caption":"Números telefónicos asignados a la cola.","sub":"Cada fila es un número público. Quienes marcan este número llegan a la cola sin pasar por el auto-receptionist.","bullets":[{"text":"Agregar/quitar se hace en Account → Phone Numbers"},{"text":"Una cola puede tener uno, varios, o ningún número directo"},{"text":"Reasignar un número cambia donde aterrizan los que llaman — aprobación del Subtasador o Tasador"},{"text":"¿Investigando un problema de enrutamiento? Verifique el número asignado aquí"}] },
+    duration: 15,
     step: { num: 2, label: 'Direct Numbers' },
-    caption: 'Which numbers reach this queue.',
-    sub: 'Each row is a public phone number assigned directly to the queue. Callers dialing this number skip the auto-receptionist and land here.',
+    caption: 'Phone numbers assigned to the queue.',
+    sub: 'Each row is a public number. Callers dialing this number reach the queue without going through the auto-receptionist.',
     src: A + '13c4b985acf5ed896908fabdf828d991fd556afc.png',
     imgPos: 'right', imgFit: 'contain',
     bullets: [
-      { text: 'Add/remove happens elsewhere: Account → Phone Numbers', color: SOP_PALETTE.bosque },
-      { text: 'Reassigning a number changes where callers land', color: SOP_PALETTE.terracotta },
-      { text: 'Always Deputy Assessor or Assessor approval', color: SOP_PALETTE.cypress },
+      { text: 'Add/remove happens at Account → Phone Numbers', color: SOP_PALETTE.bosque },
+      { text: 'A queue can have one, many, or no direct numbers', color: SOP_PALETTE.terracotta },
+      { text: 'Reassigning a number changes where callers land — Deputy or Assessor approval', color: SOP_PALETTE.cypress },
+      { text: 'Investigating a routing issue? Verify the assigned number here', color: SOP_PALETTE.cypress },
     ],
   },
 
+  // 6 — Pickup Settings
   {
-    kind: 'steps',
-    duration: 10,
-    title: 'Who can approve what?',
-    sub: 'Different settings, different sign-offs.',
-    steps: [
-      { label: 'Enable / Disable a queue', desc: 'Deputy Assessor or Assessor approval.' },
-      { label: 'Manager assignments, direct number changes', desc: 'Deputy Assessor or Assessor.' },
-      { label: 'Group Name, PIN, SMS recipients', desc: 'Customer Service Manager with Deputy Assessor confirmation.' },
-      { label: 'Voicemail recipient changes', desc: 'Customer Service Manager. Make sure at least one active recipient is always listed.' },
+    kind: 'bigstat',
+    es: { "stat":"Raro","caption":"Pickup Settings & Members","sub":"Configura cuáles otros usuarios pueden tomar una llamada sonando en esta cola. Útil cuando los miembros se sientan en proximidad. Modifique solo cuando un cambio de flujo de trabajo específico lo amerite." },
+    duration: 11,
+    stat: 'Rarely',
+    caption: 'Pickup Settings & Members',
+    sub: 'Configures which other users can pick up a ringing call from this queue. Useful when members sit in proximity. Modify only when a specific workflow change calls for it.',
+  },
+
+  // 7 — Voicemail
+  {
+    kind: 'screenshot',
+    es: { "step":{"num":3,"label":"Buzón de voz"},"caption":"Voicemail & Notifications.","sub":"Configura el saludo de buzón de voz de la cola y a quién se notifica cuando llegan mensajes. Los mensajes se rastrean en la columna Msg. de la lista Call Queues.","bullets":[{"text":"Saludo de buzón de voz (grabación predeterminada o personalizada)"},{"text":"Notificaciones por correo a destinatarios especificados"},{"text":"Transcripción de buzón a texto (depende de la cuenta)"},{"text":"Verifique que al menos un destinatario activo esté en la lista"}] },
+    duration: 15,
+    step: { num: 3, label: 'Voicemail' },
+    caption: 'Voicemail & Notifications.',
+    sub: 'Configures the queue\'s voicemail greeting and who is notified when voicemails arrive. Voicemails are tracked in the Msg. column on the Call Queues list.',
+    src: A + '779a0a4ab65bfe730162a90d741b80d5ae4b2be6.png',
+    imgPos: 'right', imgFit: 'contain',
+    bullets: [
+      { text: 'Voicemail greeting (default or custom recording)', color: SOP_PALETTE.bosque },
+      { text: 'Email notifications to specified recipients', color: SOP_PALETTE.terracotta },
+      { text: 'Voicemail-to-text transcription (account-dependent)', color: SOP_PALETTE.cypress },
+      { text: 'Verify at least one active recipient is listed', color: SOP_PALETTE.cypress },
     ],
+  },
+
+  // 8 — Settings sub-tab warning
+  {
+    kind: 'bigstat',
+    es: { "stat":"Pregunte","caption":"Sub-pestaña Settings","sub":"Tiene ajustes avanzados a nivel de cola (formato de números, preferencias regionales). Modifique solo cuando una solicitud de cambio de configuración lo requiera explícitamente. Contacte al grupo de administradores de RingCentral antes de cambiar campos que no reconoce." },
+    duration: 10,
+    stat: 'Ask first',
+    caption: 'Settings sub-tab',
+    sub: 'Holds advanced queue-level settings (number formatting, regional preferences). Modify only when a configuration change request explicitly requires it. Contact the RingCentral administrator group before changing fields you don\'t recognize.',
+    accent: SOP_PALETTE.terracotta,
+  },
+
+  // Quiz
+  {
+    kind: 'quiz',
+    es: { "title":"Cambios raros. Consecuencias pesadas.","sub":"Capture el estado actual, obtenga aprobación, guarde, verifique, registre. Los cambios de identidad se propagan a cada miembro y cada llamada." }, duration: 17,
+    qNum: 1, qTotal: 2,
+    question: 'A queue might be needed again someday. What\'s the right way to take it out of service?',
+    options: [
+      'Delete it',
+      'Disable it — preserved but stops accepting calls',
+      'Set wait time to zero',
+      'Remove all members',
+    ],
+    correctIndex: 1,
+    explanation: 'Disabling preserves configuration and member roster. Click Enable when needed. Delete only for truly retired queues.',
+  },
+  {
+    kind: 'quiz',
+    es: { "question":"Una cola podría necesitarse otra vez algún día. ¿Cuál es la forma correcta de sacarla de servicio?","options":["Eliminarla","Deshabilitarla — se preserva pero deja de aceptar llamadas","Poner el tiempo de espera en cero","Retirar todos los miembros"],"explanation":"Deshabilitar preserva la configuración y el roster de miembros. Haga clic en Enable cuando se necesite. Elimine solo para colas verdaderamente retiradas." }, duration: 17,
+    qNum: 2, qTotal: 2,
+    question: 'Who has authority to change the Group Name, Call Queue PIN, or SMS recipients?',
+    options: [
+      'Any queue manager',
+      'Customer Service Manager with Deputy Assessor confirmation',
+      'IT only',
+      'Anyone with Member Management role',
+    ],
+    correctIndex: 1,
+    explanation: 'CSM proposes, Deputy Assessor confirms. The change is documented in the RingCentral Change Log.',
   },
 
   {
     kind: 'outro',
-    duration: 6,
+    es: { "question":"¿Quién tiene autoridad para cambiar el Group Name, Call Queue PIN, o destinatarios de SMS?","options":["Cualquier gerente de cola","Gerente de Servicio al Cliente con confirmación del Subtasador","Solo TI","Cualquiera con rol Member Management"],"explanation":"El CSM lo propone, el Subtasador lo confirma. El cambio se documenta en el RingCentral Change Log." },
+    duration: 10,
     title: 'Rare changes. Heavy consequences.',
-    sub: 'Snapshot the current state, get approval, save, verify, and log every edit.',
+    sub: 'Snapshot the current state, get approval, save, verify, log. Identity changes ripple to every member and every caller.',
   },
 ];
 
@@ -86,5 +217,17 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <SOPVideo sopId="CS07" title="Queue Identity & Administration" scenes={scenes} />
 );
 </script>
+<template id="__bundler_thumbnail" data-bg-color="#0a0a0a">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#0a0a0a"/>
+    <rect x="0" y="0" width="1200" height="120" fill="#285952"/>
+    <rect x="0" y="117" width="1200" height="3" fill="#e47756"/>
+    <g transform="translate(540, 320)">
+      <circle cx="60" cy="60" r="60" fill="#e47756"/>
+      <polygon points="48,32 48,88 96,60" fill="#faf8f4"/>
+    </g>
+    <text x="600" y="560" text-anchor="middle" font-family="sans-serif" font-size="48" font-weight="900" fill="#faf8f4" letter-spacing="-1">SOP VIDEO</text>
+  </svg>
+</template>
 </body>
 </html>

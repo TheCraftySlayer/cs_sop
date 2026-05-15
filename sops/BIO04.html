@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>BIO04 · Internal Agent Configuration &amp; Sources Baseline · Reference</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+@font-face { font-family: 'Gotham Display'; src: url('../fonts/Gotham-Black.otf') format('opentype'); font-weight: 900; font-style: normal; font-display: swap; }
+:root {
+  --bosque:#285952; --bosque-dark:#1d4640; --cypress:#013942;
+  --terracotta:#e47756; --mist:#e8f1ee; --mist-soft:#f4f8f6;
+  --paper:#faf8f4; --ink:#1a2620; --line:#cfd8d3; --muted:#5a6b65;
+  /* Distinct accent for "Internal" series so it's visually separate from public AIO */
+  --internal:#5a3b8c; --internal-dark:#3b2660; --internal-soft:#efe9f8;
+  --critical:#a3361a;
+}
+* { box-sizing: border-box; }
+html, body { margin:0; padding:0; font-family: "Montserrat",system-ui,sans-serif; color:var(--ink); background:var(--mist-soft); -webkit-font-smoothing:antialiased; line-height:1.55; }
+.top-bar { background:var(--paper); border-bottom:2px solid var(--line); padding:16px 56px; display:flex; align-items:center; gap:24px; position:sticky; top:0; z-index:10; }
+.top-bar img.logo { height:56px; width:auto; display:block; }
+.top-bar .crumb { padding-left:24px; border-left:1px solid var(--line); font-size:12px; font-weight:600; color:var(--muted); letter-spacing:0.18em; text-transform:uppercase; line-height:1.6; }
+.top-bar .crumb b { color:var(--internal); }
+.top-bar .actions { margin-left:auto; display:flex; gap:10px; flex-wrap:wrap; }
+.top-bar .action { display:inline-flex; align-items:center; gap:8px; padding:9px 16px; font-size:13px; font-weight:600; text-decoration:none; border-radius:999px; letter-spacing:0.04em; background:transparent; color:var(--cypress); border:1px solid var(--line); cursor:pointer; font-family:inherit; transition:all 180ms cubic-bezier(0.4,0,0.2,1); }
+.top-bar .action.primary { background:var(--internal); color:var(--paper); border-color:var(--internal); }
+.top-bar .action:hover { background:var(--internal-soft); border-color:var(--internal); color:var(--internal-dark); }
+.top-bar .action.primary:hover { background:var(--internal-dark); }
+
+.doc { max-width:1180px; margin:48px auto 80px; background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:60px 64px 72px; box-shadow:0 12px 36px rgba(15,30,27,0.06); }
+.doc-header { border-bottom:3px solid var(--internal); padding-bottom:28px; margin-bottom:30px; }
+.doc-header .eyebrow { font-size:12px; font-weight:700; color:var(--internal); letter-spacing:0.24em; text-transform:uppercase; margin-bottom:12px; }
+.doc-header h1 { font-family:"Gotham Display","Montserrat",sans-serif; font-size:46px; font-weight:900; line-height:1; letter-spacing:-0.02em; text-transform:uppercase; color:var(--internal-dark); margin:0; text-wrap:balance; }
+.meta-row { display:flex; gap:16px; font-size:14px; padding:6px 0; border-bottom:1px dashed var(--line); }
+.meta-row:last-of-type { border-bottom:0; margin-bottom:24px; }
+.meta-row .meta-k { color:var(--muted); font-weight:600; letter-spacing:0.06em; text-transform:uppercase; font-size:12px; flex:0 0 180px; padding-top:2px; }
+.meta-row .meta-v { color:var(--ink); font-weight:500; }
+
+.doc h2.part {
+  font-family:"Gotham Display","Montserrat",sans-serif; font-size:26px; font-weight:900;
+  color:var(--internal-dark); letter-spacing:-0.012em; text-transform:uppercase;
+  margin:48px 0 14px; padding-bottom:12px; border-bottom:3px solid var(--terracotta);
+}
+.doc h3.tab {
+  font-family:"Gotham Display","Montserrat",sans-serif; font-size:18px; font-weight:900;
+  color:var(--cypress); letter-spacing:-0.005em; text-transform:uppercase;
+  margin:30px 0 10px; padding-bottom:6px; border-bottom:1px solid var(--line);
+}
+.doc p { font-size:14.5px; color:var(--ink); margin:0 0 12px; text-wrap:pretty; }
+.doc p strong { color:var(--cypress); font-weight:700; }
+.doc code, .mono { font-family:'JetBrains Mono','SF Mono',monospace; font-size:13px; color:var(--internal-dark); background:var(--internal-soft); padding:2px 7px; border-radius:4px; }
+
+/* Agent inventory matrix — fields × agents */
+.matrix { width:100%; border-collapse:separate; border-spacing:0; margin:10px 0 16px; font-size:13.5px; table-layout:fixed; }
+.matrix th, .matrix td { padding:11px 14px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top; }
+.matrix thead th { background:var(--internal-dark); color:var(--paper); font-weight:700; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; }
+.matrix thead th:first-child { border-top-left-radius:8px; }
+.matrix thead th:last-child { border-top-right-radius:8px; }
+.matrix tbody tr:last-child td { border-bottom:0; }
+.matrix .field { background:var(--mist-soft); color:var(--cypress); font-weight:700; letter-spacing:0.04em; font-size:12px; text-transform:uppercase; width:18%; }
+.matrix .agent { width:27.3%; }
+.matrix .agent.col-compliance { background:#fffaf7; }
+.matrix .agent.col-paralegal { background:#f5f4fc; }
+.matrix .agent.col-onboarding { background:var(--paper); }
+.matrix .tbd { display:inline-block; background:#fceee7; color:#a3361a; padding:2px 7px; border-radius:4px; font-size:11px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; }
+.matrix .ratio { color:var(--muted); font-size:12.5px; }
+.matrix .num { font-family:'JetBrains Mono','SF Mono',monospace; font-size:13px; font-weight:700; color:var(--bosque); }
+.matrix .agent-name-cell .small { display:block; font-size:11px; font-weight:700; color:var(--internal); letter-spacing:0.14em; text-transform:uppercase; margin-bottom:3px; }
+.matrix .agent-name-cell .big { font-family:"Gotham Display","Montserrat",sans-serif; font-size:16px; font-weight:900; color:var(--internal-dark); line-height:1.1; }
+
+/* Two-column tables for the per-agent detail sections */
+.detail-table { width:100%; border-collapse:collapse; margin:8px 0 14px; font-size:14px; }
+.detail-table td { padding:11px 14px; border-bottom:1px solid var(--line); vertical-align:top; }
+.detail-table tr:last-child td { border-bottom:0; }
+.detail-table .key { color:var(--cypress); font-weight:700; width:30%; background:var(--mist-soft); }
+.detail-table .val { color:var(--ink); }
+.detail-table .val .note { display:block; font-size:13px; color:var(--muted); margin-top:5px; line-height:1.45; font-style:italic; }
+.detail-table .val .pill { display:inline-block; padding:3px 9px; border-radius:999px; font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; vertical-align:1px; }
+.detail-table .val .pill.must { background:var(--critical); color:var(--paper); }
+.detail-table .val .pill.tbd { background:#fceee7; color:#a3361a; }
+
+/* Sources table */
+.sources-table { width:100%; border-collapse:collapse; margin:10px 0 14px; font-size:14px; }
+.sources-table th { background:var(--internal-dark); color:var(--paper); padding:11px 14px; text-align:left; font-size:11px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; }
+.sources-table th.num, .sources-table td.num { text-align:right; font-variant-numeric:tabular-nums; font-family:'JetBrains Mono','SF Mono',monospace; }
+.sources-table td { padding:11px 14px; border-bottom:1px solid var(--line); vertical-align:top; }
+.sources-table tr:last-child td { border-bottom:0; }
+.sources-table .url { font-family:'JetBrains Mono','SF Mono',monospace; font-size:12.5px; color:var(--internal-dark); font-weight:600; }
+
+/* Canary callout blocks */
+.canary { background:var(--internal-soft); border-left:4px solid var(--internal); border-radius:0 8px 8px 0; padding:16px 22px; margin:14px 0; }
+.canary .ag { font-size:11px; font-weight:800; color:var(--internal); letter-spacing:0.18em; text-transform:uppercase; margin-bottom:6px; }
+.canary .q { font-size:14.5px; color:var(--ink); margin:0 0 8px; line-height:1.5; }
+.canary .q .lbl { font-weight:700; color:var(--internal-dark); }
+.canary .a { font-size:14.5px; color:var(--ink); margin:0; line-height:1.5; }
+.canary .a .lbl { font-weight:700; color:var(--bosque); }
+.canary .note { display:block; font-size:13px; color:var(--muted); margin-top:8px; font-style:italic; line-height:1.45; }
+
+/* Agent-section header chip */
+.agent-section-head { display:flex; align-items:center; gap:14px; margin-top:30px; margin-bottom:6px; }
+.agent-section-head .chip { font-size:11px; font-weight:800; letter-spacing:0.18em; text-transform:uppercase; padding:5px 12px; border-radius:999px; }
+.agent-section-head .chip.compliance { background:var(--terracotta); color:var(--paper); }
+.agent-section-head .chip.paralegal { background:var(--internal); color:var(--paper); }
+.agent-section-head .chip.onboarding { background:var(--bosque); color:var(--paper); }
+.agent-section-head h3 { font-family:"Gotham Display","Montserrat",sans-serif; font-size:20px; font-weight:900; color:var(--cypress); letter-spacing:-0.005em; text-transform:uppercase; margin:0; }
+
+/* Callout */
+.callout { background:var(--mist-soft); border-left:4px solid var(--terracotta); border-radius:0 8px 8px 0; padding:18px 22px; margin:18px 0; }
+.callout strong.k { color:var(--cypress); display:block; font-size:12px; letter-spacing:0.14em; text-transform:uppercase; margin-bottom:6px; }
+.callout ul { margin:0; padding-left:20px; font-size:14.5px; }
+.callout li { margin-bottom:8px; line-height:1.5; }
+.callout li::marker { color:var(--terracotta); }
+
+.tag-line { margin-top:48px; padding-top:36px; border-top:2px solid var(--line); text-align:center; }
+.tag-line .tag { font-family:"Gotham Display","Montserrat",sans-serif; font-size:28px; font-weight:900; color:var(--terracotta); text-transform:lowercase; margin-bottom:6px; }
+.tag-line .sig { font-size:11px; font-weight:600; color:var(--muted); letter-spacing:0.14em; text-transform:uppercase; }
+
+@media (max-width: 880px) {
+  .matrix { display:block; overflow-x:auto; white-space:nowrap; }
+  .matrix .agent { white-space:normal; }
+}
+@media print {
+  body { background:white; }
+  .top-bar { display:none; }
+  .doc { box-shadow:none; border:0; margin:0; padding:0; max-width:none; }
+  .matrix thead th, .sources-table th { background:var(--internal-dark) !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+}
+</style>
+</head>
+<body>
+<header class="top-bar">
+  <img src="../assets/bernco-assessor-logo.png" alt="BernCo County Assessor" class="logo">
+  <div class="crumb"><b>SOP BIO04</b><br>Internal-agent baseline</div>
+  <div class="actions">
+    <a class="action" href="../index.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M6 4L3 7l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Library</a>
+    <a class="action" href="../docs/BIO04_Internal_Agent_Baseline.docx" download><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v9M3 7l4 4 4-4M2 13h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> .docx</a>
+    <button class="action primary" onclick="window.print()" style="border:0; font-family:inherit; cursor:pointer;"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M4 1h6v3M4 11h6v2H4zM2 4h10v6H2z M4 7h6" stroke="currentColor" stroke-width="1.5"/></svg> Save as PDF</button>
+  </div>
+</header>
+
+<article class="doc">
+  <div class="doc-header">
+    <div class="eyebrow">Bernalillo County Assessor · AI Operations · Internal-Agent Baseline Reference</div>
+    <h1>Internal Agent Configuration &amp; Sources Baseline</h1>
+  </div>
+  <div class="meta-row"><span class="meta-k">Process Title</span><span class="meta-v">Internal Agent Configuration and Sources Baseline</span></div>
+  <div class="meta-row"><span class="meta-k">Department</span><span class="meta-v">AI Operations</span></div>
+  <div class="meta-row"><span class="meta-k">SOP ID</span><span class="meta-v">BIO04</span></div>
+  <div class="meta-row"><span class="meta-k">Last Reviewed</span><span class="meta-v">05/15/2026</span></div>
+  <div class="meta-row"><span class="meta-k">Effective Date</span><span class="meta-v">05/15/2026</span></div>
+  <div class="meta-row"><span class="meta-k">Version</span><span class="meta-v">1.2</span></div>
+
+  <h3 class="tab" style="margin-top:24px;">Purpose</h3>
+  <p>Per-agent operational facts for <strong>internal CustomGPT agents</strong>. Reference for change control (<strong>BIO01</strong>), quarterly review (<strong>BIO02</strong>), and incident response (<strong>BIO03</strong>). Reviewed annually or after any permanent configuration change.</p>
+
+  <!-- ═══════════════ AGENT INVENTORY ═══════════════ -->
+  <h2 class="part">Agent Inventory</h2>
+  <table class="matrix">
+    <thead>
+      <tr>
+        <th>Field</th>
+        <th class="agent col-compliance"><div class="agent-name-cell"><span class="small">Agent 1</span><span class="big">Compliance Expert</span></div></th>
+        <th class="agent col-paralegal"><div class="agent-name-cell"><span class="small">Agent 2</span><span class="big">Paralegal</span></div></th>
+        <th class="agent col-onboarding"><div class="agent-name-cell"><span class="small">Agent 3</span><span class="big">Onboarding</span></div></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="field">Project ID</td>
+        <td class="agent col-compliance"><span class="tbd">TBD</span></td>
+        <td class="agent col-paralegal"><span class="tbd">TBD</span></td>
+        <td class="agent col-onboarding"><span class="tbd">TBD</span></td>
+      </tr>
+      <tr>
+        <td class="field">Display name</td>
+        <td class="agent col-compliance">A.C.E (Assessor&rsquo;s Compliance Expert)</td>
+        <td class="agent col-paralegal">Paralegal A.C.E</td>
+        <td class="agent col-onboarding">A.C.E (Advisor for Clear Expectations)</td>
+      </tr>
+      <tr>
+        <td class="field">Audience</td>
+        <td class="agent col-compliance">Internal office staff (Assessor, Deputy, staff)</td>
+        <td class="agent col-paralegal">33 NM county assessor offices via Assessor Affiliate</td>
+        <td class="agent col-onboarding">New hires at Bernalillo Assessor&rsquo;s Office</td>
+      </tr>
+      <tr>
+        <td class="field">Access mechanism</td>
+        <td class="agent col-compliance">Internal direct via CustomGPT</td>
+        <td class="agent col-paralegal">Password-protected page at <span class="mono">bernco.gov/assessor/protected/paralegal-chatbot</span></td>
+        <td class="agent col-onboarding">Internal direct via CustomGPT</td>
+      </tr>
+      <tr>
+        <td class="field">Password / credentials</td>
+        <td class="agent col-compliance">N/A</td>
+        <td class="agent col-paralegal">Stored in office password manager. Do not place literal password in any distributed document. Last set in conjunction with Assessor Affiliate Conference 2024.</td>
+        <td class="agent col-onboarding">N/A</td>
+      </tr>
+      <tr>
+        <td class="field">Visibility</td>
+        <td class="agent col-compliance">Likely Private &mdash; <span class="tbd">confirm</span></td>
+        <td class="agent col-paralegal">Public agent with domain access controlled by the protected page wrapper</td>
+        <td class="agent col-onboarding">Likely Private &mdash; <span class="tbd">confirm</span></td>
+      </tr>
+      <tr>
+        <td class="field">Approximate volume</td>
+        <td class="agent col-compliance"><span class="num">~10</span> queries / billing cycle</td>
+        <td class="agent col-paralegal"><span class="tbd">TBD</span></td>
+        <td class="agent col-onboarding"><span class="num">~12</span> queries / billing cycle</td>
+      </tr>
+      <tr>
+        <td class="field">Documents added</td>
+        <td class="agent col-compliance"><span class="num">2,662</span></td>
+        <td class="agent col-paralegal"><span class="tbd">TBD</span></td>
+        <td class="agent col-onboarding"><span class="num">252</span></td>
+      </tr>
+      <tr>
+        <td class="field">Documents read</td>
+        <td class="agent col-compliance"><span class="num">2,454</span> <span class="ratio">(92% read ratio)</span></td>
+        <td class="agent col-paralegal"><span class="tbd">TBD</span></td>
+        <td class="agent col-onboarding"><span class="num">252</span> <span class="ratio">(100% read ratio)</span></td>
+      </tr>
+      <tr>
+        <td class="field">Words stored</td>
+        <td class="agent col-compliance"><span class="num">37.8M</span></td>
+        <td class="agent col-paralegal"><span class="tbd">TBD</span></td>
+        <td class="agent col-onboarding"><span class="num">3.3M</span></td>
+      </tr>
+      <tr>
+        <td class="field">Persona stakes</td>
+        <td class="agent col-compliance"><strong>High</strong> &mdash; legal analysis</td>
+        <td class="agent col-paralegal"><strong>High</strong> &mdash; statewide practice across 33 counties</td>
+        <td class="agent col-onboarding">Medium &mdash; internal policy</td>
+      </tr>
+      <tr>
+        <td class="field">Change review path</td>
+        <td class="agent col-compliance">County Attorney for substantive edits</td>
+        <td class="agent col-paralegal">Assessor review per Jan 2025 directive</td>
+        <td class="agent col-onboarding">Deputy notification only</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ═══════════════ PARALEGAL ACCESS DETAILS ═══════════════ -->
+  <div class="agent-section-head"><span class="chip paralegal">Paralegal</span><h3>Access Details</h3></div>
+  <table class="detail-table">
+    <tbody>
+      <tr><td class="key">Access URL</td><td class="val"><span class="mono">https://www.bernco.gov/assessor/protected/paralegal-chatbot</span></td></tr>
+      <tr><td class="key">Wrapper page</td><td class="val">WordPress password-protected post on bernco.gov. The wrapper sits in front of the embedded CustomGPT agent.<span class="note">Loss of either the wrapper page or the embed breaks access.</span></td></tr>
+      <tr><td class="key">Password</td><td class="val">Stored in office password manager (not in this document). Shared with the Assessor Affiliate distribution list.<span class="note">Last rotated in December 2024 in conjunction with the Assessor Affiliate Conference.</span></td></tr>
+      <tr><td class="key">Audience</td><td class="val">33 NM county assessor offices listed on the Affiliate distribution.<span class="note">Use is internal to assessor offices only; password is not to be shared with the public.</span></td></tr>
+      <tr><td class="key">Placeholder prompt</td><td class="val">&ldquo;Ask me questions related to Assessment, IAAO, or New Mexico Law.&rdquo;<span class="note">The first thing users see. Defines perceived scope. Editable under Personalize &rarr; Conversation, so changes require BIO01 Section D discipline.</span></td></tr>
+      <tr><td class="key">KB seed</td><td class="val">Initial KB seeded via emails from county assessors sharing AG opinions, case digests, and quick reference guides.<span class="note">Per Assessor directive (Jan 2, 2025): all submissions reviewed by Assessor before upload.</span></td></tr>
+    </tbody>
+  </table>
+
+  <!-- ═══════════════ PARALEGAL KB SOURCES ═══════════════ -->
+  <div class="agent-section-head"><span class="chip paralegal">Paralegal</span><h3>KB Sources (Website / Sitemap)</h3></div>
+  <table class="sources-table">
+    <thead><tr><th style="width:46%;">URL / Source</th><th class="num" style="width:10%;">Docs</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="url">https://www.nmdfa.state.nm.us/wp-sitemap.xml</span></td>
+        <td class="num">449</td>
+        <td>NM Department of Finance and Administration. State fiscal guidance.</td>
+      </tr>
+      <tr>
+        <td><span class="url">https://www.tax.newmexico.gov/sitemap_index.xml</span></td>
+        <td class="num">136</td>
+        <td>NM Taxation and Revenue Department. Authoritative state tax guidance.</td>
+      </tr>
+      <tr>
+        <td><span class="url">https://www.bernco.gov/assessor/sitemap_index.xml</span></td>
+        <td class="num">197</td>
+        <td>Bernalillo County Assessor (own site).</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="callout">
+    <strong class="k">Comparison note</strong>
+    <p style="margin:0;">Paralegal sources are <strong>narrower</strong> than the public A.C.E. agent's sources &mdash; no REALTOR-association content, no other county sites. This is appropriate for a legal-research tool serving multiple counties; broader sources would introduce single-county or commercial bias.</p>
+  </div>
+
+  <!-- ═══════════════ CANARY QUERIES ═══════════════ -->
+  <h2 class="part">Canary Queries</h2>
+  <p>Each agent has a fixed test query with a known correct answer, used after any change to confirm baseline behavior. <strong>Update the canary only when the underlying authority changes.</strong></p>
+
+  <div class="canary">
+    <div class="ag">Compliance Expert canary</div>
+    <p class="q"><span class="lbl">Query:</span> &ldquo;What is the statutory citation and current value for the head of family exemption?&rdquo;</p>
+    <p class="a"><span class="lbl">Expected:</span> NMSA &sect; 7-37-4. Current value: <strong>$2,000</strong>. Principal residence. One per property.</p>
+  </div>
+
+  <div class="canary">
+    <div class="ag">Paralegal canary</div>
+    <p class="q"><span class="lbl">Query:</span> &ldquo;What is the statutory citation and current value for the head of family exemption?&rdquo;</p>
+    <p class="a"><span class="lbl">Expected:</span> NMSA &sect; 7-37-4. Current value: <strong>$2,000</strong>. Principal residence. One per property.</p>
+    <span class="note">Same query as Compliance Expert because both agents should produce the same authoritative answer; if they diverge, the divergence itself is the signal.</span>
+  </div>
+
+  <div class="canary">
+    <div class="ag">Onboarding canary</div>
+    <p class="q"><span class="lbl">Query:</span> &ldquo;What are the primary responsibilities of an Assessor Technician II, and what appraisal standards should I be familiar with?&rdquo;</p>
+    <p class="a"><span class="lbl">Expected:</span> Reviewing and processing property valuation documents, responding to taxpayer inquiries, updating property records. Familiarity with basic appraisal principles, IAAO guidelines, and USPAP.</p>
+    <span class="note">Source: documented example in the Onboarding persona&rsquo;s Example Use Case section.</span>
+  </div>
+
+  <!-- ═══════════════ CONFIGURATION NOTES ═══════════════ -->
+  <h2 class="part">Configuration Notes (Per Agent)</h2>
+  <p>Most fields are TBD pending a per-agent configuration audit. When run, populate from each agent&rsquo;s Personalize and Deploy tabs.</p>
+
+  <div class="agent-section-head"><span class="chip compliance">Compliance Expert</span><h3>Configuration</h3></div>
+  <table class="detail-table">
+    <tbody>
+      <tr><td class="key">Visibility</td><td class="val"><span class="pill tbd">TBD</span> &mdash; confirm Private</td></tr>
+      <tr><td class="key">AI Model</td><td class="val"><span class="pill tbd">TBD</span></td></tr>
+      <tr><td class="key">Data Source Control</td><td class="val"><span class="pill tbd">TBD</span> &mdash; must be &ldquo;My Data Only&rdquo; for legal research integrity</td></tr>
+      <tr><td class="key">Whitelisted Domains</td><td class="val"><span class="pill tbd">TBD</span></td></tr>
+      <tr><td class="key">Conversation Retention</td><td class="val"><span class="pill tbd">TBD</span></td></tr>
+      <tr><td class="key">Web Search Action</td><td class="val"><span class="pill must">Must be Inactive</span><span class="note">Unverified web content is incompatible with legal citation requirements.</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="agent-section-head"><span class="chip paralegal">Paralegal</span><h3>Configuration</h3></div>
+  <table class="detail-table">
+    <tbody>
+      <tr><td class="key">Visibility</td><td class="val">Public agent; access gated by password-protected wrapper page</td></tr>
+      <tr><td class="key">AI Model</td><td class="val"><span class="pill tbd">TBD</span></td></tr>
+      <tr><td class="key">Data Source Control</td><td class="val"><span class="pill tbd">TBD</span></td></tr>
+      <tr><td class="key">Whitelisted Domains</td><td class="val"><span class="pill tbd">TBD</span></td></tr>
+      <tr><td class="key">Conversation Retention</td><td class="val"><span class="pill tbd">TBD</span></td></tr>
+      <tr><td class="key">Placeholder Prompt</td><td class="val">&ldquo;Ask me questions related to Assessment, IAAO, or New Mexico Law.&rdquo;</td></tr>
+      <tr><td class="key">Web Search Action</td><td class="val"><span class="pill must">Must be Inactive</span><span class="note">Unverified web content is incompatible with legal citation requirements.</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="agent-section-head"><span class="chip onboarding">Onboarding</span><h3>Configuration</h3></div>
+  <table class="detail-table">
+    <tbody>
+      <tr><td class="key">Visibility</td><td class="val"><span class="pill tbd">TBD</span> &mdash; likely Private</td></tr>
+      <tr><td class="key">AI Model</td><td class="val"><span class="pill tbd">TBD</span></td></tr>
+      <tr><td class="key">Data Source Control</td><td class="val"><span class="pill tbd">TBD</span></td></tr>
+      <tr><td class="key">Conversation Retention</td><td class="val"><span class="pill tbd">TBD</span></td></tr>
+    </tbody>
+  </table>
+
+  <!-- ═══════════════ OPEN QUESTIONS ═══════════════ -->
+  <h2 class="part">Open Questions / Items to Resolve</h2>
+  <div class="callout">
+    <ul>
+      <li><strong>Project IDs</strong> for all three internal agents. Visible in the <strong>Deploy</strong> tab of each agent.</li>
+      <li><strong>Configuration audit per agent.</strong> Compliance Expert most urgent because of legal stakes; Paralegal next because of statewide exposure.</li>
+      <li><strong>Paralegal full KB inventory</strong> beyond the 3 website sources captured here &mdash; confirm whether any file-upload KB exists.</li>
+      <li><strong>Paralegal Terms of Service URL</strong> &mdash; confirm whether the protected-page wrapper links to the same disclaimer as the public agent (<span class="mono">bernco.gov/assessor/chatbot-disclaimer/</span>) or to a Paralegal-specific page. If shared, confirm the disclaimer language covers both public and 33-county-affiliate use.</li>
+      <li><strong>Orchestrator routing target</strong> &mdash; the Onboarding persona reviewed on May 15, 2026 is the clean version without the orchestrator relay directive. Confirm whether orchestrator routing terminates in a CustomGPT agent or in the FastMCP / Zapier MCP layer outside CustomGPT.<span style="display:block; font-size:13px; color:var(--muted); margin-top:4px; font-style:italic;">Reference: orchestrator forwarding target was previously documented as agent ID <span class="mono">83861</span>.</span></li>
+      <li><strong>Password rotation cadence</strong> for the Paralegal protected page. Current password was set in conjunction with the December 2024 Affiliate Conference; no scheduled rotation is documented.</li>
+      <li><strong>Validate canary queries</strong> against each live agent before treating them as canonical.</li>
+    </ul>
+  </div>
+
+  <div class="tag-line">
+    <div class="tag">Count on us.</div>
+    <div class="sig">Bernalillo County Assessor &middot; Damian R. Lara, County Assessor</div>
+  </div>
+</article>
+</body>
+</html>

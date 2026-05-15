@@ -1,0 +1,42 @@
+Standard Operating Procedure (SOP)
+Process Title: Daily Chatbot Operations Check
+Department: AI Operations
+SOP ID: AIO01
+Last Reviewed: 05/14/2026
+Effective Date: 05/14/2026
+Version: 1
+Purpose
+Daily review of A.C.E. chatbot operations to identify knowledge gaps and operational issues before they affect more users. Approximately 10 minutes, every workday morning.
+Procedure
+Open the Analyze Tab
+In CustomGPT.ai, open the A.C.E. agent. Click Analyze in the left sidebar. The view defaults to Overview.
+
+Triage Missing Content
+Read each new entry since yesterday. For each, tag:
+•   Fix it — in-scope, KB entry needed (use AIO05).
+•   Send elsewhere — belongs to another department.
+•   Skip — noise, test, or abuse.
+[IMG:media/27e905eeae5e7df539bb440c9a4a0fd5b3750131.jpg]
+
+Check the Content Source Ratio
+Donut chart on same screen. Not found should be under 15%. If over, note for follow-up.
+
+Skim Top 5 Latest Prompts
+Note anything sensitive, hostile, PII-containing, or politically charged. Escalate per AIO05 if warranted.
+
+Review Risk Monitoring
+Click Customer Intelligence tab. Today’s Incidents bar should be in line with the 7-day pattern. If elevated, investigate same day per AIO05.
+[IMG:media/460e9cd03f2ee11f6fa1c80b2a9bc6fc40f2c982.jpg]
+
+Check Main Dashboard
+Return to Dashboard. Note any tile with a red border (typically Words Processed near plan cap).
+
+End of Day
+Fix or schedule “Fix it” items. Confirm any required notifications were sent.
+
+Notify Assessor and Deputy Same-Day If
+•   A prompt contains PII that A.C.E. produced or exposed.
+•   A prompt contains threats against staff or office.
+•   Persona Failure incidents are clearly elevated above 7-day pattern.
+•   Agent is unreachable from the public site.
+•   Words Processed at plan cap and service is degraded.

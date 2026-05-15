@@ -13,100 +13,186 @@
 <script type="text/babel" src="../lib/animations.jsx"></script>
 <script type="text/babel" src="../lib/sop-video.jsx"></script>
 <script type="text/babel">
-
-// This SOP has no screenshots yet — using diagrammatic scenes only.
+// This SOP has no screenshots captured yet at the Assessor's Office.
+// The video uses diagrammatic scenes only, per the SOP\'s own note.
 
 const scenes = [
   {
     kind: 'title',
-    duration: 6,
+    es: { "title":"Enrutar el Número de un Usuario a la Cola","plainTitle":"Cómo redirigir las llamadas marcadas al número directo de un agente del conmutador a la cola del conmutador misma — para que las llamadas se distribuyan en lugar de sonar en un solo teléfono.","kicker":"Cada redirección de número directo requiere autorización del Subtasador." },
+    duration: 8,
     sopId: 'CS08',
-    title: 'Route a User\'s Direct Number into the Queue',
-    plainTitle: 'When a caller dials a switchboard agent\'s direct phone number, send them through the queue anyway — so calls get distributed instead of ringing one phone.',
-    kicker: 'Every direct-number redirect needs Deputy Assessor authorization.',
+    title: 'Route a User\'s Number into the Queue',
+    plainTitle: 'How to redirect calls dialed to a switchboard agent\'s direct number into the switchboard queue itself — so calls get distributed instead of ringing one phone.',
+    kicker: 'Every direct-number redirect requires Deputy Assessor authorization.',
   },
 
+  // The problem
   {
     kind: 'bigstat',
-    duration: 7,
+    es: { "stat":"Dos rutas","caption":"El problema que estamos resolviendo","sub":"Sin esta regla, las llamadas al número principal entran a la cola (todos suenan), pero las llamadas al número directo de un agente saltan la cola y suenan solo a esa persona. Esa asimetría aumentó la tasa de fallas de marcación directa." },
+    duration: 13,
     stat: 'Two paths',
-    caption: 'The problem',
-    sub: 'Without this rule, callers dialing the main number hit the queue, but callers dialing an agent\'s direct line skip the queue and ring only that one person. That asymmetry caused our direct-dial failure rate to climb.',
+    caption: 'The problem we\'re solving',
+    sub: 'Without this rule, callers dialing the main number hit the queue (everyone rings), but callers dialing an agent\'s direct line skip the queue and ring only that one person. That asymmetry pushed the direct-dial failure rate up.',
   },
 
-  {
-    kind: 'comparison',
-    duration: 11,
-    title: 'The fix: one rule, two ingredients',
-    sub: 'A condition that scopes the rule, and an action that redirects the call.',
-    items: [
-      {
-        tag: 'Condition',
-        label: 'Called Number',
-        accent: SOP_PALETTE.bosque,
-        desc: 'Match only when the caller dialed THIS user\'s direct phone number. Without it, the rule would also catch internal calls and queue calls — almost never what you want.',
-      },
-      {
-        tag: 'Action',
-        label: 'Forward to extension',
-        accent: SOP_PALETTE.terracotta,
-        desc: 'Send the matching call to the queue\'s extension number (e.g. 160001 for Q1). NOT the queue\'s phone number — RingCentral rejects forwarding to its own numbers.',
-      },
-    ],
-  },
-
+  // Two terms
   {
     kind: 'steps',
-    duration: 11,
-    title: 'Setting it up',
-    sub: 'Standard rule name: "Route Inbound to Switchboard".',
+    es: { "title":"Tres términos antes de empezar","sub":"Aparecen en cada paso.","steps":[{"label":"DID (Marcación Directa)","desc":"Un número telefónico directo asignado a un usuario o extensión individual."},{"label":"Regla entrante personalizada","desc":"Una anulación condicional en una extensión de usuario que redirige las llamadas coincidentes a un destino diferente. Mismos tipos de condición y acción que las reglas a nivel de cola en CS05."},{"label":"Route Inbound to Switchboard","desc":"El patrón estándar de nomenclatura en nuestra oficina para estas redirecciones."}] },
+    duration: 15,
+    title: 'Three terms before we start',
+    sub: 'These appear in every step.',
     steps: [
-      { label: 'Open the user', desc: 'Users → Users with Extensions → search and click the user.' },
-      { label: 'Call Handling → Custom rules', desc: 'Add a new rule. Name it "Route Inbound to Switchboard".' },
-      { label: 'Called Number condition', desc: 'Pick the user\'s direct phone number from the dropdown (e.g. 505-222-3722).' },
-      { label: 'Forward to the queue\'s EXTENSION', desc: 'Pick 160001 (Q1) or whichever queue this user belongs to. Never enter the phone number — use the extension.' },
-      { label: 'Save', desc: 'The rule is now active.' },
+      { label: 'DID (Direct Inward Dial)', desc: 'A direct phone number assigned to an individual user or extension.' },
+      { label: 'Custom inbound rule', desc: 'A condition-based override on a user extension that redirects matching calls to a different destination. Same condition + action types as queue-level rules in CS05.' },
+      { label: 'Route Inbound to Switchboard', desc: 'The standard naming pattern at our office for these redirects.' },
     ],
   },
 
+  // Reference patterns
   {
     kind: 'comparison',
-    duration: 9,
+    es: { "title":"Dos redirecciones existentes (al último repaso)","sub":"Establecidas el 22/03/2026 para colapsar la arquitectura de dos rutas.","items":[{"tag":"Agente conmutador","label":"Diana Y Martinez","desc":"Ext 163722. Número directo 505-222-3722. La regla personalizada \"Route Inbound to Switchboard\" redirige las llamadas entrantes a Q1 (160001)."},{"tag":"Agente conmutador","label":"Melissa Vigil","desc":"Ext 169005. Número directo 505-468-7243. La regla personalizada \"Route Inbound to Switchboard\" redirige las llamadas entrantes a Q1 (160001)."}] },
+    duration: 15,
+    title: 'Two existing redirects (as of last review)',
+    sub: 'Established 03/22/2026 to collapse the two-pathway architecture.',
+    items: [
+      { tag: 'Switchboard agent', label: 'Diana Y Martinez', accent: SOP_PALETTE.bosque, desc: 'Ext 163722. Direct number 505-222-3722. Custom rule "Route Inbound to Switchboard" redirects inbound calls to Q1 (160001).' },
+      { tag: 'Switchboard agent', label: 'Melissa Vigil', accent: SOP_PALETTE.terracotta, desc: 'Ext 169005. Direct number 505-468-7243. Custom rule "Route Inbound to Switchboard" redirects inbound calls to Q1 (160001).' },
+    ],
+  },
+
+  // The fix: condition + action
+  {
+    kind: 'comparison',
+    es: { "title":"La solución: una condición + una acción","sub":"Ambas requeridas. Sin la condición, la regla atrapa cada llamada al usuario — casi nunca lo que quiere.","items":[{"tag":"Condición","label":"Called Number","desc":"Coincide solo cuando quien llama marcó el número directo DE ESTE usuario. Sin ella, también coinciden las llamadas internas y de cola."},{"tag":"Acción","label":"Forward to extension","desc":"Envía la llamada coincidente al número de extensión de la cola (ej. 160001 para Q1). NUNCA al número telefónico de la cola — vea la siguiente escena."}] },
+    duration: 18,
+    title: 'The fix: one condition + one action',
+    sub: 'Both required. Without the condition, the rule catches every call to the user — almost never what you want.',
+    items: [
+      { tag: 'Condition', label: 'Called Number', accent: SOP_PALETTE.bosque, desc: 'Match only when the caller dialed THIS user\'s direct number. Without it, internal calls and queue calls also match.' },
+      { tag: 'Action', label: 'Forward to extension', accent: SOP_PALETTE.terracotta, desc: 'Send the matching call to the queue\'s extension number (e.g. 160001 for Q1). NEVER the queue\'s phone number — see the next scene.' },
+    ],
+  },
+
+  // Critical: use extension not phone
+  {
+    kind: 'bigstat',
+    es: { "stat":"160001","caption":"Reenviar a la EXTENSIÓN","sub":"NO al número telefónico de la cola. RingCentral rechaza las reglas de reenvío que apuntan a un número telefónico ya en la cuenta, con el error \"Forwarding phone number cannot be the same as your account number or any additional numbers.\" Es comportamiento documentado, no un bug." },
+    duration: 13,
+    stat: '160001',
+    caption: 'Forward to the EXTENSION',
+    sub: 'NOT the queue\'s phone number. RingCentral rejects forwarding rules that target a phone number already on the account, with the error "Forwarding phone number cannot be the same as your account number or any additional numbers." This is documented behavior, not a bug.',
+    accent: SOP_PALETTE.terracotta,
+  },
+
+  // Setting it up
+  {
+    kind: 'steps',
+    es: { "title":"Configurar una nueva redirección","sub":"Cinco pasos. Nombre estándar es \"Route Inbound to Switchboard\".","steps":[{"label":"Abra el usuario","desc":"Users → Users with Extensions → busque por nombre o extensión → haga clic en el usuario."},{"label":"Call Handling → Custom rules","desc":"Algunas versiones del portal lo etiquetan \"Call Handling & Forwarding\" o \"Incoming Call Rules\" — es lo mismo. Haga clic en + Add Rule. Nómbrelo \"Route Inbound to Switchboard\". Haga clic en Next."},{"label":"Configure la condición Called Number","desc":"Seleccione Called Number como el tipo de condición. Elija el número directo del usuario del menú (ej. 505-222-3722). Deje Caller ID sin configurar. No agregue Date/Time a menos que la redirección deba tener un límite de tiempo."},{"label":"Configure Forward to extension","desc":"Seleccione Forward calls como la acción. Elija \"extension on the account\". Seleccione el número completo de extensión de la cola (ej. 160001 para Q1)."},{"label":"Haga clic en Save","desc":"La regla está ahora activa."}] },
+    duration: 20,
+    title: 'Setting up a new redirect',
+    sub: 'Five steps. Naming convention is "Route Inbound to Switchboard".',
+    steps: [
+      { label: 'Open the user', desc: 'Users → Users with Extensions → search by name or extension → click the user.' },
+      { label: 'Call Handling → Custom rules', desc: 'Some portal versions label this "Call Handling & Forwarding" or "Incoming Call Rules" — same thing. Click + Add Rule. Name it "Route Inbound to Switchboard". Click Next.' },
+      { label: 'Configure the Called Number condition', desc: 'Select Called Number as the condition type. Pick the user\'s direct number from the dropdown (e.g. 505-222-3722). Leave Caller ID unset. Don\'t add a Date/Time unless the redirect should be time-bounded.' },
+      { label: 'Configure Forward to extension', desc: 'Select Forward calls as the action. Choose "extension on the account". Select the queue\'s full extension number (e.g. 160001 for Q1).' },
+      { label: 'Click Save', desc: 'The rule is now active.' },
+    ],
+  },
+
+  // Verify from two phones
+  {
+    kind: 'comparison',
+    es: { "title":"Pruebe desde dos teléfonos","sub":"Ambas rutas importan. Verifique las dos.","items":[{"tag":"Externa","label":"Línea externa","desc":"Marque el número directo del usuario desde una línea externa. La llamada debe sonar a la cola (todos) — no solo al usuario. En el registro de llamadas de la cola, el número marcado debe aparecer como el número directo del usuario y el destino enrutado como la extensión de la cola."},{"tag":"Interna","label":"Marcación de extensión","desc":"Marque la extensión del usuario internamente. La llamada DEBE seguir sonando al usuario directamente. Las marcaciones internas no coinciden con la condición Called Number."}] },
+    duration: 15,
     title: 'Test from two phones',
     sub: 'Both paths matter. Verify both.',
     items: [
-      {
-        tag: 'External',
-        label: 'Outside line',
-        accent: SOP_PALETTE.bosque,
-        desc: 'Dial the user\'s direct phone number from an outside line. The call should ring into the queue (everyone), not just the user. Confirm in the queue\'s call log.',
-      },
-      {
-        tag: 'Internal',
-        label: 'Extension dial',
-        accent: SOP_PALETTE.terracotta,
-        desc: 'Dial the user\'s extension internally. The call should still ring the user directly. Internal dials don\'t match the Called Number condition.',
-      },
+      { tag: 'External', label: 'Outside line', accent: SOP_PALETTE.bosque, desc: 'Dial the user\'s direct number from an outside line. The call should ring into the queue (everyone) — not just the user. In the queue\'s call log, the dialed number should appear as the user\'s direct number and the routed destination as the queue extension.' },
+      { tag: 'Internal', label: 'Extension dial', accent: SOP_PALETTE.terracotta, desc: 'Dial the user\'s extension internally. The call should STILL ring the user directly. Internal dials don\'t match the Called Number condition.' },
     ],
   },
 
+  // Disable or remove
+  {
+    kind: 'comparison',
+    es: { "title":"Deshabilitar o eliminar","sub":"Deshabilite primero cuando esté en duda — se preserva pero inactiva.","items":[{"tag":"Reversible","label":"Deshabilitar","desc":"En la lista Custom rules del usuario, ubique la regla. Apague el interruptor Active. Guarde. La regla se preserva pero ya no aplica — las llamadas al número directo ahora se enrutan al usuario por defecto."},{"tag":"Permanente","label":"Eliminar","desc":"Haga clic en Delete junto a la regla. Confirme. La regla se elimina permanentemente. Haga una llamada de prueba al número directo del usuario y confirme que ahora llega al usuario (no a la cola)."}] },
+    duration: 15,
+    title: 'Disable or delete',
+    sub: 'Disable first when in doubt — preserved but inactive.',
+    items: [
+      { tag: 'Reversible', label: 'Disable', accent: SOP_PALETTE.bosque, desc: 'In the user\'s Custom rules list, locate the rule. Toggle the Active switch OFF. Save. The rule is preserved but no longer applies — calls to the direct number now route to the user per their default call handling.' },
+      { tag: 'Permanent', label: 'Delete', accent: SOP_PALETTE.terracotta, desc: 'Click Delete next to the rule. Confirm. The rule is removed permanently. Place a test call to the user\'s direct number and confirm it now reaches the user (not the queue).' },
+    ],
+  },
+
+  // Authorization
   {
     kind: 'steps',
-    duration: 8,
-    title: 'Disabling or removing',
-    sub: 'Always disable before deleting.',
+    es: { "title":"Autorización","sub":"Estas reglas cambian dónde aterrizan las llamadas a un número público — pueden confundir a los que llaman si se aplican sin coordinación.","steps":[{"label":"Agregar / editar / quitar una regla de redirección","desc":"Subtasador a cargo del Servicio al Cliente."},{"label":"Deshabilitar una regla activa (temporal)","desc":"Subtasador O Gerente de Servicio al Cliente con notificación al Subtasador."}] },
+    duration: 13,
+    title: 'Authorization',
+    sub: 'These rules change where calls to a public number land — they can confuse callers if applied without coordination.',
     steps: [
-      { label: 'Disable (temporary)', desc: 'In the user\'s Custom rules list, toggle Active OFF. Calls now route to the user directly per their default settings.' },
-      { label: 'Delete (permanent)', desc: 'Click Delete next to the rule. Confirm. The rule is gone — and so is the queue routing.' },
-      { label: 'Verify either way', desc: 'Test from an outside line. The result should match whichever state you set.' },
+      { label: 'Add / edit / remove a redirect rule', desc: 'Deputy Assessor overseeing Customer Service.' },
+      { label: 'Disable an active rule (temporary)', desc: 'Deputy Assessor OR Customer Service Manager with Deputy Assessor notification.' },
     ],
+  },
+
+  // Change control
+  {
+    kind: 'steps',
+    es: { "title":"Registre cada cambio","sub":"Mismos campos que cualquier otro cambio de RingCentral.","steps":[{"label":"Captura previa al cambio","desc":"Capture la pestaña Custom rules del usuario antes de editar."},{"label":"Aplique, guarde, verifique","desc":"Use el procedimiento anterior. Haga clic en Save. Pruebe desde una línea externa."},{"label":"Regístrelo","desc":"Fecha/hora, usuario/extensión, ajuste cambiado, valor anterior, valor nuevo, autorizador, aplicador, motivo de negocio, resultado de verificación."}] },
+    duration: 14,
+    title: 'Log every change',
+    sub: 'Same fields as every other RingCentral change.',
+    steps: [
+      { label: 'Pre-change snapshot', desc: 'Screenshot the user\'s Custom rules tab before editing.' },
+      { label: 'Apply, save, verify', desc: 'Use the procedure above. Click Save. Test from an outside line.' },
+      { label: 'Log it', desc: 'Date/time, user/extension, setting changed, prior value, new value, authorizer, applier, business reason, verification result.' },
+    ],
+  },
+
+  // Quiz
+  {
+    kind: 'quiz',
+    es: { "title":"Una regla. Una condición. Una acción.","sub":"Establecida en nuestra oficina para Diana Martinez y Melissa Vigil — ambas enrutan directamente a Q1. El patrón funciona para cualquier agente del conmutador." }, duration: 17,
+    qNum: 1, qTotal: 2,
+    question: 'You\'re forwarding calls from an agent\'s direct number into Q1. What do you select as the destination?',
+    options: [
+      'The queue\'s phone number',
+      'The queue\'s full extension number, e.g. 160001',
+      'The queue manager\'s email',
+      'The auto-receptionist',
+    ],
+    correctIndex: 1,
+    explanation: 'Always the EXTENSION. RingCentral rejects forwarding to a phone number already on the account.',
+  },
+  {
+    kind: 'quiz',
+    es: { "question":"Está reenviando llamadas desde el número directo de un agente a Q1. ¿Qué selecciona como destino?","options":["El número telefónico de la cola","El número completo de extensión de la cola, ej. 160001","El correo electrónico del gerente de cola","El auto-receptionist"],"explanation":"Siempre la EXTENSIÓN. RingCentral rechaza el reenvío a un número telefónico ya en la cuenta." }, duration: 17,
+    qNum: 2, qTotal: 2,
+    question: 'Which condition turns a generic user-level custom rule into a direct-number redirect?',
+    options: [
+      'Date and/or Time',
+      'Caller ID',
+      'Called Number',
+      'No condition needed — actions alone are enough',
+    ],
+    correctIndex: 2,
+    explanation: 'Called Number scopes the rule to fire only when the caller dialed THIS user\'s direct number. Without it, internal calls and queue calls also match.',
   },
 
   {
     kind: 'outro',
-    duration: 6,
+    es: { "question":"¿Qué condición convierte una regla genérica a nivel de usuario en una redirección de número directo?","options":["Date and/or Time","Caller ID","Called Number","Ninguna condición necesaria — la acción es suficiente"],"explanation":"Called Number limita la regla a dispararse solo cuando el llamante marcó el número directo DE ESTE usuario. Sin ella, también coinciden las llamadas internas y de cola." },
+    duration: 10,
     title: 'One rule. One condition. One action.',
-    sub: 'Established at our office for Diana Martinez and Melissa Vigil — both route directly to Q1.',
+    sub: 'Established at our office for Diana Martinez and Melissa Vigil — both route directly to Q1. The pattern works for any switchboard agent.',
   },
 ];
 
@@ -114,5 +200,17 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <SOPVideo sopId="CS08" title="Custom Inbound Routing on Direct Phone Numbers" scenes={scenes} />
 );
 </script>
+<template id="__bundler_thumbnail" data-bg-color="#0a0a0a">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#0a0a0a"/>
+    <rect x="0" y="0" width="1200" height="120" fill="#285952"/>
+    <rect x="0" y="117" width="1200" height="3" fill="#e47756"/>
+    <g transform="translate(540, 320)">
+      <circle cx="60" cy="60" r="60" fill="#e47756"/>
+      <polygon points="48,32 48,88 96,60" fill="#faf8f4"/>
+    </g>
+    <text x="600" y="560" text-anchor="middle" font-family="sans-serif" font-size="48" font-weight="900" fill="#faf8f4" letter-spacing="-1">SOP VIDEO</text>
+  </svg>
+</template>
 </body>
 </html>

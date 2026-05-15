@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Training Progress · Quiz Dashboard</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+@font-face { font-family: 'Gotham Display'; src: url('../fonts/Gotham-Black.otf') format('opentype'); font-weight:900; font-style:normal; font-display:swap; }
+:root { --bosque:#285952; --bosque-dark:#1d4640; --cypress:#013942; --terracotta:#e47756; --mist:#e8f1ee; --mist-soft:#f4f8f6; --paper:#faf8f4; --ink:#1a2620; --line:#cfd8d3; --muted:#5a6b65; --critical:#a3361a; --good:#1d6a4a; }
+* { box-sizing:border-box; }
+html, body { margin:0; padding:0; font-family:"Montserrat",system-ui,sans-serif; color:var(--ink); background:var(--mist-soft); -webkit-font-smoothing:antialiased; line-height:1.55; }
+.top-bar { background:var(--paper); border-bottom:2px solid var(--line); padding:16px 56px; display:flex; align-items:center; gap:24px; position:sticky; top:0; z-index:10; }
+.top-bar img.logo { height:56px; width:auto; display:block; }
+.top-bar .crumb { padding-left:24px; border-left:1px solid var(--line); font-size:12px; font-weight:600; color:var(--muted); letter-spacing:0.18em; text-transform:uppercase; line-height:1.6; }
+.top-bar .crumb b { color:var(--cypress); }
+.top-bar .actions { margin-left:auto; display:flex; gap:10px; flex-wrap:wrap; }
+.top-bar .action { display:inline-flex; align-items:center; gap:8px; padding:9px 16px; font-size:13px; font-weight:600; text-decoration:none; border-radius:999px; background:transparent; color:var(--cypress); border:1px solid var(--line); cursor:pointer; font-family:inherit; }
+.top-bar .action.primary { background:var(--bosque); color:var(--paper); border-color:var(--bosque); }
+.top-bar .action.danger { background:transparent; color:var(--critical); border-color:var(--critical); }
+.top-bar .action:hover { background:var(--mist); }
+.top-bar .action.danger:hover { background:#fdf2ee; }
+
+.sheet { max-width:1280px; margin:36px auto 60px; padding:0 40px; }
+.intro { margin-bottom:28px; display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:18px; align-items:stretch; }
+.intro .lead { background:var(--cypress); color:var(--paper); border-radius:14px; padding:30px 32px; position:relative; overflow:hidden; }
+.intro .lead::before { content:''; position:absolute; right:-160px; bottom:-160px; width:380px; height:380px; border-radius:50%; background:var(--terracotta); opacity:0.18; }
+.intro .lead .eyebrow { font-size:12px; font-weight:700; color:var(--terracotta); letter-spacing:0.24em; text-transform:uppercase; margin-bottom:12px; position:relative; }
+.intro .lead h1 { font-family:"Gotham Display","Montserrat",sans-serif; font-size:38px; font-weight:900; line-height:1; letter-spacing:-0.02em; text-transform:uppercase; margin:0 0 12px; position:relative; text-wrap:balance; }
+.intro .lead p { font-size:14.5px; line-height:1.5; opacity:0.88; margin:0; position:relative; }
+.intro .stat { background:var(--paper); border:1px solid var(--line); border-radius:14px; padding:24px 26px; display:flex; flex-direction:column; justify-content:space-between; }
+.intro .stat .k { font-size:11px; font-weight:700; color:var(--terracotta); letter-spacing:0.18em; text-transform:uppercase; }
+.intro .stat .v { font-family:"Gotham Display","Montserrat",sans-serif; font-size:54px; font-weight:900; color:var(--bosque); letter-spacing:-0.025em; line-height:1; }
+.intro .stat .v .denom { font-size:24px; color:var(--muted); margin-left:4px; }
+.intro .stat .sub { font-size:12.5px; color:var(--muted); line-height:1.4; }
+
+.bar-wrap { background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:18px 22px; margin-bottom:28px; }
+.bar-wrap .label { font-size:11px; font-weight:700; color:var(--muted); letter-spacing:0.18em; text-transform:uppercase; margin-bottom:8px; }
+.bar { display:flex; height:14px; background:var(--mist); border-radius:999px; overflow:hidden; }
+.bar .seg.correct { background:var(--bosque); }
+.bar .seg.incorrect { background:var(--terracotta); }
+.bar .seg.empty { background:transparent; }
+.bar-legend { display:flex; gap:18px; font-size:12px; color:var(--muted); margin-top:10px; }
+.bar-legend .li { display:inline-flex; align-items:center; gap:7px; font-weight:600; }
+.bar-legend .dot { width:10px; height:10px; border-radius:3px; }
+
+.section-title { font-family:"Gotham Display","Montserrat",sans-serif; font-size:22px; font-weight:900; color:var(--bosque); letter-spacing:-0.01em; text-transform:uppercase; margin:36px 0 14px; }
+
+.grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:16px; }
+.row { background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:18px 20px 16px; transition:border-color 180ms, transform 180ms; text-decoration:none; color:inherit; display:block; }
+.row:hover { border-color:var(--bosque); transform:translateY(-2px); }
+.row.complete-pass { border-color:var(--bosque); }
+.row.complete-fail { border-color:var(--terracotta); }
+.row.partial { border-color:var(--line); border-style:dashed; }
+.row.untouched { background:var(--mist-soft); }
+.row-head { display:flex; align-items:center; gap:12px; margin-bottom:10px; }
+.row-head .id { font-size:11px; font-weight:800; letter-spacing:0.2em; color:var(--terracotta); text-transform:uppercase; flex:0 0 auto; }
+.row-head .badge { margin-left:auto; font-size:10.5px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; padding:4px 9px; border-radius:999px; }
+.row-head .badge.pass { background:var(--bosque); color:var(--paper); }
+.row-head .badge.fail { background:var(--terracotta); color:var(--paper); }
+.row-head .badge.partial { background:var(--mist); color:var(--cypress); }
+.row-head .badge.empty { background:var(--paper); color:var(--muted); border:1px solid var(--line); }
+.row h3 { font-family:"Gotham Display","Montserrat",sans-serif; font-size:16px; font-weight:900; color:var(--bosque); letter-spacing:-0.005em; line-height:1.15; text-transform:uppercase; margin:0; text-wrap:balance; }
+.row .pips { display:flex; gap:6px; margin-top:12px; }
+.row .pip { width:22px; height:22px; border-radius:6px; display:inline-flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; color:var(--paper); font-family:'JetBrains Mono','SF Mono',monospace; }
+.row .pip.correct { background:var(--bosque); }
+.row .pip.incorrect { background:var(--terracotta); }
+.row .pip.empty { background:var(--paper); color:var(--muted); border:1.5px dashed var(--line); }
+.row .when { font-size:11.5px; color:var(--muted); margin-top:10px; font-variant-numeric:tabular-nums; }
+.row.untouched h3 { color:var(--muted); }
+.row.untouched .row-head .id { color:var(--muted); }
+
+.note-section { background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:22px 26px; margin-top:30px; font-size:14px; color:var(--muted); }
+.note-section strong { color:var(--cypress); }
+.note-section p { margin:0 0 8px; }
+.note-section p:last-child { margin-bottom:0; }
+@media (max-width:980px) { .intro { grid-template-columns:1fr 1fr; } .intro .lead { grid-column:1 / -1; } }
+@media print { body { background:white; } .top-bar { display:none; } .sheet { padding:0; margin:0; max-width:none; } .row { break-inside:avoid; } }
+</style>
+</head>
+<body>
+<header class="top-bar">
+  <img src="../assets/bernco-assessor-logo.png" alt="BernCo County Assessor" class="logo">
+  <div class="crumb"><b>Training</b><br>Quiz Dashboard</div>
+  <div class="actions">
+    <a class="action" href="../index.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M6 4L3 7l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Library</a>
+    <a class="action" href="notify.html">Notify card</a>
+    <a class="action" href="flow.html">Flow diagram</a>
+    <button class="action danger" id="reset-btn" type="button">Reset all progress</button>
+    <button class="action primary" onclick="window.print()" type="button">Print</button>
+  </div>
+</header>
+
+<main class="sheet">
+  <section class="intro">
+    <div class="lead">
+      <div class="eyebrow">Training Progress</div>
+      <h1>Quiz dashboard</h1>
+      <p>Per-SOP knowledge check results for this browser, this user. Quiz answers are saved locally — clearing browser data clears progress.</p>
+    </div>
+    <div class="stat"><div><div class="k">SOPs completed</div><div class="v"><span id="stat-complete">0</span><span class="denom">/<span id="stat-total">0</span></span></div></div><div class="sub">All quiz questions answered.</div></div>
+    <div class="stat"><div><div class="k">Questions correct</div><div class="v"><span id="stat-correct">0</span><span class="denom">/<span id="stat-questions">0</span></span></div></div><div class="sub">Out of all attempted.</div></div>
+    <div class="stat"><div><div class="k">Accuracy</div><div class="v"><span id="stat-accuracy">—</span></div></div><div class="sub">Correct ÷ attempted.</div></div>
+  </section>
+
+  <div class="bar-wrap">
+    <div class="label">Overall completion</div>
+    <div class="bar"><div class="seg correct" id="bar-correct" style="width:0"></div><div class="seg incorrect" id="bar-incorrect" style="width:0"></div><div class="seg empty" id="bar-empty" style="width:100%"></div></div>
+    <div class="bar-legend">
+      <span class="li"><span class="dot" style="background:var(--bosque);"></span> Correct</span>
+      <span class="li"><span class="dot" style="background:var(--terracotta);"></span> Incorrect</span>
+      <span class="li"><span class="dot" style="background:var(--mist); border:1px solid var(--line);"></span> Not attempted</span>
+    </div>
+  </div>
+
+  <h2 class="section-title">AI Operations</h2>
+  <div class="grid" id="grid-aio"></div>
+
+  <h2 class="section-title">Customer Service</h2>
+  <div class="grid" id="grid-cs"></div>
+
+  <section class="note-section">
+    <p><strong>How this works.</strong> When you answer a quiz inside an SOP video, the result is written to your browser's localStorage under <code>sop-&lt;ID&gt;:quiz-results</code>. This page reads those keys and displays them — nothing is sent to a server.</p>
+    <p><strong>Per browser, per user.</strong> Progress is local to this browser profile. Two staff members using the same workstation under one profile will share progress. Two browsers or two devices keep separate progress.</p>
+    <p><strong>Reset.</strong> "Reset all progress" clears both quiz results and the "watched" flags for every SOP. It does not affect any saved file or external system.</p>
+  </section>
+</main>
+
+<script>
+const AIO_SOPS = [
+  { id: 'AIO01', title: 'Daily Chatbot Operations Check', qTotal: 2 },
+  { id: 'AIO02', title: 'Weekly Chatbot Conversation Review', qTotal: 2 },
+  { id: 'AIO03', title: 'Chatbot Change Management', qTotal: 2 },
+  { id: 'AIO04', title: 'Monthly Chatbot Metrics Report', qTotal: 2 },
+  { id: 'AIO05', title: 'Chatbot Incident Response', qTotal: 2 },
+];
+const CS_SOPS = [
+  { id: 'CS01', title: 'Veteran Exemption Entry', qTotal: 2 },
+  { id: 'CS02', title: 'RingCentral Admin Portal', qTotal: 2 },
+  { id: 'CS03', title: 'Queue Member Management', qTotal: 2 },
+  { id: 'CS04', title: 'Queue Routing & Wait Settings', qTotal: 2 },
+  { id: 'CS05', title: 'Holiday & Custom Rules', qTotal: 2 },
+  { id: 'CS06', title: 'Greetings, Music & Blocked Calls', qTotal: 2 },
+  { id: 'CS07', title: 'Queue Identity & Administration', qTotal: 2 },
+  { id: 'CS08', title: 'Route a User\'s Number into the Queue', qTotal: 2 },
+  { id: 'CS09', title: 'Envoy Visitor Data Export', qTotal: 2 },
+  { id: 'CS10', title: 'Missing AA Record for Case Entry', qTotal: 2 },
+  { id: 'CS11', title: 'Case Entry for District Court AAs', qTotal: 2 },
+];
+
+function readQuiz(sopId) {
+  try { return JSON.parse(localStorage.getItem(`sop-${sopId}:quiz-results`) || '{}'); }
+  catch { return {}; }
+}
+
+function renderRow(sop) {
+  const results = readQuiz(sop.id);
+  const slots = [];
+  for (let i = 1; i <= sop.qTotal; i++) {
+    slots.push(results[i] || results[i.toString()]);
+  }
+  const answered = slots.filter(Boolean).length;
+  const correct = slots.filter(s => s && s.correct).length;
+  const incorrect = answered - correct;
+  const latest = slots.filter(Boolean).reduce((max, s) => s.at > max ? s.at : max, 0);
+
+  let status, badgeClass, rowClass;
+  if (answered === 0) { status = 'Not started'; badgeClass = 'empty'; rowClass = 'untouched'; }
+  else if (answered < sop.qTotal) { status = `${answered}/${sop.qTotal}`; badgeClass = 'partial'; rowClass = 'partial'; }
+  else if (correct === sop.qTotal) { status = 'Passed'; badgeClass = 'pass'; rowClass = 'complete-pass'; }
+  else { status = `${correct}/${sop.qTotal}`; badgeClass = 'fail'; rowClass = 'complete-fail'; }
+
+  const pips = slots.map(s => {
+    if (!s) return `<span class="pip empty">·</span>`;
+    if (s.correct) return `<span class="pip correct">✓</span>`;
+    return `<span class="pip incorrect">✕</span>`;
+  }).join('');
+
+  const when = latest ? `Last attempted ${new Date(latest).toLocaleString(undefined, {dateStyle:'medium', timeStyle:'short'})}` : 'No attempts yet';
+
+  return {
+    html: `<a class="row ${rowClass}" href="../videos/${sop.id.replace(/^AIO0/,'AIO0').replace(/^CS0/,'CS0')}_${sop.id}.html" onclick="event.preventDefault(); openVideo('${sop.id}')">
+      <div class="row-head">
+        <span class="id">SOP ${sop.id}</span>
+        <span class="badge ${badgeClass}">${status}</span>
+      </div>
+      <h3>${sop.title}</h3>
+      <div class="pips">${pips}</div>
+      <div class="when">${when}</div>
+    </a>`,
+    correct, incorrect, answered, complete: answered === sop.qTotal,
+  };
+}
+
+const VIDEO_PATHS = {
+  AIO01: '../videos/AIO01_Daily_Check.html',
+  AIO02: '../videos/AIO02_Weekly_Check.html',
+  AIO03: '../videos/AIO03_Change_Management.html',
+  AIO04: '../videos/AIO04_Monthly_Metrics.html',
+  AIO05: '../videos/AIO05_Incident_Response.html',
+  CS01: '../videos/CS01_Veteran_Exemption.html',
+  CS02: '../videos/CS02_RingCentral_Admin_Portal.html',
+  CS03: '../videos/CS03_Queue_Member_Management.html',
+  CS04: '../videos/CS04_Queue_Routing.html',
+  CS05: '../videos/CS05_Holiday_and_Custom_Rules.html',
+  CS06: '../videos/CS06_Greeting_Music_Blocked.html',
+  CS07: '../videos/CS07_Queue_Identity.html',
+  CS08: '../videos/CS08_Custom_DID_Routing.html',
+  CS09: '../videos/CS09_Envoy_Export.html',
+  CS10: '../videos/CS10_Missing_AA_Record.html',
+  CS11: '../videos/CS11_Case_Entry_District_Court.html',
+};
+function openVideo(id) { const p = VIDEO_PATHS[id]; if (p) location.href = p; }
+
+function render() {
+  const allSops = [...AIO_SOPS, ...CS_SOPS];
+  let totalQ = 0, attempted = 0, correct = 0, incorrect = 0, complete = 0;
+  const aioHtml = AIO_SOPS.map(s => { const r = renderRow(s); totalQ += s.qTotal; attempted += r.answered; correct += r.correct; incorrect += r.incorrect; if (r.complete) complete++; return r.html; }).join('');
+  const csHtml = CS_SOPS.map(s => { const r = renderRow(s); totalQ += s.qTotal; attempted += r.answered; correct += r.correct; incorrect += r.incorrect; if (r.complete) complete++; return r.html; }).join('');
+  document.getElementById('grid-aio').innerHTML = aioHtml;
+  document.getElementById('grid-cs').innerHTML = csHtml;
+
+  document.getElementById('stat-complete').textContent = complete;
+  document.getElementById('stat-total').textContent = allSops.length;
+  document.getElementById('stat-correct').textContent = correct;
+  document.getElementById('stat-questions').textContent = attempted;
+  document.getElementById('stat-accuracy').textContent = attempted ? `${Math.round(correct/attempted*100)}%` : '—';
+
+  const cw = totalQ ? (correct/totalQ*100) : 0;
+  const iw = totalQ ? (incorrect/totalQ*100) : 0;
+  document.getElementById('bar-correct').style.width = cw + '%';
+  document.getElementById('bar-incorrect').style.width = iw + '%';
+  document.getElementById('bar-empty').style.width = (100 - cw - iw) + '%';
+}
+
+document.getElementById('reset-btn').addEventListener('click', () => {
+  if (!confirm('Clear ALL quiz results and watched flags for every SOP in this browser?')) return;
+  const ids = [...AIO_SOPS, ...CS_SOPS].map(s => s.id);
+  ids.forEach(id => {
+    try {
+      localStorage.removeItem(`sop-${id}:quiz-results`);
+      localStorage.removeItem(`sop-${id}:completed`);
+      // session quiz cache
+      for (let i = 0; i < 5; i++) sessionStorage.removeItem(`sop-${id}:quiz:${i}`);
+    } catch {}
+  });
+  render();
+});
+
+render();
+</script>
+</body>
+</html>
