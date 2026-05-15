@@ -25,7 +25,102 @@ const FONT_BODY = '"Montserrat", system-ui, sans-serif';
 // Brand chrome — header strip + footer with progress
 // ────────────────────────────────────────────────────────────────
 
-function BrandChrome({ sopId, title, scenes, currentSceneIdx }) {
+const CC_STORAGE_KEY = 'sop:captions-on';
+const LANG_STORAGE_KEY = 'sop:lang';
+
+function useCaptionsOn() {
+  const [on, setOn] = React.useState(() => {
+    try { return localStorage.getItem(CC_STORAGE_KEY) === '1'; } catch { return false; }
+  });
+  const toggle = React.useCallback(() => {
+    setOn(prev => {
+      const next = !prev;
+      try { localStorage.setItem(CC_STORAGE_KEY, next ? '1' : '0'); } catch {}
+      return next;
+    });
+  }, []);
+  return [on, toggle];
+}
+
+function useLang() {
+  const [lang, setLang] = React.useState(() => {
+    try { return localStorage.getItem(LANG_STORAGE_KEY) === 'es' ? 'es' : 'en'; } catch { return 'en'; }
+  });
+  const toggle = React.useCallback(() => {
+    setLang(prev => {
+      const next = prev === 'es' ? 'en' : 'es';
+      try { localStorage.setItem(LANG_STORAGE_KEY, next); } catch {}
+      return next;
+    });
+  }, []);
+  return [lang, toggle];
+}
+
+// Merge English scene with its Spanish overrides when lang === 'es'
+function localizeScene(scene, lang) {
+  if (lang !== 'es' || !scene.es) return scene;
+  return { ...scene, ...scene.es };
+}
+
+const UI_STR = {
+  en: {
+    library: 'Library',
+    customerService: 'Customer Service',
+    sopPrefix: 'SOP',
+    captionsOn: 'Turn captions off',
+    captionsOff: 'Turn captions on',
+    knowledgeCheck: 'Knowledge check',
+    continue: 'Continue',
+    correct: 'Correct',
+    yourPick: 'Your pick',
+    rightFeedback: 'Right.',
+    wrongFeedback: 'Not quite.',
+    thatsTheProcedure: "That's the procedure",
+    countOnUs: 'Count on us.',
+  },
+  es: {
+    library: 'Inicio',
+    customerService: 'Servicio al Cliente',
+    sopPrefix: 'POE',
+    captionsOn: 'Desactivar subtítulos',
+    captionsOff: 'Activar subtítulos',
+    knowledgeCheck: 'Verificación',
+    continue: 'Continuar',
+    correct: 'Correcto',
+    yourPick: 'Su elección',
+    rightFeedback: 'Correcto.',
+    wrongFeedback: 'No exactamente.',
+    thatsTheProcedure: 'Ese es el procedimiento',
+    countOnUs: 'Cuente con nosotros.',
+  },
+};
+function t(lang, key) { return (UI_STR[lang] || UI_STR.en)[key] || UI_STR.en[key] || key; }
+
+// Extract a plain-language caption line from a scene for the CC bar.
+function sceneCaption(scene) {
+  if (!scene) return '';
+  switch (scene.kind) {
+    case 'title':
+      return [scene.title, scene.plainTitle].filter(Boolean).join(' — ');
+    case 'screenshot':
+      return [scene.caption, scene.sub].filter(Boolean).join(' ');
+    case 'bigstat':
+      return [scene.caption, scene.sub].filter(Boolean).join(': ');
+    case 'comparison':
+      return [scene.title, scene.sub].filter(Boolean).join(' — ');
+    case 'steps':
+      return [scene.title, scene.sub].filter(Boolean).join(' — ');
+    case 'outro':
+      return [scene.title, scene.sub].filter(Boolean).join(' ');
+    case 'quiz':
+      return `Knowledge check: ${scene.question}`;
+    default: return '';
+  }
+}
+
+function BrandChrome({ sopId, title, scenes, currentSceneIdx, captionsOn, toggleCaptions, lang, toggleLang }) {
+  const currentScene = currentSceneIdx >= 0 ? scenes[currentSceneIdx] : null;
+  const captionText = currentScene ? sceneCaption(currentScene) : '';
   return (
     <React.Fragment>
       {/* Top bar */}
@@ -33,24 +128,130 @@ function BrandChrome({ sopId, title, scenes, currentSceneIdx }) {
         position: 'absolute', top: 0, left: 0, right: 0, height: 72,
         background: SOP_PALETTE.paper,
         display: 'flex', alignItems: 'center',
-        padding: '0 40px',
+        padding: '0 24px 0 16px',
         zIndex: 100,
         borderBottom: `2px solid ${SOP_PALETTE.line}`,
+        gap: 16,
       }}>
+        <a href={`../${lang === 'es' ? 'index-es.html' : 'index.html'}`} title={t(lang, 'library')} style={{
+          display: 'inline-flex', alignItems: 'center', gap: 8,
+          padding: '10px 16px 10px 12px',
+          borderRadius: 999,
+          background: 'transparent',
+          color: SOP_PALETTE.cypress,
+          textDecoration: 'none',
+          fontFamily: FONT_BODY,
+          fontSize: 13, fontWeight: 700,
+          letterSpacing: '0.14em',
+          textTransform: 'uppercase',
+          border: `1px solid ${SOP_PALETTE.line}`,
+          transition: 'background 160ms cubic-bezier(0.4, 0, 0.2, 1), border-color 160ms cubic-bezier(0.4, 0, 0.2, 1)',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.background = SOP_PALETTE.mist;
+          e.currentTarget.style.borderColor = SOP_PALETTE.bosque;
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = 'transparent';
+          e.currentTarget.style.borderColor = SOP_PALETTE.line;
+        }}>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M11 7H3M6 4L3 7l3 3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          {t(lang, 'library')}
+        </a>
         <img src="../assets/bernco-assessor-logo.png" alt="BernCo County Assessor — Damian R. Lara" style={{
           height: 54, width: 'auto', display: 'block',
         }} />
         <div style={{
-          marginLeft: 24, paddingLeft: 24,
+          marginLeft: 8, paddingLeft: 16,
           borderLeft: `1px solid ${SOP_PALETTE.line}`,
           fontFamily: FONT_BODY, fontSize: 13, fontWeight: 600,
           color: SOP_PALETTE.muted,
           letterSpacing: '0.16em', textTransform: 'uppercase',
         }}>
-          Customer Service · SOP {sopId}
+          {t(lang, 'customerService')} · {t(lang, 'sopPrefix')} {sopId}
         </div>
         <div style={{ flex: 1 }} />
+        {/* Language toggle */}
+        <button
+          onClick={toggleLang}
+          title={lang === 'es' ? 'Switch to English' : 'Cambiar a Español'}
+          aria-pressed={lang === 'es'}
+          style={{
+            display: 'inline-flex', alignItems: 'center', gap: 6,
+            padding: '8px 12px',
+            borderRadius: 999,
+            background: 'transparent',
+            color: SOP_PALETTE.cypress,
+            border: `1px solid ${SOP_PALETTE.line}`,
+            fontFamily: FONT_BODY,
+            fontSize: 12, fontWeight: 700,
+            letterSpacing: '0.14em',
+            textTransform: 'uppercase',
+            cursor: 'pointer',
+          }}
+        >
+          <span style={{
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+            width: 26, height: 20, borderRadius: 4,
+            background: lang === 'en' ? SOP_PALETTE.bosque : 'transparent',
+            color: lang === 'en' ? SOP_PALETTE.paper : SOP_PALETTE.muted,
+            fontSize: 10, fontWeight: 800,
+          }}>EN</span>
+          <span style={{
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+            width: 26, height: 20, borderRadius: 4,
+            background: lang === 'es' ? SOP_PALETTE.bosque : 'transparent',
+            color: lang === 'es' ? SOP_PALETTE.paper : SOP_PALETTE.muted,
+            fontSize: 10, fontWeight: 800,
+          }}>ES</span>
+        </button>
+        {/* CC toggle */}
+        <button
+          onClick={toggleCaptions}
+          title={captionsOn ? t(lang, 'captionsOn') : t(lang, 'captionsOff')}
+          aria-pressed={captionsOn}
+          style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+            padding: '8px 14px 8px 12px',
+            borderRadius: 999,
+            background: captionsOn ? SOP_PALETTE.bosque : 'transparent',
+            color: captionsOn ? SOP_PALETTE.paper : SOP_PALETTE.cypress,
+            border: `1px solid ${captionsOn ? SOP_PALETTE.bosque : SOP_PALETTE.line}`,
+            fontFamily: FONT_BODY,
+            fontSize: 12, fontWeight: 700,
+            letterSpacing: '0.14em',
+            textTransform: 'uppercase',
+            cursor: 'pointer',
+            transition: 'background 160ms cubic-bezier(0.4, 0, 0.2, 1), color 160ms cubic-bezier(0.4, 0, 0.2, 1), border-color 160ms cubic-bezier(0.4, 0, 0.2, 1)',
+          }}
+        >
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <rect x="1" y="3" width="12" height="8" rx="1.5" stroke="currentColor" strokeWidth="1.5"/>
+            <path d="M3.5 7h2M8.5 7h2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+          </svg>
+          CC
+        </button>
       </div>
+      {/* Captions bar — sits just above the progress strip */}
+      {captionsOn && captionText && (
+        <div style={{
+          position: 'absolute', left: '50%', bottom: 56,
+          transform: 'translateX(-50%)',
+          maxWidth: 'min(1500px, 92%)',
+          padding: '14px 24px',
+          background: 'rgba(15, 24, 22, 0.92)',
+          color: SOP_PALETTE.paper,
+          fontFamily: FONT_BODY,
+          fontSize: 22, fontWeight: 500, lineHeight: 1.35,
+          borderRadius: 8,
+          textAlign: 'center',
+          zIndex: 99,
+          letterSpacing: '0.005em',
+          boxShadow: '0 8px 24px rgba(0,0,0,0.35)',
+        }}>{captionText}</div>
+      )}
       {/* Bottom progress strip */}
       <div style={{
         position: 'absolute', bottom: 0, left: 0, right: 0, height: 36,
@@ -602,7 +803,7 @@ function StepsScene({ title, sub, steps }) {
 }
 
 // Outro scene: closing card with tagline
-function OutroScene({ title, sub }) {
+function OutroScene({ title, sub, lang }) {
   const { progress } = useSprite();
   const fade = Easing.easeOutCubic(clamp(progress * 3, 0, 1));
   return (
@@ -633,7 +834,7 @@ function OutroScene({ title, sub }) {
         color: SOP_PALETTE.terracotta, letterSpacing: '0.24em',
         textTransform: 'uppercase', marginBottom: 32,
         zIndex: 2,
-      }}>That's the procedure</div>
+      }}>{lang === 'es' ? "Ese es el procedimiento" : "That's the procedure"}</div>
       <div style={{
         opacity: fade,
         fontFamily: FONT_DISPLAY, fontSize: 76, fontWeight: 900,
@@ -669,7 +870,7 @@ function OutroScene({ title, sub }) {
         fontFamily: FONT_DISPLAY, fontSize: 44, fontWeight: 900,
         color: SOP_PALETTE.terracotta, letterSpacing: '0',
         textTransform: 'lowercase', zIndex: 2,
-      }}>Count on us.</div>
+      }}>{lang === 'es' ? 'Cuente con nosotros.' : 'Count on us.'}</div>
     </div>
   );
 }
@@ -678,16 +879,245 @@ function OutroScene({ title, sub }) {
 // Scene dispatcher
 // ────────────────────────────────────────────────────────────────
 
-function Scene({ scene }) {
-  switch (scene.kind) {
-    case 'title': return <TitleScene {...scene} />;
-    case 'screenshot': return <ScreenshotScene {...scene} />;
-    case 'bigstat': return <BigStatScene {...scene} />;
-    case 'comparison': return <ComparisonScene {...scene} />;
-    case 'steps': return <StepsScene {...scene} />;
-    case 'outro': return <OutroScene {...scene} />;
+function Scene({ scene, sopId, onQuizAnswered, lang }) {
+  const ls = localizeScene(scene, lang);
+  switch (ls.kind) {
+    case 'title': return <TitleScene {...ls} />;
+    case 'screenshot': return <ScreenshotScene {...ls} />;
+    case 'bigstat': return <BigStatScene {...ls} />;
+    case 'comparison': return <ComparisonScene {...ls} />;
+    case 'steps': return <StepsScene {...ls} />;
+    case 'outro': return <OutroScene {...ls} lang={lang} />;
+    case 'quiz': return <QuizScene {...ls} sopId={sopId} onAnswered={onQuizAnswered} lang={lang} />;
     default: return null;
   }
+}
+
+// ────────────────────────────────────────────────────────────────
+// Quiz scene — interactive multiple choice. Pauses the playhead
+// until the user picks an answer; on Continue, advances past the
+// scene boundary so the next scene auto-plays.
+// ────────────────────────────────────────────────────────────────
+
+function QuizScene({ question, options, correctIndex, explanation, qNum, qTotal, sopId, onAnswered, lang }) {
+  const { progress, duration } = useSprite();
+  const timeline = useTimeline();
+  const setPlaying = timeline.setPlaying;
+  const setTime = timeline.setTime;
+  const globalTime = timeline.time;
+
+  // Stable per-question key: SOP + question number
+  const key = `sop-${sopId}:quiz:${qNum || 0}`;
+
+  const [picked, setPicked] = React.useState(() => {
+    try { const v = sessionStorage.getItem(key); return v == null ? null : parseInt(v, 10); } catch { return null; }
+  });
+
+  const continuingRef = React.useRef(false);
+
+  // Aggressively pause whenever this scene is mounted. The ONLY way past it
+  // is via the Continue button (handleContinue), which advances the playhead
+  // past this scene's end before resuming, so by the time setPlaying(true)
+  // fires we've already unmounted.
+  React.useEffect(() => {
+    if (!continuingRef.current && timeline.playing && setPlaying) {
+      setPlaying(false);
+    }
+  }, [timeline.playing, setPlaying]);
+
+  const handlePick = (i) => {
+    setPicked(i);
+    try { sessionStorage.setItem(key, String(i)); } catch {}
+    const isRight = i === correctIndex;
+    if (onAnswered) onAnswered({ qNum, picked: i, correct: isRight });
+  };
+
+  const handleContinue = () => {
+    // Jump playhead just past the end of this scene so the next one starts.
+    if (setTime && setPlaying) {
+      continuingRef.current = true;
+      const remainingInScene = (1 - progress) * duration;
+      setTime(globalTime + remainingInScene + 0.05);
+      setPlaying(true);
+    }
+  };
+
+  const isRight = picked === correctIndex;
+  // Wall-clock fade since mount, since the playhead pauses immediately and
+  // progress would stay near 0 otherwise.
+  const [mountedT, setMountedT] = React.useState(0);
+  React.useEffect(() => {
+    let raf;
+    const start = performance.now();
+    const tick = () => {
+      setMountedT((performance.now() - start) / 1000);
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => raf && cancelAnimationFrame(raf);
+  }, []);
+  const fade = Easing.easeOutCubic(clamp(mountedT * 2.2, 0, 1));
+
+  return (
+    <div style={{
+      position: 'absolute', inset: 0,
+      background: SOP_PALETTE.mistSoft,
+      padding: '110px 120px 70px',
+      display: 'flex', flexDirection: 'column',
+    }}>
+      {/* Header */}
+      <div style={{
+        opacity: fade,
+        display: 'flex', alignItems: 'center', gap: 18,
+        marginBottom: 28,
+      }}>
+        <div style={{
+          fontFamily: FONT_BODY, fontSize: 14, fontWeight: 700,
+          color: SOP_PALETTE.terracotta, letterSpacing: '0.24em',
+          textTransform: 'uppercase',
+          background: SOP_PALETTE.paper,
+          border: `1px solid ${SOP_PALETTE.terracotta}`,
+          padding: '8px 16px', borderRadius: 999,
+        }}>{t(lang, 'knowledgeCheck')}{qTotal ? ` · ${qNum}/${qTotal}` : ''}</div>
+      </div>
+      {/* Question */}
+      <div style={{
+        opacity: fade,
+        fontFamily: FONT_DISPLAY, fontSize: 56, fontWeight: 900,
+        color: SOP_PALETTE.bosque, lineHeight: 1.04,
+        letterSpacing: '-0.015em',
+        textTransform: 'uppercase',
+        marginBottom: 40,
+        textWrap: 'balance',
+      }}>{question}</div>
+      {/* Options */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: options.length > 3 ? '1fr 1fr' : '1fr',
+        gap: 18,
+        marginBottom: 28,
+      }}>
+        {options.map((opt, i) => {
+          const isPicked = picked === i;
+          const isCorrect = i === correctIndex;
+          const showResult = picked != null;
+          let border = SOP_PALETTE.line;
+          let bg = SOP_PALETTE.paper;
+          let label = String.fromCharCode(65 + i);
+          let labelBg = SOP_PALETTE.mist;
+          let labelColor = SOP_PALETTE.muted;
+          if (showResult) {
+            if (isCorrect) { border = SOP_PALETTE.bosque; bg = '#e8f3ee'; labelBg = SOP_PALETTE.bosque; labelColor = SOP_PALETTE.paper; }
+            else if (isPicked) { border = SOP_PALETTE.terracotta; bg = '#fceee7'; labelBg = SOP_PALETTE.terracotta; labelColor = SOP_PALETTE.paper; }
+          }
+          return (
+            <button
+              key={i}
+              onClick={() => picked == null && handlePick(i)}
+              disabled={picked != null}
+              style={{
+                opacity: fade,
+                display: 'flex', alignItems: 'flex-start', gap: 18,
+                padding: '20px 24px',
+                background: bg,
+                border: `2px solid ${border}`,
+                borderRadius: 12,
+                fontFamily: FONT_BODY,
+                fontSize: 22, fontWeight: 500,
+                color: SOP_PALETTE.ink,
+                textAlign: 'left',
+                cursor: picked == null ? 'pointer' : 'default',
+                transition: 'background 180ms cubic-bezier(0.4, 0, 0.2, 1), border-color 180ms cubic-bezier(0.4, 0, 0.2, 1), transform 180ms cubic-bezier(0.4, 0, 0.2, 1)',
+                width: '100%',
+              }}
+              onMouseEnter={(e) => {
+                if (picked == null) {
+                  e.currentTarget.style.borderColor = SOP_PALETTE.bosque;
+                  e.currentTarget.style.background = SOP_PALETTE.mist;
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (picked == null) {
+                  e.currentTarget.style.borderColor = SOP_PALETTE.line;
+                  e.currentTarget.style.background = SOP_PALETTE.paper;
+                }
+              }}
+            >
+              <span style={{
+                flexShrink: 0,
+                width: 38, height: 38, borderRadius: 8,
+                background: labelBg, color: labelColor,
+                display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                fontFamily: FONT_DISPLAY, fontSize: 18, fontWeight: 900,
+                marginTop: -2,
+              }}>{label}</span>
+              <span style={{ flex: 1, lineHeight: 1.4 }}>{opt}</span>
+              {showResult && isCorrect && (
+                <span style={{
+                  flexShrink: 0,
+                  color: SOP_PALETTE.bosque,
+                  fontFamily: FONT_BODY, fontSize: 14, fontWeight: 700,
+                  letterSpacing: '0.16em', textTransform: 'uppercase',
+                  marginTop: 4,
+                }}>{t(lang, 'correct')}</span>
+              )}
+              {showResult && isPicked && !isCorrect && (
+                <span style={{
+                  flexShrink: 0,
+                  color: SOP_PALETTE.terracotta,
+                  fontFamily: FONT_BODY, fontSize: 14, fontWeight: 700,
+                  letterSpacing: '0.16em', textTransform: 'uppercase',
+                  marginTop: 4,
+                }}>{t(lang, 'yourPick')}</span>
+              )}
+            </button>
+          );
+        })}
+      </div>
+      {/* Feedback */}
+      {picked != null && explanation && (
+        <div style={{
+          padding: '18px 22px',
+          background: SOP_PALETTE.paper,
+          borderLeft: `4px solid ${isRight ? SOP_PALETTE.bosque : SOP_PALETTE.terracotta}`,
+          borderRadius: 4,
+          fontFamily: FONT_BODY,
+          fontSize: 19, fontWeight: 500,
+          color: SOP_PALETTE.cypress,
+          lineHeight: 1.5,
+          marginBottom: 24,
+        }}>
+          <strong style={{ color: isRight ? SOP_PALETTE.bosque : SOP_PALETTE.terracotta, marginRight: 8 }}>
+            {isRight ? t(lang, 'rightFeedback') : t(lang, 'wrongFeedback')}
+          </strong>
+          {explanation}
+        </div>
+      )}
+      {/* Continue button */}
+      {picked != null && (
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <button onClick={handleContinue} style={{
+            display: 'inline-flex', alignItems: 'center', gap: 10,
+            padding: '14px 24px',
+            background: SOP_PALETTE.bosque,
+            color: SOP_PALETTE.paper,
+            border: 'none', borderRadius: 999,
+            fontFamily: FONT_BODY,
+            fontSize: 15, fontWeight: 700,
+            letterSpacing: '0.14em',
+            textTransform: 'uppercase',
+            cursor: 'pointer',
+            boxShadow: '0 6px 18px rgba(40, 89, 82, 0.28)',
+          }}>
+            {t(lang, 'continue')}
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M3 7h8M8 4l3 3-3 3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      )}
+    </div>
+  );
 }
 
 // ────────────────────────────────────────────────────────────────
@@ -705,6 +1135,12 @@ function SOPVideo({ sopId, title, scenes }) {
   });
   const totalDuration = t;
 
+  const [captionsOn, toggleCaptions] = useCaptionsOn();
+  const [lang, toggleLang] = useLang();
+
+  // Stamp completion the first time the user reaches the last (outro) scene.
+  const lastScene = timed[timed.length - 1];
+
   function ScreenLabel() {
     const time = useTime();
     React.useEffect(() => {
@@ -714,14 +1150,38 @@ function SOPVideo({ sopId, title, scenes }) {
         root.setAttribute('data-screen-label', `${sopId} · ${sec.toString().padStart(2,'0')}s`);
       }
     }, [Math.floor(time)]);
+    React.useEffect(() => {
+      if (lastScene && time >= lastScene.start + 1) {
+        try { localStorage.setItem(`sop-${sopId}:completed`, '1'); } catch {}
+      }
+    }, [time >= (lastScene ? lastScene.start + 1 : Infinity)]);
     return null;
   }
 
   function ChromeWrapper() {
     const time = useTime();
     const currentSceneIdx = timed.findIndex(s => time >= s.start && time < s.end);
-    return <BrandChrome sopId={sopId} title={title} scenes={timed} currentSceneIdx={currentSceneIdx === -1 ? timed.length - 1 : currentSceneIdx} />;
+    const localized = timed.map(s => localizeScene(s, lang));
+    return <BrandChrome
+      sopId={sopId} title={title}
+      scenes={localized}
+      currentSceneIdx={currentSceneIdx === -1 ? timed.length - 1 : currentSceneIdx}
+      captionsOn={captionsOn}
+      toggleCaptions={toggleCaptions}
+      lang={lang}
+      toggleLang={toggleLang}
+    />;
   }
+
+  // Track quiz answers so the library can show a score later.
+  const onQuizAnswered = React.useCallback(({ qNum, correct }) => {
+    try {
+      const key = `sop-${sopId}:quiz-results`;
+      const existing = JSON.parse(localStorage.getItem(key) || '{}');
+      existing[qNum || 0] = { correct, at: Date.now() };
+      localStorage.setItem(key, JSON.stringify(existing));
+    } catch {}
+  }, [sopId]);
 
   return (
     <div id="video-root" data-screen-label={`${sopId} · 00s`}>
@@ -734,7 +1194,7 @@ function SOPVideo({ sopId, title, scenes }) {
         <ScreenLabel />
         {timed.map((s, i) => (
           <Sprite key={i} start={s.start} end={s.end}>
-            <Scene scene={s} />
+            <Scene scene={s} sopId={sopId} onQuizAnswered={onQuizAnswered} lang={lang} />
           </Sprite>
         ))}
         <ChromeWrapper />
@@ -745,5 +1205,5 @@ function SOPVideo({ sopId, title, scenes }) {
 
 Object.assign(window, {
   SOPVideo, SOP_PALETTE,
-  TitleScene, ScreenshotScene, BigStatScene, ComparisonScene, StepsScene, OutroScene,
+  TitleScene, ScreenshotScene, BigStatScene, ComparisonScene, StepsScene, OutroScene, QuizScene,
 });
