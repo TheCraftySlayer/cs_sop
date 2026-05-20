@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glossary · Acronyms & terms · BernCo Assessor SOPs</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+  @font-face {
+    font-family: 'Gotham Display';
+    src: url('fonts/Gotham-Black.otf') format('opentype');
+    font-weight: 900; font-style: normal; font-display: swap;
+  }
+  :root {
+    --bosque: #285952; --bosque-dark: #1d4640; --cypress: #013942;
+    --terracotta: #e47756; --mist: #e8f1ee; --mist-soft: #f4f8f6;
+    --paper: #faf8f4; --ink: #1a2620; --line: #cfd8d3; --muted: #5a6b65;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; font-family: "Montserrat", system-ui, sans-serif; color: var(--ink); background: var(--paper); -webkit-font-smoothing: antialiased; }
+
+  .top-bar { background: var(--paper); border-bottom: 2px solid var(--line); padding: 18px 56px; display: flex; align-items: center; gap: 28px; position: sticky; top: 0; z-index: 10; }
+  .top-bar .crumb { font-size: 12px; font-weight: 600; color: var(--muted); letter-spacing: 0.18em; text-transform: uppercase; line-height: 1.6; }
+  .top-bar .crumb b { color: var(--cypress); font-weight: 700; }
+  .top-bar .back { margin-left: auto; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cypress); text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 9px 16px; transition: all 180ms cubic-bezier(0.4,0,0.2,1); }
+  .top-bar .back:hover { border-color: var(--bosque); color: var(--bosque); background: var(--mist); }
+  .top-bar .filter { position: relative; }
+  .top-bar .filter input { width: 280px; max-width: 40vw; padding: 11px 16px 11px 40px; border: 1px solid var(--line); border-radius: 999px; background: var(--mist-soft); font-family: inherit; font-size: 14px; color: var(--ink); }
+  .top-bar .filter input:focus { outline: none; border-color: var(--bosque); background: var(--paper); }
+  .top-bar .filter svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); }
+
+  .hero { position: relative; overflow: hidden; background: var(--mist-soft); padding: 72px 56px 56px; }
+  .hero::before { content: ''; position: absolute; right: -180px; top: -180px; width: 520px; height: 520px; border-radius: 50%; background: var(--bosque); opacity: 0.07; }
+  .hero::after  { content: ''; position: absolute; right: 120px; bottom: -240px; width: 380px; height: 380px; border-radius: 50%; background: var(--terracotta); opacity: 0.09; }
+  .hero .eyebrow { position: relative; font-size: 11px; font-weight: 700; color: var(--terracotta); letter-spacing: 0.22em; text-transform: uppercase; margin-bottom: 14px; }
+  .hero h1 { font-family: "Gotham Display", "Montserrat", sans-serif; font-size: clamp(40px, 6vw, 80px); font-weight: 900; line-height: 0.96; letter-spacing: -0.025em; text-transform: uppercase; color: var(--bosque); margin: 0; max-width: 1000px; position: relative; text-wrap: balance; }
+  .hero p.lede { position: relative; font-size: 16px; color: var(--cypress); margin: 18px 0 0; max-width: 720px; line-height: 1.55; }
+
+  /* A-Z rail */
+  .az-rail { padding: 24px 56px; background: var(--paper); border-bottom: 1px solid var(--line); position: sticky; top: 75px; z-index: 9; display: flex; flex-wrap: wrap; gap: 4px; }
+  .az-rail a { display: inline-flex; align-items: center; justify-content: center; min-width: 32px; height: 32px; padding: 0 8px; border-radius: 6px; font-family: "Gotham Display", sans-serif; font-size: 13px; font-weight: 900; color: var(--muted); text-decoration: none; letter-spacing: 0.04em; transition: all 140ms; }
+  .az-rail a.has:hover { background: var(--mist); color: var(--bosque); }
+  .az-rail a.has { color: var(--cypress); }
+  .az-rail a.empty { opacity: 0.28; pointer-events: none; }
+
+  main { padding: 48px 56px 80px; max-width: 1200px; }
+
+  .letter-block { margin-bottom: 48px; scroll-margin-top: 130px; }
+  .letter-block .letter {
+    font-family: "Gotham Display", "Montserrat", sans-serif;
+    font-size: 88px; font-weight: 900; line-height: 0.85;
+    color: var(--bosque); letter-spacing: -0.04em;
+    margin: 0 0 8px;
+  }
+  .letter-block .letter-rule { height: 2px; background: var(--terracotta); width: 64px; margin-bottom: 28px; }
+
+  .terms { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 18px; }
+  .term { background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 22px 24px; transition: border-color 180ms cubic-bezier(0.4,0,0.2,1), box-shadow 180ms cubic-bezier(0.4,0,0.2,1); }
+  .term:hover { border-color: var(--bosque); box-shadow: 0 12px 28px rgba(15,30,27,0.06); }
+  .term .head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px; flex-wrap: wrap; }
+  .term .acronym { font-family: "Gotham Display", sans-serif; font-size: 22px; font-weight: 900; color: var(--cypress); letter-spacing: -0.01em; text-transform: uppercase; }
+  .term .expansion { font-size: 12px; font-weight: 600; color: var(--muted); letter-spacing: 0.06em; }
+  .term .def { font-size: 14px; color: var(--ink); line-height: 1.55; margin: 0 0 12px; text-wrap: pretty; }
+  .term .refs { display: flex; flex-wrap: wrap; gap: 6px; }
+  .term .refs a { font-size: 10.5px; font-weight: 700; color: var(--terracotta); background: rgba(228,119,86,0.10); padding: 4px 9px; border-radius: 999px; text-decoration: none; letter-spacing: 0.08em; transition: all 160ms; }
+  .term .refs a:hover { background: var(--terracotta); color: var(--paper); }
+
+  .term.hidden { display: none; }
+  .letter-block.hidden { display: none; }
+  .empty-state { display: none; text-align: center; padding: 80px 24px; color: var(--muted); }
+  .empty-state.show { display: block; }
+  .empty-state h3 { font-family: "Gotham Display", sans-serif; font-size: 22px; color: var(--cypress); margin: 0 0 8px; }
+</style>
+</head>
+<body>
+
+<header class="top-bar">
+  <div class="crumb"><b>Reference</b><br>Glossary &amp; acronym key</div>
+  <div class="filter">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M14 14l-3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    <input id="filter" type="search" placeholder="Filter terms…" aria-label="Filter glossary">
+  </div>
+  <a class="back" href="index.html">← All SOPs</a>
+</header>
+
+<section class="hero">
+  <div class="eyebrow">Drowning in acronyms?</div>
+  <h1>Glossary &amp; acronym key</h1>
+  <p class="lede">Every term used across the BernCo Assessor SOP library, with the place it shows up. Click any chip to jump to the source procedure.</p>
+</section>
+
+<nav class="az-rail" id="az-rail" aria-label="Jump to letter"></nav>
+
+<main id="terms-root">
+  <div class="empty-state" id="empty"><h3>No matches</h3><div>Try a shorter term or clear the filter.</div></div>
+</main>
+
+<script src="lib/sop-data.js"></script>
+<script>
+// Term data lives in lib/sop-data.js — edit there to add/edit glossary terms.
+const TERMS = window.SOP_LIB.GLOSSARY;
+
+const SOP_PATH = (id) => `sops/${id}.html`;
+
+(function () {
+  const root = document.getElementById('terms-root');
+  const azRail = document.getElementById('az-rail');
+  const filter = document.getElementById('filter');
+  const empty = document.getElementById('empty');
+
+  // group by first letter
+  const groups = {};
+  TERMS.forEach(t => {
+    const letter = t.term.replace(/[^A-Za-z]/g, '').charAt(0).toUpperCase() || '#';
+    (groups[letter] = groups[letter] || []).push(t);
+  });
+  // sort terms within each letter
+  Object.keys(groups).forEach(L => groups[L].sort((a,b) => a.term.localeCompare(b.term)));
+
+  // render A-Z rail
+  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  azRail.innerHTML = letters.map(L => {
+    const has = !!groups[L];
+    return `<a href="${has ? '#L-'+L : '#'}" class="${has ? 'has' : 'empty'}" data-letter="${L}">${L}</a>`;
+  }).join('');
+
+  // render letter blocks
+  const order = Object.keys(groups).sort();
+  order.forEach(L => {
+    const block = document.createElement('section');
+    block.className = 'letter-block';
+    block.id = 'L-' + L;
+    block.innerHTML = `
+      <div class="letter">${L}</div>
+      <div class="letter-rule"></div>
+      <div class="terms">
+        ${groups[L].map(t => `
+          <div class="term" data-search="${(t.term + ' ' + (t.expand||'') + ' ' + t.def).toLowerCase()}">
+            <div class="head">
+              <div class="acronym">${t.term}</div>
+              ${t.expand ? `<div class="expansion">${t.expand}</div>` : ''}
+            </div>
+            <p class="def">${t.def}</p>
+            ${t.sops && t.sops.length ? `<div class="refs">${t.sops.map(s => `<a href="${SOP_PATH(s)}">${s}</a>`).join('')}</div>` : ''}
+          </div>
+        `).join('')}
+      </div>
+    `;
+    root.insertBefore(block, empty);
+  });
+
+  // filter
+  filter.addEventListener('input', () => {
+    const q = filter.value.trim().toLowerCase();
+    let any = false;
+    document.querySelectorAll('.letter-block').forEach(block => {
+      let blockAny = false;
+      block.querySelectorAll('.term').forEach(t => {
+        const match = !q || t.dataset.search.includes(q);
+        t.classList.toggle('hidden', !match);
+        if (match) blockAny = true;
+      });
+      block.classList.toggle('hidden', !blockAny);
+      if (blockAny) any = true;
+    });
+    empty.classList.toggle('show', !any);
+  });
+  filter.addEventListener('keydown', e => { if (e.key === 'Escape') { filter.value=''; filter.dispatchEvent(new Event('input')); } });
+})();
+</script>
+
+<script>window.UTIL_PAGE = 'glossary';</script>
+<script src="lib/utility-nav.js"></script>
+
+</body>
+</html>

@@ -56,6 +56,9 @@
   }
   .top-bar .nav-tools a:hover { background: var(--mist); border-color: var(--bosque); color: var(--bosque); }
   .top-bar .nav-tools a svg { color: var(--terracotta); }
+  .top-bar .nav-tools a.nav-triage { background: var(--terracotta); color: var(--paper); border-color: var(--terracotta); }
+  .top-bar .nav-tools a.nav-triage svg { color: var(--paper); }
+  .top-bar .nav-tools a.nav-triage:hover { background: #c95f3f; border-color: #c95f3f; color: var(--paper); }
   .top-bar .search { margin-left: auto; position: relative; width: 320px; max-width: 50vw; }
   .top-bar .search input {
     width: 100%; padding: 11px 16px 11px 40px;
@@ -80,6 +83,53 @@
   }
   .hero::before { content: ''; position: absolute; right: -180px; top: -180px; width: 520px; height: 520px; border-radius: 50%; background: var(--bosque); opacity: 0.07; }
   .hero::after { content: ''; position: absolute; right: 120px; bottom: -240px; width: 380px; height: 380px; border-radius: 50%; background: var(--terracotta); opacity: 0.09; }
+
+  .hero-cta { position: relative; margin-top: 28px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .hero-btn { display: inline-flex; align-items: center; gap: 9px; padding: 13px 22px; border-radius: 999px; font-size: 13px; font-weight: 700; letter-spacing: 0.04em; text-decoration: none; transition: all 180ms cubic-bezier(0.4,0,0.2,1); }
+  .hero-btn.primary { background: var(--terracotta); color: var(--paper); box-shadow: 0 8px 20px rgba(228,119,86,0.32); }
+  .hero-btn.primary:hover { background: #c95f3f; transform: translateY(-1px); box-shadow: 0 12px 24px rgba(228,119,86,0.42); }
+  .hero-btn.ghost { background: transparent; color: var(--cypress); border: 1px solid var(--line); }
+  .hero-btn.ghost:hover { background: var(--paper); border-color: var(--bosque); color: var(--bosque); }
+
+  .whats-new {
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+    padding: 22px 56px;
+  }
+  .whats-new .wn-head { display: flex; align-items: baseline; justify-content: space-between; gap: 18px; margin-bottom: 14px; }
+  .whats-new .wn-eyebrow { font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: 0.22em; text-transform: uppercase; }
+  .whats-new .wn-all { font-size: 11px; font-weight: 700; color: var(--terracotta); letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; }
+  .whats-new .wn-all:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .whats-new .wn-list {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 12px;
+  }
+  .whats-new .wn-item {
+    display: flex; align-items: stretch; gap: 14px;
+    background: var(--mist-soft); border: 1px solid var(--line);
+    border-radius: 10px; padding: 14px 16px;
+    text-decoration: none; color: inherit;
+    transition: all 180ms cubic-bezier(0.4,0,0.2,1);
+  }
+  .whats-new .wn-item:hover { border-color: var(--bosque); background: var(--mist); transform: translateY(-1px); }
+  .whats-new .wn-item .wn-date {
+    font-family: "Gotham Display", "Montserrat", sans-serif;
+    font-size: 22px; font-weight: 900; color: var(--terracotta);
+    line-height: 0.9; letter-spacing: -0.01em;
+    text-align: center; min-width: 38px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .whats-new .wn-item .wn-date span { display: block; font-size: 9px; font-weight: 700; color: var(--muted); letter-spacing: 0.18em; margin-top: 2px; }
+  .whats-new .wn-item .wn-text { flex: 1; min-width: 0; }
+  .whats-new .wn-item .wn-row {
+    display: flex; gap: 8px; align-items: baseline;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .whats-new .wn-item .wn-kind.updated { color: var(--bosque); }
+  .whats-new .wn-item .wn-kind.new { color: var(--terracotta); }
+  .whats-new .wn-item .wn-sop { color: var(--muted); }
+  .whats-new .wn-item .wn-sum { font-size: 13px; line-height: 1.4; color: var(--cypress); text-wrap: pretty; }
 
   .progress-rail {
     position: relative; background: var(--paper); border-bottom: 1px solid var(--line);
@@ -215,9 +265,12 @@
 <header class="top-bar">
   <div class="crumb"><b>Customer Service</b><br>Animated SOP Library</div>
   <div class="nav-tools">
+    <a href="triage.html" title="I got a call about… decision tree" class="nav-triage"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M7 1.5L7 4M7 1.5L4.5 4M7 1.5L9.5 4M4 6L1.5 9.5M4 6L4 9.5M4 6L7 9.5M10 6L12.5 9.5M10 6L10 9.5M10 6L7 9.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7" cy="11.5" r="1" fill="currentColor"/></svg>Triage</a>
     <a href="system/flow.html" title="AI Operations flow diagram"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><circle cx="3" cy="3" r="1.8" stroke="currentColor" stroke-width="1.3"/><circle cx="11" cy="3" r="1.8" stroke="currentColor" stroke-width="1.3"/><circle cx="7" cy="11" r="1.8" stroke="currentColor" stroke-width="1.3"/><path d="M4.5 3.5L9.5 3.5M3.5 4.5L6.5 9.5M10.5 4.5L7.5 9.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Flow</a>
     <a href="system/notify.html" title="When to notify the Assessor & Deputy"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M7 1.5C5 1.5 3.5 3 3.5 5v2L2 9.5h10L10.5 7V5C10.5 3 9 1.5 7 1.5z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M5.5 11.5C5.7 12.3 6.3 12.7 7 12.7s1.3-0.4 1.5-1.2" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Notify</a>
     <a href="system/dashboard.html" title="Training progress dashboard"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="1.5" y="7.5" width="3" height="5" rx="0.5" stroke="currentColor" stroke-width="1.3"/><rect x="5.5" y="4.5" width="3" height="8" rx="0.5" stroke="currentColor" stroke-width="1.3"/><rect x="9.5" y="1.5" width="3" height="11" rx="0.5" stroke="currentColor" stroke-width="1.3"/></svg>Progress</a>
+    <a href="glossary.html" title="Glossary &amp; acronym key"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 2h8v10H3zM3 2v10M5 5h4M5 7h4M5 9h3" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round"/></svg>Glossary</a>
+    <a href="quick-ref.html" title="Printable quick-reference cards"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="2" y="3" width="10" height="8" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M4.5 6h5M4.5 8h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Quick-ref</a>
   </div>
   <div class="search">
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M14 14l-3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
@@ -225,7 +278,25 @@
   </div>
 </header>
 
-<section class="hero"><h1>Customer Service Standard Operating Procedures</h1></section>
+<section class="hero">
+  <h1>Customer Service Standard Operating Procedures</h1>
+  <div class="hero-cta">
+    <a class="hero-btn primary" href="triage.html">
+      <svg width="15" height="15" viewBox="0 0 14 14" fill="none"><path d="M7 1.5L7 4M7 1.5L4.5 4M7 1.5L9.5 4M4 6L1.5 9.5M4 6L4 9.5M4 6L7 9.5M10 6L12.5 9.5M10 6L10 9.5M10 6L7 9.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7" cy="11.5" r="1" fill="currentColor"/></svg>
+      I got a call about…
+    </a>
+    <a class="hero-btn ghost" href="quick-ref.html">Quick-reference cards</a>
+    <a class="hero-btn ghost" href="glossary.html">Glossary</a>
+  </div>
+</section>
+
+<section class="whats-new" id="whats-new" aria-label="What changed recently">
+  <div class="wn-head">
+    <div class="wn-eyebrow">What changed</div>
+    <a class="wn-all" href="changelog.html">Full changelog →</a>
+  </div>
+  <div class="wn-list" id="wn-list"></div>
+</section>
 
 <section class="progress-rail" aria-label="Your progress">
   <div><div class="label">Your progress</div><div class="count"><span id="watched-count">0</span><em>/19 watched</em></div></div>
@@ -240,509 +311,11 @@
     <button class="tab-btn active" data-tab="cs" type="button">Customer Service</button>
     <button class="tab-btn" data-tab="aio" type="button">AI Operations</button>
   </div>
-  <div class="pane" data-pane="cs">
-    <div class="steps">
-      <a href="videos/CS02_RingCentral_Admin_Portal.html" data-sop="CS02"><div class="order">Start · 1</div><div class="name">RingCentral Admin Portal</div><div class="id">CS02 · 3:23</div></a>
-      <a href="videos/CS03_Queue_Member_Management.html" data-sop="CS03"><div class="order">Then · 2</div><div class="name">Queue Members</div><div class="id">CS03 · 3:20</div></a>
-      <a href="videos/CS04_Queue_Routing.html" data-sop="CS04"><div class="order">Then · 3</div><div class="name">Routing &amp; Wait</div><div class="id">CS04 · 3:35</div></a>
-      <a href="videos/CS05_Holiday_and_Custom_Rules.html" data-sop="CS05"><div class="order">Then · 4</div><div class="name">Holiday &amp; Custom Rules</div><div class="id">CS05 · 5:01</div></a>
-      <a href="videos/CS06_Greeting_Music_Blocked.html" data-sop="CS06"><div class="order">Then · 5</div><div class="name">Greetings &amp; Blocking</div><div class="id">CS06 · 3:27</div></a>
-      <a href="videos/CS01_Veteran_Exemption.html" data-sop="CS01"><div class="order">Finally · 6</div><div class="name">Veteran Exemption</div><div class="id">CS01 · 8:36</div></a>
-    </div>
-  </div>
-  <div class="pane" data-pane="aio" hidden>
-    <div class="steps">
-      <a href="videos/AIO01_Daily_Check.html" data-sop="AIO01"><div class="order">Start · 1</div><div class="name">Daily Check</div><div class="id">AIO01 · 2:45</div></a>
-      <a href="videos/AIO02_Weekly_Check.html" data-sop="AIO02"><div class="order">Then · 2</div><div class="name">Weekly Review</div><div class="id">AIO02 · 3:16</div></a>
-      <a href="videos/AIO04_Monthly_Metrics.html" data-sop="AIO04"><div class="order">Then · 3</div><div class="name">Monthly Metrics</div><div class="id">AIO04 · 3:05</div></a>
-      <a href="videos/AIO03_Change_Management.html" data-sop="AIO03"><div class="order">Then · 4</div><div class="name">Change Management</div><div class="id">AIO03 · 4:59</div></a>
-      <a href="videos/AIO05_Incident_Response.html" data-sop="AIO05"><div class="order">Finally · 5</div><div class="name">Incident Response</div><div class="id">AIO05 · 3:29</div></a>
-      <a href="sops/AIO06.html" data-sop="AIO06"><div class="order">Reference</div><div class="name">Config Baseline</div><div class="id">AIO06 · Document</div></a>
-    </div>
-  </div>
+  <div class="pane" data-pane="cs"><div class="steps" data-onboarding="cs"></div></div>
+  <div class="pane" data-pane="aio" hidden><div class="steps" data-onboarding="aio"></div></div>
 </section>
 
-<main class="grid-section">
-  <h2>Counter procedures</h2>
-  <div class="sectionsub">Walk-in services performed at the counter and in IASWorld.</div>
-  <div class="grid">
-    
-    <article class="card" data-sop="CS01" data-tags="iasworld counter veteran exemption certificate vetx vetw vetp upc">
-      <a class="card-main" href="videos/CS01_Veteran_Exemption.html">
-        <div class="thumb">
-          <div class="bg"></div>
-          <div class="id"><span class="small">SOP CS01</span>01</div>
-          <span class="duration">8:36</span>
-          <div class="watched-badge"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 5.5L4.5 8 9 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Watched</div>
-          <div class="play"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 3l14 8-14 8V3z" fill="currentColor"/></svg></div>
-        </div>
-        <div class="body">
-          <div class="chip cs">Customer Service</div>
-          <h3>Veteran Exemption Entry</h3>
-          <p>Receive a Veterans certificate, verify it, endorse the back, and apply the exemption in IASWorld — all the way to commit.</p>
-          <div class="tags"><span class="tag">IASWorld</span><span class="tag">Counter</span><span class="tag">7 steps</span></div>
-        </div>
-      </a>
-      <div class="card-links">
-        <a class="primary" href="videos/CS01_Veteran_Exemption.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg>Watch</a>
-        <a href="sops/CS01.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 2h7v10H2zM9 2l3 1v8l-3 1" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Read</a>
-        <button class="mark" data-mark="CS01" title="Mark watched"><span><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 6.5L5.5 9 10 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
-      </div>
-    </article>
-  </div>
-</main>
-
-<section class="grid-section" style="padding-top: 32px;">
-  <h2>RingCentral phone-system SOPs</h2>
-  <div class="sectionsub">Run on top of CS02. All edits require a snapshot, save, verify, and change-log entry.</div>
-  <div class="grid">
-    
-    <article class="card" data-sop="CS02" data-tags="ringcentral portal login admin sign in queue extension reference">
-      <a class="card-main" href="videos/CS02_RingCentral_Admin_Portal.html">
-        <div class="thumb">
-          <div class="bg"></div>
-          <div class="id"><span class="small">SOP CS02 · Reference</span>02</div>
-          <span class="duration">3:23</span>
-          <div class="watched-badge"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 5.5L4.5 8 9 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Watched</div>
-          <div class="play"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 3l14 8-14 8V3z" fill="currentColor"/></svg></div>
-        </div>
-        <div class="body">
-          <div class="chip cs">Customer Service</div>
-          <h3>RingCentral Admin Portal</h3>
-          <p>Sign in and find a call queue. The starting point for every other phone SOP.</p>
-          <div class="tags"><span class="tag">RingCentral</span><span class="tag">Prerequisite</span></div>
-        </div>
-      </a>
-      <div class="card-links">
-        <a class="primary" href="videos/CS02_RingCentral_Admin_Portal.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg>Watch</a>
-        <a href="sops/CS02.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 2h7v10H2zM9 2l3 1v8l-3 1" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Read</a>
-        <button class="mark" data-mark="CS02" title="Mark watched"><span><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 6.5L5.5 9 10 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
-      </div>
-    </article>
-
-    <article class="card" data-sop="CS03" data-tags="ringcentral queue member roster add remove disable ring status">
-      <a class="card-main" href="videos/CS03_Queue_Member_Management.html">
-        <div class="thumb">
-          <div class="bg"></div>
-          <div class="id"><span class="small">SOP CS03</span>03</div>
-          <span class="duration">3:20</span>
-          <div class="watched-badge"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 5.5L4.5 8 9 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Watched</div>
-          <div class="play"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 3l14 8-14 8V3z" fill="currentColor"/></svg></div>
-        </div>
-        <div class="body">
-          <div class="chip cs">Customer Service</div>
-          <h3>Queue Member Management</h3>
-          <p>Add, remove, or temporarily disable people in a phone queue. Two toggles, one outcome.</p>
-          <div class="tags"><span class="tag">RingCentral</span><span class="tag">Roster</span></div>
-        </div>
-      </a>
-      <div class="card-links">
-        <a class="primary" href="videos/CS03_Queue_Member_Management.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg>Watch</a>
-        <a href="sops/CS03.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 2h7v10H2zM9 2l3 1v8l-3 1" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Read</a>
-        <button class="mark" data-mark="CS03" title="Mark watched"><span><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 6.5L5.5 9 10 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
-      </div>
-    </article>
-
-    <article class="card" data-sop="CS04" data-tags="ringcentral routing rotating fixed simultaneous longest idle wait overflow group">
-      <a class="card-main" href="videos/CS04_Queue_Routing.html">
-        <div class="thumb">
-          <div class="bg"></div>
-          <div class="id"><span class="small">SOP CS04</span>04</div>
-          <span class="duration">3:35</span>
-          <div class="watched-badge"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 5.5L4.5 8 9 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Watched</div>
-          <div class="play"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 3l14 8-14 8V3z" fill="currentColor"/></svg></div>
-        </div>
-        <div class="body">
-          <div class="chip cs">Customer Service</div>
-          <h3>Queue Routing & Wait Settings</h3>
-          <p>Choose how a queue distributes calls, how long callers wait, and where the overflow goes.</p>
-          <div class="tags"><span class="tag">RingCentral</span><span class="tag">Routing</span></div>
-        </div>
-      </a>
-      <div class="card-links">
-        <a class="primary" href="videos/CS04_Queue_Routing.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg>Watch</a>
-        <a href="sops/CS04.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 2h7v10H2zM9 2l3 1v8l-3 1" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Read</a>
-        <button class="mark" data-mark="CS04" title="Mark watched"><span><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 6.5L5.5 9 10 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
-      </div>
-    </article>
-
-    <article class="card" data-sop="CS05" data-tags="holiday custom rules ace chatbot office closed weekly schedule date range">
-      <a class="card-main" href="videos/CS05_Holiday_and_Custom_Rules.html">
-        <div class="thumb">
-          <div class="bg"></div>
-          <div class="id"><span class="small">SOP CS05</span>05</div>
-          <span class="duration">5:01</span>
-          <div class="watched-badge"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 5.5L4.5 8 9 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Watched</div>
-          <div class="play"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 3l14 8-14 8V3z" fill="currentColor"/></svg></div>
-        </div>
-        <div class="body">
-          <div class="chip cs">Customer Service</div>
-          <h3>Holiday & Custom Rules</h3>
-          <p>Holiday closures, scheduled time-of-day routing, A.C.E. chatbot forwarding, and the snow-day Office Closed switch.</p>
-          <div class="tags"><span class="tag">RingCentral</span><span class="tag">Holidays</span></div>
-        </div>
-      </a>
-      <div class="card-links">
-        <a class="primary" href="videos/CS05_Holiday_and_Custom_Rules.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg>Watch</a>
-        <a href="sops/CS05.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 2h7v10H2zM9 2l3 1v8l-3 1" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Read</a>
-        <button class="mark" data-mark="CS05" title="Mark watched"><span><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 6.5L5.5 9 10 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
-      </div>
-    </article>
-
-    <article class="card" data-sop="CS06" data-tags="greeting hold music blocked calls trusted numbers wait announcement payphone">
-      <a class="card-main" href="videos/CS06_Greeting_Music_Blocked.html">
-        <div class="thumb">
-          <div class="bg"></div>
-          <div class="id"><span class="small">SOP CS06</span>06</div>
-          <span class="duration">3:27</span>
-          <div class="watched-badge"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 5.5L4.5 8 9 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Watched</div>
-          <div class="play"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 3l14 8-14 8V3z" fill="currentColor"/></svg></div>
-        </div>
-        <div class="body">
-          <div class="chip cs">Customer Service</div>
-          <h3>Greetings, Music & Blocked Calls</h3>
-          <p>The caller's audio experience — welcome greeting, wait announcements, hold music — and how to filter junk traffic.</p>
-          <div class="tags"><span class="tag">RingCentral</span><span class="tag">Audio</span></div>
-        </div>
-      </a>
-      <div class="card-links">
-        <a class="primary" href="videos/CS06_Greeting_Music_Blocked.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg>Watch</a>
-        <a href="sops/CS06.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 2h7v10H2zM9 2l3 1v8l-3 1" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Read</a>
-        <button class="mark" data-mark="CS06" title="Mark watched"><span><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 6.5L5.5 9 10 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
-      </div>
-    </article>
-
-    <article class="card" data-sop="CS07" data-tags="queue identity admin name extension pin sms manager voicemail direct numbers">
-      <a class="card-main" href="videos/CS07_Queue_Identity.html">
-        <div class="thumb">
-          <div class="bg"></div>
-          <div class="id"><span class="small">SOP CS07</span>07</div>
-          <span class="duration">3:20</span>
-          <div class="watched-badge"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 5.5L4.5 8 9 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Watched</div>
-          <div class="play"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 3l14 8-14 8V3z" fill="currentColor"/></svg></div>
-        </div>
-        <div class="body">
-          <div class="chip cs">Customer Service</div>
-          <h3>Queue Identity & Administration</h3>
-          <p>Names, extensions, managers, PINs, direct numbers, voicemail. Rare changes, heavy consequences.</p>
-          <div class="tags"><span class="tag">RingCentral</span><span class="tag">Admin</span></div>
-        </div>
-      </a>
-      <div class="card-links">
-        <a class="primary" href="videos/CS07_Queue_Identity.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg>Watch</a>
-        <a href="sops/CS07.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 2h7v10H2zM9 2l3 1v8l-3 1" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Read</a>
-        <button class="mark" data-mark="CS07" title="Mark watched"><span><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 6.5L5.5 9 10 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
-      </div>
-    </article>
-
-    <article class="card" data-sop="CS08" data-tags="did direct number routing forward switchboard called number condition extension">
-      <a class="card-main" href="videos/CS08_Custom_DID_Routing.html">
-        <div class="thumb">
-          <div class="bg"></div>
-          <div class="id"><span class="small">SOP CS08</span>08</div>
-          <span class="duration">3:23</span>
-          <div class="watched-badge"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 5.5L4.5 8 9 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Watched</div>
-          <div class="play"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 3l14 8-14 8V3z" fill="currentColor"/></svg></div>
-        </div>
-        <div class="body">
-          <div class="chip cs">Customer Service</div>
-          <h3>Route a User's Number into the Queue</h3>
-          <p>Send calls dialed to an agent's direct line through the queue — one rule, one condition, one action.</p>
-          <div class="tags"><span class="tag">RingCentral</span><span class="tag">Routing</span></div>
-        </div>
-      </a>
-      <div class="card-links">
-        <a class="primary" href="videos/CS08_Custom_DID_Routing.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg>Watch</a>
-        <a href="sops/CS08.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 2h7v10H2zM9 2l3 1v8l-3 1" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Read</a>
-        <button class="mark" data-mark="CS08" title="Mark watched"><span><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 6.5L5.5 9 10 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
-      </div>
-    </article>
-  </div>
-</section>
-
-<section class="grid-section" style="padding-top: 32px;">
-  <h2>Reporting</h2>
-  <div class="sectionsub">Exporting visitor data with the right filters, in the right format.</div>
-  <div class="grid">
-    
-    <article class="card" data-sop="CS09" data-tags="envoy visitor data export analytics csv pdf sso microsoft sign-in flow multiple types">
-      <a class="card-main" href="videos/CS09_Envoy_Export.html">
-        <div class="thumb">
-          <div class="bg"></div>
-          <div class="id"><span class="small">SOP CS09</span>09</div>
-          <span class="duration">7:09</span>
-          <div class="watched-badge"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 5.5L4.5 8 9 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Watched</div>
-          <div class="play"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 3l14 8-14 8V3z" fill="currentColor"/></svg></div>
-        </div>
-        <div class="body">
-          <div class="chip cs">Customer Service</div>
-          <h3>Envoy Visitor Data Export</h3>
-          <p>Pull visitor sign-in data out of Envoy. Filter first — the Alvarado account is shared with the whole county.</p>
-          <div class="tags"><span class="tag">Envoy</span><span class="tag">Reporting</span><span class="tag">Critical</span></div>
-        </div>
-      </a>
-      <div class="card-links">
-        <a class="primary" href="videos/CS09_Envoy_Export.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg>Watch</a>
-        <a href="sops/CS09.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 2h7v10H2zM9 2l3 1v8l-3 1" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Read</a>
-        <button class="mark" data-mark="CS09" title="Mark watched"><span><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 6.5L5.5 9 10 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
-      </div>
-    </article>
-  </div>
-</section>
-
-
-<section class="grid-section" style="padding-top: 32px;">
-  <h2>AI Operations</h2>
-  <div class="sectionsub">Daily reviews and monitoring of the A.C.E. chatbot — knowledge gaps, risk signals, and escalation triggers. &nbsp;<a href="system/flow.html" style="color:var(--terracotta); font-weight:700; text-decoration:underline; text-underline-offset:3px;">See how these fit together &rarr;</a></div>
-
-  <div class="grid">
-
-    <article class="card" data-sop="AIO01" data-tags="ai operations chatbot ace customgpt analyze missing content risk monitoring daily check">
-      <a class="card-main" href="videos/AIO01_Daily_Check.html">
-        <div class="thumb">
-          <div class="bg"></div>
-          <div class="id"><span class="small">SOP AIO01</span>A1</div>
-          <span class="duration">2:45</span>
-          <div class="watched-badge"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 5.5L4.5 8 9 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Watched</div>
-          <div class="play"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 3l14 8-14 8V3z" fill="currentColor"/></svg></div>
-        </div>
-        <div class="body">
-          <div class="chip aio">AI Operations</div>
-          <h3>Daily Chatbot Operations Check</h3>
-          <p>10-minute morning review of the A.C.E. chatbot. Triage missing content, check risk monitoring, and know when to escalate.</p>
-          <div class="tags"><span class="tag">AI Operations</span><span class="tag">A.C.E.</span><span class="tag">Daily</span></div>
-        </div>
-      </a>
-      <div class="card-links">
-        <a class="primary" href="videos/AIO01_Daily_Check.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg>Watch</a>
-        <a href="sops/AIO01.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 2h7v10H2zM9 2l3 1v8l-3 1" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Read</a>
-        <button class="mark" data-mark="AIO01" title="Mark watched"><span><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 6.5L5.5 9 10 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
-      </div>
-    </article>
-
-    <article class="card" data-sop="AIO02" data-tags="ai operations chatbot ace weekly conversation review sample 20 tag good wrong empty spanish canary export backup customgpt ask">
-      <a class="card-main" href="videos/AIO02_Weekly_Check.html">
-        <div class="thumb">
-          <div class="bg"></div>
-          <div class="id"><span class="small">SOP AIO02</span>A2</div>
-          <span class="duration">3:16</span>
-          <div class="watched-badge"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 5.5L4.5 8 9 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Watched</div>
-          <div class="play"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 3l14 8-14 8V3z" fill="currentColor"/></svg></div>
-        </div>
-        <div class="body">
-          <div class="chip aio">AI Operations</div>
-          <h3>Weekly Chatbot Conversation Review</h3>
-          <p>Monday morning, 30 minutes. Sample 20 conversations, tag them, run the Spanish canary, export the backup.</p>
-          <div class="tags"><span class="tag">AI Operations</span><span class="tag">A.C.E.</span><span class="tag">Weekly</span></div>
-        </div>
-      </a>
-      <div class="card-links">
-        <a class="primary" href="videos/AIO02_Weekly_Check.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg>Watch</a>
-        <a href="sops/AIO02.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 2h7v10H2zM9 2l3 1v8l-3 1" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Read</a>
-        <button class="mark" data-mark="AIO02" title="Mark watched"><span><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 6.5L5.5 9 10 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
-      </div>
-    </article>
-
-    <article class="card" data-sop="AIO03" data-tags="ai operations chatbot ace change management persona kb file actions configuration save publish customgpt">
-      <a class="card-main" href="videos/AIO03_Change_Management.html">
-        <div class="thumb">
-          <div class="bg"></div>
-          <div class="id"><span class="small">SOP AIO03</span>A3</div>
-          <span class="duration">4:59</span>
-          <div class="watched-badge"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 5.5L4.5 8 9 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Watched</div>
-          <div class="play"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 3l14 8-14 8V3z" fill="currentColor"/></svg></div>
-        </div>
-        <div class="body">
-          <div class="chip aio">AI Operations</div>
-          <h3>Chatbot Change Management</h3>
-          <p>How to change A.C.E. safely — Persona, KB files, Actions, and Configuration. Source, screenshot, save, test, publish, log.</p>
-          <div class="tags"><span class="tag">AI Operations</span><span class="tag">A.C.E.</span><span class="tag">4 change types</span></div>
-        </div>
-      </a>
-      <div class="card-links">
-        <a class="primary" href="videos/AIO03_Change_Management.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg>Watch</a>
-        <a href="sops/AIO03.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 2h7v10H2zM9 2l3 1v8l-3 1" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Read</a>
-        <button class="mark" data-mark="AIO03" title="Mark watched"><span><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 6.5L5.5 9 10 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
-      </div>
-    </article>
-
-    <article class="card" data-sop="AIO04" data-tags="ai operations chatbot ace monthly metrics report executive governance tracker thresholds persona failure not found spanish customgpt analyze">
-      <a class="card-main" href="videos/AIO04_Monthly_Metrics.html">
-        <div class="thumb">
-          <div class="bg"></div>
-          <div class="id"><span class="small">SOP AIO04</span>A4</div>
-          <span class="duration">3:05</span>
-          <div class="watched-badge"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 5.5L4.5 8 9 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Watched</div>
-          <div class="play"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 3l14 8-14 8V3z" fill="currentColor"/></svg></div>
-        </div>
-        <div class="body">
-          <div class="chip aio">AI Operations</div>
-          <h3>Monthly Chatbot Metrics Report</h3>
-          <p>First of the month, 30 minutes. Three places to collect from, one tracker row, one email summary. Month-over-month thresholds for governance.</p>
-          <div class="tags"><span class="tag">AI Operations</span><span class="tag">A.C.E.</span><span class="tag">Monthly</span></div>
-        </div>
-      </a>
-      <div class="card-links">
-        <a class="primary" href="videos/AIO04_Monthly_Metrics.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg>Watch</a>
-        <a href="sops/AIO04.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 2h7v10H2zM9 2l3 1v8l-3 1" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Read</a>
-        <button class="mark" data-mark="AIO04" title="Mark watched"><span><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 6.5L5.5 9 10 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
-      </div>
-    </article>
-
-    <article class="card" data-sop="AIO05" data-tags="ai operations chatbot ace incident response pii outage abusive user threat customgpt deploy">
-      <a class="card-main" href="videos/AIO05_Incident_Response.html">
-        <div class="thumb">
-          <div class="bg"></div>
-          <div class="id"><span class="small">SOP AIO05</span>A5</div>
-          <span class="duration">3:29</span>
-          <div class="watched-badge"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 5.5L4.5 8 9 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Watched</div>
-          <div class="play"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 3l14 8-14 8V3z" fill="currentColor"/></svg></div>
-        </div>
-        <div class="body">
-          <div class="chip aio">AI Operations</div>
-          <h3>Chatbot Incident Response</h3>
-          <p>Four classes of A.C.E. incident. Severity order, contain-before-notify for PII, and when to escalate.</p>
-          <div class="tags"><span class="tag">AI Operations</span><span class="tag">A.C.E.</span><span class="tag">Critical</span></div>
-        </div>
-      </a>
-      <div class="card-links">
-        <a class="primary" href="videos/AIO05_Incident_Response.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg>Watch</a>
-        <a href="sops/AIO05.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 2h7v10H2zM9 2l3 1v8l-3 1" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Read</a>
-        <button class="mark" data-mark="AIO05" title="Mark watched"><span><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 6.5L5.5 9 10 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
-      </div>
-    </article>
-
-    <article class="card doc-only" data-sop="AIO06" data-tags="ai operations chatbot ace baseline configuration reference snapshot persona kb sources customgpt audit">
-      <a class="card-main" href="sops/AIO06.html">
-        <div class="thumb">
-          <div class="bg"></div>
-          <div class="id"><span class="small">SOP AIO06 &middot; Reference</span>A6</div>
-          <span class="duration">Baseline doc</span>
-          <div class="watched-badge"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 5.5L4.5 8 9 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Read</div>
-          <div class="play doc"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 3h8l4 4v14H6z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 3v4h4" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12h6M9 15h6M9 18h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
-        </div>
-        <div class="body">
-          <div class="chip ref">AI Ops · Reference</div>
-          <h3>A.C.E. Configuration &amp; Sources Baseline</h3>
-          <p>The authoritative “as configured” snapshot. What every Personalize tab is set to, every KB source, every Action. Reference for AIO03 change control.</p>
-          <div class="tags"><span class="tag">AI Operations</span><span class="tag">A.C.E.</span><span class="tag">Reference</span></div>
-        </div>
-      </a>
-      <div class="card-links">
-        <a class="primary" href="sops/AIO06.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 2h7v10H2zM9 2l3 1v8l-3 1" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Read</a>
-        <button class="mark" data-mark="AIO06" title="Mark read"><span><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 6.5L5.5 9 10 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
-      </div>
-    </article>
-
-
-  </div>
-</section>
-
-<section class="grid-section" style="padding-top: 32px;">
-  <h2 style="color:#3b2660;">AI Operations &middot; Internal Agents</h2>
-  <div class="sectionsub">Internal CustomGPT agents serving office staff, the 33-county Assessor Affiliate, and new-hire onboarding. Narrower audiences, higher stakes, separate change-control track from the public A.C.E. chatbot.</div>
-  <div class="grid">
-
-    <article class="card" data-sop="BIO01" data-tags="ai operations internal agent compliance expert paralegal onboarding change management persona kb assessor county attorney">
-      <a class="card-main" href="sops/BIO01.html">
-        <div class="thumb">
-          <div class="bg"></div>
-          <div class="id"><span class="small">SOP BIO01</span>B1</div>
-          <span class="duration">Source SOP</span>
-          <div class="watched-badge"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 5.5L4.5 8 9 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Read</div>
-          <div class="play doc"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 3h8l4 4v14H6z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 3v4h4" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12h6M9 15h6M9 18h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
-        </div>
-        <div class="body">
-          <div class="chip bio">Internal Agent</div>
-          <h3>Internal Agent Change Management</h3>
-          <p>Same Save+Publish discipline as the public agent, with stricter reviews: County Attorney sign-off for Compliance Expert persona edits; Assessor review for every Paralegal change.</p>
-          <div class="tags"><span class="tag">Internal</span><span class="tag">3 agents</span><span class="tag">A / B / C / D</span></div>
-        </div>
-      </a>
-      <div class="card-links">
-        <a class="primary" href="sops/BIO01.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 2h7v10H2zM9 2l3 1v8l-3 1" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Read</a>
-        <button class="mark" data-mark="BIO01" title="Mark read"><span><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 6.5L5.5 9 10 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
-      </div>
-    </article>
-
-    <article class="card" data-sop="BIO04" data-tags="ai operations internal agent baseline configuration paralegal compliance expert onboarding canary kb sources customgpt">
-      <a class="card-main" href="sops/BIO04.html">
-        <div class="thumb">
-          <div class="bg"></div>
-          <div class="id"><span class="small">SOP BIO04 &middot; Reference</span>B4</div>
-          <span class="duration">Baseline doc</span>
-          <div class="watched-badge"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 5.5L4.5 8 9 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Read</div>
-          <div class="play doc"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 3h8l4 4v14H6z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 3v4h4" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12h6M9 15h6M9 18h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
-        </div>
-        <div class="body">
-          <div class="chip bio">Internal Reference</div>
-          <h3>Internal Agent Configuration &amp; Sources Baseline</h3>
-          <p>Per-agent inventory across Compliance Expert, Paralegal, and Onboarding. Canary queries, KB sources, Paralegal access details, open audit items.</p>
-          <div class="tags"><span class="tag">Internal</span><span class="tag">3 agents</span><span class="tag">Reference</span></div>
-        </div>
-      </a>
-      <div class="card-links">
-        <a class="primary" href="sops/BIO04.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 2h7v10H2zM9 2l3 1v8l-3 1" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Read</a>
-        <button class="mark" data-mark="BIO04" title="Mark read"><span><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 6.5L5.5 9 10 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
-      </div>
-    </article>
-
-  </div>
-</section>
-
-<section class="grid-section" style="padding-top: 32px;">
-  <h2>LEAP &middot; District Court</h2>
-  <div class="sectionsub">Operational Services &mdash; Case Entry for District Court Assessor Authorizations.</div>
-  <div class="grid">
-
-    <article class="card" data-sop="CS10" data-tags="leap district court case entry missing aa record hearings blank DIST claim for refund iasworld">
-      <a class="card-main" href="videos/CS10_Missing_AA_Record.html">
-        <div class="thumb">
-          <div class="bg"></div>
-          <div class="id"><span class="small">SOP CS10 &middot; Sub-procedure</span>10</div>
-          <span class="duration">4:24</span>
-          <div class="watched-badge"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 5.5L4.5 8 9 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Watched</div>
-          <div class="play"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 3l14 8-14 8V3z" fill="currentColor"/></svg></div>
-        </div>
-        <div class="body">
-          <div class="chip cs">Customer Service</div>
-          <h3>Missing AA Record for Case Entry</h3>
-          <p>Sub-procedure for CS11. Use when the Hearings page is blank after pulling up the parcel.</p>
-          <div class="tags"><span class="tag">LEAP</span><span class="tag">Sub-procedure</span></div>
-        </div>
-      </a>
-      <div class="card-links">
-        <a class="primary" href="videos/CS10_Missing_AA_Record.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg>Watch</a>
-        <a href="sops/CS10.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 2h7v10H2zM9 2l3 1v8l-3 1" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Read</a>
-        <button class="mark" data-mark="CS10" title="Mark watched"><span><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 6.5L5.5 9 10 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
-      </div>
-    </article>
-
-    <article class="card" data-sop="CS11" data-tags="leap district court case entry assessor authorization claim for refund stipulated final judgement iasworld AUT">
-      <a class="card-main" href="videos/CS11_Case_Entry_District_Court.html">
-        <div class="thumb">
-          <div class="bg"></div>
-          <div class="id"><span class="small">SOP CS11</span>11</div>
-          <span class="duration">7:36</span>
-          <div class="watched-badge"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 5.5L4.5 8 9 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Watched</div>
-          <div class="play"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 3l14 8-14 8V3z" fill="currentColor"/></svg></div>
-        </div>
-        <div class="body">
-          <div class="chip cs">Customer Service</div>
-          <h3>Case Entry for District Court AAs</h3>
-          <p>Full Case Entry procedure for District Court Claims for Refund — IASWorld setup, record creation, notes, email, and physical packet handoff.</p>
-          <div class="tags"><span class="tag">LEAP</span><span class="tag">IASWorld</span><span class="tag">14 steps</span></div>
-        </div>
-      </a>
-      <div class="card-links">
-        <a class="primary" href="videos/CS11_Case_Entry_District_Court.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg>Watch</a>
-        <a href="sops/CS11.html"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 2h7v10H2zM9 2l3 1v8l-3 1" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Read</a>
-        <button class="mark" data-mark="CS11" title="Mark watched"><span><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 6.5L5.5 9 10 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
-      </div>
-    </article>
-
-  </div>
-</section>
+<main id="sop-grid"></main>
 
 <template id="__bundler_thumbnail" data-bg-color="#f4f8f6">
   <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
@@ -756,9 +329,126 @@
   </svg>
 </template>
 
+<script src="lib/sop-data.js"></script>
+<script>
+(function () {
+  // Render "What changed" strip from the shared changelog
+  if (!window.SOP_LIB) return;
+  const { CHANGELOG, SOPS } = window.SOP_LIB;
+  const wn = document.getElementById('wn-list'); if (!wn) return;
+  const month = (mm) => ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][parseInt(mm,10)-1];
+  wn.innerHTML = CHANGELOG.slice(0, 3).map(e => {
+    const [yy,mm,dd] = e.date.split('-');
+    const sop = SOPS[e.sop] || {};
+    return `
+      <a class="wn-item" href="sops/${e.sop}.html">
+        <div class="wn-date">${parseInt(dd,10)}<span>${month(mm)}</span></div>
+        <div class="wn-text">
+          <div class="wn-row">
+            <span class="wn-kind ${e.kind}">${e.kind}</span>
+            <span class="wn-sop">SOP ${e.sop}</span>
+          </div>
+          <div class="wn-sum">${e.summary}</div>
+        </div>
+      </a>`;
+  }).join('');
+})();
+</script>
+<script>
+// Render grid sections + onboarding steps from window.SOP_LIB.
+// Edit lib/sop-data.js — see MAINTAINERS.md.
+(function () {
+  if (!window.SOP_LIB) return;
+  const { SOPS, SECTIONS, ONBOARDING } = window.SOP_LIB;
+
+  const watchedBadgeSVG = '<svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 5.5L4.5 8 9 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const playVideoSVG    = '<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M5 3l14 8-14 8V3z" fill="currentColor"/></svg>';
+  const playDocSVG      = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 3h8l4 4v14H6z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 3v4h4" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12h6M9 15h6M9 18h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
+  const watchIconSVG    = '<svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg>';
+  const readIconSVG     = '<svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 2h7v10H2zM9 2l3 1v8l-3 1" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>';
+  const checkIconSVG    = '<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 6.5L5.5 9 10 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  function escapeAttr(s) { return String(s).replace(/"/g,'&quot;'); }
+
+  function renderCard(id, sop) {
+    const docOnly = !!sop.docOnly;
+    const cardHref = docOnly ? sop.read : (sop.watch || sop.read);
+    const watchedLabel = docOnly ? 'Read' : 'Watched';
+    const tags = (sop.displayTags || []).map(t => `<span class="tag">${t}</span>`).join('');
+
+    let links = '';
+    if (sop.watch) {
+      links += `<a class="primary" href="${sop.watch}">${watchIconSVG}Watch</a>`;
+      links += `<a href="${sop.read}">${readIconSVG}Read</a>`;
+    } else {
+      links += `<a class="primary" href="${sop.read}">${readIconSVG}Read</a>`;
+    }
+    const markTitle = docOnly ? 'Mark read' : 'Mark watched';
+    links += `<button class="mark" data-mark="${id}" title="${markTitle}"><span>${checkIconSVG}</span></button>`;
+
+    return `
+      <article class="card${docOnly ? ' doc-only' : ''}" data-sop="${id}" data-tags="${escapeAttr(sop.searchTags || '')}">
+        <a class="card-main" href="${cardHref}">
+          <div class="thumb">
+            <div class="bg"></div>
+            <div class="id"><span class="small">${sop.thumbSub}</span>${sop.thumbId}</div>
+            <span class="duration">${sop.dur}</span>
+            <div class="watched-badge">${watchedBadgeSVG}${watchedLabel}</div>
+            <div class="play${docOnly ? ' doc' : ''}">${docOnly ? playDocSVG : playVideoSVG}</div>
+          </div>
+          <div class="body">
+            <div class="chip ${sop.chipClass}">${sop.chipLabel}</div>
+            <h3>${sop.title}</h3>
+            <p>${sop.blurb}</p>
+            ${tags ? `<div class="tags">${tags}</div>` : ''}
+          </div>
+        </a>
+        <div class="card-links">${links}</div>
+      </article>`;
+  }
+
+  function renderSections(host) {
+    const html = SECTIONS.map((sec, i) => {
+      const ids = Object.keys(SOPS).filter(id => SOPS[id].section === sec.id);
+      if (!ids.length) return '';
+      const headerStyle = sec.titleColor ? ` style="color:${sec.titleColor};"` : '';
+      const sectionStyle = i === 0 ? '' : ' style="padding-top: 32px;"';
+      const tag = i === 0 ? 'main' : 'section';
+      const headerLink = sec.headerLink
+        ? ` &nbsp;<a href="${sec.headerLink.href}" style="color:var(--terracotta); font-weight:700; text-decoration:underline; text-underline-offset:3px;">${sec.headerLink.text}</a>`
+        : '';
+      return `
+<${tag} class="grid-section"${sectionStyle}>
+  <h2${headerStyle}>${sec.title}</h2>
+  <div class="sectionsub">${sec.sub}${headerLink}</div>
+  <div class="grid">${ids.map(id => renderCard(id, SOPS[id])).join('')}</div>
+</${tag}>`;
+    }).join('\n');
+    host.outerHTML = html;
+  }
+
+  function renderOnboarding() {
+    Object.keys(ONBOARDING).forEach(key => {
+      const pane = document.querySelector(`.onboarding [data-onboarding="${key}"]`);
+      if (!pane) return;
+      pane.innerHTML = ONBOARDING[key].steps.map(step => {
+        const sop = SOPS[step.id];
+        if (!sop) return '';
+        const href = sop.watch || sop.read;
+        const dur = sop.dur === 'Baseline doc' || sop.dur === 'Source SOP' ? 'Document' : sop.dur;
+        return `<a href="${href}" data-sop="${step.id}"><div class="order">${step.order}</div><div class="name">${step.shortName}</div><div class="id">${step.id} · ${dur}</div></a>`;
+      }).join('');
+    });
+  }
+
+  const host = document.getElementById('sop-grid');
+  if (host) renderSections(host);
+  renderOnboarding();
+})();
+</script>
 <script>
 (function() {
-  const ALL_SOPS = ['CS01','CS02','CS03','CS04','CS05','CS06','CS07','CS08','CS09','CS10','CS11','AIO01','AIO02','AIO03','AIO04','AIO05','AIO06','BIO01','BIO04'];
+  const ALL_SOPS = Object.keys(window.SOP_LIB?.SOPS || {});
   const watchedKey = (id) => `sop-${id}:completed`;
   const isWatched = (id) => { try { return localStorage.getItem(watchedKey(id)) === '1'; } catch { return false; } };
   const setWatched = (id, on) => { try { if (on) localStorage.setItem(watchedKey(id), '1'); else localStorage.removeItem(watchedKey(id)); } catch {} };

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Changelog · What changed this month · BernCo Assessor SOPs</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+  @font-face {
+    font-family: 'Gotham Display';
+    src: url('fonts/Gotham-Black.otf') format('opentype');
+    font-weight: 900; font-style: normal; font-display: swap;
+  }
+  :root {
+    --bosque: #285952; --bosque-dark: #1d4640; --cypress: #013942;
+    --terracotta: #e47756; --mist: #e8f1ee; --mist-soft: #f4f8f6;
+    --paper: #faf8f4; --ink: #1a2620; --line: #cfd8d3; --muted: #5a6b65;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; font-family: "Montserrat", system-ui, sans-serif; color: var(--ink); background: var(--paper); -webkit-font-smoothing: antialiased; }
+
+  .top-bar { background: var(--paper); border-bottom: 2px solid var(--line); padding: 18px 56px; display: flex; align-items: center; gap: 28px; position: sticky; top: 0; z-index: 10; }
+  .top-bar .crumb { font-size: 12px; font-weight: 600; color: var(--muted); letter-spacing: 0.18em; text-transform: uppercase; line-height: 1.6; }
+  .top-bar .crumb b { color: var(--cypress); font-weight: 700; }
+  .top-bar .back { margin-left: auto; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cypress); text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 9px 16px; transition: all 180ms cubic-bezier(0.4,0,0.2,1); }
+  .top-bar .back:hover { border-color: var(--bosque); color: var(--bosque); background: var(--mist); }
+
+  .hero { position: relative; overflow: hidden; background: var(--mist-soft); padding: 72px 56px 56px; }
+  .hero::before { content: ''; position: absolute; right: -180px; top: -180px; width: 520px; height: 520px; border-radius: 50%; background: var(--bosque); opacity: 0.07; }
+  .hero::after  { content: ''; position: absolute; right: 120px; bottom: -240px; width: 380px; height: 380px; border-radius: 50%; background: var(--terracotta); opacity: 0.09; }
+  .hero .eyebrow { position: relative; font-size: 11px; font-weight: 700; color: var(--terracotta); letter-spacing: 0.22em; text-transform: uppercase; margin-bottom: 14px; }
+  .hero h1 { font-family: "Gotham Display", "Montserrat", sans-serif; font-size: clamp(40px, 6vw, 80px); font-weight: 900; line-height: 0.96; letter-spacing: -0.025em; text-transform: uppercase; color: var(--bosque); margin: 0; max-width: 1000px; position: relative; text-wrap: balance; }
+  .hero p.lede { position: relative; font-size: 16px; color: var(--cypress); margin: 18px 0 0; max-width: 720px; line-height: 1.55; }
+
+  main { padding: 56px 56px 80px; max-width: 1100px; }
+
+  .timeline { position: relative; padding-left: 32px; }
+  .timeline::before { content: ''; position: absolute; left: 7px; top: 8px; bottom: 8px; width: 2px; background: var(--line); }
+
+  .month {
+    margin-bottom: 56px; scroll-margin-top: 100px;
+  }
+  .month .month-head {
+    position: relative; margin-bottom: 24px;
+  }
+  .month .month-head::before {
+    content: ''; position: absolute; left: -32px; top: 8px;
+    width: 16px; height: 16px; border-radius: 50%;
+    background: var(--terracotta); border: 3px solid var(--paper);
+    box-shadow: 0 0 0 2px var(--terracotta);
+  }
+  .month .month-head .label {
+    font-family: "Gotham Display", "Montserrat", sans-serif;
+    font-size: 32px; font-weight: 900; color: var(--bosque);
+    text-transform: uppercase; letter-spacing: -0.01em; line-height: 1; margin: 0;
+  }
+  .month .month-head .count {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--muted); margin-top: 6px;
+  }
+
+  .entry {
+    background: var(--paper); border: 1px solid var(--line); border-radius: 12px;
+    padding: 22px 24px; margin-bottom: 14px;
+    display: grid; grid-template-columns: 96px 1fr auto; gap: 22px; align-items: start;
+    transition: all 180ms cubic-bezier(0.4,0,0.2,1);
+  }
+  .entry:hover { border-color: var(--bosque); box-shadow: 0 12px 28px rgba(15,30,27,0.06); transform: translateY(-1px); }
+  @media (max-width: 720px) { .entry { grid-template-columns: 1fr; gap: 8px; } }
+
+  .entry .date {
+    font-family: "Gotham Display", sans-serif;
+    font-size: 14px; font-weight: 900;
+    color: var(--cypress); letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums; line-height: 1.2;
+  }
+  .entry .date span { display: block; font-size: 10.5px; font-weight: 700; color: var(--muted); letter-spacing: 0.18em; text-transform: uppercase; margin-top: 2px; }
+
+  .entry .body .row { display: flex; gap: 10px; align-items: baseline; margin-bottom: 6px; flex-wrap: wrap; }
+  .entry .body .kind {
+    font-size: 10.5px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+    padding: 3px 9px; border-radius: 999px;
+  }
+  .entry .body .kind.updated { color: var(--bosque); background: var(--mist); }
+  .entry .body .kind.new { color: var(--terracotta); background: rgba(228,119,86,0.14); }
+  .entry .body .sopid { font-family: "Gotham Display", sans-serif; font-size: 12px; font-weight: 900; color: var(--terracotta); letter-spacing: 0.18em; text-transform: uppercase; }
+  .entry .body h3 { font-family: "Gotham Display", sans-serif; font-size: 20px; font-weight: 900; color: var(--cypress); text-transform: uppercase; letter-spacing: -0.005em; margin: 4px 0 8px; line-height: 1.15; }
+  .entry .body p { font-size: 14px; color: var(--ink); line-height: 1.55; margin: 0; text-wrap: pretty; }
+
+  .entry .go {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 9px 14px; border-radius: 999px;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--cypress); background: var(--mist-soft); border: 1px solid var(--line);
+    text-decoration: none; transition: all 180ms cubic-bezier(0.4,0,0.2,1); white-space: nowrap;
+  }
+  .entry .go:hover { background: var(--terracotta); color: var(--paper); border-color: var(--terracotta); }
+
+  .legend { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 32px; }
+  .legend .item { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); }
+  .legend .swatch { width: 12px; height: 12px; border-radius: 50%; }
+  .legend .swatch.updated { background: var(--bosque); }
+  .legend .swatch.new { background: var(--terracotta); }
+</style>
+</head>
+<body>
+
+<header class="top-bar">
+  <div class="crumb"><b>Reference</b><br>Changelog</div>
+  <a class="back" href="index.html">← All SOPs</a>
+</header>
+
+<section class="hero">
+  <div class="eyebrow">What changed</div>
+  <h1>Changelog</h1>
+  <p class="lede">Edits, additions, and rebaselines across the SOP library — most recent first. Look here before you start your morning routine if you've been out for a few days.</p>
+</section>
+
+<main>
+  <div class="legend">
+    <div class="item"><span class="swatch updated"></span>Updated procedure</div>
+    <div class="item"><span class="swatch new"></span>New document</div>
+  </div>
+  <div class="timeline" id="timeline"></div>
+</main>
+
+<script src="lib/sop-data.js"></script>
+<script>window.UTIL_PAGE = 'changelog';</script>
+<script src="lib/utility-nav.js"></script>
+<script>
+(function () {
+  const { SOPS, CHANGELOG } = window.SOP_LIB;
+  const root = document.getElementById('timeline');
+
+  // group by Year-Month
+  const months = {};
+  CHANGELOG.forEach(e => {
+    const [Y, M] = e.date.split('-');
+    const key = Y + '-' + M;
+    (months[key] = months[key] || []).push(e);
+  });
+
+  const sortedKeys = Object.keys(months).sort().reverse();
+  const monthName = (mm) => ['January','February','March','April','May','June','July','August','September','October','November','December'][parseInt(mm,10)-1];
+
+  root.innerHTML = sortedKeys.map(k => {
+    const [Y, M] = k.split('-');
+    const items = months[k].sort((a,b) => b.date.localeCompare(a.date));
+    return `
+      <section class="month" id="m-${k}">
+        <div class="month-head">
+          <h2 class="label">${monthName(M)} ${Y}</h2>
+          <div class="count">${items.length} ${items.length === 1 ? 'change' : 'changes'}</div>
+        </div>
+        ${items.map(e => {
+          const sop = SOPS[e.sop] || { title: e.sop, track: '' };
+          const [yy,mm,dd] = e.date.split('-');
+          return `
+            <article class="entry">
+              <div class="date">${monthName(mm).slice(0,3)} ${parseInt(dd,10)}<span>${yy}</span></div>
+              <div class="body">
+                <div class="row">
+                  <span class="kind ${e.kind}">${e.kind}</span>
+                  <span class="sopid">SOP ${e.sop}${sop.track ? ' · ' + sop.track : ''}</span>
+                </div>
+                <h3>${sop.title}</h3>
+                <p>${e.summary}</p>
+              </div>
+              <a class="go" href="sops/${e.sop}.html">Open SOP →</a>
+            </article>
+          `;
+        }).join('')}
+      </section>
+    `;
+  }).join('');
+})();
+</script>
+
+</body>
+</html>
