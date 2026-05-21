@@ -402,6 +402,9 @@
 
 /* card-specific print rules omitted to avoid conflicts */
 
+.doc a { color:var(--bosque); text-decoration:none; border-bottom:1px solid rgba(40,89,82,0.3); transition:all 180ms cubic-bezier(0.4,0,0.2,1); }
+.doc a:hover { color:var(--terracotta); border-bottom-color:var(--terracotta); }
+.doc a strong { color:inherit; }
 </style>
 </head>
 <body>
@@ -433,11 +436,11 @@
 <div class="meta-row"><span class="meta-k">Effective Date</span><span class="meta-v">05/05/2026</span></div>
 <div class="meta-row"><span class="meta-k">Version</span><span class="meta-v">1</span></div>
 <h2>Purpose</h2>
-<p>This reference document describes how to access the RingCentral Admin Portal, navigate to call queues, and read the queue panel structure. It is cited as a prerequisite by CS03 through CS08 and should not be treated as a stand-alone task SOP.</p>
+<p>This reference document describes how to access the RingCentral Admin Portal, navigate to call queues, and read the queue panel structure. It is cited as a prerequisite by <a href="CS03.html">CS03</a> through <a href="CS08.html">CS08</a> and should not be treated as a stand-alone task SOP.</p>
 <h2>Scope</h2>
 <p>Applies to all staff authorized to access the RingCentral Admin Portal: queue administrators, Customer Service Manager(s), Deputy Assessor(s), and IT staff supporting RingCentral configuration.</p>
 <h2>Definitions</h2>
-<p>Admin Portal – The web interface at https://service.ringcentral.com used for company-wide RingCentral configuration.</p>
+<p>Admin Portal – The web interface at <a href="https://service.ringcentral.com" target="_blank" rel="noopener">https://service.ringcentral.com</a> used for company-wide RingCentral configuration.</p>
 <p>Call Queue – A group of users (members) configured to answer inbound calls routed to a single extension.</p>
 <p>DID (Direct Inward Dial) – A direct phone number assigned to an individual user or extension.</p>
 <p>Queue Panel – The right-hand configuration area that opens when a queue is selected from the Call Queues list.</p>
@@ -450,26 +453,26 @@
 <p>Additional division-specific queues exist (Business &amp; Personal Property, GIS, LEAP Division, Commercial / Non-Residential, Manufactured Homes, Residential variants, etc.). The current full roster is at Phone System → Groups → Call Queues.</p>
 <p>Queue Panel Section Map</p>
 <p>Each queue exposes six expandable sections. The SOP that covers each section is shown in parentheses:</p>
-<p>Call Queue Details — identity, status, managers, PIN, SMS recipients (CS07)</p>
-<p>Direct Numbers — assigned phone numbers (CS07)</p>
-<p>Greeting &amp; Hold Music — audio, blocked calls (CS06)</p>
-<p>Call Handling &amp; Members — routing, members, wait settings, custom rules. Tabs: Work hours (CS03 + CS04), Wait settings (CS04), Display settings (CS04), After hours (CS04), Custom rules (CS05)</p>
-<p>Pickup Settings &amp; Members — pickup permissions (CS07)</p>
-<p>Voicemail &amp; Notifications — queue voicemail (CS07)</p>
+<p>Call Queue Details — identity, status, managers, PIN, SMS recipients (<a href="CS07.html">CS07</a>)</p>
+<p>Direct Numbers — assigned phone numbers (<a href="CS07.html">CS07</a>)</p>
+<p>Greeting &amp; Hold Music — audio, blocked calls (<a href="CS06.html">CS06</a>)</p>
+<p>Call Handling &amp; Members — routing, members, wait settings, custom rules. Tabs: Work hours (<a href="CS03.html">CS03</a> + <a href="CS04.html">CS04</a>), Wait settings (<a href="CS04.html">CS04</a>), Display settings (<a href="CS04.html">CS04</a>), After hours (<a href="CS04.html">CS04</a>), Custom rules (<a href="CS05.html">CS05</a>)</p>
+<p>Pickup Settings &amp; Members — pickup permissions (<a href="CS07.html">CS07</a>)</p>
+<p>Voicemail &amp; Notifications — queue voicemail (<a href="CS07.html">CS07</a>)</p>
 <h2>Related Documents</h2>
-<p>RingCentral Admin Portal: https://service.ringcentral.com</p>
-<p>RingCentral Custom Answering Rules — official setup guide: https://support.ringcentral.com/content/dam/support/us/en/pdf/get-started/v2/RCA_Setting_Up_Custom_Answering_Rules_For_Your_Extension.pdf</p>
-<p>RingCentral Call Queue Call Handling — developer documentation: https://developers.ringcentral.com/guide/voice/call-routing/manual/callqueue-answering-rules</p>
-<p>CS03 — Queue Member Management</p>
-<p>CS04 — Queue Routing and Wait Settings</p>
-<p>CS05 — Holiday and Custom Rules</p>
-<p>CS06 — Queue Greeting, Hold Music, and Blocked Calls</p>
-<p>CS07 — Queue Identity and Administration</p>
-<p>CS08 — Custom Inbound Routing Rules on User DIDs</p>
+<p>RingCentral Admin Portal: <a href="https://service.ringcentral.com" target="_blank" rel="noopener">https://service.ringcentral.com</a></p>
+<p>RingCentral Custom Answering Rules — official setup guide: <a href="https://support.ringcentral.com/content/dam/support/us/en/pdf/get-started/v2/RCA_Setting_Up_Custom_Answering_Rules_For_Your_Extension.pdf" target="_blank" rel="noopener">https://support.ringcentral.com/content/dam/support/us/en/pdf/get-started/v2/RCA_Setting_Up_Custom_Answering_Rules_For_Your_Extension.pdf</a></p>
+<p>RingCentral Call Queue Call Handling — developer documentation: <a href="https://developers.ringcentral.com/guide/voice/call-routing/manual/callqueue-answering-rules" target="_blank" rel="noopener">https://developers.ringcentral.com/guide/voice/call-routing/manual/callqueue-answering-rules</a></p>
+<p><a href="CS03.html">CS03</a> — Queue Member Management</p>
+<p><a href="CS04.html">CS04</a> — Queue Routing and Wait Settings</p>
+<p><a href="CS05.html">CS05</a> — Holiday and Custom Rules</p>
+<p><a href="CS06.html">CS06</a> — Queue Greeting, Hold Music, and Blocked Calls</p>
+<p><a href="CS07.html">CS07</a> — Queue Identity and Administration</p>
+<p><a href="CS08.html">CS08</a> — Custom Inbound Routing Rules on User DIDs</p>
 <p>Queue Change Log — RingCentral configuration history (maintained in shared drive)</p>
 <p>Accessing the Admin Portal</p>
 <p>Navigate to the Admin Portal URL</p>
-<p>Open a web browser and go to https://service.ringcentral.com.</p>
+<p>Open a web browser and go to <a href="https://service.ringcentral.com" target="_blank" rel="noopener">https://service.ringcentral.com</a>.</p>
 <p>Alternatively, search the web for &quot;RingCentral Admin&quot; and select the result for service.ringcentral.com.</p>
 <p>Bookmark this URL for repeat access.</p>
 <figure><img src="../sop_assets/CS02_RingCentral_Admin_Portal_Reference/5f53819c03b37e6aa3dd0a27757122671c801106.png" alt="" /></figure>
@@ -501,7 +504,7 @@
 <p>Six expandable sections are listed. Click any section to expand or collapse it.</p>
 <figure><img src="../sop_assets/CS02_RingCentral_Admin_Portal_Reference/c22f2f851fa9dd613caa2fbe49b56da899012a0d.png" alt="" /></figure>
 <p>General Change Control Principles</p>
-<p>Each task SOP (CS03 through CS08) defines its own authorization tier and procedure-specific verification steps. Common principles that apply across all RingCentral queue changes:</p>
+<p>Each task SOP (<a href="CS03.html">CS03</a> through <a href="CS08.html">CS08</a>) defines its own authorization tier and procedure-specific verification steps. Common principles that apply across all RingCentral queue changes:</p>
 <p>Snapshot the current state before any change — screenshot or note the values you intend to modify.</p>
 <p>Save in the portal AND verify with a test call or call-log review afterward.</p>
 <p>Log every change in the RingCentral Change Log: date/time, queue, setting, prior value, new value, authorizer, applier, reason, verification result.</p>
@@ -522,7 +525,7 @@
     <div class="id"><span class="small">SOP</span>02</div>
   </header>
   
-  <div class="purpose"><strong>Purpose.</strong> Sign in to the RingCentral Admin Portal and find a call queue. Prerequisite for every other phone SOP (CS03–CS08).</div>
+  <div class="purpose"><strong>Purpose.</strong> Sign in to the RingCentral Admin Portal and find a call queue. Prerequisite for every other phone SOP (<a href="CS03.html">CS03</a>–<a href="CS08.html">CS08</a>).</div>
 
   <div class="grid-2" style="margin-bottom: 12px;">
     <div class="block accent">
@@ -563,12 +566,12 @@
     <h3>Queue panel — 6 sections (and which SOP covers each)</h3>
     <table class="table" style="color: var(--paper);">
       <tr><th style="color: rgba(255,255,255,0.5);">Section</th><th style="color: rgba(255,255,255,0.5);">Covered by</th></tr>
-      <tr><td>Call Queue Details — identity, status, managers, PIN, SMS</td><td><code>CS07</code></td></tr>
-      <tr><td>Direct Numbers</td><td><code>CS07</code></td></tr>
-      <tr><td>Greeting &amp; Hold Music — audio, blocked calls</td><td><code>CS06</code></td></tr>
-      <tr><td>Call Handling &amp; Members — routing, members, wait, custom rules</td><td><code>CS03 · CS04 · CS05</code></td></tr>
-      <tr><td>Pickup Settings &amp; Members</td><td><code>CS07</code></td></tr>
-      <tr><td>Voicemail &amp; Notifications</td><td><code>CS07</code></td></tr>
+      <tr><td>Call Queue Details — identity, status, managers, PIN, SMS</td><td><code><a href="CS07.html">CS07</a></code></td></tr>
+      <tr><td>Direct Numbers</td><td><code><a href="CS07.html">CS07</a></code></td></tr>
+      <tr><td>Greeting &amp; Hold Music — audio, blocked calls</td><td><code><a href="CS06.html">CS06</a></code></td></tr>
+      <tr><td>Call Handling &amp; Members — routing, members, wait, custom rules</td><td><code><a href="CS03.html">CS03</a> · <a href="CS04.html">CS04</a> · <a href="CS05.html">CS05</a></code></td></tr>
+      <tr><td>Pickup Settings &amp; Members</td><td><code><a href="CS07.html">CS07</a></code></td></tr>
+      <tr><td>Voicemail &amp; Notifications</td><td><code><a href="CS07.html">CS07</a></code></td></tr>
     </table>
   </div>
 

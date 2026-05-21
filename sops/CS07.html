@@ -402,6 +402,9 @@
 
 /* card-specific print rules omitted to avoid conflicts */
 
+.doc a { color:var(--bosque); text-decoration:none; border-bottom:1px solid rgba(40,89,82,0.3); transition:all 180ms cubic-bezier(0.4,0,0.2,1); }
+.doc a:hover { color:var(--terracotta); border-bottom-color:var(--terracotta); }
+.doc a strong { color:inherit; }
 </style>
 </head>
 <body>
@@ -444,15 +447,15 @@
 <p>SMS Recipients – User(s) who receive texts sent to the queue's number.</p>
 <p>Direct Number – A phone number assigned directly to the queue. Callers dial this to reach the queue without going through the company auto-receptionist.</p>
 <h2>Prerequisites</h2>
-<p>This SOP assumes the operator is signed in to the RingCentral Admin Portal and can navigate to a specific call queue. For sign-in and navigation instructions, see CS02 (RingCentral Admin Portal Reference).</p>
+<p>This SOP assumes the operator is signed in to the RingCentral Admin Portal and can navigate to a specific call queue. For sign-in and navigation instructions, see <a href="CS02.html">CS02</a> (RingCentral Admin Portal Reference).</p>
 <p>The operator must have appropriate manager access to the queue being modified — see Authorization below.</p>
 <h2>Related Documents</h2>
-<p>RingCentral Admin Portal: https://service.ringcentral.com</p>
-<p>RingCentral Custom Answering Rules — official setup guide: https://support.ringcentral.com/content/dam/support/us/en/pdf/get-started/v2/RCA_Setting_Up_Custom_Answering_Rules_For_Your_Extension.pdf</p>
-<p>RingCentral Call Queue Call Handling — developer documentation: https://developers.ringcentral.com/guide/voice/call-routing/manual/callqueue-answering-rules</p>
-<p>CS02 — RingCentral Admin Portal Reference</p>
-<p>CS03 — Queue Member Management</p>
-<p>CS04 — Queue Routing and Wait Settings</p>
+<p>RingCentral Admin Portal: <a href="https://service.ringcentral.com" target="_blank" rel="noopener">https://service.ringcentral.com</a></p>
+<p>RingCentral Custom Answering Rules — official setup guide: <a href="https://support.ringcentral.com/content/dam/support/us/en/pdf/get-started/v2/RCA_Setting_Up_Custom_Answering_Rules_For_Your_Extension.pdf" target="_blank" rel="noopener">https://support.ringcentral.com/content/dam/support/us/en/pdf/get-started/v2/RCA_Setting_Up_Custom_Answering_Rules_For_Your_Extension.pdf</a></p>
+<p>RingCentral Call Queue Call Handling — developer documentation: <a href="https://developers.ringcentral.com/guide/voice/call-routing/manual/callqueue-answering-rules" target="_blank" rel="noopener">https://developers.ringcentral.com/guide/voice/call-routing/manual/callqueue-answering-rules</a></p>
+<p><a href="CS02.html">CS02</a> — RingCentral Admin Portal Reference</p>
+<p><a href="CS03.html">CS03</a> — Queue Member Management</p>
+<p><a href="CS04.html">CS04</a> — Queue Routing and Wait Settings</p>
 <p>Queue Change Log — RingCentral configuration history (maintained in shared drive)</p>
 <p>Call Queue Details Section</p>
 <p>Holds the queue's identity and administration settings. Two sub-tabs: General and Settings.</p>

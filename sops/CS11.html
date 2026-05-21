@@ -240,6 +240,9 @@ html, body { margin:0; padding:0; font-family: "Montserrat",system-ui,sans-serif
 
 /* card-specific print rules omitted to avoid conflicts */
 
+.doc a { color:var(--bosque); text-decoration:none; border-bottom:1px solid rgba(40,89,82,0.3); transition:all 180ms cubic-bezier(0.4,0,0.2,1); }
+.doc a:hover { color:var(--terracotta); border-bottom-color:var(--terracotta); }
+.doc a strong { color:inherit; }
 </style>
 </head>
 <body>
@@ -410,8 +413,8 @@ html, body { margin:0; padding:0; font-family: "Montserrat",system-ui,sans-serif
   </div>
   <div class="block dark">
     <h3>Hearings blank?</h3>
-    <div class="big terra">CS10</div>
-    Use SOP CS10 to create the missing record first. Then come back to <strong>Step 6</strong>.
+    <div class="big terra"><a href="CS10.html">CS10</a></div>
+    Use SOP <a href="CS10.html">CS10</a> to create the missing record first. Then come back to <strong>Step 6</strong>.
   </div>
 </div>
 

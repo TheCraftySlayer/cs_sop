@@ -84,8 +84,10 @@ html, body { margin:0; padding:0; font-family: "Montserrat",system-ui,sans-serif
   <div class="crumb"><b>AI Operations</b><br>Escalation Reference</div>
   <div class="actions">
     <a class="action" href="../index.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M6 4L3 7l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Library</a>
-    <a class="action" href="flow.html">Flow diagram</a>
-    <a class="action" href="dashboard.html">Quiz dashboard</a>
+    <a class="action" href="flow.html">Flow</a>
+    <a class="action" href="notify-cs.html">Notify · CS</a>
+    <a class="action" href="dashboard.html">Progress</a>
+    <a class="action" href="../sops/AIO07_request_log.html">IPRA Log</a>
     <button class="action primary" onclick="window.print()" style="border:0; font-family:inherit; cursor:pointer;">Print / Save PDF</button>
   </div>
 </header>
@@ -96,6 +98,11 @@ html, body { margin:0; padding:0; font-family: "Montserrat",system-ui,sans-serif
     <h1>When to notify the Assessor &amp; Deputy</h1>
     <p>Every same-day escalation trigger across the AI Operations SOPs, on one page. Print and post by your desk. If you see any of the conditions below — send the notification today, then follow the linked SOP.</p>
   </section>
+
+  <div class="tabswitch" style="display:flex; gap:8px; margin-bottom:20px;">
+    <a class="active" href="notify.html" style="display:inline-flex; align-items:center; gap:8px; padding:10px 18px; font-size:12px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; text-decoration:none; border-radius:999px; border:1px solid var(--bosque); color:var(--paper); background:var(--bosque);">AI Operations</a>
+    <a href="notify-cs.html" style="display:inline-flex; align-items:center; gap:8px; padding:10px 18px; font-size:12px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; text-decoration:none; border-radius:999px; border:1px solid var(--line); color:var(--cypress); background:var(--paper);">Customer Service</a>
+  </div>
 
   <div class="legend">
     <span class="sw"><span class="dot" style="background:#a3361a;"></span> Critical · contain first, then notify within 1 hour</span>
@@ -174,6 +181,19 @@ html, body { margin:0; padding:0; font-family: "Montserrat",system-ui,sans-serif
         <li class="trig"><span class="dot standard"></span><span class="label"><strong>Unexplained baseline difference.</strong> Reconciliation finds a configuration change that isn't backed by a change-log entry. <span class="src">AIO06 · Possible unauthorized change</span></span></li>
         <li class="trig"><span class="dot standard"></span><span class="label"><strong>Baseline cannot be produced.</strong> Access blocked or a Personalize sub-tab won't load. <span class="src">AIO06</span></span></li>
         <li class="trig"><span class="dot standard"></span><span class="label"><strong>Canary fails during baseline.</strong> $44,200 not returned. <span class="src">AIO06 · Escalate per AIO05 Type A</span></span></li>
+      </ul>
+    </article>
+
+    <article class="col">
+      <h2>Records &amp; IPRA</h2>
+      <div class="sopid">AIO07</div>
+      <ul class="triggers">
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Paralegal content / attorney-client privilege.</strong> The request implicates Paralegal content that may be privileged. <span class="src">AIO07 B.6 · Notify before responding</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Media, oversight body, or litigation.</strong> Request comes from media, an oversight body, or relates to actual or anticipated litigation. <span class="src">AIO07 B.6 · Notify before responding</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Security exposure.</strong> Responsive records would expose system prompts or configuration in a security-relevant way. <span class="src">AIO07 B.6 · Notify before responding</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Burdensome / broad route (14-2-10).</strong> A request triggers the Section 14-2-10 burdensome or broad path. Written notice in 15 days with a good-faith production plan. <span class="src">AIO07 B.4 + B.6</span></span></li>
+        <li class="trig"><span class="dot critical"></span><span class="label"><strong>Active PII exposure during search.</strong> A search reveals A.C.E. is currently leaking PII. Contain first per AIO05 Type C, run AIO07 in parallel. <span class="src">AIO07 B.6 · AIO05 Type C</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Vendor retrieval gap.</strong> CustomGPT.ai, Bland AI, or any automation platform contract does not cover on-demand retrieval or end-of-service handover. <span class="src">AIO07 A.5 · Report to Deputy</span></span></li>
       </ul>
     </article>
 

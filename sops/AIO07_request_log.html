@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AIO07 · IPRA Request Log · BernCo Assessor</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@font-face { font-family: 'Gotham Display'; src: url('../fonts/Gotham-Black.otf') format('opentype'); font-weight: 900; font-style: normal; font-display: swap; }
+:root {
+  --bosque:#285952; --bosque-dark:#1d4640; --cypress:#013942; --terracotta:#e47756;
+  --mist:#e8f1ee; --mist-soft:#f4f8f6; --paper:#faf8f4; --ink:#1a2620;
+  --line:#cfd8d3; --muted:#5a6b65;
+  --critical:#a3361a; --critical-bg:#fbe7df;
+  --warn:#b58a3b; --warn-bg:#f7eecf;
+  --ok:#1d6a4a; --ok-bg:#dff0e9;
+}
+* { box-sizing:border-box; }
+html, body { margin:0; padding:0; font-family:"Montserrat",system-ui,sans-serif; color:var(--ink); background:var(--mist-soft); line-height:1.5; -webkit-font-smoothing:antialiased; }
+
+/* ───────────── Top bar ───────────── */
+.top-bar { background:var(--paper); border-bottom:2px solid var(--line); padding:14px 36px; display:flex; align-items:center; gap:24px; position:sticky; top:0; z-index:30; }
+.top-bar img.logo { height:48px; }
+.top-bar .crumb { padding-left:20px; border-left:1px solid var(--line); font-size:11.5px; font-weight:600; color:var(--muted); letter-spacing:0.18em; text-transform:uppercase; line-height:1.5; }
+.top-bar .crumb b { color:var(--cypress); }
+.top-bar .actions { margin-left:auto; display:flex; gap:8px; flex-wrap:wrap; }
+.top-bar .action { display:inline-flex; align-items:center; gap:7px; padding:8px 14px; font-size:12.5px; font-weight:600; text-decoration:none; border-radius:999px; background:transparent; color:var(--cypress); border:1px solid var(--line); cursor:pointer; font-family:inherit; }
+.top-bar .action.primary { background:var(--bosque); color:var(--paper); border-color:var(--bosque); }
+.top-bar .action:hover { background:var(--mist); border-color:var(--cypress); }
+
+/* ───────────── Banner ───────────── */
+.banner-row { padding:24px 36px 18px; }
+.banner { background:var(--cypress); color:var(--paper); border-radius:14px; padding:24px 32px; position:relative; overflow:hidden; }
+.banner::before { content:''; position:absolute; right:-130px; top:-130px; width:380px; height:380px; border-radius:50%; background:var(--terracotta); opacity:0.16; pointer-events:none; }
+.banner .row { position:relative; display:flex; align-items:center; gap:28px; flex-wrap:wrap; }
+.banner .lhs { flex:1; min-width:280px; }
+.banner .eyebrow { font-size:10.5px; font-weight:700; color:var(--terracotta); letter-spacing:0.24em; text-transform:uppercase; margin-bottom:8px; }
+.banner h1 { font-family:"Gotham Display","Montserrat",sans-serif; font-size:36px; font-weight:900; line-height:1; letter-spacing:-0.02em; text-transform:uppercase; margin:0 0 6px; }
+.banner .lede { font-size:13.5px; opacity:0.85; max-width:640px; line-height:1.5; margin:0; }
+.banner .lede a { color:var(--terracotta); text-decoration:underline; text-underline-offset:3px; font-weight:600; }
+.banner .stats { display:flex; gap:18px; }
+.banner .stat { text-align:right; }
+.banner .stat .v { font-family:"Gotham Display",sans-serif; font-size:32px; font-weight:900; color:var(--paper); letter-spacing:-0.02em; line-height:1; }
+.banner .stat .v.warn { color:var(--terracotta); }
+.banner .stat .v.crit { color:#ff9b78; }
+.banner .stat .k { font-size:10.5px; font-weight:700; color:rgba(232,241,238,0.65); letter-spacing:0.16em; text-transform:uppercase; margin-top:4px; }
+
+/* ───────────── Two-column layout ───────────── */
+.shell { display:grid; grid-template-columns:380px 1fr; gap:0; padding:0 36px 60px; align-items:stretch; }
+@media (max-width:1080px) { .shell { grid-template-columns:1fr; } }
+
+/* ───────────── Sidebar ───────────── */
+.sidebar { background:var(--paper); border:1px solid var(--line); border-right:0; border-radius:14px 0 0 14px; display:flex; flex-direction:column; min-height:600px; }
+@media (max-width:1080px) { .sidebar { border-right:1px solid var(--line); border-radius:14px; margin-bottom:18px; min-height:auto; } }
+.sb-toolbar { padding:14px 16px 12px; border-bottom:1px solid var(--line); display:flex; flex-direction:column; gap:10px; }
+.sb-toolbar .top { display:flex; gap:8px; align-items:center; }
+.sb-new {
+  appearance:none; font-family:inherit; cursor:pointer;
+  padding:10px 14px; flex:1;
+  background:var(--terracotta); color:var(--paper); border:0; border-radius:8px;
+  font-size:12px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase;
+}
+.sb-new:hover { background:#c95f3f; }
+.sb-icon-btn {
+  appearance:none; font-family:inherit; cursor:pointer;
+  width:36px; height:36px; border:1px solid var(--line); border-radius:8px;
+  background:var(--paper); color:var(--cypress);
+  display:flex; align-items:center; justify-content:center;
+  transition:all 160ms;
+}
+.sb-icon-btn:hover { border-color:var(--bosque); color:var(--bosque); background:var(--mist); }
+.sb-search { position:relative; }
+.sb-search input { width:100%; padding:8px 10px 8px 32px; font-family:inherit; font-size:13px; border:1px solid var(--line); border-radius:6px; background:var(--mist-soft); }
+.sb-search input:focus { outline:none; border-color:var(--bosque); background:var(--paper); }
+.sb-search svg { position:absolute; left:9px; top:50%; transform:translateY(-50%); color:var(--muted); }
+
+.sb-filters { display:flex; gap:5px; flex-wrap:wrap; }
+.sb-chip {
+  appearance:none; font-family:inherit; cursor:pointer;
+  padding:4px 9px; border:1px solid var(--line); border-radius:999px;
+  background:var(--paper); color:var(--muted);
+  font-size:10.5px; font-weight:700; letter-spacing:0.06em;
+  display:inline-flex; align-items:center; gap:5px;
+  transition:all 160ms;
+}
+.sb-chip:hover { border-color:var(--bosque); color:var(--bosque); }
+.sb-chip.active { background:var(--cypress); border-color:var(--cypress); color:var(--paper); }
+.sb-chip .ct { font-weight:800; opacity:0.85; }
+.sb-sort { display:flex; align-items:center; gap:6px; font-size:10.5px; color:var(--muted); }
+.sb-sort select { font-family:inherit; font-size:11px; padding:3px 6px; border:1px solid var(--line); border-radius:5px; background:var(--paper); color:var(--cypress); }
+
+.sb-list { flex:1; overflow-y:auto; max-height:calc(100vh - 360px); min-height:240px; }
+.sb-row {
+  display:block; padding:12px 16px; border-bottom:1px solid var(--line);
+  cursor:pointer; transition:background 140ms;
+  text-decoration:none; color:inherit; position:relative;
+}
+.sb-row:hover { background:var(--mist-soft); }
+.sb-row.active { background:var(--mist); }
+.sb-row.active::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--terracotta); }
+.sb-row .row-line { display:flex; align-items:baseline; gap:6px; }
+.sb-row .label { font-weight:700; color:var(--cypress); font-size:13.5px; line-height:1.35; flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.sb-row .num { font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--muted); flex-shrink:0; }
+.sb-row .meta { display:flex; align-items:center; gap:6px; margin-top:5px; flex-wrap:wrap; }
+.sb-row .req { font-size:11.5px; color:var(--muted); flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.sb-row .chips { display:flex; gap:5px; align-items:center; margin-top:6px; flex-wrap:wrap; }
+
+.sb-empty { padding:32px 20px; text-align:center; color:var(--muted); font-size:12.5px; line-height:1.5; }
+
+/* ───────────── Status pills ───────────── */
+.status-pill {
+  font-size:9.5px; font-weight:800; letter-spacing:0.14em; text-transform:uppercase;
+  padding:2px 8px; border-radius:999px; display:inline-flex; align-items:center; gap:4px;
+  white-space:nowrap;
+}
+.status-pill::before { content:''; width:6px; height:6px; border-radius:50%; }
+.status-pill.open { color:#5a4517; background:var(--warn-bg); }
+.status-pill.open::before { background:var(--warn); }
+.status-pill.acknowledged { color:var(--cypress); background:var(--mist); }
+.status-pill.acknowledged::before { background:var(--bosque); }
+.status-pill.production { color:var(--bosque); background:#d3eadf; }
+.status-pill.production::before { background:var(--bosque); }
+.status-pill.redacting { color:#7a4f1d; background:#fae2cf; }
+.status-pill.redacting::before { background:var(--terracotta); }
+.status-pill.ready { color:var(--paper); background:var(--bosque); }
+.status-pill.ready::before { background:var(--paper); }
+.status-pill.closed-produced { color:var(--ok); background:var(--ok-bg); }
+.status-pill.closed-produced::before { background:var(--ok); }
+.status-pill.closed-denied { color:var(--critical); background:var(--critical-bg); }
+.status-pill.closed-denied::before { background:var(--critical); }
+.status-pill.closed-mixed { color:var(--cypress); background:var(--mist); }
+.status-pill.closed-mixed::before { background:var(--cypress); }
+
+/* ───────────── Countdown chip ───────────── */
+.cd-chip {
+  display:inline-flex; align-items:center; gap:5px;
+  font-size:10.5px; font-weight:700; letter-spacing:0.04em;
+  padding:3px 8px; border-radius:999px; white-space:nowrap;
+  border:1px solid var(--line);
+  background:var(--paper); color:var(--cypress);
+}
+.cd-chip.ok { background:var(--ok-bg); border-color:var(--ok-bg); color:var(--ok); }
+.cd-chip.soon { background:var(--warn-bg); border-color:var(--warn-bg); color:#7a5a1f; }
+.cd-chip.crit { background:var(--critical-bg); border-color:var(--critical-bg); color:var(--critical); }
+.cd-chip.done { background:var(--mist); border-color:var(--mist); color:var(--muted); text-decoration:line-through; }
+.cd-chip .pulse { width:6px; height:6px; border-radius:50%; background:currentColor; }
+.cd-chip.crit .pulse { animation:pulse 1.2s ease-in-out infinite; }
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.35; } }
+.cd-chip .lab { font-weight:800; opacity:0.7; font-size:9.5px; letter-spacing:0.1em; text-transform:uppercase; }
+
+/* ───────────── Detail panel ───────────── */
+.detail { background:var(--paper); border:1px solid var(--line); border-radius:0 14px 14px 0; padding:0; min-height:600px; display:flex; flex-direction:column; }
+@media (max-width:1080px) { .detail { border-radius:14px; } }
+
+.dt-empty { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:80px 36px; text-align:center; flex:1; }
+.dt-empty .glyph { width:72px; height:72px; border-radius:50%; background:var(--mist); display:flex; align-items:center; justify-content:center; margin-bottom:18px; color:var(--bosque); }
+.dt-empty h3 { font-family:"Gotham Display",sans-serif; font-size:22px; font-weight:900; color:var(--cypress); margin:0 0 8px; text-transform:uppercase; letter-spacing:-0.005em; }
+.dt-empty p { margin:0 0 18px; font-size:14px; line-height:1.55; color:var(--muted); max-width:380px; }
+.dt-empty button { appearance:none; background:var(--terracotta); color:var(--paper); border:0; padding:12px 22px; font-family:inherit; font-size:12px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; border-radius:999px; cursor:pointer; }
+.dt-empty button:hover { background:#c95f3f; }
+
+.dt-head { padding:20px 28px; background:var(--mist-soft); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+.dt-head .badge { font-family:"Gotham Display","Montserrat",sans-serif; font-size:24px; font-weight:900; color:var(--cypress); letter-spacing:-0.02em; line-height:1; }
+.dt-head .badge .small { display:block; font-size:9px; font-weight:700; letter-spacing:0.22em; color:var(--terracotta); margin-bottom:2px; text-transform:uppercase; }
+.dt-head .title { flex:1; min-width:220px; }
+.dt-head .title input { width:100%; font-family:inherit; font-size:17px; font-weight:700; color:var(--bosque); background:transparent; border:0; padding:3px 0; }
+.dt-head .title input:focus { outline:none; border-bottom:1.5px solid var(--bosque); }
+.dt-head .title .meta-row { font-size:11px; color:var(--muted); margin-top:2px; display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+.dt-head .ctrl { display:flex; gap:6px; align-items:center; flex-wrap:wrap; }
+.dt-head .ctrl button {
+  appearance:none; background:transparent; border:1px solid var(--line); border-radius:999px;
+  padding:6px 11px; font-family:inherit; font-size:10.5px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase;
+  color:var(--muted); cursor:pointer; transition:all 160ms;
+}
+.dt-head .ctrl button:hover { border-color:var(--terracotta); color:var(--terracotta); }
+.dt-head .ctrl button.letter { color:var(--cypress); border-color:var(--cypress); }
+.dt-head .ctrl button.letter:hover { background:var(--cypress); color:var(--paper); }
+.dt-head .ctrl button.del:hover { background:#fbe7df; border-color:var(--critical); color:var(--critical); }
+
+.dt-clocks { padding:14px 28px; background:var(--paper); border-bottom:1px solid var(--line); display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+@media (max-width:740px) { .dt-clocks { grid-template-columns:1fr; } }
+.dt-clock {
+  background:var(--mist-soft); border:1px solid var(--line);
+  border-left:4px solid var(--bosque); border-radius:6px;
+  padding:10px 14px;
+}
+.dt-clock.acknowledge { border-left-color:var(--terracotta); }
+.dt-clock .row1 { display:flex; align-items:baseline; gap:8px; }
+.dt-clock .lab { font-size:9.5px; font-weight:800; color:var(--terracotta); letter-spacing:0.18em; text-transform:uppercase; }
+.dt-clock.acknowledge .lab { color:var(--terracotta); }
+.dt-clock .row2 { display:flex; align-items:baseline; gap:10px; margin-top:6px; }
+.dt-clock .countdown { font-family:"Gotham Display",sans-serif; font-size:22px; font-weight:900; line-height:1; letter-spacing:-0.02em; color:var(--bosque); }
+.dt-clock .countdown.soon { color:var(--warn); }
+.dt-clock .countdown.crit { color:var(--critical); }
+.dt-clock .countdown.done { color:var(--ok); }
+.dt-clock .due { font-size:11.5px; color:var(--muted); font-weight:600; }
+.dt-clock .progressbar { height:4px; background:var(--line); border-radius:999px; margin-top:8px; overflow:hidden; }
+.dt-clock .progressbar i { display:block; height:100%; background:var(--bosque); transition:width 200ms; }
+.dt-clock .progressbar i.soon { background:var(--warn); }
+.dt-clock .progressbar i.crit { background:var(--critical); }
+.dt-clock .progressbar i.done { background:var(--ok); }
+
+.dt-body { padding:24px 28px 32px; display:grid; grid-template-columns:1fr 1fr; gap:22px; flex:1; }
+@media (max-width:740px) { .dt-body { grid-template-columns:1fr; padding:18px; } }
+
+.section h2 { font-family:"Gotham Display","Montserrat",sans-serif; font-size:13px; font-weight:900; color:var(--terracotta); text-transform:uppercase; letter-spacing:0.16em; margin:0 0 12px; padding-bottom:6px; border-bottom:2px solid var(--terracotta); display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.section.full { grid-column:1 / -1; }
+.section.dark { background:var(--cypress); color:var(--paper); border-radius:10px; padding:18px 22px; }
+.section.dark h2 { color:var(--terracotta); border-bottom-color:var(--terracotta); }
+.section.dark label { color:rgba(232,241,238,0.7); }
+.section.dark input, .section.dark textarea { background:rgba(255,255,255,0.06); color:var(--paper); border-color:rgba(255,255,255,0.18); }
+.section.dark input:focus, .section.dark textarea:focus { border-color:var(--terracotta); }
+.section h2 .inline-btn {
+  appearance:none; font-family:inherit; cursor:pointer;
+  background:transparent; border:1px solid var(--terracotta); color:var(--terracotta);
+  padding:3px 9px; border-radius:999px;
+  font-size:9.5px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase;
+  transition:all 160ms;
+}
+.section h2 .inline-btn:hover { background:var(--terracotta); color:var(--paper); }
+.section.dark h2 .inline-btn { border-color:var(--terracotta); color:var(--terracotta); }
+.section.dark h2 .inline-btn:hover { background:var(--terracotta); color:var(--paper); }
+
+.field { margin-bottom:14px; }
+.field label { display:block; font-size:11px; font-weight:700; color:var(--muted); letter-spacing:0.14em; text-transform:uppercase; margin-bottom:4px; }
+.field label .req { color:var(--terracotta); margin-left:4px; }
+.field input, .field textarea, .field select { width:100%; padding:9px 12px; font-family:inherit; font-size:14px; color:var(--ink); background:var(--paper); border:1px solid var(--line); border-radius:6px; transition:border-color 160ms; }
+.field input:focus, .field textarea:focus, .field select:focus { outline:none; border-color:var(--bosque); }
+.field textarea { resize:vertical; min-height:60px; line-height:1.5; }
+.field .hint { font-size:11px; color:var(--muted); margin-top:4px; line-height:1.4; }
+.field.row { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+
+.redaction-table { width:100%; border-collapse:collapse; margin-top:6px; font-size:13.5px; }
+.redaction-table th, .redaction-table td { padding:8px 10px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top; }
+.redaction-table th { font-size:10.5px; font-weight:700; color:var(--muted); letter-spacing:0.14em; text-transform:uppercase; background:var(--mist-soft); }
+.redaction-table td input, .redaction-table td select { width:100%; padding:7px 9px; font-family:inherit; font-size:13px; border:1px solid var(--line); border-radius:5px; background:var(--paper); }
+.redaction-table td.act button { appearance:none; background:transparent; border:0; cursor:pointer; color:var(--muted); padding:6px 8px; font-size:14px; }
+.redaction-table td.act button:hover { color:var(--critical); }
+.redaction-table .add-row { background:transparent; padding:8px 0 0; }
+.redaction-table .add-row button { appearance:none; background:transparent; border:1px dashed var(--line); border-radius:6px; padding:8px 16px; font-family:inherit; font-size:11px; font-weight:700; color:var(--muted); letter-spacing:0.14em; text-transform:uppercase; cursor:pointer; transition:all 180ms; }
+.redaction-table .add-row button:hover { border-color:var(--bosque); color:var(--bosque); }
+
+.status-row { display:flex; gap:8px; flex-wrap:wrap; }
+.status-row label { flex:1; display:flex; align-items:center; gap:8px; padding:10px 14px; border:1.5px solid var(--line); border-radius:8px; cursor:pointer; font-size:13px; font-weight:600; color:var(--cypress); background:var(--paper); transition:all 160ms; min-width:140px; }
+.status-row label:hover { border-color:var(--bosque); }
+.status-row label.checked { border-color:var(--bosque); background:var(--mist); color:var(--bosque); }
+.status-row label.checked.deny { border-color:var(--critical); background:#fbe7df; color:var(--critical); }
+.status-row input[type=radio] { accent-color:var(--bosque); }
+
+/* ───────────── Letter modal ───────────── */
+.modal-back {
+  position:fixed; inset:0; background:rgba(15,30,27,0.55); backdrop-filter:blur(4px);
+  z-index:100; display:flex; align-items:center; justify-content:center; padding:24px;
+}
+.modal-back[hidden] { display:none; }
+.modal {
+  background:var(--paper); border-radius:14px; box-shadow:0 30px 80px rgba(15,30,27,0.4);
+  width:100%; max-width:1080px; max-height:calc(100vh - 48px);
+  display:flex; flex-direction:column; overflow:hidden;
+}
+.modal .m-head { padding:24px 36px 22px; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:16px; }
+.modal .m-head .m-eyebrow { font-size:10.5px; font-weight:700; color:var(--terracotta); letter-spacing:0.22em; text-transform:uppercase; margin-bottom:6px; }
+.modal .m-head .m-title { flex:1; }
+.modal .m-head h2 { font-family:"Gotham Display","Montserrat",sans-serif; font-size:24px; font-weight:900; color:var(--bosque); text-transform:uppercase; letter-spacing:-0.005em; margin:0; line-height:1.15; }
+.modal .m-close { appearance:none; background:transparent; border:0; cursor:pointer; color:var(--muted); padding:6px 10px; font-size:18px; }
+.modal .m-close:hover { color:var(--critical); }
+.modal .m-tabs { display:flex; gap:8px; padding:16px 36px; border-bottom:1px solid var(--line); background:var(--mist-soft); overflow-x:auto; }
+.modal .m-tab {
+  appearance:none; font-family:inherit; cursor:pointer;
+  background:transparent; border:1px solid var(--line); color:var(--muted);
+  padding:10px 18px; border-radius:999px;
+  font-size:11.5px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase;
+  white-space:nowrap;
+  transition:all 160ms;
+}
+.modal .m-tab:hover { color:var(--cypress); border-color:var(--cypress); }
+.modal .m-tab.active { background:var(--cypress); color:var(--paper); border-color:var(--cypress); }
+.modal .m-tab.disabled { opacity:0.4; cursor:not-allowed; }
+.modal .m-body { flex:1; overflow-y:auto; padding:32px 36px; }
+.modal .letter-preview {
+  background:var(--paper); border:1px solid var(--line); border-radius:8px;
+  padding:60px 72px;
+  font-family:'Times New Roman', 'Times', serif; font-size:15px; line-height:1.75; color:var(--ink);
+  font-variant-numeric:lining-nums;
+  box-shadow:inset 0 0 0 4px var(--mist-soft);
+  min-height:320px;
+}
+.modal .letter-preview .lh-row { display:flex; align-items:flex-start; gap:32px; margin-bottom:8px; }
+.modal .letter-preview .lh-text { flex:1; min-width:0; }
+.modal .letter-preview .lh {
+  font-family:'Times New Roman', 'Times', serif; font-size:26px; font-weight:700;
+  color:var(--bosque); text-transform:uppercase; letter-spacing:0.01em; line-height:1.15;
+  margin-bottom:4px;
+}
+.modal .letter-preview .lh-name {
+  font-family:'Times New Roman', 'Times', serif; font-size:20px; font-weight:700; font-style:italic;
+  color:var(--cypress); letter-spacing:0; line-height:1.15;
+  margin-bottom:18px;
+}
+.modal .letter-preview .lh-contact { font-size:13.5px; color:var(--muted); line-height:1.6; }
+.modal .letter-preview .lh-contact div { margin:0; }
+.modal .letter-preview .lh-logo { width:130px; height:auto; flex-shrink:0; }
+.modal .letter-preview .lh-rule { height:2px; background:var(--bosque); margin:22px 0 28px; }
+.modal .letter-preview .ldate { font-size:15px; color:var(--cypress); margin-bottom:26px; }
+.modal .letter-preview .lblock { margin-bottom:18px; }
+.modal .letter-preview .lscope { background:var(--mist-soft); border-left:3px solid var(--terracotta); padding:14px 18px; margin:16px 0; font-style:italic; font-size:14.5px; }
+.modal .letter-preview .lsig { margin-top:32px; }
+.modal .letter-preview .lsig .nm { font-weight:700; color:var(--cypress); }
+.modal .letter-preview .lsig .ti { font-size:13.5px; color:var(--muted); }
+.modal .letter-preview .lh-foot { margin-top:40px; padding-top:18px; border-top:1px solid var(--line); text-align:center; font-family:'Times New Roman','Times',serif; font-size:12px; font-weight:700; color:var(--bosque); letter-spacing:0.18em; text-transform:uppercase; }
+
+.modal .gap-notice {
+  background:var(--warn-bg); border:1px solid #e9d49a; border-radius:8px;
+  padding:14px 18px; margin-bottom:22px;
+  font-size:13px; color:#6b4f0f; line-height:1.55;
+}
+.modal .gap-notice b { color:#7a5a1f; }
+.modal .gap-notice ul { margin:6px 0 0; padding-left:18px; }
+
+.modal .m-foot { display:flex; justify-content:flex-end; gap:8px; padding:18px 36px; border-top:1px solid var(--line); background:var(--mist-soft); flex-wrap:wrap; }
+.modal .m-foot button { appearance:none; font-family:inherit; cursor:pointer; padding:10px 16px; border-radius:999px; font-size:12px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; border:1px solid var(--line); background:var(--paper); color:var(--cypress); transition:all 160ms; }
+.modal .m-foot button:hover { border-color:var(--bosque); color:var(--bosque); background:var(--mist); }
+.modal .m-foot button.primary { background:var(--terracotta); color:var(--paper); border-color:var(--terracotta); }
+.modal .m-foot button.primary:hover { background:#c95f3f; border-color:#c95f3f; }
+
+.copy-toast {
+  position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
+  background:var(--bosque); color:var(--paper); padding:10px 18px;
+  border-radius:999px; font-size:12px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase;
+  box-shadow:0 10px 30px rgba(15,30,27,0.3);
+  z-index:120; opacity:0; pointer-events:none;
+  transition:opacity 200ms, transform 200ms;
+}
+.copy-toast.show { opacity:1; transform:translateX(-50%) translateY(-4px); }
+
+/* ───────────── Print ───────────── */
+@media print {
+  body { background:white; }
+  .top-bar, .sb-toolbar, .sb-filters, .sb-sort, .sb-list, .dt-head .ctrl, .redaction-table .add-row, .modal-back, .copy-toast, .banner .stats { display:none !important; }
+  .shell { display:block; padding:0; }
+  .sidebar { display:none; }
+  .detail { border:0; border-radius:0; min-height:auto; }
+  .dt-head { background:var(--mist-soft) !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .section.dark { background:var(--cypress) !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .banner { background:var(--cypress) !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .banner-row { padding:0 0 12px; }
+  .dt-clocks { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+}
+</style>
+</head>
+<body>
+
+<header class="top-bar">
+  <img src="../assets/bernco-assessor-logo.png" alt="BernCo County Assessor" class="logo">
+  <div class="crumb"><b>SOP AIO07</b><br>IPRA Request Log</div>
+  <div class="actions">
+    <a class="action" href="../index.html">← Library</a>
+    <a class="action" href="AIO07.html">AIO07 source</a>
+    <a class="action" href="AIO07_records_inventory.html">Inventory →</a>
+    <button class="action" id="export-json" style="border:1px solid var(--line); font-family:inherit; cursor:pointer;">Export JSON</button>
+    <button class="action" id="import-json" style="border:1px solid var(--line); font-family:inherit; cursor:pointer;">Import JSON</button>
+    <input type="file" id="import-file" accept="application/json" style="display:none;">
+    <button class="action primary" onclick="window.print()" style="border:0; font-family:inherit; cursor:pointer;">Print</button>
+  </div>
+</header>
+
+<div class="banner-row">
+  <section class="banner">
+    <div class="row">
+      <div class="lhs">
+        <div class="eyebrow">AIO07 · Part B</div>
+        <h1>IPRA Request Log</h1>
+        <p class="lede">One entry per request. Captures every field <a href="AIO07.html#part-b">AIO07 Part B</a> requires — receipt timestamp, scope, redactions with statutory basis, the reviewer who attested, and the production-or-denial outcome. Saved locally — export to back up.</p>
+      </div>
+      <div class="stats" id="header-stats"></div>
+    </div>
+  </section>
+</div>
+
+<div class="shell">
+  <aside class="sidebar">
+    <div class="sb-toolbar">
+      <div class="top">
+        <button class="sb-new" id="sb-new">+ New request</button>
+        <button class="sb-icon-btn" id="sb-sort-btn" title="Sort">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 3v8M3 11l-2-2m2 2l2-2M9 3v8M9 3l-2 2m2-2l2 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <div class="sb-search">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M12 12L9.5 9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <input type="search" id="sb-search-input" placeholder="Search label, requester, scope…">
+      </div>
+      <div class="sb-filters" id="sb-filters"></div>
+      <div class="sb-sort">
+        Sort:
+        <select id="sb-sort">
+          <option value="urgent">Most urgent</option>
+          <option value="newest">Newest first</option>
+          <option value="oldest">Oldest first</option>
+          <option value="status">Status</option>
+        </select>
+      </div>
+    </div>
+    <div class="sb-list" id="sb-list"></div>
+  </aside>
+
+  <main class="detail" id="detail">
+    <!-- detail panel renders here -->
+  </main>
+</div>
+
+<!-- letter generator modal -->
+<div class="modal-back" id="modal" hidden>
+  <div class="modal" role="dialog" aria-labelledby="m-title">
+    <div class="m-head">
+      <div class="m-title">
+        <div class="m-eyebrow">Letter generator</div>
+        <h2 id="m-title">Acknowledgment letter</h2>
+      </div>
+      <button class="m-close" id="m-close" aria-label="Close">×</button>
+    </div>
+    <div class="m-tabs" id="m-tabs"></div>
+    <div class="m-body" id="m-body"></div>
+    <div class="m-foot">
+      <button id="m-copy">Copy to clipboard</button>
+      <button id="m-download">Download .txt</button>
+      <button class="primary" id="m-print">Print this letter</button>
+    </div>
+  </div>
+</div>
+
+<div class="copy-toast" id="toast">Copied to clipboard</div>
+
+<script>
+/* ─────────────────────────────────────────────────────────────────────
+   AIO07 IPRA Request Log
+   - list / detail split
+   - live countdown with status auto-derivation
+   - acknowledgment / burdensome-notice / denial letter generator
+   ───────────────────────────────────────────────────────────────────── */
+
+const STORAGE_KEY = 'aio07-ipra-log';
+const SELECTED_KEY = 'aio07-ipra-log:selected';
+
+function uid() { return 'r-' + Math.random().toString(36).slice(2, 9); }
+function pad(n) { return String(n).padStart(2, '0'); }
+function nowISO() {
+  const d = new Date();
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+function todayDate() { const d = new Date(); d.setHours(0,0,0,0); return d; }
+
+function blank() {
+  return {
+    id: uid(),
+    label: '',
+    receivedAt: nowISO(),
+    requester: '',
+    requesterContact: '',
+    scope: '',
+    triggers: { paralegal: false, media: false, security: false, burdensome: false, pii: false },
+    notifiedAt: '',
+    notifiedWhom: '',
+    burdensomeNoticeAt: '',
+    responsiveRecords: '',
+    archiveSource: 'office',
+    redactions: [],
+    reviewerName: '',
+    reviewerAttestedAt: '',
+    outcome: '',
+    closedAt: '',
+    denialBasis: '',
+    feeNote: '',
+    notes: ''
+  };
+}
+
+let data = load() || [];
+let selectedId = (() => { try { return localStorage.getItem(SELECTED_KEY) || null; } catch { return null; } })();
+let filter = 'all';
+let sortMode = 'urgent';
+let searchQuery = '';
+
+function load() {
+  try { const raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : null; } catch { return null; }
+}
+let saveTimer;
+function save() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  // No toast here — too chatty
+}
+function persistSelection() {
+  try { selectedId ? localStorage.setItem(SELECTED_KEY, selectedId) : localStorage.removeItem(SELECTED_KEY); } catch {}
+}
+
+/* ───────── Date math ───────── */
+function addBusinessDays(iso, n) {
+  if (!iso) return null;
+  const d = new Date(iso); d.setHours(0,0,0,0);
+  let added = 0;
+  while (added < n) { d.setDate(d.getDate() + 1); const wd = d.getDay(); if (wd !== 0 && wd !== 6) added++; }
+  return d;
+}
+function businessDaysBetween(fromDate, toDate) {
+  // signed, can be negative
+  if (!fromDate || !toDate) return null;
+  const sign = toDate < fromDate ? -1 : 1;
+  const start = new Date(Math.min(fromDate, toDate)); start.setHours(0,0,0,0);
+  const end = new Date(Math.max(fromDate, toDate)); end.setHours(0,0,0,0);
+  let n = 0; const cur = new Date(start);
+  while (cur < end) { cur.setDate(cur.getDate() + 1); const wd = cur.getDay(); if (wd !== 0 && wd !== 6) n++; }
+  return sign * n;
+}
+function addCalendarDays(iso, n) {
+  if (!iso) return null;
+  const d = new Date(iso); d.setHours(0,0,0,0);
+  d.setDate(d.getDate() + n);
+  return d;
+}
+function calendarDaysBetween(fromDate, toDate) {
+  if (!fromDate || !toDate) return null;
+  const ms = toDate - fromDate;
+  return Math.round(ms / (1000 * 60 * 60 * 24));
+}
+function fmtDateOnly(d) { if (!d) return '—'; return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }); }
+function fmtFull(d) { if (!d) return '—'; return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }); }
+
+/* ───────── Status derivation ───────── */
+function deriveStatus(e) {
+  if (e.closedAt) {
+    if (e.outcome === 'denied') return 'closed-denied';
+    if (e.outcome === 'mixed') return 'closed-mixed';
+    return 'closed-produced';
+  }
+  if (e.reviewerAttestedAt) return 'ready';
+  if ((e.redactions || []).length > 0) return 'redacting';
+  if (e.responsiveRecords && e.responsiveRecords.trim()) return 'production';
+  if (e.notifiedAt || e.burdensomeNoticeAt) return 'acknowledged';
+  return 'open';
+}
+const STATUS_LABEL = {
+  open: 'Open',
+  acknowledged: 'Acknowledged',
+  production: 'In production',
+  redacting: 'Redacting',
+  ready: 'Ready to release',
+  'closed-produced': 'Closed · Produced',
+  'closed-denied': 'Closed · Denied',
+  'closed-mixed': 'Closed · Partial'
+};
+
+/* ───────── Clock state ───────── */
+function ackClock(e) {
+  if (!e.receivedAt) return null;
+  const due = addBusinessDays(e.receivedAt, 3);
+  const today = todayDate();
+  const remaining = businessDaysBetween(today, due);
+  const isDone = !!(e.notifiedAt || e.burdensomeNoticeAt || e.closedAt);
+  return { due, remaining, isDone, unit: 'business days', total: 3 };
+}
+function finalClock(e) {
+  if (!e.receivedAt) return null;
+  const due = addCalendarDays(e.receivedAt, 15);
+  const today = todayDate();
+  const remaining = calendarDaysBetween(today, due);
+  const isDone = !!e.closedAt;
+  return { due, remaining, isDone, unit: 'calendar days', total: 15 };
+}
+function clockState(clock) {
+  if (!clock) return { cls: '', label: '—', sub: '' };
+  if (clock.isDone) return { cls: 'done', label: '✓ Done', sub: 'on ' + fmtDateOnly(clock.due) };
+  const r = clock.remaining;
+  let cls = 'ok';
+  if (r < 0) cls = 'crit';
+  else if (r <= 2) cls = 'soon';
+  let label;
+  if (r < 0) label = `${Math.abs(r)}d OVERDUE`;
+  else if (r === 0) label = 'Due today';
+  else if (r === 1) label = '1 day left';
+  else label = `${r} days left`;
+  return { cls, label, sub: 'by ' + fmtDateOnly(clock.due), remaining: r };
+}
+
+/* ───────── Most-urgent for sidebar ───────── */
+function urgencyChip(e) {
+  const ack = ackClock(e); const fin = finalClock(e);
+  const ackS = clockState(ack); const finS = clockState(fin);
+  // Pick the most-urgent (not done, lower remaining)
+  const candidates = [];
+  if (ack && !ack.isDone) candidates.push({ which: 'ack', state: ackS, remaining: ack.remaining });
+  if (fin && !fin.isDone) candidates.push({ which: 'fin', state: finS, remaining: fin.remaining });
+  if (!candidates.length) {
+    return { cls: 'done', label: 'Closed', sub: fin && fin.isDone ? fmtDateOnly(fin.due) : '' };
+  }
+  candidates.sort((a, b) => a.remaining - b.remaining);
+  const top = candidates[0];
+  return { cls: top.state.cls, label: top.state.label, sub: top.which === 'ack' ? 'acknowledge' : 'produce' };
+}
+
+/* ───────── Filters ───────── */
+const FILTERS = [
+  { id: 'all', label: 'All', match: () => true },
+  { id: 'open', label: 'Open', match: e => !e.closedAt },
+  { id: 'overdue', label: 'Overdue', match: e => {
+    if (e.closedAt) return false;
+    const ack = ackClock(e); const fin = finalClock(e);
+    return (ack && !ack.isDone && ack.remaining < 0) || (fin && !fin.isDone && fin.remaining < 0);
+  } },
+  { id: 'soon', label: 'Due ≤ 3d', match: e => {
+    if (e.closedAt) return false;
+    const fin = finalClock(e);
+    return fin && !fin.isDone && fin.remaining >= 0 && fin.remaining <= 3;
+  } },
+  { id: 'closed', label: 'Closed', match: e => !!e.closedAt }
+];
+
+function visibleEntries() {
+  const f = FILTERS.find(x => x.id === filter) || FILTERS[0];
+  let list = data.filter(f.match);
+  if (searchQuery) {
+    const q = searchQuery.toLowerCase();
+    list = list.filter(e => [e.label, e.requester, e.requesterContact, e.scope, e.notes].join(' ').toLowerCase().includes(q));
+  }
+  // Sort
+  if (sortMode === 'urgent') {
+    list = list.slice().sort((a, b) => urgencyScore(a) - urgencyScore(b));
+  } else if (sortMode === 'newest') {
+    list = list.slice().sort((a, b) => (b.receivedAt || '').localeCompare(a.receivedAt || ''));
+  } else if (sortMode === 'oldest') {
+    list = list.slice().sort((a, b) => (a.receivedAt || '').localeCompare(b.receivedAt || ''));
+  } else if (sortMode === 'status') {
+    const order = { open:0, acknowledged:1, production:2, redacting:3, ready:4, 'closed-produced':5, 'closed-mixed':6, 'closed-denied':7 };
+    list = list.slice().sort((a, b) => (order[deriveStatus(a)]||9) - (order[deriveStatus(b)]||9));
+  }
+  return list;
+}
+function urgencyScore(e) {
+  if (e.closedAt) return 9e9;
+  const ack = ackClock(e); const fin = finalClock(e);
+  let score = 9e8;
+  if (ack && !ack.isDone) score = Math.min(score, ack.remaining);
+  if (fin && !fin.isDone) score = Math.min(score, fin.remaining);
+  return score;
+}
+
+/* ───────── Rendering ───────── */
+function escapeAttr(s) { return String(s ?? '').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+function escapeText(s) { return String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+function renderHeaderStats() {
+  const open = data.filter(e => !e.closedAt).length;
+  const overdue = data.filter(e => {
+    if (e.closedAt) return false;
+    const ack = ackClock(e); const fin = finalClock(e);
+    return (ack && !ack.isDone && ack.remaining < 0) || (fin && !fin.isDone && fin.remaining < 0);
+  }).length;
+  const closed = data.length - open;
+  document.getElementById('header-stats').innerHTML = `
+    <div class="stat"><div class="v ${open?'warn':''}">${open}</div><div class="k">Open</div></div>
+    <div class="stat"><div class="v ${overdue?'crit':''}">${overdue}</div><div class="k">Overdue</div></div>
+    <div class="stat"><div class="v">${closed}</div><div class="k">Closed</div></div>
+  `;
+}
+
+function renderFilters() {
+  const host = document.getElementById('sb-filters');
+  host.innerHTML = FILTERS.map(f => {
+    const count = data.filter(f.match).length;
+    return `<button class="sb-chip ${filter === f.id ? 'active' : ''}" data-filter="${f.id}">${f.label} <span class="ct">${count}</span></button>`;
+  }).join('');
+  host.querySelectorAll('[data-filter]').forEach(btn => {
+    btn.addEventListener('click', () => { filter = btn.dataset.filter; renderSidebar(); });
+  });
+}
+
+function renderSidebar() {
+  renderFilters();
+  const host = document.getElementById('sb-list');
+  const list = visibleEntries();
+  if (!list.length) {
+    host.innerHTML = `<div class="sb-empty">${data.length ? 'No entries match this filter.' : 'No requests logged yet. Click <b>+ New request</b> when one lands.'}</div>`;
+    return;
+  }
+  host.innerHTML = list.map((e, i) => {
+    const status = deriveStatus(e);
+    const chip = urgencyChip(e);
+    const label = e.label || '<span style="color:var(--muted); font-style:italic;">Untitled request</span>';
+    const requester = e.requester || '<span style="color:var(--muted);">No requester recorded</span>';
+    return `<a class="sb-row ${selectedId === e.id ? 'active' : ''}" data-id="${e.id}">
+      <div class="row-line">
+        <div class="label">${label}</div>
+        <div class="num">#${data.indexOf(e)+1}</div>
+      </div>
+      <div class="meta">
+        <div class="req">${requester}</div>
+      </div>
+      <div class="chips">
+        <span class="status-pill ${status}">${STATUS_LABEL[status]}</span>
+        <span class="cd-chip ${chip.cls}"><span class="pulse"></span>${chip.label}${chip.sub ? `<span class="lab">· ${chip.sub}</span>` : ''}</span>
+      </div>
+    </a>`;
+  }).join('');
+  host.querySelectorAll('[data-id]').forEach(row => {
+    row.addEventListener('click', () => { selectedId = row.dataset.id; persistSelection(); renderSidebar(); renderDetail(); });
+  });
+}
+
+/* ───────── Detail panel ───────── */
+function renderDetail() {
+  const host = document.getElementById('detail');
+  const e = data.find(x => x.id === selectedId);
+  if (!e) {
+    host.innerHTML = `
+      <div class="dt-empty">
+        <div class="glyph"><svg width="34" height="34" viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="18" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M8 8h8M8 12h8M8 16h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+        <h3>${data.length ? 'Pick a request' : 'No requests yet'}</h3>
+        <p>${data.length ? 'Click an entry on the left to open it, or start a new one.' : 'Start one as soon as the records custodian receives an IPRA request that touches A.C.E.'}</p>
+        <button onclick="document.getElementById('sb-new').click()">+ New request</button>
+      </div>`;
+    return;
+  }
+
+  const ack = ackClock(e); const fin = finalClock(e);
+  const ackS = clockState(ack); const finS = clockState(fin);
+  const status = deriveStatus(e);
+  const idx = data.indexOf(e);
+
+  host.innerHTML = `
+    <div class="dt-head">
+      <div class="badge"><span class="small">Request #${idx + 1}</span>IPRA</div>
+      <div class="title">
+        <input type="text" data-field="label" placeholder="Short label — e.g. 'ACME LLC parcel logs'" value="${escapeAttr(e.label)}">
+        <div class="meta-row">
+          <span class="status-pill ${status}">${STATUS_LABEL[status]}</span>
+          ${e.receivedAt ? `<span>Received ${fmtFull(new Date(e.receivedAt))}</span>` : ''}
+        </div>
+      </div>
+      <div class="ctrl">
+        <button class="letter" data-act="letter">✉ Generate letter</button>
+        <button data-act="dup">Duplicate</button>
+        <button class="del" data-act="del">Delete</button>
+      </div>
+    </div>
+
+    <div class="dt-clocks">
+      ${clockRow('acknowledge', 'B.2 · Acknowledge', ack, ackS, '3 business days')}
+      ${clockRow('produce', 'B.7 · Produce or deny', fin, finS, '15 calendar days')}
+    </div>
+
+    <div class="dt-body">
+
+      <div class="section">
+        <h2>B.1 · Receipt</h2>
+        <div class="field row">
+          <div>
+            <label>Custodian received <span class="req">*</span></label>
+            <input type="datetime-local" data-field="receivedAt" value="${e.receivedAt || ''}">
+            <div class="hint">Statutory clock starts here — not when it reaches the AI Lead.</div>
+          </div>
+          <div>
+            <label>Requester (name)</label>
+            <input type="text" data-field="requester" value="${escapeAttr(e.requester)}">
+          </div>
+        </div>
+        <div class="field">
+          <label>Requester contact (email / phone / address)</label>
+          <input type="text" data-field="requesterContact" value="${escapeAttr(e.requesterContact)}">
+        </div>
+        <div class="field">
+          <label>Scope, exactly as written <span class="req">*</span></label>
+          <textarea data-field="scope" rows="3" placeholder="Paste the request verbatim — do not paraphrase.">${escapeText(e.scope)}</textarea>
+          <div class="hint">No statement of purpose is required from the requester.</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>B.6 · Notify-up triggers <button class="inline-btn" data-act="letter">Letters</button></h2>
+        <div class="field" style="margin-bottom:6px;">
+          <label>Check any that apply</label>
+          <div style="display:flex; flex-direction:column; gap:6px; margin-top:4px;">
+            ${triggerCheckbox(e, 'paralegal', 'Paralegal content / attorney-client privilege')}
+            ${triggerCheckbox(e, 'media', 'Media, oversight body, or litigation-related')}
+            ${triggerCheckbox(e, 'security', 'Would expose system prompts or config (security)')}
+            ${triggerCheckbox(e, 'burdensome', 'Triggers 14-2-10 burdensome / broad route')}
+            ${triggerCheckbox(e, 'pii', 'Active PII exposure surfaced — also running AIO05')}
+          </div>
+        </div>
+        <div class="field row">
+          <div>
+            <label>Notified Assessor / Deputy at</label>
+            <input type="datetime-local" data-field="notifiedAt" value="${e.notifiedAt || ''}">
+          </div>
+          <div>
+            <label>Whom</label>
+            <input type="text" data-field="notifiedWhom" placeholder="e.g. Assessor + Deputy" value="${escapeAttr(e.notifiedWhom)}">
+          </div>
+        </div>
+        <div class="field">
+          <label>14-2-10 burdensome notice sent at (if applicable)</label>
+          <input type="datetime-local" data-field="burdensomeNoticeAt" value="${e.burdensomeNoticeAt || ''}">
+          <div class="hint">Written notice within 15 days, with a good-faith production plan.</div>
+        </div>
+      </div>
+
+      <div class="section full">
+        <h2>B.3 · Responsive records</h2>
+        <div class="field row">
+          <div>
+            <label>Inventory categories searched / records identified</label>
+            <textarea data-field="responsiveRecords" rows="3" placeholder="e.g. Conversation logs Apr 1–30 for parcel 101234567; persona snapshot 2026-04-12; AIO03 change-log entries for that window.">${escapeText(e.responsiveRecords)}</textarea>
+          </div>
+          <div>
+            <label>Primary source</label>
+            <select data-field="archiveSource">
+              <option value="office" ${e.archiveSource==='office'?'selected':''}>Office-controlled archive (preferred)</option>
+              <option value="vendor" ${e.archiveSource==='vendor'?'selected':''}>Vendor retrieval (fallback)</option>
+              <option value="mixed" ${e.archiveSource==='mixed'?'selected':''}>Both</option>
+              <option value="none" ${e.archiveSource==='none'?'selected':''}>No responsive records</option>
+            </select>
+            <div class="hint">Pull from the office-controlled archive first; fall back to vendor only if needed.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section full">
+        <h2>B.5 · Redactions &amp; attestation</h2>
+        <table class="redaction-table">
+          <thead><tr><th style="width:36%">What was redacted</th><th style="width:24%">Where (record / location)</th><th style="width:32%">Statutory basis</th><th></th></tr></thead>
+          <tbody data-redactions>
+            ${(e.redactions || []).map((r, i) => redactionRow(r, i)).join('')}
+            <tr class="add-row"><td colspan="4"><button data-act="add-redaction">+ Add redaction</button></td></tr>
+          </tbody>
+        </table>
+        <div class="field row" style="margin-top:14px;">
+          <div>
+            <label>Reviewer who attested <span class="req">*</span></label>
+            <input type="text" data-field="reviewerName" placeholder="Full name" value="${escapeAttr(e.reviewerName)}">
+            <div class="hint">A person — not the AI — reviews and attests to every redaction before release.</div>
+          </div>
+          <div>
+            <label>Attested at</label>
+            <input type="datetime-local" data-field="reviewerAttestedAt" value="${e.reviewerAttestedAt || ''}">
+          </div>
+        </div>
+      </div>
+
+      <div class="section dark full">
+        <h2>B.7–B.8 · Outcome <button class="inline-btn" data-act="letter">Generate letter</button></h2>
+        <div class="field">
+          <div class="status-row">
+            ${outcomeRadio(e, 'produced', 'Produced (released)')}
+            ${outcomeRadio(e, 'mixed', 'Partial · produced + denied')}
+            ${outcomeRadio(e, 'denied', 'Denied (withheld)')}
+          </div>
+        </div>
+        <div class="field row">
+          <div>
+            <label>Outcome date</label>
+            <input type="datetime-local" data-field="closedAt" value="${e.closedAt || ''}">
+          </div>
+          <div>
+            <label>Fee charged (only if physical, 14-2-9(C))</label>
+            <input type="text" data-field="feeNote" placeholder="None · electronic; $5.00 for 12 physical copies" value="${escapeAttr(e.feeNote)}">
+          </div>
+        </div>
+        <div class="field">
+          <label>If denied or partially denied — specific statutory exemption (14-2-11)</label>
+          <textarea data-field="denialBasis" rows="2" placeholder="e.g. Section 14-2-6(F) PPII redaction; attorney-client privilege portions withheld in full under 14-2-11.">${escapeText(e.denialBasis)}</textarea>
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label>Notes (extensions issued, follow-up, anomalies)</label>
+          <textarea data-field="notes" rows="2">${escapeText(e.notes)}</textarea>
+        </div>
+      </div>
+
+    </div>
+  `;
+  attachDetailEvents();
+}
+
+function clockRow(kind, label, clock, state, rule) {
+  if (!clock) {
+    return `<div class="dt-clock ${kind === 'acknowledge' ? 'acknowledge' : ''}">
+      <div class="row1"><span class="lab">${label}</span></div>
+      <div class="row2"><span class="countdown">—</span><span class="due">Set the receipt timestamp to start the clock</span></div>
+    </div>`;
+  }
+  // Progress: how much of the budget has elapsed
+  const total = clock.total;
+  const today = todayDate();
+  let elapsed;
+  if (kind === 'acknowledge') elapsed = total - clock.remaining;
+  else elapsed = total - clock.remaining;
+  const pct = Math.max(0, Math.min(100, (elapsed / total) * 100));
+  const barCls = state.cls === 'done' ? 'done' : (state.cls === 'crit' ? 'crit' : (state.cls === 'soon' ? 'soon' : ''));
+  return `<div class="dt-clock ${kind === 'acknowledge' ? 'acknowledge' : ''}">
+    <div class="row1"><span class="lab">${label}</span><span style="margin-left:auto; font-size:10px; color:var(--muted); font-weight:600; letter-spacing:0.06em; text-transform:uppercase;">${rule}</span></div>
+    <div class="row2"><span class="countdown ${state.cls}">${state.label}</span><span class="due">${state.sub}</span></div>
+    <div class="progressbar"><i class="${barCls}" style="width:${pct}%"></i></div>
+  </div>`;
+}
+
+function triggerCheckbox(e, key, label) {
+  const checked = !!e.triggers?.[key];
+  return `<label style="display:flex; align-items:center; gap:10px; font-size:13.5px; font-weight:500; color:var(--ink); cursor:pointer;">
+    <input type="checkbox" data-trigger="${key}" ${checked?'checked':''} style="accent-color:var(--terracotta);">
+    <span>${label}</span>
+  </label>`;
+}
+function outcomeRadio(e, value, label) {
+  const checked = e.outcome === value;
+  const isDeny = value === 'denied';
+  return `<label class="${checked ? 'checked' : ''} ${isDeny ? 'deny' : ''}">
+    <input type="radio" name="outcome-${e.id}" data-outcome="${value}" ${checked?'checked':''}> ${label}
+  </label>`;
+}
+function redactionRow(r, i) {
+  return `<tr data-redaction="${i}">
+    <td><input type="text" data-rfield="what" value="${escapeAttr(r.what || '')}" placeholder="e.g. SSN; constituent home address"></td>
+    <td><input type="text" data-rfield="where" value="${escapeAttr(r.where || '')}" placeholder="e.g. Log 2026-04-12 row 47"></td>
+    <td><select data-rfield="basis">
+      <option value="">— select basis —</option>
+      <option ${r.basis==='14-2-6(F)'?'selected':''}>14-2-6(F) — PPII</option>
+      <option ${r.basis==='14-2-9'?'selected':''}>14-2-9 — separation of exempt material</option>
+      <option ${r.basis==='14-2-11'?'selected':''}>14-2-11 — denial procedure</option>
+      <option ${r.basis==='attorney-client'?'selected':''}>Attorney-client privilege</option>
+      <option ${r.basis==='other'?'selected':''}>Other</option>
+    </select></td>
+    <td class="act"><button data-act="del-redaction" title="Remove">×</button></td>
+  </tr>`;
+}
+
+function attachDetailEvents() {
+  const host = document.getElementById('detail');
+  const entry = data.find(x => x.id === selectedId);
+  if (!entry) return;
+
+  host.querySelectorAll('[data-field]').forEach(input => {
+    input.addEventListener('input', () => {
+      entry[input.dataset.field] = input.value;
+      save();
+      // partial re-render: deadline strip + sidebar item state may change
+      if (['receivedAt','notifiedAt','burdensomeNoticeAt','closedAt','reviewerAttestedAt','responsiveRecords','label','requester'].includes(input.dataset.field)) {
+        renderHeaderStats();
+        renderSidebar();
+        // also re-render clocks
+        const clocksHost = host.querySelector('.dt-clocks');
+        if (clocksHost) {
+          const ack = ackClock(entry); const fin = finalClock(entry);
+          clocksHost.innerHTML = clockRow('acknowledge', 'B.2 · Acknowledge', ack, clockState(ack), '3 business days')
+            + clockRow('produce', 'B.7 · Produce or deny', fin, clockState(fin), '15 calendar days');
+        }
+        // update status pill in head
+        const status = deriveStatus(entry);
+        const headPill = host.querySelector('.dt-head .status-pill');
+        if (headPill) { headPill.className = 'status-pill ' + status; headPill.textContent = STATUS_LABEL[status]; }
+      }
+    });
+  });
+  host.querySelectorAll('[data-trigger]').forEach(cb => {
+    cb.addEventListener('change', () => { entry.triggers[cb.dataset.trigger] = cb.checked; save(); });
+  });
+  host.querySelectorAll('[data-outcome]').forEach(rb => {
+    rb.addEventListener('change', () => { entry.outcome = rb.dataset.outcome; save(); renderDetail(); renderSidebar(); });
+  });
+  host.querySelector('[data-act="add-redaction"]')?.addEventListener('click', () => {
+    entry.redactions.push({ what: '', where: '', basis: '' }); save(); renderDetail(); renderSidebar();
+  });
+  host.querySelectorAll('[data-redaction]').forEach(row => {
+    const i = +row.dataset.redaction;
+    row.querySelectorAll('[data-rfield]').forEach(input => {
+      input.addEventListener('input', () => { entry.redactions[i][input.dataset.rfield] = input.value; save(); });
+    });
+    row.querySelector('[data-act="del-redaction"]')?.addEventListener('click', () => {
+      entry.redactions.splice(i, 1); save(); renderDetail(); renderSidebar();
+    });
+  });
+  host.querySelector('.dt-head [data-act="del"]')?.addEventListener('click', () => {
+    if (!confirm('Delete this request entry? This cannot be undone.')) return;
+    data = data.filter(d => d.id !== entry.id); selectedId = data[0]?.id || null;
+    save(); persistSelection(); renderAll();
+  });
+  host.querySelector('.dt-head [data-act="dup"]')?.addEventListener('click', () => {
+    const copy = JSON.parse(JSON.stringify(entry));
+    copy.id = uid(); copy.label = (entry.label || 'Request') + ' (copy)';
+    const idx = data.findIndex(d => d.id === entry.id);
+    data.splice(idx + 1, 0, copy);
+    selectedId = copy.id; persistSelection();
+    save(); renderAll();
+  });
+  host.querySelectorAll('[data-act="letter"]').forEach(btn => {
+    btn.addEventListener('click', () => openLetterModal(entry));
+  });
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   LETTER GENERATOR
+   ───────────────────────────────────────────────────────────────────── */
+
+const LETTER_DEFS = [
+  { id: 'acknowledge', title: 'Acknowledgment (3 business days)', cite: '§ 14-2-8.D', auto: e => !!e.receivedAt },
+  { id: 'burdensome',  title: 'Burdensome notice', cite: '§ 14-2-10', auto: e => !!e.triggers?.burdensome },
+  { id: 'denial',      title: 'Denial / partial denial', cite: '§ 14-2-11', auto: e => e.outcome === 'denied' || e.outcome === 'mixed' }
+];
+let activeLetter = 'acknowledge';
+let modalEntry = null;
+
+function openLetterModal(entry) {
+  modalEntry = entry;
+  // pick best default tab based on what's most actionable
+  if (entry.outcome === 'denied' || entry.outcome === 'mixed') activeLetter = 'denial';
+  else if (entry.triggers?.burdensome && !entry.burdensomeNoticeAt) activeLetter = 'burdensome';
+  else activeLetter = 'acknowledge';
+  document.getElementById('modal').hidden = false;
+  renderLetterModal();
+}
+function closeLetterModal() { document.getElementById('modal').hidden = true; modalEntry = null; }
+
+function renderLetterModal() {
+  const tabsHost = document.getElementById('m-tabs');
+  tabsHost.innerHTML = LETTER_DEFS.map(d => `<button class="m-tab ${activeLetter === d.id ? 'active' : ''}" data-letter="${d.id}">${d.title}</button>`).join('');
+  tabsHost.querySelectorAll('[data-letter]').forEach(b => b.addEventListener('click', () => { activeLetter = b.dataset.letter; renderLetterModal(); }));
+
+  const def = LETTER_DEFS.find(d => d.id === activeLetter);
+  document.getElementById('m-title').textContent = def.title + ' · ' + def.cite;
+
+  const body = document.getElementById('m-body');
+  const gaps = letterGaps(activeLetter, modalEntry);
+  const letterHtml = renderLetter(activeLetter, modalEntry);
+  body.innerHTML = `
+    ${gaps.length ? `<div class="gap-notice"><b>Missing fields the letter falls back on:</b><ul>${gaps.map(g => `<li>${g}</li>`).join('')}</ul></div>` : ''}
+    <div class="letter-preview" id="letter-preview">${letterHtml}</div>
+  `;
+}
+
+function letterGaps(kind, e) {
+  const gaps = [];
+  if (!e.requester) gaps.push('Requester name (will use "Requester")');
+  if (!e.receivedAt) gaps.push('Date custodian received');
+  if (!e.scope) gaps.push('Scope as written');
+  if (kind === 'denial' && !e.denialBasis) gaps.push('Specific statutory exemption (14-2-11)');
+  if (kind === 'burdensome' && !e.burdensomeNoticeAt) gaps.push('Burdensome-notice timestamp');
+  return gaps;
+}
+
+function letterDateHeader(now = new Date()) {
+  return now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+}
+
+function renderLetter(kind, e) {
+  const today = letterDateHeader();
+  const receivedText = e.receivedAt ? fmtFull(new Date(e.receivedAt)) : '[date received]';
+  const requester = escapeText(e.requester || 'Requester');
+  const contact = escapeText(e.requesterContact || '');
+  const scope = escapeText(e.scope || '[scope not yet recorded]');
+
+  const lhBlock = `
+    <div class="lh-row">
+      <div class="lh-text">
+        <div class="lh">Office of the County Assessor</div>
+        <div class="lh-name">Damian R. Lara</div>
+        <div class="lh-contact">
+          <div>Albuquerque, New Mexico 87102</div>
+          <div>Office: 505-222-3700</div>
+          <div>Assessor@bernco.gov</div>
+          <div>www.bernco.gov/Assessor</div>
+        </div>
+      </div>
+      <img class="lh-logo" src="../assets/assessor-letterhead-logo.jpg" alt="Bernalillo County Assessor &mdash; Damian R. Lara">
+    </div>
+    <div class="lh-rule"></div>
+    <div class="ldate">${today}</div>
+    <div class="lblock">
+      <div><strong>${requester}</strong></div>
+      ${contact ? `<div>${contact}</div>` : ''}
+    </div>
+    <div class="lblock"><strong>Re:</strong> Inspection of Public Records Act request received ${receivedText}</div>
+  `;
+
+  let body = '';
+  const sigBlock = `
+      <div class="lsig">
+        <div>Sincerely,</div>
+        <div class="nm" style="margin-top:28px;">Records Custodian</div>
+        <div class="ti">Office of the Bernalillo County Assessor</div>
+        ${contact ? `<div class="ti">Cc: ${contact}</div>` : ''}
+      </div>
+      <div class="lh-foot">Bernalillo County Assessor &middot; Damian R. Lara</div>
+    `;
+  if (kind === 'acknowledge') {
+    const finBy = e.receivedAt ? fmtFull(addCalendarDays(e.receivedAt, 15)) : '[date]';
+    body = `
+      <div class="lblock">Dear ${requester},</div>
+      <div class="lblock">This letter acknowledges receipt of your request under the New Mexico Inspection of Public Records Act (NMSA 1978, § 14-2-1 et seq.) by the records custodian of the Bernalillo County Assessor's Office.</div>
+      <div class="lblock"><strong>Your request, as written:</strong></div>
+      <div class="lscope">${scope}</div>
+      <div class="lblock">Pursuant to <strong>§ 14-2-8(D) NMSA 1978</strong>, the Assessor's Office will respond to your request in writing on or before <strong>${finBy}</strong>, which is fifteen (15) calendar days from receipt. If responsive records can be made available sooner, they will be.</div>
+      <div class="lblock">If you have questions regarding this request, please reply to this correspondence with the date of receipt above.</div>
+      ${sigBlock}
+    `;
+  } else if (kind === 'burdensome') {
+    const planLines = (e.responsiveRecords || '').split(/\n+/).filter(Boolean).map(l => `<div>• ${escapeText(l)}</div>`).join('') || '<div>• [production plan to be filled in]</div>';
+    body = `
+      <div class="lblock">Dear ${requester},</div>
+      <div class="lblock">This letter is provided in response to your Inspection of Public Records Act request received ${receivedText}, as described below:</div>
+      <div class="lscope">${scope}</div>
+      <div class="lblock">Pursuant to <strong>§ 14-2-10 NMSA 1978</strong>, the Bernalillo County Assessor's Office has determined that your request is excessively burdensome or broad and requires additional reasonable time to respond. The Office will undertake the production in good faith on the following plan:</div>
+      <div class="lblock">${planLines}</div>
+      <div class="lblock">The Office will provide a further written response or produce the responsive non-exempt records as soon as practicable. This notice is sent within fifteen (15) days of receipt of your request, as required by § 14-2-10.</div>
+      <div class="lblock">If you wish to narrow the scope of your request — for example, to a single parcel or a bounded date range — please reply at your convenience. A narrower scope is typically possible to respond to within the standard 15-calendar-day timeline.</div>
+      ${sigBlock}
+    `;
+  } else if (kind === 'denial') {
+    const basis = escapeText(e.denialBasis || '[specific statutory exemption to be cited]');
+    const isPartial = e.outcome === 'mixed';
+    const verb = isPartial ? 'is granted in part and denied in part' : 'is denied';
+    body = `
+      <div class="lblock">Dear ${requester},</div>
+      <div class="lblock">This letter is the written response of the Bernalillo County Assessor's Office to your Inspection of Public Records Act request received ${receivedText}, as described below:</div>
+      <div class="lscope">${scope}</div>
+      <div class="lblock">After review, your request <strong>${verb}</strong>, as set forth below, pursuant to <strong>§ 14-2-11 NMSA 1978</strong> (procedure for denied requests).</div>
+      <div class="lblock"><strong>Specific statutory basis for the ${isPartial ? 'partial denial' : 'denial'}:</strong></div>
+      <div class="lscope">${basis}</div>
+      ${isPartial ? `<div class="lblock">The non-exempt portions of the responsive records are being made available to you under <strong>§ 14-2-8</strong>. Exempt material has been separated and redacted in accordance with <strong>§ 14-2-9</strong>, and a person has reviewed and attested to each redaction.</div>` : ''}
+      ${e.feeNote ? `<div class="lblock"><strong>Fees:</strong> ${escapeText(e.feeNote)} (electronic production is free; reasonable physical-copy fees may be charged under § 14-2-9(C)).</div>` : ''}
+      <div class="lblock">Under § 14-2-12 NMSA 1978, a requester has the right to seek enforcement of the Inspection of Public Records Act in district court. Should you have questions about this response, please reply to this correspondence.</div>
+      ${sigBlock}
+    `;
+  }
+  return lhBlock + body;
+}
+
+function letterPlainText(kind, e) {
+  // Quick conversion of the HTML preview to plain text for clipboard / .txt
+  const html = renderLetter(kind, e);
+  const tmp = document.createElement('div');
+  tmp.innerHTML = html;
+  // Insert newlines between block elements
+  tmp.querySelectorAll('div').forEach(d => d.append('\n'));
+  const txt = tmp.textContent.replace(/\n{3,}/g, '\n\n').trim();
+  return txt;
+}
+
+function downloadText(filename, text) {
+  const blob = new Blob([text], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = filename; a.click();
+  URL.revokeObjectURL(url);
+}
+
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 1600);
+}
+
+/* ───────── Modal events ───────── */
+document.getElementById('m-close').addEventListener('click', closeLetterModal);
+document.getElementById('modal').addEventListener('click', (e) => { if (e.target.id === 'modal') closeLetterModal(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !document.getElementById('modal').hidden) closeLetterModal(); });
+
+document.getElementById('m-copy').addEventListener('click', async () => {
+  if (!modalEntry) return;
+  const txt = letterPlainText(activeLetter, modalEntry);
+  try { await navigator.clipboard.writeText(txt); toast('Copied to clipboard'); }
+  catch { toast('Copy failed — select & copy manually'); }
+});
+document.getElementById('m-download').addEventListener('click', () => {
+  if (!modalEntry) return;
+  const txt = letterPlainText(activeLetter, modalEntry);
+  const name = `AIO07-${activeLetter}-${(modalEntry.requester||'request').replace(/[^a-z0-9]+/gi,'-').toLowerCase()}.txt`;
+  downloadText(name, txt);
+});
+document.getElementById('m-print').addEventListener('click', () => {
+  // Open a small print window with just the letter
+  if (!modalEntry) return;
+  let html = renderLetter(activeLetter, modalEntry);
+  // Resolve the logo src to an absolute URL so the popup window can load it
+  const logoAbs = new URL('../assets/assessor-letterhead-logo.jpg', location.href).href;
+  html = html.replace(/src="\.\.\/assets\/assessor-letterhead-logo\.jpg"/, `src="${logoAbs}"`);
+  const w = window.open('', '_blank', 'width=900,height=900');
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>IPRA Letter</title>
+    <style>
+      @page { size: letter; margin: 0.75in; }
+      body { font-family: 'Times New Roman', 'Times', serif; color:#1a2620; line-height:1.6; max-width: 7in; margin: 0 auto; padding: 0.4in 0; }
+      .lh-row { display:flex; align-items:flex-start; justify-content:space-between; gap:24px; margin-bottom:8px; }
+      .lh-text { flex:1; }
+      .lh { font-family:'Times New Roman','Times',serif; font-size:24px; font-weight:700; color:#285952; text-transform:uppercase; letter-spacing:0.01em; line-height:1.1; margin-bottom:2px; }
+      .lh-name { font-family:'Times New Roman','Times',serif; font-size:19px; font-weight:700; font-style:italic; color:#013942; line-height:1.1; margin-bottom:14px; }
+      .lh-contact { font-size:13px; color:#5a6b65; line-height:1.6; }
+      .lh-logo { width:140px; height:auto; flex-shrink:0; }
+      .lh-rule { height:2px; background:#285952; margin:16px 0 22px; }
+      .ldate { margin-bottom:18px; }
+      .lblock { margin-bottom:12px; }
+      .lscope { background:#f4f8f6; border-left:3px solid #e47756; padding:10px 14px; margin:10px 0; font-style:italic; }
+      .lsig .nm { font-weight:700; color:#013942; margin-top:18px; }
+      .lsig .ti { font-size:12.5px; color:#5a6b65; }
+      .ltag { font-family:'Times New Roman','Times',serif; font-style:italic; font-size:15px; font-weight:700; color:#e47756; margin-top:14px; }
+      .lh-foot { margin-top:36px; padding-top:14px; border-top:1px solid #cfd8d3; text-align:center; font-family:'Times New Roman','Times',serif; font-size:12px; font-weight:700; color:#285952; letter-spacing:0.18em; text-transform:uppercase; }
+    </style></head><body>${html}<\/body><\/html>`);
+  w.document.close();
+  // Wait for the logo image to load before printing, so the print job doesn't fire empty
+  const triggerPrint = () => { try { w.focus(); w.print(); } catch {} };
+  const img = w.document.querySelector('img.lh-logo');
+  if (img && !img.complete) {
+    img.addEventListener('load', triggerPrint, { once: true });
+    img.addEventListener('error', triggerPrint, { once: true });
+    setTimeout(triggerPrint, 1500); // fallback
+  } else {
+    setTimeout(triggerPrint, 300);
+  }
+});
+
+/* ─────────────────────────────────────────────────────────────────────
+   Renders + wiring
+   ───────────────────────────────────────────────────────────────────── */
+function renderAll() {
+  renderHeaderStats();
+  renderSidebar();
+  renderDetail();
+}
+
+document.getElementById('sb-new').addEventListener('click', () => {
+  const fresh = blank();
+  data.unshift(fresh);
+  selectedId = fresh.id;
+  save(); persistSelection();
+  renderAll();
+});
+
+document.getElementById('sb-search-input').addEventListener('input', (e) => { searchQuery = e.target.value; renderSidebar(); });
+document.getElementById('sb-sort').addEventListener('change', (e) => { sortMode = e.target.value; renderSidebar(); });
+document.getElementById('sb-sort-btn').addEventListener('click', () => {
+  // cycle through sort modes
+  const order = ['urgent','newest','oldest','status'];
+  const next = order[(order.indexOf(sortMode)+1) % order.length];
+  sortMode = next;
+  document.getElementById('sb-sort').value = next;
+  renderSidebar();
+});
+
+document.getElementById('export-json').addEventListener('click', () => {
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url;
+  a.download = `AIO07-ipra-log-${new Date().toISOString().slice(0,10)}.json`;
+  a.click(); URL.revokeObjectURL(url);
+});
+document.getElementById('import-json').addEventListener('click', () => document.getElementById('import-file').click());
+document.getElementById('import-file').addEventListener('change', async (e) => {
+  const file = e.target.files[0]; if (!file) return;
+  const txt = await file.text();
+  try {
+    const imported = JSON.parse(txt);
+    if (!Array.isArray(imported)) throw new Error('not an array');
+    if (!confirm(`Import ${imported.length} entries? Will add to your current ${data.length}.`)) return;
+    data = [...imported, ...data]; save(); renderAll();
+  } catch (err) { alert('Could not parse JSON: ' + err.message); }
+  e.target.value = '';
+});
+
+// Keyboard nav
+document.addEventListener('keydown', (e) => {
+  if (e.target.matches('input, textarea, select')) return;
+  if (e.key === 'n' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); document.getElementById('sb-new').click(); }
+  if (e.key === 'j' || e.key === 'ArrowDown') { e.preventDefault(); cycleSelection(1); }
+  if (e.key === 'k' || e.key === 'ArrowUp')   { e.preventDefault(); cycleSelection(-1); }
+});
+function cycleSelection(dir) {
+  const list = visibleEntries();
+  if (!list.length) return;
+  const idx = list.findIndex(x => x.id === selectedId);
+  const next = list[((idx + dir) + list.length) % list.length];
+  selectedId = next.id; persistSelection(); renderSidebar(); renderDetail();
+}
+
+// Recompute clocks once a minute (so countdown chips age over time even if you don't reload)
+setInterval(() => { renderSidebar(); renderHeaderStats(); }, 60_000);
+
+// If no current selection but entries exist, pick the most urgent
+if (data.length && !data.find(x => x.id === selectedId)) {
+  selectedId = visibleEntries()[0]?.id || null; persistSelection();
+}
+renderAll();
+</script>
+</body>
+</html>

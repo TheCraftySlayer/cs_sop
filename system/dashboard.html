@@ -83,8 +83,10 @@ html, body { margin:0; padding:0; font-family:"Montserrat",system-ui,sans-serif;
   <div class="crumb"><b>Training</b><br>Quiz Dashboard</div>
   <div class="actions">
     <a class="action" href="../index.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M6 4L3 7l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Library</a>
-    <a class="action" href="notify.html">Notify card</a>
-    <a class="action" href="flow.html">Flow diagram</a>
+    <a class="action" href="flow.html">Flow</a>
+    <a class="action" href="notify.html">Notify · AIO</a>
+    <a class="action" href="notify-cs.html">Notify · CS</a>
+    <a class="action" href="../sops/AIO07_request_log.html">IPRA Log</a>
     <button class="action danger" id="reset-btn" type="button">Reset all progress</button>
     <button class="action primary" onclick="window.print()" type="button">Print</button>
   </div>
@@ -132,6 +134,7 @@ const AIO_SOPS = [
   { id: 'AIO03', title: 'Chatbot Change Management', qTotal: 2 },
   { id: 'AIO04', title: 'Monthly Chatbot Metrics Report', qTotal: 2 },
   { id: 'AIO05', title: 'Chatbot Incident Response', qTotal: 2 },
+  { id: 'AIO07', title: 'Records Retention & IPRA Response', qTotal: 3 },
 ];
 const CS_SOPS = [
   { id: 'CS01', title: 'Veteran Exemption Entry', qTotal: 2 },
@@ -197,6 +200,7 @@ const VIDEO_PATHS = {
   AIO03: '../videos/AIO03_Change_Management.html',
   AIO04: '../videos/AIO04_Monthly_Metrics.html',
   AIO05: '../videos/AIO05_Incident_Response.html',
+  AIO07: '../videos/AIO07_Records_Retention_IPRA.html',
   CS01: '../videos/CS01_Veteran_Exemption.html',
   CS02: '../videos/CS02_RingCentral_Admin_Portal.html',
   CS03: '../videos/CS03_Queue_Member_Management.html',

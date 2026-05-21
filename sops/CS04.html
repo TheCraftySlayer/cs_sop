@@ -402,6 +402,9 @@
 
 /* card-specific print rules omitted to avoid conflicts */
 
+.doc a { color:var(--bosque); text-decoration:none; border-bottom:1px solid rgba(40,89,82,0.3); transition:all 180ms cubic-bezier(0.4,0,0.2,1); }
+.doc a:hover { color:var(--terracotta); border-bottom-color:var(--terracotta); }
+.doc a strong { color:inherit; }
 </style>
 </head>
 <body>
@@ -435,7 +438,7 @@
 <h2>Purpose</h2>
 <p>This SOP outlines the standardized process for changing how a RingCentral queue distributes calls to its members and how it handles overflow. It covers routing method, ring duration, wrap-up, concurrent call limits, queue capacity, wait limits, the Overflow Group, and the Display settings and After hours tabs.</p>
 <h2>Scope</h2>
-<p>Applies to staff with Full Access manager role on a queue. Member roster changes are out of scope (see CS03). Custom rules are out of scope (see CS05).</p>
+<p>Applies to staff with Full Access manager role on a queue. Member roster changes are out of scope (see <a href="CS03.html">CS03</a>). Custom rules are out of scope (see <a href="CS05.html">CS05</a>).</p>
 <h2>Authorization</h2>
 <p>All routing and wait setting changes require confirmation by the Deputy Assessor overseeing Customer Service before they are applied. Routing changes affect every caller and every member of the queue and can degrade service if misconfigured.</p>
 <h2>Definitions</h2>
@@ -443,15 +446,15 @@
 <p>Wrap-up Time (After call wrap-up time) – Interval after a call ends during which the member is unavailable.</p>
 <p>Overflow Group – Up to three other queues that act as backup destinations when the primary queue cannot answer.</p>
 <h2>Prerequisites</h2>
-<p>This SOP assumes the operator is signed in to the RingCentral Admin Portal and can navigate to a specific call queue. For sign-in and navigation instructions, see CS02 (RingCentral Admin Portal Reference).</p>
+<p>This SOP assumes the operator is signed in to the RingCentral Admin Portal and can navigate to a specific call queue. For sign-in and navigation instructions, see <a href="CS02.html">CS02</a> (RingCentral Admin Portal Reference).</p>
 <p>The operator must have appropriate manager access to the queue being modified — see Authorization below.</p>
 <h2>Related Documents</h2>
-<p>RingCentral Admin Portal: https://service.ringcentral.com</p>
-<p>RingCentral Custom Answering Rules — official setup guide: https://support.ringcentral.com/content/dam/support/us/en/pdf/get-started/v2/RCA_Setting_Up_Custom_Answering_Rules_For_Your_Extension.pdf</p>
-<p>RingCentral Call Queue Call Handling — developer documentation: https://developers.ringcentral.com/guide/voice/call-routing/manual/callqueue-answering-rules</p>
-<p>CS02 — RingCentral Admin Portal Reference</p>
-<p>CS03 — Queue Member Management (member roster — required reading before routing changes affect Order)</p>
-<p>CS05 — Holiday and Custom Rules</p>
+<p>RingCentral Admin Portal: <a href="https://service.ringcentral.com" target="_blank" rel="noopener">https://service.ringcentral.com</a></p>
+<p>RingCentral Custom Answering Rules — official setup guide: <a href="https://support.ringcentral.com/content/dam/support/us/en/pdf/get-started/v2/RCA_Setting_Up_Custom_Answering_Rules_For_Your_Extension.pdf" target="_blank" rel="noopener">https://support.ringcentral.com/content/dam/support/us/en/pdf/get-started/v2/RCA_Setting_Up_Custom_Answering_Rules_For_Your_Extension.pdf</a></p>
+<p>RingCentral Call Queue Call Handling — developer documentation: <a href="https://developers.ringcentral.com/guide/voice/call-routing/manual/callqueue-answering-rules" target="_blank" rel="noopener">https://developers.ringcentral.com/guide/voice/call-routing/manual/callqueue-answering-rules</a></p>
+<p><a href="CS02.html">CS02</a> — RingCentral Admin Portal Reference</p>
+<p><a href="CS03.html">CS03</a> — Queue Member Management (member roster — required reading before routing changes affect Order)</p>
+<p><a href="CS05.html">CS05</a> — Holiday and Custom Rules</p>
 <p>Queue Change Log — RingCentral configuration history (maintained in shared drive)</p>
 <p>The Call Handling &amp; Members Section</p>
 <p>All settings in this SOP live under the queue panel's Call Handling &amp; Members section. The section has five tabs: Work hours, Wait settings, Display settings, After hours, and Custom rules. A master toggle, Forward all queue calls, sits at the top — leave OFF in normal operation.</p>
@@ -465,7 +468,7 @@
 <p>Number of rings before trying next member</p>
 <p>After call wrap-up time</p>
 <p>Allow members to change their queue status</p>
-<p>Primary Members — the roster (covered in CS03)</p>
+<p>Primary Members — the roster (covered in <a href="CS03.html">CS03</a>)</p>
 <figure><img src="../sop_assets/CS04_Queue_Routing_and_Wait_Settings/31edf086ac5b531979d9fa53b25bffdd7685d9c4.png" alt="" /></figure>
 <p>Routing Method (Route calls to members)</p>
 <p>Four options:</p>
@@ -580,7 +583,7 @@
         <li>Rings before trying next member</li>
         <li>After-call wrap-up time</li>
         <li>Allow members to change queue status</li>
-        <li>Primary Members (roster — see CS03)</li>
+        <li>Primary Members (roster — see <a href="CS03.html">CS03</a>)</li>
       </ol>
     </div>
   </div>

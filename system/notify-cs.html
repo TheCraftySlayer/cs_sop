@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Customer Service Escalation Reference — When to Refer, Notify &amp; Hand Off</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+@font-face { font-family: 'Gotham Display'; src: url('../fonts/Gotham-Black.otf') format('opentype'); font-weight: 900; font-style: normal; font-display: swap; }
+:root { --bosque:#285952; --bosque-dark:#1d4640; --cypress:#013942; --terracotta:#e47756; --mist:#e8f1ee; --mist-soft:#f4f8f6; --paper:#faf8f4; --ink:#1a2620; --line:#cfd8d3; --muted:#5a6b65; --critical:#a3361a; }
+* { box-sizing:border-box; }
+html, body { margin:0; padding:0; font-family:"Montserrat",system-ui,sans-serif; color:var(--ink); background:var(--mist-soft); -webkit-font-smoothing:antialiased; line-height:1.55; }
+.top-bar { background:var(--paper); border-bottom:2px solid var(--line); padding:16px 56px; display:flex; align-items:center; gap:24px; position:sticky; top:0; z-index:10; }
+.top-bar img.logo { height:56px; width:auto; display:block; }
+.top-bar .crumb { padding-left:24px; border-left:1px solid var(--line); font-size:12px; font-weight:600; color:var(--muted); letter-spacing:0.18em; text-transform:uppercase; line-height:1.6; }
+.top-bar .crumb b { color:var(--cypress); }
+.top-bar .actions { margin-left:auto; display:flex; gap:10px; flex-wrap:wrap; }
+.top-bar .action { display:inline-flex; align-items:center; gap:8px; padding:9px 16px; font-size:13px; font-weight:600; text-decoration:none; border-radius:999px; background:transparent; color:var(--cypress); border:1px solid var(--line); cursor:pointer; font-family:inherit; }
+.top-bar .action.primary { background:var(--terracotta); color:var(--paper); border-color:var(--terracotta); }
+.top-bar .action:hover { background:var(--mist); border-color:var(--cypress); }
+
+.sheet { max-width:1280px; margin:36px auto 60px; padding:0 40px; }
+.banner {
+  background:var(--bosque); color:var(--paper);
+  border-radius:14px; padding:36px 40px; position:relative; overflow:hidden;
+  margin-bottom:28px;
+}
+.banner::before { content:''; position:absolute; right:-180px; top:-180px; width:480px; height:480px; border-radius:50%; background:var(--terracotta); opacity:0.16; pointer-events:none; }
+.banner .eyebrow { font-size:12px; font-weight:700; color:var(--terracotta); letter-spacing:0.24em; text-transform:uppercase; margin-bottom:14px; position:relative; }
+.banner h1 { font-family:"Gotham Display","Montserrat",sans-serif; font-size:56px; font-weight:900; line-height:0.96; letter-spacing:-0.02em; text-transform:uppercase; margin:0 0 14px; position:relative; text-wrap:balance; }
+.banner p { font-size:17px; max-width:780px; opacity:0.92; margin:0; position:relative; line-height:1.5; }
+
+.tabswitch { display:flex; gap:8px; margin-bottom:20px; }
+.tabswitch a { display:inline-flex; align-items:center; gap:8px; padding:10px 18px; font-size:12px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; text-decoration:none; border-radius:999px; border:1px solid var(--line); color:var(--cypress); background:var(--paper); transition:all 180ms cubic-bezier(0.4,0,0.2,1); }
+.tabswitch a:hover { border-color:var(--bosque); color:var(--bosque); background:var(--mist); }
+.tabswitch a.active { background:var(--bosque); color:var(--paper); border-color:var(--bosque); }
+
+.legend { display:flex; gap:20px; margin-bottom:24px; align-items:center; flex-wrap:wrap; font-size:13px; color:var(--muted); }
+.legend .sw { display:inline-flex; align-items:center; gap:8px; font-weight:600; color:var(--cypress); }
+.legend .sw .dot { width:12px; height:12px; border-radius:3px; }
+
+.matrix { display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:18px; }
+.col { background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:24px 26px 28px; box-shadow:0 2px 10px rgba(15,30,27,0.04); }
+.col h2 { font-family:"Gotham Display","Montserrat",sans-serif; font-size:20px; font-weight:900; color:var(--bosque); letter-spacing:-0.005em; text-transform:uppercase; margin:0 0 4px; line-height:1.1; }
+.col .sopid { font-size:11px; font-weight:700; color:var(--terracotta); letter-spacing:0.18em; text-transform:uppercase; margin-bottom:14px; }
+.col .triggers { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px; }
+.col .trig { display:grid; grid-template-columns:14px 1fr; gap:12px; align-items:flex-start; padding:11px 12px 11px 0; border-bottom:1px dashed var(--line); }
+.col .trig:last-child { border-bottom:0; padding-bottom:2px; }
+.col .trig .dot { width:10px; height:10px; border-radius:50%; margin-top:6px; flex-shrink:0; }
+.col .trig .dot.critical { background:var(--critical); }
+.col .trig .dot.standard { background:var(--terracotta); }
+.col .trig .dot.refer    { background:var(--bosque); }
+.col .trig .label { font-size:14.5px; line-height:1.4; }
+.col .trig .label strong { color:var(--cypress); font-weight:700; }
+.col .trig .label .src { display:block; font-size:11px; color:var(--muted); letter-spacing:0.06em; text-transform:uppercase; font-weight:700; margin-top:3px; }
+
+.also { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:18px; }
+.also .box { background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:22px 26px; }
+.also .box h3 { font-family:"Gotham Display","Montserrat",sans-serif; font-size:16px; font-weight:900; color:var(--cypress); text-transform:uppercase; margin:0 0 8px; letter-spacing:0.04em; }
+.also .box p { margin:0 0 6px; font-size:14.5px; line-height:1.5; }
+.also .box .channel { font-family:'JetBrains Mono','SF Mono',monospace; font-size:13px; color:var(--bosque); background:var(--mist-soft); padding:8px 12px; border-radius:6px; display:inline-block; margin-top:6px; }
+
+.also-foot { margin-top:24px; padding:18px 26px; background:var(--mist-soft); border:1px solid var(--line); border-radius:12px; font-size:14px; color:var(--muted); }
+.also-foot strong { color:var(--cypress); }
+
+@media (max-width: 900px) { .also { grid-template-columns:1fr; } .banner h1 { font-size:40px; } }
+@media print {
+  body { background:white; } .top-bar, .tabswitch { display:none; }
+  .sheet { padding:0; margin:0; max-width:none; }
+  .banner { background:var(--bosque) !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .col { break-inside:avoid; box-shadow:none; }
+}
+</style>
+</head>
+<body>
+<header class="top-bar">
+  <img src="../assets/bernco-assessor-logo.png" alt="BernCo County Assessor" class="logo">
+  <div class="crumb"><b>Customer Service</b><br>Escalation Reference</div>
+  <div class="actions">
+    <a class="action" href="../index.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M6 4L3 7l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Library</a>
+    <a class="action" href="../triage.html">Triage</a>
+    <a class="action" href="../quick-ref.html">Quick-ref</a>
+    <a class="action" href="notify.html">Notify · AIO</a>
+    <a class="action" href="../sops/AIO07_request_log.html">IPRA Log</a>
+    <button class="action primary" onclick="window.print()" style="border:0; font-family:inherit; cursor:pointer;">Print / Save PDF</button>
+  </div>
+</header>
+
+<main class="sheet">
+  <section class="banner">
+    <div class="eyebrow">When to refer · notify · hand off</div>
+    <h1>Customer Service escalation reference</h1>
+    <p>Every same-day trigger across the Customer Service SOPs, on one page. Veterans referrals, packet chain-of-custody, Alvarado data hand-offs, and the snapshot-before-edit discipline that protects the phone system. Print and post by your desk.</p>
+  </section>
+
+  <div class="tabswitch">
+    <a class="active" href="notify-cs.html">Customer Service</a>
+    <a href="notify.html">AI Operations</a>
+  </div>
+
+  <div class="legend">
+    <span class="sw"><span class="dot" style="background:#a3361a;"></span> Critical · same-day, may involve law enforcement, courts, or PII</span>
+    <span class="sw"><span class="dot" style="background:#e47756;"></span> Notify · escalate to lead or office IT before end of business</span>
+    <span class="sw"><span class="dot" style="background:#285952;"></span> Refer · out of scope at this counter — point the caller elsewhere</span>
+  </div>
+
+  <div class="matrix">
+
+    <article class="col">
+      <h2>Counter · Veteran Exemption</h2>
+      <div class="sopid">CS01</div>
+      <ul class="triggers">
+        <li class="trig"><span class="dot refer"></span><span class="label"><strong>No certificate, asking about eligibility.</strong> Refer to <em>Veterans Services Department</em>. The Assessor counter does not determine eligibility; we apply the exemption only once the certificate is in hand. <span class="src">CS01 · Out of scope</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Certificate looks altered or photocopied.</strong> Do not endorse. Hold the parcel, log the visit, and escalate to the supervisor before any IASWorld entry. <span class="src">CS01 · Verify step</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Applicant status conflict.</strong> Applicant claims first-time (F) but IASWorld shows prior exemption — pause, confirm, and escalate if mismatch persists. <span class="src">CS01 · User Fields panel</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Removing an exemption (REXM).</strong> Note REXM with the date, reason, and supervisor sign-off recorded in the case notes. <span class="src">CS01 · Removal path</span></span></li>
+      </ul>
+    </article>
+
+    <article class="col">
+      <h2>Phone system · Sensitive edits</h2>
+      <div class="sopid">CS02 → CS08</div>
+      <ul class="triggers">
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Any RingCentral edit without a pre-edit snapshot.</strong> Universal rule — screenshot the current state of the screen <em>before</em> changing anything. Save it with the change-log entry. <span class="src">CS02 universal · prerequisite for CS03–CS08</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Adding or removing a queue member during business hours.</strong> Roster changes affect routing immediately. Notify the queue manager before the change. <span class="src">CS03 · Members</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Changing the queue's routing method.</strong> Rotating / fixed / longest-idle / simultaneous / group — every method changes who picks up. Coordinate with the queue manager and notify staff. <span class="src">CS04 · Routing</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Office Closed snow-day toggle.</strong> Verify with the Deputy or Assessor before flipping. Affects every inbound caller. <span class="src">CS05 · Custom rules</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Identity, PIN, extension, or DID change.</strong> Heavy consequences — voicemail re-routing, lost direct lines. Notify the affected user and IT before saving. <span class="src">CS07 · Identity</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Whitelisted-domain or blocked-number changes.</strong> Confirm with office IT before applying. Can silently drop legitimate callers. <span class="src">CS06 · Blocked calls · CS08 · DID routing</span></span></li>
+      </ul>
+    </article>
+
+    <article class="col">
+      <h2>Reporting · Envoy data</h2>
+      <div class="sopid">CS09</div>
+      <ul class="triggers">
+        <li class="trig"><span class="dot critical"></span><span class="label"><strong>Unfiltered export from the Alvarado account.</strong> The account is shared with the entire county. Filtering to Assessor visitor types must happen <em>before</em> export. An unfiltered export is a data spill — stop, delete, re-do. <span class="src">CS09 · Filter first</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>External data request.</strong> Records requests or third-party hand-offs do not go straight from Envoy to email. Route through the records-request process — AIO07 if the request touches A.C.E. records. <span class="src">CS09 · External hand-off · see also AIO07</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Microsoft SSO sign-in failure.</strong> Notify office IT before workarounds. Do not export from a personal account. <span class="src">CS09 · Sign-in</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Row count looks implausible after a filter.</strong> Stop. The filter is wrong or the date range is off — verify before exporting and hand-off. <span class="src">CS09 · Verify</span></span></li>
+      </ul>
+    </article>
+
+    <article class="col">
+      <h2>LEAP · District Court</h2>
+      <div class="sopid">CS10 · CS11</div>
+      <ul class="triggers">
+        <li class="trig"><span class="dot critical"></span><span class="label"><strong>Physical packet chain of custody broken.</strong> The District Court packet is evidence. Never on an open counter. Never in an unlocked drawer. If the chain is broken, document immediately and notify the supervisor. <span class="src">CS11 · Physical handoff (step 14)</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Wrong parcel in the packet.</strong> Do not create the AA record. Log it, return the packet to District Court, and notify Operational Services. <span class="src">CS11 · Validate</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Hearings page blank.</strong> Sub-procedure CS10 — run it before continuing CS11. <span class="src">CS10 · Missing AA Record</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Missing or unreadable claim amount.</strong> Return packet to District Court — do not estimate. Document the date and reason. <span class="src">CS11 · Notes</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Stipulated Final Judgement signature missing.</strong> Hold the AA record at Draft. Email Operational Services for clarification. <span class="src">CS11 · Status</span></span></li>
+      </ul>
+    </article>
+
+    <article class="col">
+      <h2>Cross-cutting · PII &amp; safety</h2>
+      <div class="sopid">All CS SOPs</div>
+      <ul class="triggers">
+        <li class="trig"><span class="dot critical"></span><span class="label"><strong>Caller reveals PII unprompted.</strong> SSN, full bank or tax-return numbers, medical details. Stop, do not transcribe, and steer the caller to the secure channel for the topic at hand. <span class="src">All CS SOPs</span></span></li>
+        <li class="trig"><span class="dot critical"></span><span class="label"><strong>Threat against staff or facility.</strong> Notify the supervisor and County security within 1 hour with the timestamp, channel, caller info if known, and exact wording. <span class="src">All CS SOPs · mirrors AIO05 Type D</span></span></li>
+        <li class="trig"><span class="dot refer"></span><span class="label"><strong>Caller asking about valuation methodology, protests, or litigation.</strong> Refer to the appropriate division — Counter staff do not advise on protest outcomes or litigation. <span class="src">All CS SOPs · Out of scope</span></span></li>
+        <li class="trig"><span class="dot refer"></span><span class="label"><strong>Caller asking about another county.</strong> Refer to that county's Assessor. We answer only for Bernalillo County. <span class="src">All CS SOPs</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Repeat or pattern caller showing escalating frustration.</strong> Flag to the supervisor before the next interaction — pre-empt rather than wait for a complaint. <span class="src">All CS SOPs</span></span></li>
+      </ul>
+    </article>
+
+    <article class="col">
+      <h2>A.C.E. forwarding &amp; AI handoffs</h2>
+      <div class="sopid">CS05 · CS06 · interplay with AIO</div>
+      <ul class="triggers">
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>A.C.E. chatbot forwarding rule change.</strong> Coordinates with the AIO track — notify the AI Project Lead before flipping the rule. Caller experience changes immediately. <span class="src">CS05 · A.C.E. rule</span></span></li>
+        <li class="trig"><span class="dot critical"></span><span class="label"><strong>Caller reports A.C.E. said something wrong or sensitive.</strong> Open AIO05 (incident response) — contain before notifying. Do not promise a fix or discuss specifics with the caller. <span class="src">CS phone scripts · see also AIO05</span></span></li>
+        <li class="trig"><span class="dot standard"></span><span class="label"><strong>Records request mentions chatbot transcripts.</strong> Coach the requester to put it in writing. Route to the records custodian per AIO07. <span class="src">All CS SOPs · see also AIO07</span></span></li>
+      </ul>
+    </article>
+
+  </div>
+
+  <div class="also">
+    <div class="box">
+      <h3>How to notify</h3>
+      <p>Email the supervisor and the affected queue manager on the same thread. Use a subject line that names the SOP and the severity word.</p>
+      <span class="channel">Subject: CS09 / CRITICAL — short description</span>
+      <p style="margin-top:8px;">For Critical items (PII, threats, broken chain-of-custody, unfiltered Alvarado export), also send a phone or chat ping in addition to the email. Don't wait for a reply before containment.</p>
+    </div>
+    <div class="box">
+      <h3>What the email should include</h3>
+      <p>Five lines, in this order. Keep it tight — detail goes in the case note or incident log.</p>
+      <ul style="margin:6px 0 0; padding-left:20px;">
+        <li>What happened — one sentence.</li>
+        <li>When — timestamp.</li>
+        <li>Scope — who is affected.</li>
+        <li>What you've done — containment, return, hold, snapshot.</li>
+        <li>What you need from them — acknowledge, decision, or just FYI.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="also-foot">
+    <strong>Refer ≠ Notify ≠ Hand-off.</strong> A <em>referral</em> sends the caller to another office or division (Veterans Services, another county, a different division here). A <em>notify</em> keeps the work at our counter and tells a lead or office IT what's happening. A <em>hand-off</em> physically moves a packet or a record — chain of custody applies. When in doubt, document the choice you made.
+  </div>
+</main>
+</body>
+</html>

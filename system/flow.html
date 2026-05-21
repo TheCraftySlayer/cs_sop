@@ -125,8 +125,10 @@ html, body { margin:0; padding:0; font-family:"Montserrat",system-ui,sans-serif;
   <div class="crumb"><b>AI Operations</b><br>Flow Diagram</div>
   <div class="actions">
     <a class="action" href="../index.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M6 4L3 7l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Library</a>
-    <a class="action" href="notify.html">Notify card</a>
-    <a class="action" href="dashboard.html">Quiz dashboard</a>
+    <a class="action" href="notify.html">Notify · AIO</a>
+    <a class="action" href="notify-cs.html">Notify · CS</a>
+    <a class="action" href="dashboard.html">Progress</a>
+    <a class="action" href="../sops/AIO07_request_log.html">IPRA Log</a>
     <button class="action primary" onclick="window.print()" style="border:0; font-family:inherit; cursor:pointer;">Print / Save PDF</button>
   </div>
 </header>
@@ -223,6 +225,23 @@ html, body { margin:0; padding:0; font-family:"Montserrat",system-ui,sans-serif;
   </section>
 
   <section class="notes">
+    <div style="display:flex; align-items:center; gap:14px; margin-bottom:18px;">
+      <span style="font-family:'Gotham Display','Montserrat',sans-serif; font-size:13px; font-weight:900; color:var(--terracotta); letter-spacing:0.22em; text-transform:uppercase;">Stewardship · everything above produces records</span>
+      <span style="flex:1; height:1px; background:var(--line);"></span>
+    </div>
+    <div style="display:grid; grid-template-columns:1.05fr 4fr; gap:30px 32px; position:relative;">
+      <div style="display:flex; flex-direction:column; gap:10px; align-self:center;">
+        <span style="font-family:'Gotham Display','Montserrat',sans-serif; font-size:11px; font-weight:900; color:var(--terracotta); letter-spacing:0.22em; text-transform:uppercase; padding:6px 14px; background:var(--mist-soft); border-radius:999px; border:1px solid var(--line); align-self:flex-start;">Records & retention</span>
+        <p style="font-size:13px; color:var(--muted); margin:6px 0 0; line-height:1.45;">Every conversation log, persona snapshot, KB document, telemetry export, and change-log entry above is a public record. AIO07 governs how they are kept and how they are released.</p>
+      </div>
+      <a class="node reference" href="../sops/AIO07.html" style="border-style:solid; border-color:var(--cypress); background:var(--paper);">
+        <div class="sopid">AIO07</div>
+        <h3>Records Retention &amp; IPRA Response</h3>
+        <span class="cad">Standing + on-demand</span>
+        <p><strong>Part A</strong> — keep the records inventory, archive monthly and on every change, map to LGRRDS, verify vendor terms.<br><strong>Part B</strong> — when an IPRA request lands, acknowledge in 3 business days, redact PPII with a person attesting, produce or deny in writing in 15 calendar days, log it.</p>
+      </a>
+    </div>
+  </section>
     <div class="note">
       <h4>How to read this</h4>
       <p><span class="pill">Detection</span> finds something — wrong answer, drift, threshold breach. <span class="pill">Action</span> resolves it.</p>

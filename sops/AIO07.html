@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AIO07 · A.C.E. Records Retention &amp; IPRA Response · Source SOP</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@font-face { font-family: 'Gotham Display'; src: url('../fonts/Gotham-Black.otf') format('opentype'); font-weight: 900; font-style: normal; font-display: swap; }
+:root { --bosque:#285952; --bosque-dark:#1d4640; --cypress:#013942; --terracotta:#e47756; --mist:#e8f1ee; --mist-soft:#f4f8f6; --paper:#faf8f4; --ink:#1a2620; --line:#cfd8d3; --muted:#5a6b65; }
+* { box-sizing: border-box; }
+html, body { margin:0; padding:0; font-family:"Montserrat",system-ui,sans-serif; color:var(--ink); background:var(--mist-soft); line-height:1.55; -webkit-font-smoothing:antialiased; }
+.top-bar { background:var(--paper); border-bottom:2px solid var(--line); padding:16px 56px; display:flex; align-items:center; gap:24px; position:sticky; top:0; z-index:10; }
+.top-bar img.logo { height:56px; }
+.top-bar .crumb { padding-left:24px; border-left:1px solid var(--line); font-size:12px; font-weight:600; color:var(--muted); letter-spacing:0.18em; text-transform:uppercase; line-height:1.6; }
+.top-bar .crumb b { color:var(--cypress); }
+.top-bar .actions { margin-left:auto; display:flex; gap:10px; flex-wrap:wrap; }
+.top-bar .action { display:inline-flex; align-items:center; gap:8px; padding:9px 16px; font-size:13px; font-weight:600; text-decoration:none; border-radius:999px; background:transparent; color:var(--cypress); border:1px solid var(--line); cursor:pointer; font-family:inherit; transition:all 180ms cubic-bezier(0.4,0,0.2,1); }
+.top-bar .action.primary { background:var(--bosque); color:var(--paper); border-color:var(--bosque); }
+.top-bar .action:hover { background:var(--mist); border-color:var(--cypress); }
+.doc { max-width:940px; margin:48px auto 80px; background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:56px 72px 72px; box-shadow:0 12px 36px rgba(15,30,27,0.06); }
+.doc-header { border-bottom:3px solid var(--bosque); padding-bottom:28px; margin-bottom:36px; }
+.doc-header .eyebrow { font-size:12px; font-weight:700; color:var(--terracotta); letter-spacing:0.24em; text-transform:uppercase; margin-bottom:12px; }
+.doc-header h1 { font-family:"Gotham Display","Montserrat",sans-serif; font-size:48px; font-weight:900; line-height:1; letter-spacing:-0.02em; text-transform:uppercase; color:var(--bosque); margin:0; text-wrap:balance; }
+.meta-row { display:flex; gap:16px; font-size:14px; padding:6px 0; border-bottom:1px dashed var(--line); }
+.meta-row:last-of-type { border-bottom:0; margin-bottom:24px; }
+.meta-row .meta-k { color:var(--muted); font-weight:600; letter-spacing:0.06em; text-transform:uppercase; font-size:12px; flex:0 0 180px; }
+.meta-row .meta-v { color:var(--ink); font-weight:500; }
+.doc h2 { font-family:"Gotham Display","Montserrat",sans-serif; font-size:24px; font-weight:900; color:var(--bosque); text-transform:uppercase; margin:40px 0 14px; padding-bottom:8px; border-bottom:1px solid var(--line); letter-spacing:-0.005em; }
+.doc h2.part { font-size:28px; color:var(--cypress); border-bottom:3px solid var(--terracotta); padding-bottom:14px; margin-top:52px; display:flex; align-items:baseline; gap:14px; }
+.doc h2.part .num { font-size:13px; color:var(--terracotta); letter-spacing:0.26em; font-weight:700; }
+.doc h3 { font-family:"Montserrat",sans-serif; font-size:14px; font-weight:700; color:var(--cypress); text-transform:uppercase; letter-spacing:0.08em; margin:28px 0 8px; }
+.doc p { font-size:15.5px; color:var(--ink); margin:0 0 12px; text-wrap:pretty; }
+.doc p strong { color:var(--cypress); font-weight:700; }
+.doc ul, .doc ol { padding-left:22px; margin:0 0 14px; }
+.doc li { margin:4px 0; line-height:1.55; }
+.doc dl { margin:0 0 14px; padding:0; }
+.doc dl dt { font-weight:700; color:var(--cypress); margin-top:10px; font-size:15px; }
+.doc dl dt:first-child { margin-top:0; }
+.doc dl dd { margin:2px 0 0; padding-left:0; color:var(--ink); font-size:15px; line-height:1.55; }
+.doc dl dd .law { font-family:'JetBrains Mono',ui-monospace,monospace; font-size:13px; color:var(--bosque); background:var(--mist-soft); padding:1px 6px; border-radius:3px; }
+
+.doc abbr.gloss { text-decoration:none; border-bottom:1px dotted var(--bosque); cursor:help; font-weight:600; color:var(--cypress); }
+.doc abbr.gloss:hover { color:var(--bosque); border-bottom-color:var(--terracotta); }
+.doc a { color:var(--bosque); text-decoration:none; border-bottom:1px solid rgba(40,89,82,0.3); transition:all 180ms cubic-bezier(0.4,0,0.2,1); }
+.doc a:hover { color:var(--terracotta); border-bottom-color:var(--terracotta); }
+.doc a strong { color:inherit; }
+.doc a em { color:inherit; }
+
+.clocks { background:var(--mist-soft); border:1px solid var(--line); border-radius:12px; padding:28px 32px 24px; margin:24px 0 8px; }
+.clocks h3.clocks-h { font-family:"Gotham Display",sans-serif; font-size:14px; font-weight:900; color:var(--terracotta); letter-spacing:0.18em; text-transform:uppercase; margin:0 0 6px; }
+.clocks .clocks-sub { font-size:14.5px; color:var(--cypress); margin-bottom:18px; line-height:1.5; }
+.clocks svg { display:block; width:100%; height:auto; max-height:240px; }
+.clocks .legend-row { display:flex; gap:24px; flex-wrap:wrap; margin-top:14px; font-size:12.5px; color:var(--muted); }
+.clocks .legend-row .lg { display:inline-flex; align-items:center; gap:8px; }
+.clocks .legend-row .lg .sw { width:14px; height:14px; border-radius:3px; }
+
+.note, .warn, .ex { border-radius:0 6px 6px 0; padding:12px 16px; margin:10px 0 14px; font-size:14.5px; line-height:1.55; }
+.note { background:var(--mist-soft); border-left:4px solid var(--bosque); color:var(--cypress); }
+.note strong { color:var(--bosque); }
+.warn { background:#fceee7; border-left:4px solid var(--terracotta); color:var(--cypress); }
+.warn strong { color:var(--terracotta); }
+.ex { background:#f3efe6; border-left:4px solid #b58a3b; color:#5a4517; }
+.ex strong { color:#7a5a1f; }
+
+.step { margin:18px 0; padding:0 0 0 56px; position:relative; }
+.step::before { content:attr(data-n); position:absolute; left:0; top:-4px; font-family:"Gotham Display",sans-serif; font-size:34px; font-weight:900; color:var(--terracotta); line-height:1; letter-spacing:-0.02em; }
+.step h3 { margin-top:0; }
+.step > p:first-of-type, .step > ul:first-of-type { margin-top:0; }
+
+.tag-line { margin-top:48px; padding-top:36px; border-top:2px solid var(--line); text-align:center; }
+.tag-line .tag { font-family:"Gotham Display",sans-serif; font-size:28px; font-weight:900; color:var(--terracotta); text-transform:lowercase; margin-bottom:6px; }
+.tag-line .sig { font-size:11px; font-weight:600; color:var(--muted); letter-spacing:0.14em; text-transform:uppercase; }
+
+@media print { body { background:white; } .top-bar { display:none; } .doc { box-shadow:none; border:0; margin:0; padding:0; max-width:none; } }
+
+.sop-tabs { display:flex; gap:8px; margin:-20px 0 28px; position:sticky; top:88px; z-index:5; background:var(--paper); padding:14px 0 6px; border-bottom:1px solid var(--line); }
+.sop-tabs .tab-btn { appearance:none; background:transparent; border:1px solid var(--line); color:var(--muted); font-family:inherit; font-size:13px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; padding:9px 18px; border-radius:999px; cursor:pointer; transition:all 180ms cubic-bezier(0.4,0,0.2,1); }
+.sop-tabs .tab-btn:hover { color:var(--cypress); border-color:var(--cypress); }
+.sop-tabs .tab-btn.active { background:var(--bosque); color:var(--paper); border-color:var(--bosque); }
+.pane[hidden] { display:none; }
+@media print {
+  .sop-tabs { display:none; }
+  .pane[hidden] { display:block !important; }
+  .pane-full, .pane-card { page-break-before:always; }
+  .pane-full { page-break-before:auto; }
+}
+
+/* ---- Quick Reference card ---- */
+.pane-card .sheet { width:8.5in; min-height:11in; margin:24px auto; background:var(--paper); padding:0.4in 0.5in; border:1px solid var(--line); border-radius:12px; box-shadow:0 12px 36px rgba(15,30,27,0.08); display:flex; flex-direction:column; }
+.pane-card .sheet header { display:flex; align-items:flex-end; justify-content:space-between; gap:24px; border-bottom:4px solid var(--bosque); padding-bottom:14px; margin-bottom:18px; }
+.pane-card .sheet header .lhs { display:flex; flex-direction:column; }
+.pane-card .sheet header .eyebrow { font-size:11px; font-weight:700; color:var(--terracotta); letter-spacing:0.28em; text-transform:uppercase; margin-bottom:6px; }
+.pane-card .sheet header h1 { font-family:"Gotham Display","Montserrat",sans-serif; font-size:34px; font-weight:900; line-height:0.96; letter-spacing:-0.02em; text-transform:uppercase; color:var(--bosque); margin:0; text-wrap:balance; }
+.pane-card .sheet header .id { font-family:"Gotham Display",sans-serif; font-size:64px; font-weight:900; color:var(--cypress); letter-spacing:-0.04em; line-height:0.85; }
+.pane-card .sheet header .id .small { display:block; font-size:11px; font-weight:700; color:var(--muted); letter-spacing:0.24em; text-transform:uppercase; text-align:right; margin-bottom:4px; }
+.pane-card .purpose { background:var(--mist-soft); border-left:4px solid var(--bosque); padding:10px 14px; margin-bottom:14px; font-size:12.5px; color:var(--cypress); line-height:1.5; border-radius:0 4px 4px 0; }
+.pane-card .purpose strong { color:var(--bosque); }
+.pane-card .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.pane-card .grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+.pane-card .block { background:var(--paper); border:1px solid var(--line); border-radius:6px; padding:10px 14px; font-size:12px; }
+.pane-card .block.accent { border-color:var(--terracotta); border-width:1.5px; }
+.pane-card .block.dark { background:var(--cypress); color:var(--paper); border:0; }
+.pane-card .block.dark h3 { color:var(--terracotta); }
+.pane-card .block.dark .label { color:rgba(255,255,255,0.55); }
+.pane-card .block h3 { font-family:"Gotham Display",sans-serif; font-size:13px; font-weight:900; color:var(--bosque); letter-spacing:0.06em; text-transform:uppercase; margin:0 0 8px; display:flex; align-items:center; gap:8px; }
+.pane-card .block h3 .num { display:inline-flex; align-items:center; justify-content:center; width:18px; height:18px; border-radius:50%; background:var(--terracotta); color:var(--paper); font-size:10px; }
+.pane-card .block ul, .pane-card .block ol { margin:0; padding-left:18px; line-height:1.5; }
+.pane-card .block li { margin:2px 0; }
+.pane-card .block .label { font-size:9.5px; font-weight:700; color:var(--muted); letter-spacing:0.16em; text-transform:uppercase; margin-bottom:3px; }
+.pane-card .block code { font-family:'JetBrains Mono',ui-monospace,monospace; font-size:11.5px; background:var(--mist); padding:1.5px 6px; border-radius:3px; color:var(--cypress); font-weight:500; }
+.pane-card .block .big { font-family:"Gotham Display",sans-serif; font-size:26px; font-weight:900; color:var(--bosque); letter-spacing:-0.02em; line-height:1; margin-bottom:4px; }
+.pane-card .block .big.terra { color:var(--terracotta); }
+.pane-card .warn-card { background:#fceee7; border-left:4px solid var(--terracotta); padding:10px 14px; border-radius:0 4px 4px 0; font-size:12px; color:var(--cypress); line-height:1.5; margin-top:12px; }
+.pane-card .warn-card strong { color:var(--terracotta); }
+.pane-card .steps-line { display:flex; gap:0; margin:8px 0 0; font-size:11px; }
+.pane-card .steps-line .step-cell { flex:1; position:relative; padding:8px 10px 8px 26px; background:var(--paper); border:1px solid var(--line); border-right:0; }
+.pane-card .steps-line .step-cell:last-child { border-right:1px solid var(--line); border-radius:0 4px 4px 0; }
+.pane-card .steps-line .step-cell:first-child { border-radius:4px 0 0 4px; }
+.pane-card .steps-line .step-cell .n { position:absolute; left:6px; top:50%; transform:translateY(-50%); font-family:"Gotham Display",sans-serif; font-size:15px; font-weight:900; color:var(--terracotta); }
+.pane-card .steps-line .step-cell strong { font-family:"Gotham Display",sans-serif; font-size:11px; color:var(--bosque); text-transform:uppercase; letter-spacing:0.04em; display:block; }
+.pane-card .footer { margin-top:auto; padding-top:14px; border-top:1px solid var(--line); display:flex; justify-content:space-between; align-items:center; font-size:9.5px; color:var(--muted); letter-spacing:0.14em; text-transform:uppercase; }
+.pane-card .footer .tag { font-family:"Gotham Display",sans-serif; font-size:14px; font-weight:900; color:var(--terracotta); text-transform:lowercase; letter-spacing:0; }
+</style>
+</head>
+<body>
+<header class="top-bar">
+  <img src="../assets/bernco-assessor-logo.png" alt="BernCo County Assessor" class="logo">
+  <div class="crumb"><b>SOP AIO07</b><br>Source document</div>
+  <div class="actions">
+    <a class="action" href="../index.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M11 7H3M6 4L3 7l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Library</a>
+    <a class="action" href="../videos/AIO07_Records_Retention_IPRA.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 2l9 5-9 5V2z" fill="currentColor"/></svg> Watch</a>
+    <a class="action" href="AIO07_request_log.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2.5" y="2" width="9" height="10" rx="1" stroke="currentColor" stroke-width="1.4"/><path d="M5 5h4M5 7h4M5 9h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg> IPRA log</a>
+    <a class="action" href="AIO07_records_inventory.html"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2" y="3" width="10" height="8" rx="1" stroke="currentColor" stroke-width="1.4"/><path d="M2 6h10M5 3v8" stroke="currentColor" stroke-width="1.3"/></svg> Inventory</a>
+    <a class="action" href="../docs/AIO07_Records_Retention_IPRA_Response.docx" download><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v9M3 7l4 4 4-4M2 13h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> .docx</a>
+    <button class="action primary" onclick="window.print()" style="border:0; font-family:inherit; cursor:pointer;"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M4 1h6v3M4 11h6v2H4zM2 4h10v6H2z" stroke="currentColor" stroke-width="1.5"/></svg> Save as PDF</button>
+  </div>
+</header>
+
+<article class="doc">
+  <nav class="sop-tabs">
+    <button class="tab-btn active" data-tab="full" type="button">Full SOP</button>
+    <button class="tab-btn" data-tab="card" type="button">Quick Reference</button>
+  </nav>
+
+  <!-- ════════════════════════ FULL SOP ════════════════════════ -->
+  <div class="pane pane-full" data-pane="full">
+    <div class="doc-header">
+      <div class="eyebrow">Bernalillo County Assessor · AI Operations</div>
+      <h1>A.C.E. Records Retention &amp; IPRA Response</h1>
+    </div>
+
+    <div class="meta-row"><span class="meta-k">Process Title</span><span class="meta-v">A.C.E. Records Retention &amp; IPRA Response</span></div>
+    <div class="meta-row"><span class="meta-k">Department</span><span class="meta-v">AI Operations</span></div>
+    <div class="meta-row"><span class="meta-k">SOP ID</span><span class="meta-v">AIO07</span></div>
+    <div class="meta-row"><span class="meta-k">Last Reviewed</span><span class="meta-v">05/21/2026</span></div>
+    <div class="meta-row"><span class="meta-k">Effective Date</span><span class="meta-v">05/21/2026</span></div>
+    <div class="meta-row"><span class="meta-k">Version</span><span class="meta-v">1.0</span></div>
+
+    <h2>Purpose</h2>
+    <p>This SOP outlines the standardized steps for retaining A.C.E. agent records, maintaining custody of those records, and responding when an A.C.E.-related record is requested under the New Mexico Inspection of Public Records Act (IPRA). It closes the records-management gap left open by the operational SOPs (AIO01 through AIO06, BIO01, and BIO04), which govern how the agents are run but not the disposition of the records they produce.</p>
+
+    <h2>Scope</h2>
+    <p>This procedure applies to the AI Project Lead, the designated backup operator, and the office's records custodian. It covers all A.C.E. agents, public and internal: the public A.C.E. chatbot (AIO track) and the internal CustomGPT agents on the BIO track (Compliance Expert, Paralegal, Onboarding), along with the phone and email channels. Retention, custody, and IPRA obligations are identical regardless of an agent's audience, so a single procedure governs the whole program. Change control stays on its existing tracks (AIO03 for the public agent, BIO01 for the internal agents) and is out of scope here.</p>
+
+    <h2>Definitions</h2>
+    <dl>
+      <dt>A.C.E.</dt>
+      <dd>Assessor's Community Educator. The office's CustomGPT agent program, including the public chatbot and the internal BIO agents (Compliance Expert, Paralegal, Onboarding), plus the phone and email channels.</dd>
+      <dt><abbr class="gloss" title="Inspection of Public Records Act—see Glossary">IPRA</abbr></dt>
+      <dd>New Mexico Inspection of Public Records Act, <span class="law">Section 14-2-1 et seq. NMSA 1978</span>.</dd>
+      <dt>Public record</dt>
+      <dd>Under <span class="law">Section 14-2-6(H) NMSA 1978</span>, materials in any form used, created, received, maintained, or held by or on behalf of a public body that relate to public business. A.C.E. prompts, responses, persona files, configuration, and knowledge-base content fall within this definition.</dd>
+      <dt><abbr class="gloss" title="Protected Personal Identifier Information—see Glossary">PPII</abbr></dt>
+      <dd>Protected Personal Identifier Information. The personal identifiers defined at <span class="law">Section 14-2-6(F) NMSA 1978</span> that the records custodian must redact before releasing an otherwise public record.</dd>
+      <dt>Records custodian</dt>
+      <dd>The office position statutorily designated to receive IPRA requests and respond within the required timeline.</dd>
+      <dt>Retention schedule</dt>
+      <dd>For a county office, the Local Government Records Retention and Disposition Schedules (<abbr class="gloss" title="Local Government Records Retention and Disposition Schedules—see Glossary">LGRRDS</abbr>) adopted under the Public Records Act, <span class="law">Section 14-3 NMSA 1978</span>, and administered by the State Records Center and Archives (SRCA).</dd>
+    </dl>
+
+    <h2>Related Documents</h2>
+    <p>The <a href="AIO06.html"><strong>AIO06</strong></a> and <a href="BIO04.html"><strong>BIO04</strong></a> Configuration &amp; Sources Baselines (the "as configured" snapshots), the <a href="AIO03.html"><strong>AIO03</strong></a> and <a href="BIO01.html"><strong>BIO01</strong></a> change logs, and the office records share where exports are stored. External guidance: the New Mexico Attorney General's <a href="https://www.nmag.gov/wp-content/uploads/2024/01/IPRA-Compliance-Guide-2024.pdf" target="_blank" rel="noopener"><em>IPRA Compliance Guide</em></a>. Internal policy: <em>Assessor's Office AI Policy v2.0</em> and <em>Bernalillo County Ordinance 2026-1</em> (Code of Conduct Sec. 2-140).</p>
+
+    <h2>Statutes</h2>
+    <p>Inspection of Public Records Act, <span class="law">Section 14-2-1 et seq. NMSA 1978</span>: definitions at <span class="law">Section 14-2-6</span>, request procedure and response timeline at <span class="law">Section 14-2-8</span>, procedure for inspection and copy fees at <span class="law">Section 14-2-9</span>, excessively burdensome or broad requests at <span class="law">Section 14-2-10</span>, and procedure for denied requests at <span class="law">Section 14-2-11</span>. Public Records Act, <span class="law">Section 14-3 NMSA 1978</span>, governs retention and disposition; destruction of county records is governed by <span class="law">Section 14-1-8 NMSA 1978</span>.</p>
+
+    <h2>Procedure</h2>
+
+    <div class="clocks" aria-label="IPRA clocks timeline">
+      <h3 class="clocks-h">The two clocks · Part B</h3>
+      <p class="clocks-sub"><strong>Day&nbsp;0</strong> is when the records custodian receives the request — not when it reaches the AI Project Lead.</p>
+      <svg viewBox="0 0 1100 220" role="img" aria-label="IPRA timeline showing Day 0 receipt, Day 3 business-day acknowledgment, optional 14-2-10 burdensome notice, and Day 15 calendar-day production-or-denial">
+        <defs>
+          <marker id="clkArr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#013942"/>
+          </marker>
+        </defs>
+        <!-- baseline rule -->
+        <line x1="60" y1="120" x2="1040" y2="120" stroke="#cfd8d3" stroke-width="2"/>
+        <line x1="60" y1="120" x2="1040" y2="120" stroke="#013942" stroke-width="2" stroke-dasharray="4 6" opacity="0.25"/>
+
+        <!-- day labels under rule -->
+        <g font-family="'JetBrains Mono', monospace" font-size="11" fill="#5a6b65">
+          <text x="60"  y="148" text-anchor="middle">Day 0</text>
+          <text x="260" y="148" text-anchor="middle">Day 3</text>
+          <text x="640" y="148" text-anchor="middle">Day 15</text>
+          <text x="1040" y="148" text-anchor="middle">Day 15</text>
+        </g>
+        <g font-family="Montserrat, sans-serif" font-size="10" fill="#5a6b65" font-weight="600" letter-spacing="1">
+          <text x="60"  y="164" text-anchor="middle">RECEIPT</text>
+          <text x="260" y="164" text-anchor="middle">BUSINESS</text>
+          <text x="640" y="164" text-anchor="middle">CALENDAR</text>
+          <text x="1040" y="164" text-anchor="middle">CALENDAR</text>
+        </g>
+
+        <!-- Day 0 marker (Bosque) -->
+        <circle cx="60" cy="120" r="11" fill="#285952"/>
+        <text x="60" y="95" text-anchor="middle" font-family="Gotham Display, Montserrat, sans-serif" font-size="13" font-weight="900" fill="#013942" letter-spacing="1">B.1 · LOG RECEIPT</text>
+        <text x="60" y="80" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="11" font-weight="600" fill="#5a6b65">Custodian timestamp</text>
+
+        <!-- Day 3 marker (Terracotta) -->
+        <circle cx="260" cy="120" r="11" fill="#e47756"/>
+        <text x="260" y="95" text-anchor="middle" font-family="Gotham Display, Montserrat, sans-serif" font-size="13" font-weight="900" fill="#013942" letter-spacing="1">B.2 · ACKNOWLEDGE</text>
+        <text x="260" y="80" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="11" font-weight="600" fill="#5a6b65">14-2-8.D · in writing</text>
+
+        <!-- Day 15 produce or deny marker (Bosque) -->
+        <circle cx="640" cy="120" r="13" fill="#285952" stroke="#013942" stroke-width="2"/>
+        <text x="640" y="95" text-anchor="middle" font-family="Gotham Display, Montserrat, sans-serif" font-size="13" font-weight="900" fill="#013942" letter-spacing="1">B.7 · PRODUCE OR DENY</text>
+        <text x="640" y="80" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="11" font-weight="600" fill="#5a6b65">Written · cite exemption (14-2-11)</text>
+
+        <!-- Section 14-2-10 branch marker -->
+        <circle cx="1040" cy="120" r="11" fill="#faf8f4" stroke="#e47756" stroke-width="3"/>
+        <text x="1040" y="95" text-anchor="middle" font-family="Gotham Display, Montserrat, sans-serif" font-size="13" font-weight="900" fill="#a3361a" letter-spacing="1">B.4 · 14-2-10</text>
+        <text x="1040" y="80" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="11" font-weight="600" fill="#5a6b65">Burdensome · written notice + plan</text>
+
+        <!-- segment labels between markers -->
+        <path d="M 75 196 L 245 196" stroke="#013942" stroke-width="1.5" marker-end="url(#clkArr)"/>
+        <text x="160" y="189" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="11" font-weight="700" fill="#013942" letter-spacing="1.5">3 BUSINESS DAYS</text>
+
+        <path d="M 275 210 L 625 210" stroke="#013942" stroke-width="1.5" marker-end="url(#clkArr)"/>
+        <text x="460" y="203" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="11" font-weight="700" fill="#013942" letter-spacing="1.5">B.3 IDENTIFY · B.5 REDACT &amp; ATTEST · B.6 NOTIFY-UP</text>
+
+        <!-- Section 14-2-10 branch -->
+        <path d="M 70 120 C 200 40, 920 40, 1030 110" stroke="#e47756" stroke-width="2" stroke-dasharray="5 5" fill="none" marker-end="url(#clkArr)" opacity="0.7"/>
+        <text x="560" y="38" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="11" font-weight="700" fill="#a3361a" letter-spacing="1.5">IF EXCESSIVELY BURDENSOME OR BROAD → 14-2-10 PATH</text>
+      </svg>
+      <div class="legend-row">
+        <span class="lg"><span class="sw" style="background:#285952;"></span> Mandatory step</span>
+        <span class="lg"><span class="sw" style="background:#e47756;"></span> Acknowledge deadline</span>
+        <span class="lg"><span class="sw" style="background:#faf8f4; border:2px solid #e47756;"></span> Conditional branch</span>
+      </div>
+    </div>
+    <div class="note"><strong>Note.</strong> This SOP has two parts. <strong>Part A</strong> is ongoing and runs on a fixed schedule. <strong>Part B</strong> runs only when an IPRA request touches A.C.E. In Part B, the statutory clock starts when the records custodian <em>receives</em> the request, not when it reaches the AI Project Lead.</div>
+
+    <!-- ─────────── PART A ─────────── -->
+    <h2 class="part"><span class="num">Part A</span>Standing Records Management</h2>
+
+    <div class="step" data-n="1">
+      <h3>Maintain the A.C.E. Records Inventory</h3>
+      <p>Keep a current list of every record category the agents produce:</p>
+      <ul>
+        <li>Public A.C.E. chatbot conversation logs (prompts and responses).</li>
+        <li>Internal agent logs (Compliance Expert, Paralegal, Onboarding) on the BIO track.</li>
+        <li>Phone channel call recordings and transcripts (Bland AI).</li>
+        <li>Email channel logs (Power Automate).</li>
+        <li>Persona and system-prompt files for every agent.</li>
+        <li>Configuration and Actions settings, per the <strong>AIO06</strong> and <strong>BIO04</strong> baselines.</li>
+        <li>Knowledge-base source documents.</li>
+        <li>Telemetry: Missing Content logs and operational metrics.</li>
+        <li>Change logs produced under <strong>AIO03</strong> (public agent) and <strong>BIO01</strong> (internal agents).</li>
+      </ul>
+    </div>
+
+    <div class="step" data-n="2">
+      <h3>Confirm custody sits with the office</h3>
+      <p>The Assessor's Office is the custodian of A.C.E. records regardless of which vendor hosts the data. <strong>Vendor hosting does not transfer custody.</strong></p>
+    </div>
+
+    <div class="step" data-n="3">
+      <h3>Keep an office-controlled archive on a fixed cadence</h3>
+      <ul>
+        <li><strong>Monthly:</strong> export conversation logs and telemetry to the office records share.</li>
+        <li><strong>On change:</strong> capture a snapshot of persona, configuration, and knowledge-base content whenever they change. The change SOPs (<strong>AIO03</strong> public, <strong>BIO01</strong> internal) already trigger and log these.</li>
+      </ul>
+      <div class="note"><strong>Note.</strong> The goal is that the office can satisfy a request from its own holdings even if a vendor's data is no longer available.</div>
+    </div>
+
+    <div class="step" data-n="4">
+      <h3>Map records to a retention schedule</h3>
+      <p>With the records custodian, assign each record category to the closest existing <strong>LGRRDS</strong> series and document the determination.</p>
+      <div class="warn"><strong>Note.</strong> A.C.E. records have no dedicated series yet, so the mapping is a custodian decision, not an assumption. <strong>Do not destroy</strong> any A.C.E. record without a custodian-approved disposition under the schedule and <span class="law">Section 14-1-8 NMSA 1978</span>.</div>
+    </div>
+
+    <div class="step" data-n="5">
+      <h3>Verify vendor contract terms support retrieval</h3>
+      <p>Confirm vendor agreements (CustomGPT.ai, Bland AI, and any automation platform) guarantee retrieval of conversation and configuration data on demand and address what happens if the vendor ceases service. Report any gap to the Deputy.</p>
+    </div>
+
+    <!-- ─────────── PART B ─────────── -->
+    <h2 class="part" id="part-b"><span class="num">Part B</span>Responding to an IPRA Request</h2>
+
+    <div class="step" data-n="1">
+      <h3>Log receipt and start the clock</h3>
+      <p>Record the date and time the custodian received the request, the requester's contact information, and the exact scope as written.</p>
+      <div class="note"><strong>Note.</strong> No statement of purpose is required from the requester.</div>
+    </div>
+
+    <div class="step" data-n="2">
+      <h3>Acknowledge within three (3) business days</h3>
+      <p>If responsive records cannot be produced within three business days, send a written response stating when the records will be available or when the office will respond <span class="law">(Section 14-2-8.D)</span>.</p>
+    </div>
+
+    <div class="step" data-n="3">
+      <h3>Identify responsive records</h3>
+      <p>Search the A.C.E. Records Inventory categories for matching materials. Conversation logs, persona files, configuration, and knowledge-base content are all potentially responsive depending on how the request is worded.</p>
+      <p>Pull from the <strong>office-controlled archive first;</strong> fall back to vendor retrieval only if needed.</p>
+    </div>
+
+    <div class="step" data-n="4">
+      <h3>Handle excessively burdensome or broad requests</h3>
+      <p>If a request is excessively burdensome or broad, send written notice within <strong>fifteen (15) days</strong> that additional reasonable time is needed, with a good-faith production plan <span class="law">(Section 14-2-10)</span>.</p>
+      <div class="ex"><strong>Example.</strong> "All A.C.E. conversations" against tens of thousands of queries <em>is</em> a burdensome request. A single named parcel or a bounded date range <em>is not</em>.</div>
+    </div>
+
+    <div class="step" data-n="5">
+      <h3>Separate exempt content and redact protected information</h3>
+      <ul>
+        <li>Separate exempt from non-exempt material within the same record <span class="law">(Section 14-2-9)</span>.</li>
+        <li>Redact protected personal identifier information <span class="law">(Section 14-2-6(F))</span> and any other exempted material.</li>
+        <li><strong>A person reviews and attests</strong> to every redaction before release.</li>
+      </ul>
+      <div class="warn"><strong>Note.</strong> A.C.E. conversation logs routinely mix protected PII (for example, a constituent's finances shared to get exemption advice) with public-business content. "The AI applied the redaction" is not a defense.</div>
+    </div>
+
+    <div class="step" data-n="6">
+      <h3>Notify the Assessor or Deputy before responding if any of the following apply</h3>
+      <ul>
+        <li>The request implicates <strong>Paralegal</strong> content that may be subject to attorney-client privilege.</li>
+        <li>The request comes from media, an oversight body, or relates to actual or anticipated litigation.</li>
+        <li>Responsive records would expose system prompts or configuration in a way that bears on security.</li>
+        <li>The request triggers the <span class="law">Section 14-2-10</span> burdensome or broad route.</li>
+      </ul>
+      <div class="warn"><strong>Note.</strong> For an active PII exposure discovered during a search, follow <strong>AIO05</strong> (Incident Response), including its contain-before-notify path, <em>in addition to</em> this SOP.</div>
+    </div>
+
+    <div class="step" data-n="7">
+      <h3>Produce or deny in writing within fifteen (15) calendar days</h3>
+      <p>Permit inspection of responsive non-exempt records <span class="law">(Section 14-2-8)</span>. For anything withheld, deliver a written denial that cites the <strong>specific statutory exemption</strong> <span class="law">(Section 14-2-11, procedure for denied requests)</span>.</p>
+      <div class="note"><strong>Note.</strong> Records produced electronically carry no fee; a reasonable fee may be charged only for physical copies <span class="law">(Section 14-2-9(C))</span>.</div>
+    </div>
+
+    <div class="step" data-n="8">
+      <h3>Log the response</h3>
+      <p>Record the request date received and requester, the scope as written, the responsive records produced, the redactions applied and their statutory basis, the name of the reviewer who attested, the production or denial date, and any <span class="law">Section 14-2-10</span> extension issued.</p>
+    </div>
+
+    <div class="tag-line">
+      <div class="tag">Count on us.</div>
+      <div class="sig">Bernalillo County Assessor · Damian R. Lara, County Assessor</div>
+    </div>
+  </div><!-- /pane-full -->
+
+  <!-- ════════════════════════ QUICK REFERENCE ════════════════════════ -->
+  <div class="pane pane-card" data-pane="card" hidden>
+    <article class="sheet">
+      <header>
+        <div class="lhs">
+          <div class="eyebrow">Bernalillo County Assessor · AI Operations</div>
+          <h1>Records Retention &amp; IPRA Response</h1>
+        </div>
+        <div class="id"><span class="small">SOP</span>A7</div>
+      </header>
+
+      <div class="purpose"><strong>Purpose.</strong> Retain A.C.E. records and respond to IPRA requests. <strong>Part A</strong> is ongoing. <strong>Part B</strong> starts when the custodian receives a request — the clock starts <em>then</em>, not when it reaches the AI Lead.</div>
+
+      <div class="block dark" style="margin-bottom:12px;">
+        <h3>Statutory clocks</h3>
+        <div class="big terra">3 → 15 days</div>
+        <div class="label">Acknowledge in 3 business days · Produce/deny in 15 calendar days · 14-2-10 burdensome notice in 15 days</div>
+      </div>
+
+      <div class="grid-2" style="margin-bottom:12px;">
+        <div class="block accent">
+          <h3>Part A — Standing</h3>
+          <ol>
+            <li><strong>Maintain inventory</strong> — logs, persona, config, KB, telemetry, change logs.</li>
+            <li><strong>Custody = the office.</strong> Vendor hosting ≠ custody transfer.</li>
+            <li><strong>Archive on cadence</strong> — monthly export; snapshot on every change (AIO03 / BIO01).</li>
+            <li><strong>Map to LGRRDS</strong> with custodian. No destruction without approved disposition (<code>14-1-8</code>).</li>
+            <li><strong>Vendor terms</strong> — confirm retrieval on demand &amp; cease-service language. Report gaps to Deputy.</li>
+          </ol>
+        </div>
+        <div class="block accent">
+          <h3>Part B — IPRA request</h3>
+          <ol>
+            <li><strong>Log receipt &amp; start clock.</strong> Date/time, requester, scope as written.</li>
+            <li><strong>Acknowledge ≤ 3 business days</strong> (<code>14-2-8.D</code>).</li>
+            <li><strong>Identify responsive records.</strong> Office archive first; vendor only if needed.</li>
+            <li><strong>Burdensome / broad?</strong> Written notice ≤ 15 days with production plan (<code>14-2-10</code>).</li>
+            <li><strong>Separate &amp; redact.</strong> Exempt vs non-exempt (<code>14-2-9</code>); PPII (<code>14-2-6(F)</code>); a person attests.</li>
+            <li><strong>Notify Assessor/Deputy</strong> if Paralegal/privilege, media/litigation, security exposure, or 14-2-10 route.</li>
+            <li><strong>Produce or deny ≤ 15 cal. days</strong> — written, cite the specific exemption (<code>14-2-11</code> for denials).</li>
+            <li><strong>Log the response</strong> — scope, records, redactions, reviewer, date, extensions.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="grid-3" style="margin-bottom:12px;">
+        <div class="block">
+          <h3>Records to inventory</h3>
+          <ul>
+            <li>Chatbot conversation logs</li>
+            <li>BIO agent logs (Compliance / Paralegal / Onboarding)</li>
+            <li>Phone — Bland AI calls &amp; transcripts</li>
+            <li>Email — Power Automate logs</li>
+            <li>Persona &amp; system prompts</li>
+            <li>Config &amp; Actions (AIO06 / BIO04)</li>
+            <li>KB source documents</li>
+            <li>Telemetry — Missing Content, metrics</li>
+            <li>Change logs (AIO03 / BIO01)</li>
+          </ul>
+        </div>
+        <div class="block">
+          <h3>Notify upstream when…</h3>
+          <ul>
+            <li>Paralegal content / attorney-client privilege</li>
+            <li>Media · oversight body · actual or anticipated litigation</li>
+            <li>System prompts or config would be exposed (security)</li>
+            <li>The 14-2-10 burdensome route is triggered</li>
+            <li>Active PII exposure — also run <strong>AIO05</strong></li>
+          </ul>
+        </div>
+        <div class="block">
+          <h3>Statutes at hand</h3>
+          <ul>
+            <li><code>14-2-6(F)</code> — PPII to redact</li>
+            <li><code>14-2-6(H)</code> — what is a public record</li>
+            <li><code>14-2-8</code> — request procedure &amp; response timeline</li>
+            <li><code>14-2-9</code> — inspection &amp; copy fees; <code>9(C)</code> physical-copy fee</li>
+            <li><code>14-2-10</code> — burdensome / broad</li>
+            <li><code>14-2-11</code> — procedure for denied requests</li>
+            <li><code>14-1-8</code> — destruction of county records</li>
+            <li><code>14-3</code> — retention &amp; disposition</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="warn-card">
+        <strong>Two things to never get wrong.</strong>
+        The clock starts when the <em>custodian</em> receives the request — not when it reaches you.
+        &nbsp;·&nbsp;
+        A person must review and attest to every redaction. <em>"The AI applied the redaction" is not a defense.</em>
+      </div>
+
+      <div class="footer">
+        <div>Revision: this card · v1 · 2026</div>
+        <div class="tag">Count on us.</div>
+        <div>Print &amp; laminate for desk reference</div>
+      </div>
+    </article>
+  </div>
+</article>
+
+<script>
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.sop-tabs .tab-btn');
+  if (!btn) return;
+  const target = btn.dataset.tab;
+  document.querySelectorAll('.sop-tabs .tab-btn').forEach(b => b.classList.toggle('active', b === btn));
+  document.querySelectorAll('.pane').forEach(p => { p.hidden = p.dataset.pane !== target; });
+});
+</script>
+
+<script src="../lib/sop-data.js"></script>
+<script>window.SOP_ID = 'AIO07';</script>
+<script src="../lib/related-footer.js"></script>
+<script src="../lib/sop-updated-banner.js"></script>
+</body>
+</html>

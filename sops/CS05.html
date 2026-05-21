@@ -402,6 +402,9 @@
 
 /* card-specific print rules omitted to avoid conflicts */
 
+.doc a { color:var(--bosque); text-decoration:none; border-bottom:1px solid rgba(40,89,82,0.3); transition:all 180ms cubic-bezier(0.4,0,0.2,1); }
+.doc a:hover { color:var(--terracotta); border-bottom-color:var(--terracotta); }
+.doc a strong { color:inherit; }
 </style>
 </head>
 <body>
@@ -435,7 +438,7 @@
 <h2>Purpose</h2>
 <p>This SOP outlines the standardized process for managing Custom Answering Rules at the queue level. These rules handle holiday closures, scheduled time-of-day routing, conditional forwarding (e.g., to the A.C.E. chatbot), and manual overrides for unscheduled closures.</p>
 <h2>Scope</h2>
-<p>Applies to queue-level custom rules configured at Call Handling &amp; Members → Custom rules. DID-level custom rules attached to user extensions are out of scope (see CS08).</p>
+<p>Applies to queue-level custom rules configured at Call Handling &amp; Members → Custom rules. DID-level custom rules attached to user extensions are out of scope (see <a href="CS08.html">CS08</a>).</p>
 <h2>Authorization</h2>
 <p>Holiday rule additions and edits: Deputy Assessor overseeing Customer Service. Office Closed manual override (toggle on/off): Customer Service Manager or Deputy Assessor — should be activated promptly when an unscheduled closure occurs and deactivated when the office reopens.</p>
 <h2>Definitions</h2>
@@ -455,17 +458,17 @@
 <p>Validate Rules – Portal feature on the Custom rules tab that checks all rules in a queue for overlap or conflicts before they take effect. Per RingCentral documentation, this should be run after any rule addition or edit.</p>
 <p>Call Queue Custom Rule Templates – RingCentral feature (released November 2024) that lets administrators create a custom-rule template once and apply it across multiple queues. Reduces the annual maintenance burden when many queues observe the same holiday calendar. Templates are managed at the account level, not within an individual queue panel.</p>
 <h2>Prerequisites</h2>
-<p>This SOP assumes the operator is signed in to the RingCentral Admin Portal and can navigate to a specific call queue. For sign-in and navigation instructions, see CS02 (RingCentral Admin Portal Reference).</p>
+<p>This SOP assumes the operator is signed in to the RingCentral Admin Portal and can navigate to a specific call queue. For sign-in and navigation instructions, see <a href="CS02.html">CS02</a> (RingCentral Admin Portal Reference).</p>
 <p>The operator must have appropriate manager access to the queue being modified — see Authorization below.</p>
 <h2>Related Documents</h2>
-<p>RingCentral Admin Portal: https://service.ringcentral.com</p>
-<p>RingCentral Custom Answering Rules — official setup guide: https://support.ringcentral.com/content/dam/support/us/en/pdf/get-started/v2/RCA_Setting_Up_Custom_Answering_Rules_For_Your_Extension.pdf</p>
-<p>RingCentral Call Queue Call Handling — developer documentation: https://developers.ringcentral.com/guide/voice/call-routing/manual/callqueue-answering-rules</p>
-<p>CS02 — RingCentral Admin Portal Reference</p>
-<p>CS04 — Queue Routing and Wait Settings (After hours tab is the fallback when no Custom rule matches)</p>
-<p>CS08 — Custom Inbound Routing Rules on User DIDs</p>
-<p>RingCentral Custom Answering Rules support documentation: https://support.ringcentral.com/content/dam/support/us/en/pdf/get-started/v2/RCA_Setting_Up_Custom_Answering_Rules_For_Your_Extension.pdf</p>
-<p>RingCentral Call Queue Call Handling developer documentation: https://developers.ringcentral.com/guide/voice/call-routing/manual/callqueue-answering-rules</p>
+<p>RingCentral Admin Portal: <a href="https://service.ringcentral.com" target="_blank" rel="noopener">https://service.ringcentral.com</a></p>
+<p>RingCentral Custom Answering Rules — official setup guide: <a href="https://support.ringcentral.com/content/dam/support/us/en/pdf/get-started/v2/RCA_Setting_Up_Custom_Answering_Rules_For_Your_Extension.pdf" target="_blank" rel="noopener">https://support.ringcentral.com/content/dam/support/us/en/pdf/get-started/v2/RCA_Setting_Up_Custom_Answering_Rules_For_Your_Extension.pdf</a></p>
+<p>RingCentral Call Queue Call Handling — developer documentation: <a href="https://developers.ringcentral.com/guide/voice/call-routing/manual/callqueue-answering-rules" target="_blank" rel="noopener">https://developers.ringcentral.com/guide/voice/call-routing/manual/callqueue-answering-rules</a></p>
+<p><a href="CS02.html">CS02</a> — RingCentral Admin Portal Reference</p>
+<p><a href="CS04.html">CS04</a> — Queue Routing and Wait Settings (After hours tab is the fallback when no Custom rule matches)</p>
+<p><a href="CS08.html">CS08</a> — Custom Inbound Routing Rules on User DIDs</p>
+<p>RingCentral Custom Answering Rules support documentation: <a href="https://support.ringcentral.com/content/dam/support/us/en/pdf/get-started/v2/RCA_Setting_Up_Custom_Answering_Rules_For_Your_Extension.pdf" target="_blank" rel="noopener">https://support.ringcentral.com/content/dam/support/us/en/pdf/get-started/v2/RCA_Setting_Up_Custom_Answering_Rules_For_Your_Extension.pdf</a></p>
+<p>RingCentral Call Queue Call Handling developer documentation: <a href="https://developers.ringcentral.com/guide/voice/call-routing/manual/callqueue-answering-rules" target="_blank" rel="noopener">https://developers.ringcentral.com/guide/voice/call-routing/manual/callqueue-answering-rules</a></p>
 <p>Queue Change Log — RingCentral configuration history (maintained in shared drive)</p>
 <p>Custom Rules Tab Reference</p>
 <p>The Custom rules tab on a queue's Call Handling &amp; Members panel hosts the queue's complete custom-rule list. Above the list, a master &quot;Forward all queue calls&quot; toggle exists; if turned on, ALL calls bypass the rule list and forward to a configured destination — leave OFF unless an emergency office-wide diversion is needed.</p>

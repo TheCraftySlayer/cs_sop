@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Library Health · BernCo Assessor SOPs</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@font-face { font-family: 'Gotham Display'; src: url('../fonts/Gotham-Black.otf') format('opentype'); font-weight: 900; font-style: normal; font-display: swap; }
+:root {
+  --bosque:#285952; --bosque-dark:#1d4640; --cypress:#013942; --terracotta:#e47756;
+  --mist:#e8f1ee; --mist-soft:#f4f8f6; --paper:#faf8f4; --ink:#1a2620;
+  --line:#cfd8d3; --muted:#5a6b65;
+  --critical:#a3361a; --critical-bg:#fbe7df;
+  --warn:#b58a3b; --warn-bg:#f7eecf;
+  --ok:#1d6a4a; --ok-bg:#dff0e9;
+}
+* { box-sizing:border-box; }
+html, body { margin:0; padding:0; font-family:"Montserrat",system-ui,sans-serif; color:var(--ink); background:var(--mist-soft); line-height:1.55; -webkit-font-smoothing:antialiased; }
+.top-bar { background:var(--paper); border-bottom:2px solid var(--line); padding:16px 56px; display:flex; align-items:center; gap:24px; position:sticky; top:0; z-index:10; }
+.top-bar img.logo { height:56px; }
+.top-bar .crumb { padding-left:24px; border-left:1px solid var(--line); font-size:12px; font-weight:600; color:var(--muted); letter-spacing:0.18em; text-transform:uppercase; line-height:1.6; }
+.top-bar .crumb b { color:var(--cypress); }
+.top-bar .actions { margin-left:auto; display:flex; gap:10px; flex-wrap:wrap; }
+.top-bar .action { display:inline-flex; align-items:center; gap:7px; padding:9px 14px; font-size:12.5px; font-weight:600; text-decoration:none; border-radius:999px; background:transparent; color:var(--cypress); border:1px solid var(--line); cursor:pointer; font-family:inherit; }
+.top-bar .action.primary { background:var(--bosque); color:var(--paper); border-color:var(--bosque); }
+.top-bar .action:hover { background:var(--mist); border-color:var(--cypress); }
+
+.sheet { max-width:1320px; margin:36px auto 60px; padding:0 40px; }
+
+.banner { background:var(--cypress); color:var(--paper); border-radius:14px; padding:32px 40px; position:relative; overflow:hidden; margin-bottom:24px; }
+.banner::before { content:''; position:absolute; right:-160px; top:-160px; width:440px; height:440px; border-radius:50%; background:var(--terracotta); opacity:0.16; pointer-events:none; }
+.banner .eyebrow { font-size:11px; font-weight:700; color:var(--terracotta); letter-spacing:0.24em; text-transform:uppercase; margin-bottom:12px; position:relative; }
+.banner h1 { font-family:"Gotham Display","Montserrat",sans-serif; font-size:46px; font-weight:900; line-height:1; letter-spacing:-0.02em; text-transform:uppercase; margin:0 0 10px; position:relative; }
+.banner p { font-size:15.5px; opacity:0.9; max-width:780px; margin:0; line-height:1.5; position:relative; }
+.banner code { font-family:'JetBrains Mono',ui-monospace,monospace; background:rgba(255,255,255,0.12); padding:1px 6px; border-radius:4px; font-size:13px; }
+
+.summary { display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:12px; margin-bottom:22px; }
+.summary .stat { background:var(--paper); border:1px solid var(--line); border-radius:10px; padding:18px 20px; }
+.summary .stat .k { font-size:10.5px; font-weight:700; color:var(--terracotta); letter-spacing:0.16em; text-transform:uppercase; margin-bottom:8px; }
+.summary .stat .v { font-family:"Gotham Display",sans-serif; font-size:36px; font-weight:900; color:var(--bosque); letter-spacing:-0.02em; line-height:1; }
+.summary .stat .v.warn { color:var(--warn); }
+.summary .stat .v.crit { color:var(--critical); }
+.summary .stat .v.ok { color:var(--ok); }
+.summary .stat .sub { font-size:11px; color:var(--muted); margin-top:6px; }
+
+.section-card { background:var(--paper); border:1px solid var(--line); border-radius:14px; padding:24px 28px; margin-bottom:22px; box-shadow:0 2px 10px rgba(15,30,27,0.04); }
+.section-card.warn { border-left:4px solid var(--warn); }
+.section-card.crit { border-left:4px solid var(--critical); }
+.section-card.ok { border-left:4px solid var(--ok); }
+.section-card .head { display:flex; align-items:center; gap:14px; margin-bottom:6px; }
+.section-card h2 { font-family:"Gotham Display","Montserrat",sans-serif; font-size:18px; font-weight:900; color:var(--bosque); text-transform:uppercase; letter-spacing:-0.005em; margin:0; line-height:1.15; }
+.section-card .count { font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:700; padding:3px 10px; border-radius:999px; background:var(--mist); color:var(--cypress); }
+.section-card.warn .count { background:var(--warn-bg); color:#7a5a1f; }
+.section-card.crit .count { background:var(--critical-bg); color:var(--critical); }
+.section-card.ok .count { background:var(--ok-bg); color:var(--ok); }
+.section-card .lede { font-size:13.5px; color:var(--muted); margin:0 0 14px; line-height:1.5; }
+.section-card .empty { font-size:13.5px; color:var(--ok); font-style:italic; padding:8px 0; }
+.section-card .empty::before { content:'✓ '; font-style:normal; font-weight:700; }
+.section-card .issue-list { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:6px; }
+.section-card .issue-list li { padding:8px 12px; background:var(--mist-soft); border:1px solid var(--line); border-radius:6px; font-size:13.5px; line-height:1.5; }
+.section-card .issue-list li code { font-family:'JetBrains Mono',monospace; font-weight:700; background:var(--paper); padding:1px 6px; border-radius:3px; color:var(--cypress); font-size:12.5px; }
+.section-card .issue-list li b { color:var(--cypress); }
+
+.health-table { width:100%; border-collapse:collapse; font-size:13px; }
+.health-table th { text-align:left; padding:10px 12px; font-size:10.5px; font-weight:700; color:var(--muted); letter-spacing:0.14em; text-transform:uppercase; border-bottom:1px solid var(--line); background:var(--mist-soft); position:sticky; top:88px; }
+.health-table td { padding:10px 12px; border-bottom:1px solid var(--line); vertical-align:middle; }
+.health-table td.code { font-family:'JetBrains Mono',monospace; font-weight:700; color:var(--cypress); }
+.health-table td.title { color:var(--cypress); }
+.health-table tr:last-child td { border-bottom:0; }
+.health-table .pill { display:inline-flex; align-items:center; gap:5px; padding:2px 9px; border-radius:999px; font-size:10.5px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; }
+.health-table .pill.ok { background:var(--ok-bg); color:var(--ok); }
+.health-table .pill.warn { background:var(--warn-bg); color:#7a5a1f; }
+.health-table .pill.crit { background:var(--critical-bg); color:var(--critical); }
+.health-table .pill.muted { background:var(--mist); color:var(--muted); }
+.health-table .n { text-align:right; font-variant-numeric:tabular-nums; }
+
+a.gid { color:var(--cypress); text-decoration:none; border-bottom:1px solid rgba(40,89,82,0.3); }
+a.gid:hover { color:var(--terracotta); border-color:var(--terracotta); }
+
+@media print {
+  body { background:white; }
+  .top-bar { display:none; }
+  .sheet { padding:0; margin:0; max-width:none; }
+  .section-card { break-inside:avoid; }
+}
+</style>
+</head>
+<body>
+<header class="top-bar">
+  <img src="../assets/bernco-assessor-logo.png" alt="BernCo County Assessor" class="logo">
+  <div class="crumb"><b>System</b><br>Library Health</div>
+  <div class="actions">
+    <a class="action" href="../index.html">← Library</a>
+    <a class="action" href="../MAINTAINERS.md" target="_blank">Maintainers guide</a>
+    <a class="action" href="flow.html">Flow</a>
+    <a class="action" href="notify.html">Notify · AIO</a>
+    <a class="action" href="notify-cs.html">Notify · CS</a>
+    <a class="action" href="dashboard.html">Progress</a>
+    <a class="action" href="../sops/AIO07_request_log.html">IPRA Log</a>
+    <button class="action primary" onclick="window.print()" style="border:0; font-family:inherit; cursor:pointer;">Print / Save PDF</button>
+  </div>
+</header>
+
+<main class="sheet">
+
+  <section class="banner">
+    <div class="eyebrow">Maintenance dashboard</div>
+    <h1>Library Health</h1>
+    <p>Lints <code>lib/sop-data.js</code> against every part of the library that consumes it. Fix anything red, refresh to re-check. <a href="../MAINTAINERS.md" target="_blank" style="color:var(--terracotta); border-bottom:1px solid var(--terracotta);">Maintainers guide</a> &middot; <a href="../changelog.html" style="color:var(--terracotta); border-bottom:1px solid var(--terracotta);">Changelog</a></p>
+  </section>
+
+  <div class="summary" id="summary"></div>
+
+  <div id="checks"></div>
+
+  <section class="section-card">
+    <div class="head"><h2>Per-SOP inventory</h2><span class="count" id="inv-count">—</span></div>
+    <p class="lede">Every SOP in <code>SOPS</code> and how it shows up across the library. Click an ID to open the page.</p>
+    <div style="overflow-x:auto;">
+      <table class="health-table" id="inv-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Section</th>
+            <th>Video</th>
+            <th class="n">In path</th>
+            <th class="n">RELATED in</th>
+            <th class="n">RELATED out</th>
+            <th class="n">Glossary</th>
+            <th class="n">Triage</th>
+            <th class="n">Changes</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<script src="../lib/sop-data.js"></script>
+<script>
+(function () {
+  const { SOPS, SECTIONS, ONBOARDING, RELATED, CHANGELOG, TRIAGE, ESCALATIONS, GLOSSARY } = window.SOP_LIB;
+  const allIds = Object.keys(SOPS);
+  const sectionIds = SECTIONS.map(s => s.id);
+
+  // ───── Lint checks ─────
+  const checks = [];
+
+  // 1. SOPs in SOPS whose section doesn't match any SECTIONS[].id
+  {
+    const orphaned = allIds.filter(id => !sectionIds.includes(SOPS[id].section));
+    checks.push({
+      key: 'section-orphan',
+      title: 'SOPs assigned to a section that doesn\'t exist',
+      lede: 'Every SOPs[id].section must match an entry in SECTIONS — otherwise the card won\'t render on the index.',
+      items: orphaned.map(id => `<code>${id}</code> &rarr; section <code>${SOPS[id].section}</code> not in SECTIONS`),
+      severity: orphaned.length ? 'crit' : 'ok'
+    });
+  }
+
+  // 2. Asymmetric RELATED pairs (A→B exists but B→A does not)
+  {
+    const asym = [];
+    Object.keys(RELATED).forEach(a => {
+      RELATED[a].forEach(r => {
+        if (!SOPS[r.id]) return; // covered by check 3
+        const back = RELATED[r.id] || [];
+        if (!back.some(x => x.id === a)) {
+          asym.push({ from: a, to: r.id });
+        }
+      });
+    });
+    checks.push({
+      key: 'related-asym',
+      title: 'Asymmetric RELATED pairs',
+      lede: 'When SOP A lists B as related, B should typically list A back. The related-footer feels lopsided otherwise.',
+      items: asym.map(p => `<code>${p.from}</code> &rarr; <code>${p.to}</code> exists, but <code>${p.to}</code> does not list <code>${p.from}</code>`),
+      severity: asym.length ? 'warn' : 'ok'
+    });
+  }
+
+  // 3. Dead RELATED references
+  {
+    const dead = [];
+    Object.keys(RELATED).forEach(a => {
+      RELATED[a].forEach(r => { if (!SOPS[r.id]) dead.push({ from: a, to: r.id }); });
+    });
+    checks.push({
+      key: 'related-dead',
+      title: 'RELATED entries pointing at SOPs that don\'t exist',
+      lede: 'These would render as broken links in the related-footer on each SOP page.',
+      items: dead.map(p => `<code>${p.from}</code> &rarr; <code>${p.to}</code> (no such SOP)`),
+      severity: dead.length ? 'crit' : 'ok'
+    });
+  }
+
+  // 4. SOPs not reachable from triage (no node has a sop: pointing at it)
+  {
+    const reachable = new Set();
+    Object.values(TRIAGE).forEach(node => {
+      (node.options || []).forEach(opt => { if (opt.sop) reachable.add(opt.sop); });
+    });
+    const unreachable = allIds.filter(id => !reachable.has(id) && !SOPS[id].docOnly); // docOnly refs are often skipped
+    // also flag docOnly that aren't reachable as info only
+    const unreachableNonDoc = allIds.filter(id => !reachable.has(id) && !SOPS[id].docOnly);
+    const unreachableDoc = allIds.filter(id => !reachable.has(id) && SOPS[id].docOnly);
+    checks.push({
+      key: 'triage-unreachable',
+      title: 'SOPs unreachable from the Triage decision tree',
+      lede: 'A caller asking "what about X" should be able to land on every SOP. Doc-only reference SOPs are often intentionally skipped — that\'s noted but not flagged.',
+      items: [
+        ...unreachableNonDoc.map(id => `<code>${id}</code> &middot; ${SOPS[id].title}`),
+        ...(unreachableDoc.length ? [`<em style="color:var(--muted);">Doc-only (often intentional): ${unreachableDoc.map(id => `<code>${id}</code>`).join(', ')}</em>`] : [])
+      ],
+      severity: unreachableNonDoc.length ? 'warn' : 'ok'
+    });
+  }
+
+  // 5. SOPs not in any onboarding path
+  {
+    const inPath = new Set();
+    Object.values(ONBOARDING).forEach(p => (p.steps || []).forEach(s => inPath.add(s.id)));
+    const orphans = allIds.filter(id => !inPath.has(id));
+    checks.push({
+      key: 'onboarding-missing',
+      title: 'SOPs not in any onboarding path',
+      lede: 'A new hire on the relevant track should encounter the SOP somewhere in the recommended sequence. Reference docs are often intentionally omitted.',
+      items: orphans.map(id => `<code>${id}</code> &middot; ${SOPS[id].title}`),
+      severity: orphans.length > Math.ceil(allIds.length * 0.4) ? 'warn' : 'ok'
+    });
+  }
+
+  // 6. Stale changelog: SOPs with no entry in the last year
+  {
+    const yearAgo = new Date(); yearAgo.setFullYear(yearAgo.getFullYear() - 1);
+    const yearAgoISO = yearAgo.toISOString().slice(0, 10);
+    const recentlyLogged = new Set();
+    CHANGELOG.forEach(e => { if (e.date >= yearAgoISO) recentlyLogged.add(e.sop); });
+    const stale = allIds.filter(id => !recentlyLogged.has(id));
+    checks.push({
+      key: 'stale',
+      title: 'SOPs with no changelog entry in the last 12 months',
+      lede: 'Not necessarily a problem — but if a procedure hasn\'t been touched in a year, it\'s worth a fresh-eyes review.',
+      items: stale.map(id => `<code>${id}</code> &middot; ${SOPS[id].title}`),
+      severity: stale.length > Math.ceil(allIds.length * 0.7) ? 'warn' : 'ok'
+    });
+  }
+
+  // 7. Glossary terms referencing SOPs that don't exist
+  {
+    const bad = [];
+    GLOSSARY.forEach(t => (t.sops || []).forEach(id => { if (!SOPS[id]) bad.push({ term: t.term, id }); }));
+    checks.push({
+      key: 'glossary-dead',
+      title: 'Glossary terms pointing at SOPs that don\'t exist',
+      lede: 'The chip would render as a broken link.',
+      items: bad.map(p => `<b>${p.term}</b> &rarr; <code>${p.id}</code>`),
+      severity: bad.length ? 'crit' : 'ok'
+    });
+  }
+
+  // 8. Changelog entries referencing SOPs that don't exist
+  {
+    const bad = CHANGELOG.filter(e => !SOPS[e.sop]);
+    checks.push({
+      key: 'changelog-dead',
+      title: 'Changelog entries for SOPs that don\'t exist',
+      lede: 'Entries on the home strip and changelog page that go nowhere.',
+      items: bad.map(e => `<code>${e.sop}</code> &middot; ${e.date} &middot; ${e.summary}`),
+      severity: bad.length ? 'crit' : 'ok'
+    });
+  }
+
+  // 9. Triage SOP targets that don't exist
+  {
+    const bad = [];
+    Object.entries(TRIAGE).forEach(([nodeId, node]) => {
+      (node.options || []).forEach(opt => { if (opt.sop && !SOPS[opt.sop]) bad.push({ node: nodeId, sop: opt.sop }); });
+    });
+    checks.push({
+      key: 'triage-dead',
+      title: 'Triage paths pointing at SOPs that don\'t exist',
+      lede: 'Would dead-end a caller looking for help.',
+      items: bad.map(b => `Node <code>${b.node}</code> &rarr; <code>${b.sop}</code>`),
+      severity: bad.length ? 'crit' : 'ok'
+    });
+  }
+
+  // 10. Triage `go` targets that don't exist
+  {
+    const bad = [];
+    Object.entries(TRIAGE).forEach(([nodeId, node]) => {
+      (node.options || []).forEach(opt => { if (opt.go && !TRIAGE[opt.go]) bad.push({ node: nodeId, go: opt.go }); });
+    });
+    checks.push({
+      key: 'triage-go-dead',
+      title: 'Triage branches pointing at nodes that don\'t exist',
+      lede: 'Would freeze the wizard mid-flow.',
+      items: bad.map(b => `Node <code>${b.node}</code> &rarr; go: <code>${b.go}</code>`),
+      severity: bad.length ? 'crit' : 'ok'
+    });
+  }
+
+  // 11. Triage escalate targets that don't exist
+  {
+    const bad = [];
+    Object.entries(TRIAGE).forEach(([nodeId, node]) => {
+      (node.options || []).forEach(opt => { if (opt.escalate && !ESCALATIONS[opt.escalate]) bad.push({ node: nodeId, esc: opt.escalate }); });
+    });
+    checks.push({
+      key: 'esc-dead',
+      title: 'Triage escalations pointing at undefined ESCALATIONS keys',
+      lede: 'The escalation result page would render empty.',
+      items: bad.map(b => `Node <code>${b.node}</code> &rarr; escalate: <code>${b.esc}</code>`),
+      severity: bad.length ? 'crit' : 'ok'
+    });
+  }
+
+  // ───── Render summary ─────
+  const allOk = checks.every(c => c.severity === 'ok');
+  const critCount = checks.filter(c => c.severity === 'crit').length;
+  const warnCount = checks.filter(c => c.severity === 'warn').length;
+  const okCount = checks.filter(c => c.severity === 'ok').length;
+
+  document.getElementById('summary').innerHTML = `
+    <div class="stat"><div class="k">Total SOPs</div><div class="v">${allIds.length}</div><div class="sub">across ${sectionIds.length} sections</div></div>
+    <div class="stat"><div class="k">Critical</div><div class="v ${critCount ? 'crit' : 'ok'}">${critCount}</div><div class="sub">checks failing</div></div>
+    <div class="stat"><div class="k">Warnings</div><div class="v ${warnCount ? 'warn' : 'ok'}">${warnCount}</div><div class="sub">drift to review</div></div>
+    <div class="stat"><div class="k">Passing</div><div class="v ok">${okCount}</div><div class="sub">of ${checks.length} checks</div></div>
+    <div class="stat"><div class="k">Last changelog</div><div class="v" style="font-size:18px; padding-top:6px;">${CHANGELOG[0]?.date || '—'}</div><div class="sub">${CHANGELOG[0]?.sop || ''}</div></div>
+  `;
+
+  // ───── Render checks ─────
+  const sevOrder = { crit: 0, warn: 1, ok: 2 };
+  checks.sort((a, b) => sevOrder[a.severity] - sevOrder[b.severity]);
+  document.getElementById('checks').innerHTML = checks.map(c => `
+    <section class="section-card ${c.severity}">
+      <div class="head">
+        <h2>${c.title}</h2>
+        <span class="count">${c.items.length}</span>
+      </div>
+      <p class="lede">${c.lede}</p>
+      ${c.items.length === 0
+        ? `<div class="empty">All clear</div>`
+        : `<ul class="issue-list">${c.items.map(i => `<li>${i}</li>`).join('')}</ul>`}
+    </section>
+  `).join('');
+
+  // ───── Per-SOP inventory table ─────
+  const inPathBy = {};
+  Object.entries(ONBOARDING).forEach(([k, p]) => (p.steps || []).forEach(s => {
+    if (!inPathBy[s.id]) inPathBy[s.id] = [];
+    inPathBy[s.id].push(k);
+  }));
+  const relatedInCount = {};
+  Object.entries(RELATED).forEach(([a, refs]) => refs.forEach(r => {
+    relatedInCount[r.id] = (relatedInCount[r.id] || 0) + 1;
+  }));
+  const glossaryByCount = {};
+  GLOSSARY.forEach(t => (t.sops || []).forEach(id => { glossaryByCount[id] = (glossaryByCount[id] || 0) + 1; }));
+  const triageReachable = new Set();
+  Object.values(TRIAGE).forEach(node => (node.options || []).forEach(opt => { if (opt.sop) triageReachable.add(opt.sop); }));
+  const changesBy = {};
+  CHANGELOG.forEach(e => { changesBy[e.sop] = (changesBy[e.sop] || 0) + 1; });
+
+  const rows = allIds.map(id => {
+    const s = SOPS[id];
+    const section = SECTIONS.find(x => x.id === s.section)?.title || `<span class="pill crit">${s.section}?</span>`;
+    const video = s.watch ? `<span class="pill ok">${s.dur}</span>` : `<span class="pill muted">doc only</span>`;
+    const inPath = inPathBy[id] ? `<span class="pill ok">${inPathBy[id].join(', ')}</span>` : `<span class="pill muted">—</span>`;
+    const relIn = relatedInCount[id] || 0;
+    const relOut = (RELATED[id] || []).length;
+    const gloss = glossaryByCount[id] || 0;
+    const triage = triageReachable.has(id) ? `<span class="pill ok">✓</span>` : `<span class="pill warn">—</span>`;
+    const changes = changesBy[id] || 0;
+    return `<tr>
+      <td class="code"><a class="gid" href="../sops/${id}.html">${id}</a></td>
+      <td class="title">${s.title}</td>
+      <td>${section}</td>
+      <td>${video}</td>
+      <td>${inPath}</td>
+      <td class="n">${relIn}</td>
+      <td class="n">${relOut}</td>
+      <td class="n">${gloss}</td>
+      <td>${triage}</td>
+      <td class="n">${changes}</td>
+    </tr>`;
+  }).join('');
+  document.querySelector('#inv-table tbody').innerHTML = rows;
+  document.getElementById('inv-count').textContent = allIds.length;
+})();
+</script>
+
+</body>
+</html>

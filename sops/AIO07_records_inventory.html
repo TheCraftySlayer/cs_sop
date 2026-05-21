@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AIO07 · A.C.E. Records Inventory · BernCo Assessor</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@font-face { font-family: 'Gotham Display'; src: url('../fonts/Gotham-Black.otf') format('opentype'); font-weight: 900; font-style: normal; font-display: swap; }
+:root { --bosque:#285952; --bosque-dark:#1d4640; --cypress:#013942; --terracotta:#e47756; --mist:#e8f1ee; --mist-soft:#f4f8f6; --paper:#faf8f4; --ink:#1a2620; --line:#cfd8d3; --muted:#5a6b65; --critical:#a3361a; --warn:#b58a3b; --warn-bg:#f7eecf; --ok:#1d6a4a; --ok-bg:#dff0e9; }
+* { box-sizing:border-box; }
+html, body { margin:0; padding:0; font-family:"Montserrat",system-ui,sans-serif; color:var(--ink); background:var(--mist-soft); line-height:1.5; -webkit-font-smoothing:antialiased; }
+.top-bar { background:var(--paper); border-bottom:2px solid var(--line); padding:16px 56px; display:flex; align-items:center; gap:24px; position:sticky; top:0; z-index:10; }
+.top-bar img.logo { height:56px; }
+.top-bar .crumb { padding-left:24px; border-left:1px solid var(--line); font-size:12px; font-weight:600; color:var(--muted); letter-spacing:0.18em; text-transform:uppercase; line-height:1.6; }
+.top-bar .crumb b { color:var(--cypress); }
+.top-bar .actions { margin-left:auto; display:flex; gap:10px; flex-wrap:wrap; }
+.top-bar .action { display:inline-flex; align-items:center; gap:8px; padding:9px 16px; font-size:13px; font-weight:600; text-decoration:none; border-radius:999px; background:transparent; color:var(--cypress); border:1px solid var(--line); cursor:pointer; font-family:inherit; }
+.top-bar .action.primary { background:var(--bosque); color:var(--paper); border-color:var(--bosque); }
+.top-bar .action:hover { background:var(--mist); border-color:var(--cypress); }
+main { max-width:1320px; margin:36px auto 60px; padding:0 40px; }
+.banner { background:var(--bosque); color:var(--paper); border-radius:14px; padding:32px 40px; position:relative; overflow:hidden; margin-bottom:22px; }
+.banner::before { content:''; position:absolute; right:-160px; top:-160px; width:440px; height:440px; border-radius:50%; background:var(--terracotta); opacity:0.18; pointer-events:none; }
+.banner .eyebrow { font-size:11px; font-weight:700; color:var(--terracotta); letter-spacing:0.24em; text-transform:uppercase; margin-bottom:12px; position:relative; }
+.banner h1 { font-family:"Gotham Display","Montserrat",sans-serif; font-size:46px; font-weight:900; line-height:0.98; letter-spacing:-0.02em; text-transform:uppercase; margin:0 0 10px; position:relative; }
+.banner p { font-size:15.5px; opacity:0.92; max-width:820px; margin:0; line-height:1.5; position:relative; }
+.banner a.sop-link { color:var(--terracotta); text-decoration:underline; text-underline-offset:3px; font-weight:600; }
+
+.summary { display:grid; grid-template-columns:repeat(auto-fit, minmax(170px, 1fr)); gap:12px; margin-bottom:22px; }
+.summary .stat { background:var(--paper); border:1px solid var(--line); border-radius:10px; padding:16px 18px; }
+.summary .stat .k { font-size:10.5px; font-weight:700; color:var(--terracotta); letter-spacing:0.16em; text-transform:uppercase; margin-bottom:6px; }
+.summary .stat .v { font-family:"Gotham Display",sans-serif; font-size:32px; font-weight:900; color:var(--bosque); letter-spacing:-0.02em; line-height:1; }
+.summary .stat .sub { font-size:11px; font-weight:600; color:var(--muted); margin-top:4px; }
+.summary .stat.warn .v { color:var(--warn); }
+.summary .stat.crit .v { color:var(--critical); }
+
+.toolbar { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin:0 0 14px; }
+.toolbar button { appearance:none; font-family:inherit; cursor:pointer; padding:10px 16px; border-radius:999px; font-size:12px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; transition:all 180ms cubic-bezier(0.4,0,0.2,1); border:1px solid var(--line); background:var(--paper); color:var(--cypress); }
+.toolbar button:hover { border-color:var(--bosque); color:var(--bosque); background:var(--mist); }
+.toolbar button.primary { background:var(--terracotta); color:var(--paper); border-color:var(--terracotta); }
+.toolbar button.primary:hover { background:#c95f3f; }
+.toolbar .filler { flex:1; }
+.toolbar .saved-state { font-size:11px; font-weight:700; color:var(--muted); letter-spacing:0.16em; text-transform:uppercase; }
+.toolbar .saved-state.flash { color:var(--bosque); }
+
+.matrix { background:var(--paper); border:1px solid var(--line); border-radius:14px; overflow:hidden; box-shadow:0 4px 14px rgba(15,30,27,0.04); }
+.matrix table { width:100%; border-collapse:collapse; }
+.matrix thead th { background:var(--cypress); color:var(--paper); text-align:left; padding:14px 14px; font-size:10.5px; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; }
+.matrix tbody td { padding:14px 14px; border-bottom:1px solid var(--line); vertical-align:top; font-size:13.5px; line-height:1.5; }
+.matrix tbody tr:last-child td { border-bottom:0; }
+.matrix tbody tr.subhead td { background:var(--mist-soft); padding:10px 14px; font-family:"Gotham Display","Montserrat",sans-serif; font-size:12px; font-weight:900; color:var(--terracotta); letter-spacing:0.18em; text-transform:uppercase; }
+.matrix tbody td .category { font-weight:700; color:var(--cypress); font-size:14px; margin-bottom:2px; }
+.matrix tbody td .cat-note { font-size:11.5px; color:var(--muted); line-height:1.4; }
+.matrix tbody td input[type=text] { width:100%; padding:7px 9px; font-family:inherit; font-size:13px; color:var(--ink); background:var(--paper); border:1px solid var(--line); border-radius:5px; transition:border-color 160ms; }
+.matrix tbody td input[type=text]:focus { outline:none; border-color:var(--bosque); }
+.matrix tbody td input[type=text].mono { font-family:'JetBrains Mono',ui-monospace,monospace; font-size:12px; }
+.matrix tbody td select { width:100%; padding:7px 9px; font-family:inherit; font-size:13px; border:1px solid var(--line); border-radius:5px; background:var(--paper); color:var(--ink); }
+.matrix tbody td select:focus { outline:none; border-color:var(--bosque); }
+.matrix tbody td .status { display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:999px; font-size:11px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; }
+.matrix tbody td .status.confirmed { background:var(--ok-bg); color:var(--ok); }
+.matrix tbody td .status.partial { background:var(--warn-bg); color:var(--warn); }
+.matrix tbody td .status.gap { background:#fbe7df; color:var(--critical); }
+.matrix tbody td .status.unset { background:var(--mist); color:var(--muted); }
+.matrix tbody td .pill-trigger { background:transparent; border:0; padding:0; font-family:inherit; cursor:pointer; }
+.col-cat { width:24%; }
+.col-origin { width:14%; }
+.col-archive { width:16%; }
+.col-lgrrds { width:14%; }
+.col-retention { width:11%; }
+.col-status { width:11%; }
+.col-act { width:6%; text-align:center; }
+
+.note-foot { margin-top:22px; background:var(--mist-soft); border:1px solid var(--line); border-left:4px solid var(--terracotta); border-radius:0 10px 10px 0; padding:18px 22px; font-size:14px; line-height:1.55; color:var(--cypress); }
+.note-foot strong { color:var(--bosque); }
+.note-foot code { font-family:'JetBrains Mono',ui-monospace,monospace; font-size:12.5px; background:var(--paper); padding:1px 6px; border-radius:3px; color:var(--cypress); }
+
+.del-btn { appearance:none; background:transparent; border:0; cursor:pointer; color:var(--muted); padding:6px; font-size:14px; }
+.del-btn:hover { color:var(--critical); }
+
+@media print {
+  body { background:white; }
+  .top-bar, .toolbar { display:none !important; }
+  .matrix { box-shadow:none; }
+  .matrix thead th { background:var(--cypress) !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .banner { background:var(--bosque) !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .matrix tbody td .status { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .matrix tbody tr.subhead td { background:var(--mist-soft) !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .matrix tbody td input, .matrix tbody td select { border:0; padding:0; background:transparent; }
+  .col-act, .del-btn { display:none !important; }
+  main { padding:0 12px; margin:0; max-width:none; }
+  @page { size: letter landscape; margin: 0.35in; }
+}
+</style>
+</head>
+<body>
+<header class="top-bar">
+  <img src="../assets/bernco-assessor-logo.png" alt="BernCo County Assessor" class="logo">
+  <div class="crumb"><b>SOP AIO07</b><br>Records Inventory worksheet</div>
+  <div class="actions">
+    <a class="action" href="../index.html">← Library</a>
+    <a class="action" href="AIO07.html">AIO07 source SOP</a>
+    <a class="action" href="AIO07_request_log.html">IPRA log →</a>
+    <button class="action primary" onclick="window.print()" style="border:0; font-family:inherit; cursor:pointer;">Print landscape</button>
+  </div>
+</header>
+
+<main>
+  <section class="banner">
+    <div class="eyebrow">AIO07 · Part A.1</div>
+    <h1>A.C.E. Records Inventory</h1>
+    <p>The list AIO07 Part A.1 requires the office to keep — every record category the agents produce, where it lives, where the office-controlled copy is archived, the assigned LGRRDS series, and the retention rule. Custodian-approved entries are the only ones that count when an <a class="sop-link" href="AIO07.html#part-b">IPRA request</a> lands.</p>
+  </section>
+
+  <div class="summary">
+    <div class="stat"><div class="k">Categories tracked</div><div class="v" id="stat-total">0</div><div class="sub">across AIO, BIO, channels &amp; baselines</div></div>
+    <div class="stat"><div class="k">LGRRDS mapped</div><div class="v" id="stat-mapped">0</div><div class="sub">custodian-approved series assigned</div></div>
+    <div class="stat warn"><div class="k">Partially mapped</div><div class="v" id="stat-partial">0</div><div class="sub">archive set, LGRRDS pending</div></div>
+    <div class="stat crit"><div class="k">Gaps</div><div class="v" id="stat-gaps">0</div><div class="sub">no archive or no LGRRDS</div></div>
+  </div>
+
+  <div class="toolbar">
+    <button class="primary" id="add-custom">+ Add custom category</button>
+    <button id="export-json">Export JSON</button>
+    <button id="import-json">Import JSON</button>
+    <input type="file" id="import-file" accept="application/json" style="display:none;">
+    <button id="reset">Reset to defaults</button>
+    <div class="filler"></div>
+    <span class="saved-state" id="saved-state">Saved locally</span>
+  </div>
+
+  <div class="matrix">
+    <table>
+      <thead>
+        <tr>
+          <th class="col-cat">Record category</th>
+          <th class="col-origin">System of origin</th>
+          <th class="col-archive">Office archive location</th>
+          <th class="col-lgrrds">LGRRDS series</th>
+          <th class="col-retention">Retention</th>
+          <th class="col-status">Status</th>
+          <th class="col-act"></th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+
+  <div class="note-foot">
+    <strong>Rule.</strong> Do not destroy any A.C.E. record without a custodian-approved disposition under the LGRRDS and <code>14-1-8 NMSA 1978</code>.
+    A.C.E. records have no dedicated LGRRDS series yet, so each mapping is a custodian decision documented here — not a unilateral one.
+    Review this inventory annually, after every <strong>AIO03</strong> or <strong>BIO01</strong> change that alters what data is produced, and whenever a vendor relationship changes.
+  </div>
+</main>
+
+<script>
+const STORAGE_KEY = 'aio07-records-inventory';
+
+const DEFAULTS = [
+  { group: 'Public A.C.E. (AIO track)' },
+  { id: 'a-conv',     category: 'Public chatbot conversation logs',         catNote: 'Prompts and responses from the public A.C.E. chatbot.',          origin: 'CustomGPT.ai · Analyze tab', archive: '', lgrrds: '', retention: '' },
+  { id: 'a-persona',  category: 'Persona & system-prompt files',            catNote: 'Identity, tone, boundaries. Snapshot every change (AIO03).',     origin: 'CustomGPT.ai · Personalize', archive: '', lgrrds: '', retention: '' },
+  { id: 'a-config',   category: 'Configuration & Actions settings',         catNote: 'Per AIO06 baseline — model, sources, integrations.',             origin: 'CustomGPT.ai · Personalize / Actions', archive: '', lgrrds: '', retention: '' },
+  { id: 'a-kb',       category: 'Knowledge-base source documents',          catNote: 'Files indexed by A.C.E. — full audit trail per AIO03.',          origin: 'CustomGPT.ai · KB / Sources', archive: '', lgrrds: '', retention: '' },
+  { id: 'a-tele',     category: 'Telemetry — Missing Content & metrics',    catNote: 'Daily/weekly/monthly operational data (AIO01, AIO02, AIO04).',   origin: 'CustomGPT.ai · Analyze + Reports', archive: '', lgrrds: '', retention: '' },
+  { id: 'a-change',   category: 'Change logs (AIO03)',                      catNote: 'Every persona, KB, Action, or config change is logged here.',    origin: 'Office records share', archive: '', lgrrds: '', retention: '' },
+
+  { group: 'Internal agents (BIO track)' },
+  { id: 'b-compliance', category: 'Compliance Expert agent logs',           catNote: 'Internal use only. County Attorney sign-off on persona edits.',  origin: 'CustomGPT.ai · BIO instance', archive: '', lgrrds: '', retention: '' },
+  { id: 'b-paralegal',  category: 'Paralegal agent logs',                    catNote: 'May involve attorney-client privilege. Notify before release.',  origin: 'CustomGPT.ai · BIO instance', archive: '', lgrrds: '', retention: '' },
+  { id: 'b-onboarding', category: 'Onboarding agent logs',                   catNote: 'New-hire orientation conversations.',                             origin: 'CustomGPT.ai · BIO instance', archive: '', lgrrds: '', retention: '' },
+  { id: 'b-config',     category: 'Internal agent personas & configuration', catNote: 'Per BIO04 baseline.',                                             origin: 'CustomGPT.ai · BIO instances', archive: '', lgrrds: '', retention: '' },
+  { id: 'b-change',     category: 'Internal change logs (BIO01)',            catNote: 'Stricter review track than AIO03.',                               origin: 'Office records share', archive: '', lgrrds: '', retention: '' },
+
+  { group: 'Phone & email channels' },
+  { id: 'c-phone-rec', category: 'Phone call recordings',                   catNote: 'Audio captured by Bland AI for the A.C.E. phone channel.',       origin: 'Bland AI', archive: '', lgrrds: '', retention: '' },
+  { id: 'c-phone-trn', category: 'Phone call transcripts',                  catNote: 'Text transcripts paired with recordings.',                       origin: 'Bland AI', archive: '', lgrrds: '', retention: '' },
+  { id: 'c-email',     category: 'Email channel logs',                       catNote: 'Inbound and outbound A.C.E. email automation.',                  origin: 'Power Automate', archive: '', lgrrds: '', retention: '' }
+];
+
+function uid() { return 'c-' + Math.random().toString(36).slice(2, 9); }
+function load() {
+  try { const raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : null; } catch { return null; }
+}
+let saveTimer;
+function save(flash = true) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  if (flash) {
+    const el = document.getElementById('saved-state');
+    el.textContent = 'Saved ✓'; el.classList.add('flash');
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => { el.textContent = 'Saved locally'; el.classList.remove('flash'); }, 1400);
+  }
+}
+
+let data = load() || DEFAULTS.map(d => ({ ...d }));
+
+function statusOf(r) {
+  if (r.group) return null;
+  const hasArchive = (r.archive || '').trim().length > 0;
+  const hasLGRRDS = (r.lgrrds || '').trim().length > 0;
+  const hasRetention = (r.retention || '').trim().length > 0;
+  if (hasArchive && hasLGRRDS && hasRetention) return 'confirmed';
+  if (hasArchive || hasLGRRDS) return 'partial';
+  return 'gap';
+}
+
+function refreshSummary() {
+  const rows = data.filter(d => !d.group);
+  document.getElementById('stat-total').textContent = rows.length;
+  const conf = rows.filter(r => statusOf(r) === 'confirmed').length;
+  const part = rows.filter(r => statusOf(r) === 'partial').length;
+  const gap  = rows.filter(r => statusOf(r) === 'gap').length;
+  document.getElementById('stat-mapped').textContent = conf;
+  document.getElementById('stat-partial').textContent = part;
+  document.getElementById('stat-gaps').textContent = gap;
+}
+
+function escapeAttr(s) { return String(s ?? '').replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
+
+function statusLabel(s) {
+  if (s === 'confirmed') return '<span class="status confirmed">● Mapped</span>';
+  if (s === 'partial') return '<span class="status partial">● Partial</span>';
+  if (s === 'gap') return '<span class="status gap">● Gap</span>';
+  return '<span class="status unset">●</span>';
+}
+
+function render() {
+  const host = document.getElementById('rows');
+  host.innerHTML = data.map((r, i) => {
+    if (r.group) {
+      return `<tr class="subhead"><td colspan="7">${r.group}</td></tr>`;
+    }
+    return `<tr data-id="${r.id}">
+      <td class="col-cat">
+        <div class="category">${escapeAttr(r.category)}</div>
+        <div class="cat-note">${escapeAttr(r.catNote || '')}</div>
+      </td>
+      <td class="col-origin"><input type="text" data-field="origin" value="${escapeAttr(r.origin || '')}"></td>
+      <td class="col-archive"><input type="text" data-field="archive" placeholder="e.g. \\\\office\\share\\ACE\\logs\\" value="${escapeAttr(r.archive || '')}"></td>
+      <td class="col-lgrrds"><input type="text" class="mono" data-field="lgrrds" placeholder="e.g. LGRRDS-26.0" value="${escapeAttr(r.lgrrds || '')}"></td>
+      <td class="col-retention">
+        <select data-field="retention">
+          <option value="" ${!r.retention?'selected':''}>—</option>
+          <option ${r.retention==='AC+1'?'selected':''}>AC+1</option>
+          <option ${r.retention==='AC+2'?'selected':''}>AC+2</option>
+          <option ${r.retention==='AC+3'?'selected':''}>AC+3</option>
+          <option ${r.retention==='AC+5'?'selected':''}>AC+5</option>
+          <option ${r.retention==='AC+7'?'selected':''}>AC+7</option>
+          <option ${r.retention==='10y'?'selected':''}>10 years</option>
+          <option ${r.retention==='Permanent'?'selected':''}>Permanent</option>
+          <option ${r.retention==='Custodian TBD'?'selected':''}>Custodian TBD</option>
+        </select>
+      </td>
+      <td class="col-status">${statusLabel(statusOf(r))}</td>
+      <td class="col-act">${r.custom ? `<button class="del-btn" data-act="del" title="Remove">×</button>` : ''}</td>
+    </tr>`;
+  }).join('');
+  refreshSummary();
+  attachEvents();
+}
+
+function attachEvents() {
+  document.querySelectorAll('#rows tr[data-id]').forEach(tr => {
+    const id = tr.dataset.id;
+    const row = data.find(d => d.id === id);
+    if (!row) return;
+    tr.querySelectorAll('[data-field]').forEach(input => {
+      input.addEventListener('input', () => {
+        row[input.dataset.field] = input.value;
+        // Update status pill inline without full re-render to avoid losing focus on text fields.
+        const stCell = tr.querySelector('.col-status');
+        if (stCell) stCell.innerHTML = statusLabel(statusOf(row));
+        save();
+        refreshSummary();
+      });
+    });
+    tr.querySelector('[data-act="del"]')?.addEventListener('click', () => {
+      if (!confirm('Remove this custom row?')) return;
+      data = data.filter(d => d.id !== id);
+      save();
+      render();
+    });
+  });
+}
+
+document.getElementById('add-custom').addEventListener('click', () => {
+  const id = uid();
+  const newRow = { id, custom: true, category: 'New category', catNote: 'Custom — describe what this record is.', origin: '', archive: '', lgrrds: '', retention: '' };
+  data.push(newRow);
+  save();
+  render();
+  // focus the new row's category cell? It's read-only in display. Make it editable:
+  // Actually for simplicity, make custom rows' category & note inline-editable.
+  const tr = document.querySelector(`tr[data-id="${id}"]`);
+  if (tr) {
+    const cat = tr.querySelector('.col-cat');
+    if (cat) {
+      cat.innerHTML = `
+        <input type="text" data-field="category" value="${escapeAttr(newRow.category)}" style="font-weight:700; color:var(--cypress); margin-bottom:4px;">
+        <input type="text" data-field="catNote" value="${escapeAttr(newRow.catNote)}" placeholder="Short description" style="font-size:11.5px;">
+      `;
+      cat.querySelectorAll('[data-field]').forEach(input => {
+        input.addEventListener('input', () => { newRow[input.dataset.field] = input.value; save(); });
+      });
+    }
+  }
+});
+
+document.getElementById('reset').addEventListener('click', () => {
+  if (!confirm('Reset all rows to the AIO07-defined defaults? Custom rows and entered values will be lost.')) return;
+  data = DEFAULTS.map(d => ({ ...d }));
+  save();
+  render();
+});
+document.getElementById('export-json').addEventListener('click', () => {
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `AIO07-records-inventory-${new Date().toISOString().slice(0,10)}.json`; a.click();
+  URL.revokeObjectURL(url);
+});
+document.getElementById('import-json').addEventListener('click', () => document.getElementById('import-file').click());
+document.getElementById('import-file').addEventListener('change', async (e) => {
+  const file = e.target.files[0]; if (!file) return;
+  try {
+    const imported = JSON.parse(await file.text());
+    if (!Array.isArray(imported)) throw new Error('not an array');
+    if (!confirm(`Replace current inventory with ${imported.length} rows from file?`)) return;
+    data = imported; save(); render();
+  } catch (err) { alert('Could not parse JSON: ' + err.message); }
+  e.target.value = '';
+});
+
+render();
+</script>
+</body>
+</html>
