@@ -331,12 +331,7 @@ function Stage({
   persistKey = 'animstage',
   children,
 }) {
-  const [time, setTime] = React.useState(() => {
-    try {
-      const v = parseFloat(localStorage.getItem(persistKey + ':t') || '0');
-      return isFinite(v) ? clamp(v, 0, duration) : 0;
-    } catch { return 0; }
-  });
+  const [time, setTime] = React.useState(0);
   const [playing, setPlaying] = React.useState(autoplay);
   const [hoverTime, setHoverTime] = React.useState(null);
   const [scale, setScale] = React.useState(1);

@@ -1162,6 +1162,10 @@ function SOPVideo({ sopId, title, scenes }) {
     const time = useTime();
     const currentSceneIdx = timed.findIndex(s => time >= s.start && time < s.end);
     const localized = timed.map(s => localizeScene(s, lang));
+    const idx = currentSceneIdx === -1 ? timed.length - 1 : currentSceneIdx;
+    React.useEffect(() => {
+      try { window.parent && window.parent.postMessage({ slideIndexChanged: idx }, '*'); } catch {}
+    }, [idx]);
     return <BrandChrome
       sopId={sopId} title={title}
       scenes={localized}
