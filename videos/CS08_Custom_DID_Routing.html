@@ -4,6 +4,24 @@
 <meta charset="UTF-8">
 <title>CS08 · Custom Inbound Routing on Direct Phone Numbers · Animated SOP</title>
 <link rel="stylesheet" href="../lib/video.css">
+<script type="application/json" id="speaker-notes">
+[
+  "Route a user's number into the queue. CS08 fixes a specific asymmetry in the phone system — callers dialing the main switchboard go through the queue, but callers dialing an agent's direct line skip the queue and ring only that one person. One rule, one condition, one action collapses the two paths.",
+  "Two paths. Without this rule, callers dialing the main number reach the queue and everyone rings. Callers dialing an agent's direct line skip the queue entirely. That asymmetry — same person, different experience depending on which number was dialed — is what CS08 solves.",
+  "Three terms. User. Custom rule. DID — Direct Inward Dial, the agent's individual phone number. All three appear in every step of this SOP.",
+  "Two existing redirects as of last review. Established March 22, 2026 to collapse the two-pathway architecture for the office. Both route calls to specific staff direct lines into Q1.",
+  "The fix. One condition plus one action. Both required. Without the condition the rule catches every call to the user — almost never what you want. With the condition, only calls dialed to the agent's direct number trigger the redirect into the queue.",
+  "Destination — 160001. Not the queue's own phone number. RingCentral rejects forwarding rules that target a phone number on the same account. The destination is the queue's extension, not its public DID.",
+  "Setting up a new redirect. Five steps. Naming convention is 'Route Inbound to Switchboard.' Use the same name pattern every time so administrators can recognize and audit the rules at a glance.",
+  "Test from two phones. Both paths matter. Call the agent's direct number — verify it lands in the queue and rings the team. Call the main switchboard — verify normal queue behavior is unchanged.",
+  "Disable or delete. Disable first when in doubt. The rule is preserved but inactive. If the agent moves teams or roles change, disable while you reassess. Delete only when you're sure the rule won't be needed.",
+  "Authorization. These rules change where calls to a public number land — they can confuse callers if applied without coordination. Notify the agent, the queue manager, and IT before saving.",
+  "Log every change. Same fields as every other RingCentral change. Date and time. Rule name. Condition. Action. Approver. Reason.",
+  "Quiz one. Forwarding calls from an agent's direct number into Q1. The destination is the queue extension — 160001 — not the queue's public DID. Same-account public numbers are rejected by RingCentral.",
+  "Quiz two. The condition that turns a generic user rule into a direct-number redirect is Called Number. That's the condition that says 'only when this user's DID is dialed.'",
+  "One rule. One condition. One action. Established at our office for Diana Martinez and Melissa Vigil — both route directly to Q1. The pattern works for any switchboard agent. Count on us."
+]
+</script>
 </head>
 <body>
 <div id="root"></div>

@@ -4,6 +4,32 @@
 <meta charset="UTF-8">
 <title>CS05 · Holiday and Custom Rules · Animated SOP</title>
 <link rel="stylesheet" href="../lib/video.css">
+<script type="application/json" id="speaker-notes">
+[
+  "Holiday and Custom Rules. The queue's exception layer. Custom rules are evaluated before Work hours and After hours — anything matching here wins, period. That's why this SOP is its own thing: misconfigured custom rules silently override the schedule.",
+  "Two authorization tiers. Routine rule edits — adding a holiday, tweaking a recurring window — are CSM-approved. The Office Closed emergency switch and the master 'Forward all queue calls' toggle require Deputy or Assessor.",
+  "Three condition types. Combine any of them in a single rule. At least one is required. Date, Caller ID, and Called Number. For a holiday rule, you'll use Date. For per-DID handling, you'll combine Date and Called Number.",
+  "Six possible actions. Send to voicemail. Play and disconnect. Forward to extension. Forward to external number. Unconditional forwarding. Play message. Each radio button populates a different configuration panel on the right.",
+  "Where it lives. Call Handling and Members → Custom rules. A new queue starts empty — an explanation panel and a + Add Rule button.",
+  "What a working queue looks like. One row per rule. Each shows an Active toggle, Edit, and Delete. Validate Rules appears once at least one rule exists. Use that button after every change.",
+  "Step 1. Click + Add Rule. The wizard opens at Conditions. Three cards — check at least one. For a holiday, check Date. The card expands to reveal sub-mode selection.",
+  "Pick Specific Date Range for a holiday. Two radios appear. Weekly Schedule is for recurring rules like lunch closures. Specific Date Range is for one-time events. Set start and end of the closure.",
+  "Combine with Caller ID or Called Number. For a blanket holiday rule, leave the other two unchecked. For a country-code block or per-DID handling, expand them and add the values.",
+  "Caller ID expanded. Adds a Type Phone Number or Contact Name input with an Add button. You can stack multiple numbers, area codes, or country codes in one rule.",
+  "Call Handling. Pick one of six actions. Each radio populates a configuration panel on the right. Click Next once the action is set up.",
+  "Send to voicemail — the holiday default. Pick a custom greeting — record a holiday-specific one — and decide whether voicemail goes to this queue or another extension.",
+  "Play and disconnect. Plays a recording, then hangs up. The default greeting is the generic 'no one is available.' Always record a holiday-specific announcement before relying on this action.",
+  "Forward to another extension. For example, the A.C.E. chatbot extension. Click Select extension and pick the target. Useful for routing holiday traffic to the bot when humans are out.",
+  "Step 3. Name and save. Annual maintenance is way easier when names include the year. 'Memorial Day 2026.' 'Thanksgiving 2026.' When 2027 rolls around, search by year, update the dates, save.",
+  "Office Closed — the emergency switch. Pre-built rule. Normally OFF. Use only for unscheduled closures — snow days, building emergencies. Deputy or Assessor authorizes flipping it on.",
+  "January annual refresh. Holiday rules tied to specific dates do not auto-renew. Every January, walk the list and update each holiday rule's dates to the new year. Skip this and you'll find out in May when the Memorial Day rule doesn't fire.",
+  "Templates save the action and greeting. Two related template mechanisms exist in RingCentral. Useful when you want consistent handling across multiple holiday rules without re-recording the greeting.",
+  "Top toggle — OFF. 'Forward all queue calls' at the top of the Custom rules tab. If ON, all calls bypass the rule list and forward to a configured destination. Leave OFF unless an emergency office-wide diversion is needed.",
+  "Quiz one. A custom rule and the queue's Work hours both match a call. Which wins? The custom rule. Custom rules are evaluated first. A matching rule always wins.",
+  "Quiz two. Office unexpectedly closes for snow. Fastest right answer? Flip the Office Closed pre-built rule to ON, with Deputy or Assessor authorization. Don't build a new rule from scratch in an emergency.",
+  "Rules first. Schedule second. Custom rules are evaluated before Work hours and After hours — a matching rule always wins. Validate after every change. Count on us."
+]
+</script>
 </head>
 <body>
 <div id="root"></div>

@@ -4,6 +4,29 @@
 <meta charset="UTF-8">
 <title>AIO03 · Chatbot Change Management · Animated SOP</title>
 <link rel="stylesheet" href="../lib/video.css">
+<script type="application/json" id="speaker-notes">
+[
+  "Change management for A.C.E. Six steps, four change types, one pattern. The pattern is — source what you're changing to, screenshot what's there, save, test, publish, log. Every change. No exceptions.",
+  "The commit pattern. Save plus Publish. Most changes in CustomGPT require both — a Save on the tab where you edited, and a Publish from the top right that pushes to the live agent. Editing a field is not enough. Without both clicks, your change does not reach the public A.C.E.",
+  "Two clicks. Both required. If a change does not appear to take effect, this is almost always why. People edit, click around, walk away, and the public chatbot is unchanged. Always verify with the canary after Publish.",
+  "Universal rules. They apply to all four change types — Persona, KB file, Actions, Configuration. Before any change: source your authority — a statute citation, an Assessor directive, or a recurring weekly-review finding. Screenshot the current state. Make one change at a time. Test with the canary. Publish. Log.",
+  "Four change types. Persona is identity, tone, rules. KB file is uploading, replacing, or removing source documents. Actions is toggling agentic features. Configuration is everything under Personalize plus source management. Pick the one that matches what you're changing.",
+  "Section A. Persona change. Tone, identity, rules, boundaries. Every edit affects every conversation immediately on publish. Use this section only when a real change is required — not for typo fixes that should go in Configuration.",
+  "On the Personalize → Persona screen. Back up first by copying the current persona text. Edit surgically — change the smallest amount that solves the problem. Test three queries. Then publish. Three test queries because Persona regressions usually show up in unexpected adjacent topics, not the one you changed.",
+  "Section B. KB file change. Upload, replace, or remove a source document. About ten minutes per file once you account for re-indexing. KB changes commit on upload or delete — there's no separate Save click for the file itself.",
+  "Build → Sources → File Upload. Three operations. Replace updates an existing file. Add inserts a new one. Remove deletes an indexed source. Use the row's three-dot menu.",
+  "After the upload or delete, wait for re-indexing. Switch to the Documents tab. The Added column and the Available column have to both show 'Ok.' Usually two to five minutes. Don't test before that — you'll get inconsistent answers and not know whether the change actually applied.",
+  "Section C. Actions change. Toggling agentic features like Web Search, Document Analyst, Orchestrate. Takes effect immediately on toggle. No Save, no Publish. That's because Actions toggles are platform-level switches, not configuration.",
+  "Toggle, test, verify. Document Analyst is mutually exclusive with Webpage Awareness and Custom Button — turning one on requires turning the others off. Disable conflicts first, then enable the one you want.",
+  "Section D. Configuration. Personalize sub-tabs plus source management. Requires both Save Settings and Publish. This is where the Save-without-Publish failure mode bites people the most. If you change six settings and click Save Settings on each but never Publish, none of them reach the public.",
+  "Personalize → target sub-tab. General, Conversation, Citations, Intelligence, Advanced, or Security. One setting at a time. Do not bundle multiple changes into a single Publish — if you have to roll back, you'll roll back everything, not just the bad one.",
+  "Source management is the special case. Build → Sources for websites, sitemaps, and YouTube. Three operations — add, edit, remove — all on the row's three-dot menu. Treat it like a configuration change for the purpose of logging.",
+  "Notify before Publish. These configuration changes always require advance notice to the Assessor or Deputy: legal or statutory content, public-facing forms or processes, AI Model selection (especially Reasoning), Data Source Control broadening, Whitelisted Domains (which disables Share Link), Conversation Retention or Visibility, Citations toggle, Agent Language, and Beta Actions. Notify first, publish second.",
+  "Quiz one. You change a Personalize setting, click Save Settings, and walk away. Do end users see the change? No. Save Settings persists the edit; Publish pushes it to the public agent. Both are required.",
+  "Quiz two. After any change, what canary query do you run? The Spanish income-limit canary — '¿Cuál es el límite de ingresos para el congelamiento de valor para el año fiscal 2026?' If A.C.E. still answers in Spanish with $44,200, your change didn't regress the persona.",
+  "Source. Screenshot. Save. Test. Publish. Log. Same six steps, four change types. The canary keeps you honest. The change log keeps the office accountable. Count on us."
+]
+</script>
 </head>
 <body>
 <div id="root"></div>

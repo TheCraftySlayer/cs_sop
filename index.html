@@ -271,6 +271,7 @@
     <a href="system/dashboard.html" title="Training progress dashboard"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="1.5" y="7.5" width="3" height="5" rx="0.5" stroke="currentColor" stroke-width="1.3"/><rect x="5.5" y="4.5" width="3" height="8" rx="0.5" stroke="currentColor" stroke-width="1.3"/><rect x="9.5" y="1.5" width="3" height="11" rx="0.5" stroke="currentColor" stroke-width="1.3"/></svg>Progress</a>
     <a href="glossary.html" title="Glossary &amp; acronym key"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 2h8v10H3zM3 2v10M5 5h4M5 7h4M5 9h3" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round"/></svg>Glossary</a>
     <a href="quick-ref.html" title="Printable quick-reference cards"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="2" y="3" width="10" height="8" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M4.5 6h5M4.5 8h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Quick-ref</a>
+    <a href="sops/AIO07_request_log.html" title="IPRA Request Log — track responses on the clock"><svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="2.5" y="1.5" width="9" height="11" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M4.5 4.5h5M4.5 7h5M4.5 9.5h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="10.2" cy="9.6" r="2.4" fill="currentColor"/><path d="M9.2 9.6l0.7 0.7L11.3 9" stroke="white" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round"/></svg>IPRA Log</a>
   </div>
   <div class="search">
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M14 14l-3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
@@ -299,20 +300,24 @@
 </section>
 
 <section class="progress-rail" aria-label="Your progress">
-  <div><div class="label">Your progress</div><div class="count"><span id="watched-count">0</span><em>/19 watched</em></div></div>
+  <div><div class="label">Your progress</div><div class="count"><span id="watched-count">0</span><em>/<span id="watched-total">17</span> watched</em>&nbsp;&middot;&nbsp;<span id="read-count">0</span><em>/<span id="read-total">3</span> read</em></div></div>
   <div class="bar"><i id="progress-fill"></i></div>
-  <button class="reset" id="reset-progress" title="Clear watched & quiz state">Reset</button>
+  <button class="reset" id="reset-progress" title="Clear watched & read & quiz state">Reset</button>
 </section>
 
 <section class="onboarding">
   <h2>Start here.</h2>
-  <p class="sub">Two recommended learning paths. Each step builds on the one before.</p>
+  <p class="sub">Four recommended learning paths — Customer Service, AI Operations, Internal Agents, and LEAP. Each step builds on the one before.</p>
   <div class="tabs">
     <button class="tab-btn active" data-tab="cs" type="button">Customer Service</button>
     <button class="tab-btn" data-tab="aio" type="button">AI Operations</button>
+    <button class="tab-btn" data-tab="bio" type="button">Internal Agents</button>
+    <button class="tab-btn" data-tab="leap" type="button">LEAP</button>
   </div>
   <div class="pane" data-pane="cs"><div class="steps" data-onboarding="cs"></div></div>
   <div class="pane" data-pane="aio" hidden><div class="steps" data-onboarding="aio"></div></div>
+  <div class="pane" data-pane="bio" hidden><div class="steps" data-onboarding="bio"></div></div>
+  <div class="pane" data-pane="leap" hidden><div class="steps" data-onboarding="leap"></div></div>
 </section>
 
 <main id="sop-grid"></main>
@@ -376,6 +381,16 @@
     const watchedLabel = docOnly ? 'Read' : 'Watched';
     const tags = (sop.displayTags || []).map(t => `<span class="tag">${t}</span>`).join('');
 
+    // Build a rich, normalized search index per card.
+    const sectionTitle = (SECTIONS.find(s => s.id === sop.section) || {}).title || '';
+    const searchHaystack = [
+      id, sop.title, sop.blurb,
+      sop.searchTags, (sop.displayTags || []).join(' '),
+      sop.chipLabel, sop.track,
+      sectionTitle, sop.thumbSub
+    ].filter(Boolean).join(' ');
+    const normalized = normalizeForSearch(searchHaystack);
+
     let links = '';
     if (sop.watch) {
       links += `<a class="primary" href="${sop.watch}">${watchIconSVG}Watch</a>`;
@@ -387,7 +402,7 @@
     links += `<button class="mark" data-mark="${id}" title="${markTitle}"><span>${checkIconSVG}</span></button>`;
 
     return `
-      <article class="card${docOnly ? ' doc-only' : ''}" data-sop="${id}" data-tags="${escapeAttr(sop.searchTags || '')}">
+      <article class="card${docOnly ? ' doc-only' : ''}" data-sop="${id}" data-search="${escapeAttr(normalized)}">
         <a class="card-main" href="${cardHref}">
           <div class="thumb">
             <div class="bg"></div>
@@ -405,6 +420,17 @@
         </a>
         <div class="card-links">${links}</div>
       </article>`;
+  }
+
+  // Normalize: lowercase, strip section glyphs, fold hyphens to spaces, collapse whitespace.
+  // Lets "14-2-8" / "§14-2-8" / "14 2 8" all match the same haystack.
+  function normalizeForSearch(s) {
+    return String(s || '')
+      .toLowerCase()
+      .replace(/[§\u00a7]/g, ' ')
+      .replace(/[\-_/.,()'"]/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
   }
 
   function renderSections(host) {
@@ -434,7 +460,7 @@
       pane.innerHTML = ONBOARDING[key].steps.map(step => {
         const sop = SOPS[step.id];
         if (!sop) return '';
-        const href = sop.watch || sop.read;
+        const href = sop.read;
         const dur = sop.dur === 'Baseline doc' || sop.dur === 'Source SOP' ? 'Document' : sop.dur;
         return `<a href="${href}" data-sop="${step.id}"><div class="order">${step.order}</div><div class="name">${step.shortName}</div><div class="id">${step.id} · ${dur}</div></a>`;
       }).join('');
@@ -448,16 +474,19 @@
 </script>
 <script>
 (function() {
-  const ALL_SOPS = Object.keys(window.SOP_LIB?.SOPS || {});
+  const SOPS = window.SOP_LIB?.SOPS || {};
+  const ALL_SOPS = Object.keys(SOPS);
+  const VIDEO_SOPS = ALL_SOPS.filter(id => !SOPS[id].docOnly);
+  const DOC_SOPS = ALL_SOPS.filter(id => SOPS[id].docOnly);
   const watchedKey = (id) => `sop-${id}:completed`;
   const isWatched = (id) => { try { return localStorage.getItem(watchedKey(id)) === '1'; } catch { return false; } };
   const setWatched = (id, on) => { try { if (on) localStorage.setItem(watchedKey(id), '1'); else localStorage.removeItem(watchedKey(id)); } catch {} };
 
   function refreshProgress() {
-    let count = 0;
+    let videoCount = 0, docCount = 0;
     ALL_SOPS.forEach(id => {
       const watched = isWatched(id);
-      if (watched) count++;
+      if (watched) { if (SOPS[id].docOnly) docCount++; else videoCount++; }
       document.querySelectorAll(`.card[data-sop="${id}"]`).forEach(card => {
         card.classList.toggle('watched', watched);
       });
@@ -465,8 +494,12 @@
         a.classList.toggle('done', watched);
       });
     });
-    document.getElementById('watched-count').textContent = String(count);
-    document.getElementById('progress-fill').style.width = (count / ALL_SOPS.length * 100) + '%';
+    document.getElementById('watched-count').textContent = String(videoCount);
+    document.getElementById('watched-total').textContent = String(VIDEO_SOPS.length);
+    document.getElementById('read-count').textContent = String(docCount);
+    document.getElementById('read-total').textContent = String(DOC_SOPS.length);
+    const total = ALL_SOPS.length || 1;
+    document.getElementById('progress-fill').style.width = ((videoCount + docCount) / total * 100) + '%';
   }
 
   document.addEventListener('click', (e) => {
@@ -481,24 +514,68 @@
   });
 
   const input = document.getElementById('search-input');
+
+  // Same normalize as the renderer — lowercase, fold §/hyphens to spaces, collapse whitespace
+  function normalizeForSearch(s) {
+    return String(s || '')
+      .toLowerCase()
+      .replace(/[§\u00a7]/g, ' ')
+      .replace(/[\-_/.,()'"]/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  // Build the "no results" hint and keep it ready in the DOM
+  const noResultsHTML = `
+    <section class="no-results" id="no-results-hint" style="display:none; padding:48px 56px 64px; text-align:center;">
+      <div style="max-width:540px; margin:0 auto;">
+        <div style="font-family:'Gotham Display','Montserrat',sans-serif; font-size:32px; font-weight:900; color:var(--cypress); text-transform:uppercase; letter-spacing:-0.005em; margin-bottom:10px;">No matches</div>
+        <p style="font-size:15px; color:var(--muted); margin:0 0 22px; line-height:1.55;">Nothing in the library matches <b id="nr-q" style="color:var(--terracotta);"></b>. Try a shorter term, or use Triage to walk through what the call is about.</p>
+        <div style="display:inline-flex; gap:10px; flex-wrap:wrap; justify-content:center;">
+          <a href="triage.html" style="display:inline-flex; align-items:center; gap:7px; padding:11px 18px; border-radius:999px; background:var(--terracotta); color:var(--paper); font-size:12px; font-weight:700; letter-spacing:0.08em; text-decoration:none;">I got a call about…</a>
+          <a href="glossary.html" style="display:inline-flex; align-items:center; gap:7px; padding:11px 18px; border-radius:999px; background:transparent; color:var(--cypress); border:1px solid var(--line); font-size:12px; font-weight:700; letter-spacing:0.08em; text-decoration:none;">Browse the glossary</a>
+        </div>
+      </div>
+    </section>`;
+  document.querySelector('main, #sop-grid')?.insertAdjacentHTML('afterend', noResultsHTML);
+  const noResults = document.getElementById('no-results-hint');
+
   function applySearch() {
-    const q = input.value.trim().toLowerCase();
+    const raw = input.value.trim();
+    const q = normalizeForSearch(raw);
+    const terms = q ? q.split(' ').filter(t => t.length > 0) : [];
+    let matchCount = 0;
+
     document.querySelectorAll('article.card').forEach(card => {
-      if (!q) { card.classList.remove('hidden'); return; }
-      const haystack = [
-        card.dataset.tags || '', card.dataset.sop || '',
-        (card.querySelector('h3')?.textContent || ''),
-        (card.querySelector('.body p')?.textContent || ''),
-      ].join(' ').toLowerCase();
-      card.classList.toggle('hidden', !haystack.includes(q));
+      if (!terms.length) { card.classList.remove('hidden'); matchCount++; return; }
+      const hay = card.dataset.search || '';
+      // Multi-word AND: every term must appear somewhere in the haystack.
+      const allMatch = terms.every(t => hay.includes(t));
+      card.classList.toggle('hidden', !allMatch);
+      if (allMatch) matchCount++;
     });
+
     document.querySelectorAll('.grid-section').forEach(section => {
       const visibleCards = section.querySelectorAll('article.card:not(.hidden)');
       section.style.display = visibleCards.length === 0 ? 'none' : '';
     });
+
+    // No-results hint
+    if (terms.length && matchCount === 0) {
+      document.getElementById('nr-q').textContent = '"' + raw + '"';
+      noResults.style.display = '';
+    } else {
+      noResults.style.display = 'none';
+    }
   }
   input.addEventListener('input', applySearch);
   input.addEventListener('keydown', (e) => { if (e.key === 'Escape') { input.value = ''; applySearch(); } });
+  // Slash to focus search from anywhere on the page
+  document.addEventListener('keydown', (e) => {
+    if (e.key === '/' && !e.metaKey && !e.ctrlKey && !e.altKey && !e.target.matches('input, textarea, select')) {
+      e.preventDefault(); input.focus(); input.select();
+    }
+  });
 
   // Onboarding tabs
   document.querySelectorAll('.onboarding .tabs .tab-btn').forEach(btn => {

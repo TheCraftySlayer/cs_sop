@@ -4,6 +4,25 @@
 <meta charset="UTF-8">
 <title>AIO05 · Chatbot Incident Response · Animated SOP</title>
 <link rel="stylesheet" href="../lib/video.css">
+<script type="application/json" id="speaker-notes">
+[
+  "Incident response for A.C.E. Four classes of incident, one severity order, one rule that overrides everything else — contain before you notify. The daily check, the weekly review, and the monthly tracker can all surface an incident. When one does, this SOP takes over.",
+  "Severity order. C, then B, then A, then D. PII first. Outage second. Wrong answer third. Abuse fourth. If more than one applies, work the most severe first. C beats everything because a live PII leak gets worse every minute the agent is online.",
+  "Four incident types. Identify the type before you act. Type A — wrong answer reported. Type B — agent down. Type C — PII or sensitive disclosure. Type D — abusive or hostile user content. Each has its own procedure.",
+  "Type A. Wrong Answer Reported. A user reports A.C.E. gave them an incorrect or misleading answer. Three steps — reproduce it, fix it, document it.",
+  "Step one. Reproduce. Go to the Ask tab and submit the exact same question. Record what A.C.E. actually says — verbatim. If it's not reproducible on the first try, try variations. Don't conclude 'can't reproduce' from one attempt.",
+  "Step two. Two paths. If you reproduced it, fix within one business day. KB content goes through AIO03 Section B. Persona issues go through Section A. If the content is legal or statutory, notify the Assessor or Deputy before fixing. If you couldn't reproduce, log the question, the reported answer, the time, and the reporter's contact. Re-check in three days. Close after seven if no recurrence.",
+  "Type B. Agent Down or Broken. A.C.E. is unreachable from the public site, or returning errors. Four steps — confirm, check vendor, notify, document.",
+  "Steps one through four. Confirm by opening the public A.C.E. embed and submitting a test query. No response means confirmed. Check the CustomGPT.ai status page. If it's a vendor outage, document and wait — do not route queries through unapproved tools. Notify Assessor and Deputy if it's over one hour. Document start time, end time, root cause, and resolution.",
+  "Type C. PII or sensitive disclosure. The most severe class. Contain first, then notify. Four strict steps. Order matters more here than anywhere else in the library.",
+  "Steps one through four. Pause the agent immediately — CustomGPT.ai, Deploy, disable public access. Contain first. Notify within one hour — Assessor and office IT, with time, scope, and current containment. Preserve logs — do not delete anything, do not modify persona or KB until reviewed. Do not restart without Assessor or designee authorization.",
+  "Type D. Abusive or Hostile User Content. For threats or sustained abuse — routine hostility is handled by the persona itself. Three steps.",
+  "Steps one through three. Log and disengage — record the prompt, the time, any user identifiers. Do not engage from inside the agent. Escalate within one hour if threats are present — Assessor plus County security, with full prompt text and metadata. Pattern response — same user or IP repeating across conversations, coordinate with IT for blocking.",
+  "Quiz one. A.C.E. is down and a user has reported a wrong answer. Which do you handle first? Type B — the outage. Severity order is C beats B beats A beats D. The outage affects every user; the wrong answer affects one.",
+  "Quiz two. A.C.E. exposes PII in a conversation. What is the first action? Pause the agent in CustomGPT.ai → Deploy. Contain first. The Assessor notification comes second, within one hour, with the agent already paused.",
+  "Identify. Contain. Notify. Document. Four types, four procedures, one severity order. When in doubt, default to caution and escalate up. Count on us."
+]
+</script>
 </head>
 <body>
 <div id="root"></div>

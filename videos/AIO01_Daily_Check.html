@@ -4,6 +4,22 @@
 <meta charset="UTF-8">
 <title>AIO01 · Daily Chatbot Operations Check · Animated SOP</title>
 <link rel="stylesheet" href="../lib/video.css">
+<script type="application/json" id="speaker-notes">
+[
+  "Welcome to the daily A.C.E. check. This is a ten-minute habit, every workday morning. The goal is small: catch problems before they affect more users. The cost of skipping it is large: a wrong answer that runs all week, or a PII exposure you find out about from the Assessor's inbox.",
+  "Start in CustomGPT.ai. Open the A.C.E. agent. Click Analyze in the left sidebar. The Overview view is the default — that's where the daily check begins. If you can't get into Analyze, that's the daily check, and you escalate.",
+  "First substantive step: Missing Content. These are questions A.C.E. couldn't answer from the knowledge base. Read every new entry since yesterday and tag each one. Three buckets — coverage gap means we should add a KB document, scope means the question is outside what A.C.E. should answer, and chatter means it's a non-question.",
+  "Next, the Content Source donut chart. The 'Not found' slice should be under 15%. If it's over, that's a coverage problem worth noting for follow-up — usually it ends up in AIO03 as a KB file change. One day over isn't a crisis; a trend over is.",
+  "Step 4. Top 5 latest prompts. Skim them. Four signals to watch for — anything that looks like PII, anything threatening, anything where A.C.E. clearly made something up, and any topic showing up repeatedly with bad answers. None of these wait for the weekly review.",
+  "Step 5. Customer Intelligence — Risk Monitoring. The Incidents bar for today should match the seven-day pattern. If it's elevated, that's the daily check telling you to open AIO05 right now. Don't wait until tomorrow.",
+  "Step 6. Back to the main Dashboard. Look for tiles with a red border. The usual culprit is Words Processed approaching the plan cap. That goes to AIO04 for the monthly tracker, and to the Deputy if service is degrading.",
+  "Step 7. End of day. Close the loop on what you triaged this morning. Anything tagged for follow-up should have a status update — either resolved, scheduled for AIO03, or escalated. Don't leave open items hanging.",
+  "Escalation triggers. Any one of these means notify the Assessor and Deputy on the same day — PII produced, threats against staff, persona failure elevated over the seven-day pattern, agent unreachable, or plan cap with degraded service. Don't sit on these.",
+  "Quiz one. Today's Incidents bar is much higher than the seven-day pattern. What do you do? You open AIO05 today. Risk Monitoring catching an elevated count is exactly the signal AIO05 expects.",
+  "Quiz two. The Content Source 'Not found' slice should stay under fifteen percent. That's the daily threshold. The monthly equivalent is also fifteen — but applied to the month, not the day.",
+  "Ten minutes. Every morning. Triage, scan, monitor, document. The smallest habit in AI Operations and the one that catches the most. Count on us."
+]
+</script>
 </head>
 <body>
 <div id="root"></div>

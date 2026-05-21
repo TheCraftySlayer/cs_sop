@@ -4,6 +4,26 @@
 <meta charset="UTF-8">
 <title>CS04 · Queue Routing and Wait Settings · Animated SOP</title>
 <link rel="stylesheet" href="../lib/video.css">
+<script type="application/json" id="speaker-notes">
+[
+  "Queue Routing and Wait Settings. How a queue distributes calls to its members, and what happens when nobody answers. Every change here affects every caller and every member, so unlike member management this one is gated. Deputy Assessor confirmation required before you touch anything.",
+  "Deputy. Authorization. All routing and wait setting changes require Deputy Assessor confirmation before they're applied. Misconfigured routing can degrade service for every caller. Don't experiment in production.",
+  "Where it lives. Call Handling and Members → Work hours. Five tabs total — Work hours, Wait settings, Display settings, After hours, Custom rules. A master 'Forward all queue calls' toggle sits at the top. Leave it OFF in normal operation.",
+  "Four ways to ring. Rotating cycles through members in turn. Fixed order goes top to bottom in a fixed sequence. Longest idle rings whoever has been free longest. Simultaneous rings everyone at once. Pick the one that matches how your team actually handles calls.",
+  "Fixed order — drag people into position. If you picked Fixed order, the Order column shows position numbers with drag handles. Position 1 receives every call first. Positions 2+ ring only when the prior position fails to answer.",
+  "How to change the routing method. Four clicks. Expand Call Handling and Members. Open Work hours. Pick the new method. Save. Then verify with a test call before you walk away.",
+  "Tune the timing. Small dials with big consequences. Rings before the next member — common range is 2 to 10 rings. Wrap-up time before the same member rings again. After-hours timeout. Each of these is felt by every caller.",
+  "Wait settings tab. Same panel, second tab. Seven settings determine how many callers can wait, how long, and where they go when limits hit. Capacity, timeouts, overflow triggers.",
+  "Configure the Overflow Group. Up to three backup queues, in order. Set the trigger — usually 'when members are available but unreachable.' Then list the backups in priority order.",
+  "Q1 standard. Zero rings, zero seconds. Q1 — Assessor's Office, 160001 — overflows instantly to Q2, Customer Service, 160002. No caller hears dead silence. This is the office's standard front-of-house pattern.",
+  "The other two tabs. Display settings is cosmetic — caller ID format and so on. Less common to touch. After hours decides what happens when the queue is closed — usually a greeting and voicemail. Both worth knowing about.",
+  "Master toggle — OFF. 'Forward all queue calls' bypasses every queue rule. Leave it OFF in normal operation. Toggling on requires Deputy Assessor or Assessor authorization and is used only in extraordinary circumstances — natural disaster, system migration.",
+  "After any routing change. Five things, every time. Snapshot the prior state. Apply the change. Test call. Watch Call Records for a full business day. Log the change.",
+  "Quiz one. Fixed order. Position 1 doesn't answer. What happens next? The call rings Position 2. Fixed order falls through in sequence — never skips ahead.",
+  "Quiz two. Q1's standard Overflow Group setting is instant overflow to Q2 at zero rings and zero seconds. Memorize this — it's the office baseline.",
+  "Save. Test. Watch the log. Place a test call, then watch the Call Records dashboard for a full business day. Routing changes ripple in ways you don't always see in the first hour. Count on us."
+]
+</script>
 </head>
 <body>
 <div id="root"></div>

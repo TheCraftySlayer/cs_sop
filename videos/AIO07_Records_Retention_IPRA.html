@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AIO07 · Records Retention &amp; IPRA Response · Animated SOP</title>
+<link rel="stylesheet" href="../lib/video.css">
+<script type="application/json" id="speaker-notes">
+[
+  "Welcome. This SOP is about what happens to A.C.E.'s records after they're produced. The operational SOPs — AIO01 through AIO06, BIO01, BIO04 — tell you how to run the agents. AIO07 tells you how to retain what they produce, and how to respond when someone files an Inspection of Public Records Act request. Two parts. Part A is ongoing. Part B is a clock.",
+  "The whole reason AIO07 exists is the clock. Three business days to acknowledge. Fifteen calendar days to produce or deny. And — this is the one people forget — the clock starts the moment the records custodian receives the request, not the moment it lands in your inbox as the AI Project Lead. If the custodian got it on Thursday and you see it Monday, you have already burned almost a week.",
+  "Two parts, two rhythms. Part A runs all the time, whether or not anyone's asked for anything. It keeps the inventory current, the archive fresh, and the LGRRDS mapping documented. Part B only runs when an actual IPRA request lands. Part A is what makes Part B possible — if you don't have an inventory and an archive, you can't answer a request in 15 days.",
+  "Part A. Five disciplines. They sound boring but they are the entire substance of records management. Get these right and Part B becomes a search-and-retrieve exercise. Get them wrong and Part B becomes a fire drill.",
+  "The inventory has nine categories grouped into four buckets. Public chatbot logs and internal BIO agent logs. Phone — that's Bland AI recordings and transcripts. Email — Power Automate. Then the configuration side: persona files, Actions, KB documents, telemetry, and the change logs from AIO03 and BIO01. If any record category isn't on this list, it might as well not exist when a request comes in.",
+  "Custody is not the same as hosting. CustomGPT.ai stores the chatbot conversations. Bland AI stores the call recordings. Power Automate stores the email logs. But the Bernalillo County Assessor's Office is the legal custodian. We are responsible for producing those records, redacting them, and retaining them, regardless of which vendor's servers they sit on.",
+  "Two cadences for the office-controlled archive. Monthly — pull conversation logs and telemetry to the office records share. On change — every persona edit, every config tweak, every KB document update gets snapshotted. The good news is the change SOPs, AIO03 and BIO01, already trigger this. The goal is simple: if a vendor disappeared tomorrow, the office should still be able to answer a records request from its own holdings.",
+  "Two decisions you don't make alone. A.4 — sit with the records custodian and map every record category to the closest LGRRDS series. There is no dedicated series for A.C.E. records yet, so this is a custodian decision that gets documented, not a guess. And never destroy a record without an approved disposition. A.5 — read your vendor contracts. CustomGPT, Bland, any automation platform. Confirm they let us retrieve our data on demand and address what happens if they shut down. Any gap goes straight to the Deputy.",
+  "Part B. The on-clock side. Eight steps, two clocks, and one rule that has no wiggle room: a human reviews and attests to every redaction before anything leaves the building. Not the AI. A person.",
+  "B.1 and B.2. Log receipt — capture the exact timestamp the custodian got it, the requester's contact, and the scope as written. Verbatim, do not paraphrase. Then acknowledge in writing within three business days. If you can't produce the records that fast, say so in writing and tell them when you will respond. That's Section 14-2-8.D.",
+  "B.3. Search the inventory categories you set up in Part A. Conversation logs, persona files, configuration, knowledge-base content — anything in the inventory could be responsive depending on how the request reads. Pull from the office-controlled archive first. Go to the vendor only if you have to.",
+  "B.4. Is the request burdensome? 'All A.C.E. conversations ever' against tens of thousands of queries — yes, that's burdensome. A single named parcel or a specific date range — no, that's normal. Section 14-2-10 lets us send written notice within 15 days that we need reasonable additional time, with a good-faith production plan. Use it when warranted. Do not use it just to slow down requests you don't like.",
+  "B.5 is the most important step in the entire SOP. Inside any single record, separate the exempt material from the non-exempt material. Release the non-exempt part. Redact the rest — protected personal identifier information under 14-2-6(F), anything else under the appropriate exemption. And a human reviews and attests. A.C.E. conversation logs routinely mix protected PII with public-business content — a constituent's finances, shared while asking for exemption advice. 'The AI applied the redaction' is not a defense in court. A person reviews. The reviewer's name goes in the log.",
+  "B.6. Four triggers, any one of which means notify the Assessor or Deputy before responding. Paralegal content with potential attorney-client privilege. Anything from media, an oversight body, or relating to litigation. Records that would expose system prompts or configuration in a security-relevant way. Or anything triggering the 14-2-10 burdensome route. And — separate but related — if a search reveals A.C.E. is currently leaking PII in live conversations, that's an AIO05 incident on its own clock, run in parallel.",
+  "B.7 and B.8. Produce or deny in writing, within fifteen calendar days. Permit inspection of the non-exempt records under Section 14-2-8. For anything withheld, the denial cites the specific statutory exemption under 14-2-11. Electronic copies are free; for physical copies you can charge a reasonable fee under 14-2-9(C). Then log the response — scope, records, redactions and their statutory basis, the reviewer who attested, the production or denial date, and any 14-2-10 extension. That log is itself a record.",
+  "Quiz one. The custodian got an IPRA request on a Thursday. You, the AI Project Lead, saw it the following Monday. When does the three-business-day acknowledgment clock start? Thursday. The clock follows the custodian, not the AI Project Lead — and the requester never has to tell you why they want it.",
+  "Quiz two. A conversation log responsive to a request contains a constituent's social security number inside a question. What do you do? Have a person redact the PPII under 14-2-6(F), have them attest to the redaction, and release the rest of the log under 14-2-9. Not withhold the whole thing — that's over-withholding. Not release the whole thing — that's a 14-2-6(F) violation. Not let the AI auto-redact — that's not a defense.",
+  "Quiz three. A routine IPRA search turns up evidence that A.C.E. is actively leaking PII right now, in live conversations. Both SOPs apply. Run AIO05 in parallel — pause the agent, contain the live exposure, notify within the hour. AIO07 keeps running on its own clock. B.6 explicitly tells you to do this.",
+  "Inventory. Archive. Acknowledge. Redact. Attest. Log. Part A keeps the office ready. Part B keeps the office on the clock. The custodian holds the keys. A human attests to every redaction. Nothing leaves the door without a written record. Count on us."
+]
+</script>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="../lib/animations.jsx"></script>
+<script type="text/babel" src="../lib/sop-video.jsx"></script>
+<script type="text/babel">
+
+const scenes = [
+  // ═══════════════ TITLE ═══════════════
+  {
+    kind: 'title',
+    duration: 9,
+    sopId: 'AIO07',
+    title: 'Records Retention & IPRA Response',
+    plainTitle: 'How the office retains A.C.E. records and answers public-records requests under the New Mexico Inspection of Public Records Act.',
+    kicker: 'Department: AI Operations. Two parts — Part A is ongoing custody and archive; Part B is the IPRA request response, on the clock.',
+    es: {
+      title: 'Retención de Registros y Respuesta IPRA',
+      plainTitle: 'Cómo la oficina conserva los registros de A.C.E. y responde a solicitudes de registros públicos bajo la Ley de Inspección de Registros Públicos de Nuevo México.',
+      kicker: 'Departamento: Operaciones de IA. Dos partes — la Parte A es custodia y archivo continuos; la Parte B es la respuesta a la solicitud IPRA, contra reloj.',
+    },
+  },
+
+  // ═══════════════ THE CLOCKS ═══════════════
+  {
+    kind: 'bigstat',
+    duration: 12,
+    stat: '3 → 15',
+    caption: 'The statutory clock, in days',
+    sub: 'Acknowledge within three business days. Produce or deny in writing within fifteen calendar days. The clock starts when the records custodian receives the request — not when it reaches you.',
+    es: {
+      stat: '3 → 15',
+      caption: 'El reloj estatutario, en días',
+      sub: 'Acuse de recibo en tres días hábiles. Produzca o niegue por escrito en quince días calendario. El reloj empieza cuando el custodio de registros recibe la solicitud — no cuando le llega a usted.',
+    },
+  },
+
+  // ═══════════════ TWO PARTS OVERVIEW ═══════════════
+  {
+    kind: 'comparison',
+    duration: 18,
+    title: 'Two parts, two cadences',
+    sub: 'Part A runs all the time. Part B runs only when a request lands.',
+    items: [
+      { tag: 'Part A', label: 'Standing Records Management', accent: SOP_PALETTE.bosque, desc: 'Maintain the records inventory, keep custody at the office, archive on a monthly cadence and on every change, map every record category to the LGRRDS retention schedule, and confirm vendor terms support retrieval on demand.' },
+      { tag: 'Part B', label: 'Responding to an IPRA Request', accent: SOP_PALETTE.terracotta, desc: 'Log receipt, acknowledge in 3 business days, identify responsive records from the office archive first, separate exempt material and redact PPII, notify the Assessor when it gets sensitive, then produce or deny in writing within 15 calendar days. Log the response.' },
+    ],
+    es: {
+      title: 'Dos partes, dos ritmos',
+      sub: 'La Parte A corre siempre. La Parte B solo cuando llega una solicitud.',
+      items: [
+        { tag: 'Parte A', label: 'Gestión Permanente de Registros', desc: 'Mantenga el inventario de registros, conserve la custodia en la oficina, archive mensualmente y en cada cambio, mapee cada categoría al calendario LGRRDS, y confirme que los términos del proveedor permiten la recuperación bajo demanda.' },
+        { tag: 'Parte B', label: 'Respuesta a una Solicitud IPRA', desc: 'Registre el recibo, acuse en 3 días hábiles, identifique registros responsivos desde el archivo de la oficina primero, separe material exento y redacte PPII, notifique al Tasador cuando sea sensible, después produzca o niegue por escrito en 15 días calendario. Registre la respuesta.' },
+      ],
+    },
+  },
+
+  // ═══════════════ PART A HEADER ═══════════════
+  {
+    kind: 'bigstat',
+    duration: 8,
+    stat: 'Part A',
+    caption: 'Standing Records Management',
+    sub: 'Five disciplines that have to be true before a request ever arrives. Vendor hosting is not custody.',
+    accent: SOP_PALETTE.bosque,
+    es: {
+      stat: 'Parte A',
+      caption: 'Gestión Permanente de Registros',
+      sub: 'Cinco disciplinas que deben estar funcionando antes de que llegue una solicitud. El alojamiento del proveedor no es custodia.',
+    },
+  },
+
+  // PART A inventory
+  {
+    kind: 'steps',
+    duration: 22,
+    title: 'A.1 — The A.C.E. Records Inventory',
+    sub: 'Keep a current list of every category the agents produce. If it is not on this list, it will not be there when you need it.',
+    steps: [
+      { label: 'Conversation logs — public & internal', desc: 'Public A.C.E. chatbot prompts and responses. Internal agent logs from Compliance Expert, Paralegal, and Onboarding on the BIO track.' },
+      { label: 'Phone & email channels', desc: 'Bland AI call recordings and transcripts. Power Automate email logs.' },
+      { label: 'Persona, configuration, and Actions', desc: 'Persona and system-prompt files for every agent. Configuration and Actions settings, as captured in the AIO06 and BIO04 baselines.' },
+      { label: 'Knowledge base & telemetry', desc: 'KB source documents. Missing Content logs and operational metrics. Change logs produced under AIO03 (public) and BIO01 (internal).' },
+    ],
+    es: {
+      title: 'A.1 — El Inventario de Registros A.C.E.',
+      sub: 'Mantenga una lista actual de cada categoría que producen los agentes. Si no está en esta lista, no estará disponible cuando la necesite.',
+      steps: [
+        { label: 'Registros de conversación — público e interno', desc: 'Prompts y respuestas del chatbot público A.C.E. Registros de los agentes internos: Experto en Cumplimiento, Paralegal y Onboarding (vía BIO).' },
+        { label: 'Canales de teléfono y correo', desc: 'Grabaciones y transcripciones de llamadas de Bland AI. Registros de correo de Power Automate.' },
+        { label: 'Persona, configuración y Actions', desc: 'Archivos de persona y system-prompt de cada agente. Configuración y Actions, capturados en las líneas base AIO06 y BIO04.' },
+        { label: 'Base de conocimientos y telemetría', desc: 'Documentos fuente del KB. Registros de Contenido Faltante y métricas operativas. Registros de cambios bajo AIO03 (público) y BIO01 (interno).' },
+      ],
+    },
+  },
+
+  // PART A custody — vendor hosting ≠ custody
+  {
+    kind: 'bigstat',
+    duration: 11,
+    stat: 'Custody ≠ Hosting',
+    caption: 'A.2 — Custody sits with the office',
+    sub: 'The Assessor\'s Office is the custodian of A.C.E. records regardless of which vendor stores the data. CustomGPT.ai hosts it. Bland AI hosts it. The office is responsible for it.',
+    accent: SOP_PALETTE.terracotta,
+    es: {
+      stat: 'Custodia ≠ Alojamiento',
+      caption: 'A.2 — La custodia es de la oficina',
+      sub: 'La Oficina del Tasador es la custodia de los registros A.C.E. sin importar qué proveedor almacena los datos. CustomGPT.ai lo aloja. Bland AI lo aloja. La oficina es la responsable.',
+    },
+  },
+
+  // PART A archive cadence
+  {
+    kind: 'comparison',
+    duration: 18,
+    title: 'A.3 — Archive on a fixed cadence',
+    sub: 'The office should be able to satisfy a request from its own holdings, even if a vendor disappears tomorrow.',
+    items: [
+      { tag: 'Monthly', label: 'Export logs & telemetry', accent: SOP_PALETTE.bosque, desc: 'Conversation logs, Missing Content telemetry, and operational metrics get exported to the office records share once per month.' },
+      { tag: 'On change', label: 'Snapshot persona, config, KB', accent: SOP_PALETTE.terracotta, desc: 'Whenever persona, configuration, or knowledge-base content changes, capture a snapshot. The change SOPs — AIO03 for the public agent, BIO01 for internal agents — already trigger and log these.' },
+    ],
+    es: {
+      title: 'A.3 — Archive con cadencia fija',
+      sub: 'La oficina debe poder satisfacer una solicitud desde sus propios archivos, aún si un proveedor desaparece mañana.',
+      items: [
+        { tag: 'Mensual', label: 'Exporte registros y telemetría', desc: 'Los registros de conversación, la telemetría de Contenido Faltante y las métricas operativas se exportan al recurso compartido de la oficina una vez al mes.' },
+        { tag: 'Al cambiar', label: 'Snapshot de persona, config, KB', desc: 'Cuando cambia la persona, la configuración o el contenido del KB, capture un snapshot. Los SOP de cambio — AIO03 público, BIO01 interno — ya disparan y registran esto.' },
+      ],
+    },
+  },
+
+  // PART A — retention schedule + vendor terms
+  {
+    kind: 'steps',
+    duration: 22,
+    title: 'A.4–A.5 — Schedule & vendor terms',
+    sub: 'Both of these are decisions you cannot make alone.',
+    steps: [
+      { label: 'A.4 — Map records to the LGRRDS', desc: 'With the records custodian, assign each record category to the closest existing Local Government Records Retention and Disposition Schedule series and document the determination. A.C.E. records have no dedicated series yet, so the mapping is a custodian decision, not an assumption.' },
+      { label: 'Never destroy without approval', desc: 'Do not destroy any A.C.E. record without a custodian-approved disposition under the schedule and Section 14-1-8 NMSA 1978. When in doubt, retain.' },
+      { label: 'A.5 — Verify vendor contract terms', desc: 'Confirm CustomGPT.ai, Bland AI, and any automation platform guarantee retrieval of conversation and configuration data on demand, and address what happens if the vendor ceases service.' },
+      { label: 'Report any gap to the Deputy', desc: 'If a vendor contract does not cover on-demand retrieval or end-of-service handover, that is a gap the office needs to know about — escalate up.' },
+    ],
+    es: {
+      title: 'A.4–A.5 — Calendario y términos del proveedor',
+      sub: 'Ninguna de estas dos decisiones se toma solo.',
+      steps: [
+        { label: 'A.4 — Mapee al LGRRDS', desc: 'Con el custodio de registros, asigne cada categoría a la serie más cercana del Local Government Records Retention and Disposition Schedule y documente la determinación. Los registros A.C.E. no tienen serie dedicada todavía, así que el mapeo es una decisión del custodio, no una suposición.' },
+        { label: 'Nunca destruya sin aprobación', desc: 'No destruya ningún registro A.C.E. sin una disposición aprobada por el custodio bajo el calendario y la Sección 14-1-8 NMSA 1978. En caso de duda, conserve.' },
+        { label: 'A.5 — Verifique los términos del proveedor', desc: 'Confirme que CustomGPT.ai, Bland AI y cualquier plataforma de automatización garantizan la recuperación de datos de conversación y configuración bajo demanda, y atienden qué pasa si el proveedor cesa el servicio.' },
+        { label: 'Reporte brechas al Subtasador', desc: 'Si un contrato de proveedor no cubre recuperación bajo demanda o entrega al fin del servicio, esa es una brecha que la oficina necesita conocer — escálela.' },
+      ],
+    },
+  },
+
+  // ═══════════════ PART B HEADER ═══════════════
+  {
+    kind: 'bigstat',
+    duration: 9,
+    stat: 'Part B',
+    caption: 'Responding to an IPRA Request',
+    sub: 'Eight steps, two clocks, one absolute rule: a person — not the AI — attests to every redaction before release.',
+    accent: SOP_PALETTE.terracotta,
+    es: {
+      stat: 'Parte B',
+      caption: 'Respuesta a una Solicitud IPRA',
+      sub: 'Ocho pasos, dos relojes, una regla absoluta: una persona — no la IA — atestigua cada redacción antes de la entrega.',
+    },
+  },
+
+  // PART B steps 1-2 — log + acknowledge
+  {
+    kind: 'steps',
+    duration: 20,
+    title: 'B.1–B.2 — Log receipt, acknowledge in 3 days',
+    sub: 'The clock starts when the custodian receives the request.',
+    steps: [
+      { label: 'B.1 — Log receipt and start the clock', desc: 'Record the date and time the custodian received the request, the requester\'s contact information, and the exact scope as written. The requester does not have to state a purpose — do not ask.' },
+      { label: 'B.2 — Acknowledge within 3 business days', desc: 'If responsive records cannot be produced within three business days, send a written response stating when the records will be available or when the office will respond. Section 14-2-8.D.' },
+    ],
+    es: {
+      title: 'B.1–B.2 — Registre el recibo, acuse en 3 días',
+      sub: 'El reloj empieza cuando el custodio recibe la solicitud.',
+      steps: [
+        { label: 'B.1 — Registre el recibo y empiece el reloj', desc: 'Anote la fecha y hora en que el custodio recibió la solicitud, la información de contacto del solicitante y el alcance exacto como está escrito. El solicitante no tiene que declarar un propósito — no pregunte.' },
+        { label: 'B.2 — Acuse de recibo en 3 días hábiles', desc: 'Si los registros responsivos no se pueden producir en tres días hábiles, envíe una respuesta escrita declarando cuándo estarán disponibles o cuándo responderá la oficina. Sección 14-2-8.D.' },
+      ],
+    },
+  },
+
+  // PART B step 3 — identify
+  {
+    kind: 'bigstat',
+    duration: 11,
+    stat: 'Office first',
+    caption: 'B.3 — Identify responsive records',
+    sub: 'Search the inventory categories. Pull from the office-controlled archive first; fall back to vendor retrieval only if you have to. Logs, persona, configuration, and KB content are all potentially responsive — what counts depends on how the request is worded.',
+    accent: SOP_PALETTE.bosque,
+    es: {
+      stat: 'Oficina primero',
+      caption: 'B.3 — Identifique registros responsivos',
+      sub: 'Busque en las categorías del inventario. Recupere del archivo de la oficina primero; vaya al proveedor solo si es necesario. Registros, persona, configuración y KB son todos potencialmente responsivos — lo que cuenta depende de cómo está redactada la solicitud.',
+    },
+  },
+
+  // PART B step 4 — burdensome
+  {
+    kind: 'comparison',
+    duration: 19,
+    title: 'B.4 — Burdensome or broad?',
+    sub: 'Section 14-2-10 gives the office a path for unreasonable requests. Use it when warranted, and only then.',
+    items: [
+      { tag: 'IS burdensome', label: '"All A.C.E. conversations"', accent: SOP_PALETTE.terracotta, desc: 'A request for every conversation against tens of thousands of queries. Send written notice within 15 days that additional reasonable time is needed, and include a good-faith production plan.' },
+      { tag: 'IS NOT burdensome', label: 'A parcel or a date range', accent: SOP_PALETTE.bosque, desc: 'A single named parcel, or a bounded date range, is a normal scope. Respond on the standard timeline — do not invoke Section 14-2-10 to slow it down.' },
+    ],
+    es: {
+      title: 'B.4 — ¿Excesivamente onerosa o amplia?',
+      sub: 'La Sección 14-2-10 da una vía para solicitudes irrazonables. Úsela cuando se justifique, y solo entonces.',
+      items: [
+        { tag: 'SÍ es onerosa', label: '"Todas las conversaciones A.C.E."', desc: 'Una solicitud por cada conversación contra decenas de miles de consultas. Envíe aviso escrito en 15 días de que se necesita tiempo razonable adicional, e incluya un plan de producción de buena fe.' },
+        { tag: 'NO es onerosa', label: 'Un parcel o un rango de fechas', desc: 'Un parcel nombrado, o un rango de fechas acotado, es alcance normal. Responda en el tiempo estándar — no invoque la 14-2-10 para retrasarla.' },
+      ],
+    },
+  },
+
+  // PART B step 5 — redaction (the critical one)
+  {
+    kind: 'steps',
+    duration: 24,
+    title: 'B.5 — Separate, redact, attest',
+    sub: 'The single most important step in the entire SOP.',
+    steps: [
+      { label: 'Separate exempt from non-exempt', desc: 'Inside the same record, isolate the exempt material from the non-exempt material. Release the non-exempt material; withhold or redact the rest. Section 14-2-9.' },
+      { label: 'Redact PPII and other exempted material', desc: 'Redact protected personal identifier information under Section 14-2-6(F) and any other exempted material. A.C.E. conversation logs routinely mix protected PII — for example, a constituent\'s finances shared to get exemption advice — with public-business content.' },
+      { label: 'A person reviews and attests', desc: 'A human reviews every redaction and attests to it before release. "The AI applied the redaction" is not a defense. The reviewer\'s name goes in the log.' },
+    ],
+    es: {
+      title: 'B.5 — Separe, redacte, atestigüe',
+      sub: 'El paso más importante de todo el SOP.',
+      steps: [
+        { label: 'Separe exento de no exento', desc: 'Dentro del mismo registro, aísle el material exento del no exento. Entregue el material no exento; retenga o redacte el resto. Sección 14-2-9.' },
+        { label: 'Redacte PPII y otro material exento', desc: 'Redacte información protegida de identificación personal bajo la Sección 14-2-6(F) y cualquier otro material exento. Los registros de conversación A.C.E. mezclan rutinariamente PII protegida — por ejemplo, las finanzas de un constituyente compartidas para pedir consejo sobre una exención — con contenido de asuntos públicos.' },
+        { label: 'Una persona revisa y atestigua', desc: 'Un humano revisa cada redacción y la atestigua antes de la entrega. "La IA aplicó la redacción" no es una defensa. El nombre del revisor va en el registro.' },
+      ],
+    },
+  },
+
+  // PART B step 6 — when to notify Assessor/Deputy
+  {
+    kind: 'steps',
+    duration: 22,
+    title: 'B.6 — Notify the Assessor or Deputy before responding',
+    sub: 'Any one of these triggers a heads-up.',
+    steps: [
+      { label: 'Paralegal content / privilege', desc: 'The request implicates Paralegal content that may be subject to attorney-client privilege.' },
+      { label: 'Media · oversight · litigation', desc: 'The request comes from media, an oversight body, or relates to actual or anticipated litigation.' },
+      { label: 'Security exposure', desc: 'Responsive records would expose system prompts or configuration in a way that bears on security.' },
+      { label: '14-2-10 / burdensome route', desc: 'The request triggers the Section 14-2-10 burdensome or broad route. And: an active PII exposure discovered during a search runs AIO05 in parallel — contain before notifying.' },
+    ],
+    es: {
+      title: 'B.6 — Notifique al Tasador o Subtasador antes de responder',
+      sub: 'Cualquiera de estos dispara un aviso.',
+      steps: [
+        { label: 'Contenido Paralegal / privilegio', desc: 'La solicitud involucra contenido del Paralegal que puede estar sujeto al privilegio abogado-cliente.' },
+        { label: 'Medios · supervisión · litigio', desc: 'La solicitud viene de medios, un organismo de supervisión, o se relaciona con litigio actual o anticipado.' },
+        { label: 'Exposición de seguridad', desc: 'Los registros responsivos expondrían los system prompts o la configuración de manera que afecte la seguridad.' },
+        { label: 'Ruta 14-2-10 / onerosa', desc: 'La solicitud dispara la ruta de la Sección 14-2-10 (onerosa o amplia). Y: una exposición activa de PII descubierta durante la búsqueda corre AIO05 en paralelo — contenga antes de notificar.' },
+      ],
+    },
+  },
+
+  // PART B steps 7-8 — produce or deny, log
+  {
+    kind: 'steps',
+    duration: 20,
+    title: 'B.7–B.8 — Produce or deny, then log',
+    sub: 'Fifteen calendar days from receipt. Always in writing.',
+    steps: [
+      { label: 'B.7 — Produce or deny in writing in 15 calendar days', desc: 'Permit inspection of responsive non-exempt records under Section 14-2-8. For anything withheld, deliver a written denial that cites the specific statutory exemption under Section 14-2-11, the procedure for denied requests. Records produced electronically carry no fee; a reasonable fee may be charged only for physical copies under Section 14-2-9(C).' },
+      { label: 'B.8 — Log the response', desc: 'Record the request date received and requester, the scope as written, the responsive records produced, the redactions applied and their statutory basis, the name of the reviewer who attested, the production or denial date, and any Section 14-2-10 extension issued.' },
+    ],
+    es: {
+      title: 'B.7–B.8 — Produzca o niegue, después registre',
+      sub: 'Quince días calendario desde el recibo. Siempre por escrito.',
+      steps: [
+        { label: 'B.7 — Produzca o niegue por escrito en 15 días calendario', desc: 'Permita la inspección de los registros responsivos no exentos bajo la Sección 14-2-8. Para cualquier cosa retenida, entregue una negación escrita que cite la exención estatutaria específica bajo la Sección 14-2-11, el procedimiento para solicitudes negadas. Los registros entregados electrónicamente no tienen costo; se puede cobrar una tarifa razonable solo por copias físicas bajo la Sección 14-2-9(C).' },
+        { label: 'B.8 — Registre la respuesta', desc: 'Anote la fecha y solicitante, el alcance como escrito, los registros responsivos entregados, las redacciones aplicadas y su base estatutaria, el nombre del revisor que atestiguó, la fecha de entrega o negación, y cualquier extensión de la Sección 14-2-10.' },
+      ],
+    },
+  },
+
+  // ═══════════════ QUIZZES ═══════════════
+  {
+    kind: 'quiz', duration: 18,
+    qNum: 1, qTotal: 3,
+    question: 'An IPRA request lands in the AI Project Lead\'s inbox on Monday. The records custodian had already received it the previous Thursday. When does the 3-business-day acknowledgment clock start?',
+    options: [
+      'Monday — when the AI Project Lead opened it',
+      'Thursday — when the custodian received it',
+      'When the AI Project Lead confirms receipt back to the custodian',
+      'When the requester states their purpose',
+    ],
+    correctIndex: 1,
+    explanation: 'The statutory clock starts when the records custodian receives the request — not when it reaches the AI Project Lead. And no statement of purpose is required from the requester.',
+    es: {
+      question: 'Una solicitud IPRA llega al buzón del Líder del Proyecto IA el lunes. El custodio de registros ya la había recibido el jueves anterior. ¿Cuándo empieza el reloj de 3 días hábiles para el acuse?',
+      options: [
+        'Lunes — cuando el Líder del Proyecto IA la abrió',
+        'Jueves — cuando el custodio la recibió',
+        'Cuando el Líder confirma el recibo al custodio',
+        'Cuando el solicitante declara su propósito',
+      ],
+      explanation: 'El reloj estatutario empieza cuando el custodio de registros recibe la solicitud — no cuando le llega al Líder del Proyecto IA. Y el solicitante no tiene que declarar un propósito.',
+    },
+  },
+
+  {
+    kind: 'quiz', duration: 19,
+    qNum: 2, qTotal: 3,
+    question: 'A conversation log responsive to an IPRA request contains a constituent\'s social security number embedded in a question. What do you do?',
+    options: [
+      'Withhold the entire log — it has PII',
+      'Release the full log — A.C.E. flagged it as public-business content',
+      'Have a person redact the PPII under 14-2-6(F), attest, and release the rest under 14-2-9',
+      'Ask CustomGPT.ai to auto-redact and release whatever comes back',
+    ],
+    correctIndex: 2,
+    explanation: 'Section 14-2-9 says separate exempt from non-exempt within the same record. Redact PPII under 14-2-6(F). A person reviews and attests — "The AI applied the redaction" is not a defense.',
+    es: {
+      question: 'Un registro de conversación responsivo a una solicitud IPRA contiene el número de seguro social de un constituyente dentro de una pregunta. ¿Qué hace?',
+      options: [
+        'Retener todo el registro — tiene PII',
+        'Entregar el registro completo — A.C.E. lo marcó como contenido público',
+        'Que una persona redacte el PPII bajo 14-2-6(F), atestigüe, y entregue el resto bajo 14-2-9',
+        'Pedirle a CustomGPT.ai que auto-redacte y entregar lo que regrese',
+      ],
+      explanation: 'La Sección 14-2-9 dice separe exento de no exento dentro del mismo registro. Redacte PPII bajo 14-2-6(F). Una persona revisa y atestigua — "La IA aplicó la redacción" no es una defensa.',
+    },
+  },
+
+  {
+    kind: 'quiz', duration: 18,
+    qNum: 3, qTotal: 3,
+    question: 'During a routine IPRA search you discover A.C.E. has been actively leaking PII in live conversations right now. Which SOP path do you follow?',
+    options: [
+      'Just AIO07 — finish the redaction and produce the records',
+      'Just AIO05 — pause the agent and stop the IPRA response',
+      'Both — run AIO05 (contain-before-notify) in parallel with AIO07',
+      'Neither — escalate directly to the County Attorney',
+    ],
+    correctIndex: 2,
+    explanation: 'AIO07 step B.6 explicitly says: an active PII exposure discovered during a search runs AIO05 in parallel. Contain the live exposure first; the IPRA response continues on its own clock.',
+    es: {
+      question: 'Durante una búsqueda IPRA rutinaria descubre que A.C.E. está filtrando PII activamente en conversaciones en vivo ahora mismo. ¿Qué ruta SOP sigue?',
+      options: [
+        'Solo AIO07 — termine la redacción y entregue los registros',
+        'Solo AIO05 — pause el agente y detenga la respuesta IPRA',
+        'Ambos — corra AIO05 (contener antes de notificar) en paralelo con AIO07',
+        'Ninguno — escale directamente al Abogado del Condado',
+      ],
+      explanation: 'El paso B.6 de AIO07 lo dice explícito: una exposición activa de PII descubierta durante una búsqueda corre AIO05 en paralelo. Contenga primero la exposición en vivo; la respuesta IPRA continúa en su propio reloj.',
+    },
+  },
+
+  // ═══════════════ OUTRO ═══════════════
+  {
+    kind: 'outro',
+    duration: 11,
+    title: 'Inventory. Archive. Acknowledge. Redact. Attest. Log.',
+    sub: 'Part A keeps the office ready. Part B keeps the office on the clock. The custodian holds the keys; a human attests to every redaction; nothing leaves the door without a written record.',
+    es: {
+      title: 'Inventario. Archivo. Acuse. Redacción. Testimonio. Registro.',
+      sub: 'La Parte A mantiene a la oficina lista. La Parte B la mantiene contra reloj. El custodio tiene las llaves; un humano atestigua cada redacción; nada sale sin un registro escrito.',
+    },
+  },
+];
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <SOPVideo sopId="AIO07" title="Records Retention & IPRA Response" scenes={scenes} />
+);
+</script>
+<template id="__bundler_thumbnail" data-bg-color="#0a0a0a"><svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg"><rect width="1200" height="800" fill="#0a0a0a"/><rect x="0" y="0" width="1200" height="120" fill="#285952"/><rect x="0" y="117" width="1200" height="3" fill="#e47756"/><g transform="translate(540, 300)"><rect x="0" y="0" width="120" height="160" rx="6" fill="#faf8f4"/><rect x="14" y="20" width="92" height="4" rx="2" fill="#013942"/><rect x="14" y="34" width="80" height="4" rx="2" fill="#013942"/><rect x="14" y="56" width="60" height="4" rx="2" fill="#e47756"/><rect x="14" y="70" width="92" height="4" rx="2" fill="#013942"/><rect x="14" y="84" width="50" height="4" rx="2" fill="#e47756"/><rect x="14" y="106" width="92" height="4" rx="2" fill="#013942"/><rect x="14" y="120" width="72" height="4" rx="2" fill="#013942"/></g><text x="600" y="600" text-anchor="middle" font-family="sans-serif" font-size="48" font-weight="900" fill="#faf8f4" letter-spacing="-1">SOP VIDEO</text></svg></template>
+</body>
+</html>

@@ -4,6 +4,53 @@
 <meta charset="UTF-8">
 <title>CS01 · Veteran Exemption Entry · Animated SOP</title>
 <link rel="stylesheet" href="../lib/video.css">
+<script type="application/json" id="speaker-notes">
+[
+  "The Veteran Exemption is one of the highest-volume counter procedures. A veteran walks in with a certificate from the New Mexico Department of Veterans' Services, and you put that exemption on their property in IASWorld. The whole thing — from intake at the counter to commit — has to come out validated. We're going to walk every screen, every code, every save.",
+  "Two terms to know on day one. CAMA — Computer Assisted Mass Appraisal, the framework IASWorld uses. UPC — Uniform Property Code, the unique identifier for every parcel in the county. You'll see both throughout.",
+  "Two kinds of veteran exemption. The Veterans Exemption is the flat ten-thousand-dollar reduction. The Disabled Veteran Exemption can go all the way to a 100% waiver, scaled by the disability rating. Different statute, different paperwork, different code in IASWorld.",
+  "Three certificate colors. Check the color first — it tells you the code path. Green is the flat exemption. Pink is a percentage-based disability rating. Tan is the full 100% waiver.",
+  "Green certificate. Confirm the veteran's name matches their ID, the date is current, and there's no alteration. If anything looks off — photocopy, whiteout, mismatch — do not endorse. Escalate.",
+  "Pink certificate. Same checks plus one critical step: record the disability percentage in writing right now. The percentage becomes the code you type later — VETP10 through VETP90.",
+  "Tan certificate. Same checks as pink, but the rating is 100%. Full waiver. Code is VETW.",
+  "Endorse the back of the certificate. If a prior UPC is already written on the back, that means the certificate was used before — verify the prior exemption has been removed. Then write the date, your initials, the amount, the parcel UPC, and the Assessor's name.",
+  "State form. Pink certificates only. Print the State of New Mexico Disabled Veteran Exemption Certification of Ownership and Residence form. Three sections to fill, plus the applicant signs.",
+  "BernCo Exemption Form. Every veteran, every time, regardless of color. Three boxes to complete. This is the office's intake record.",
+  "Now into IASWorld. First — look up prior use of the certificate. Three-line menu, top-left. Property Records → Owner Name. We need to know if this certificate is already attached to another parcel.",
+  "Type Last Name, First Name, and add an asterisk. The asterisk widens the search. Look for any other parcels under this owner — make sure the certificate isn't already applied somewhere else.",
+  "Stop. If the certificate is already used on another UPC, counter staff do not deactivate it. Hand the work to an Assessor Tech Lead, Admin Support Assistant, or Manager. Wrong-hand deactivation creates a tax error that's painful to unwind.",
+  "Transaction Menu → Exemptions → General Exemption by Parcel. This is the entry screen for the exemption.",
+  "Type the property UPC. This is the parcel the exemption will be applied to. Double-check the number against the BernCo intake form.",
+  "Confirm Land Use Code and Acres. Veteran exemptions only apply to the first five acres. The LUC has to be residential — one of nine valid values. If LUC is wrong, the exemption is wrong.",
+  "Owners tab. Replace the Telephone field with the phone listed on the BernCo intake form. While you're here, watch for Special Assessments and Value Freeze flags — they can interact with the exemption.",
+  "Switch to the Exemptions tab. Click Add Record in the toolbar at the top-left. Now we add the actual exemption.",
+  "Click the menu next to Exemption Code. A picker opens. The code you type here depends on the certificate color.",
+  "Green path. Type VET1, click Find, click OK. If the veteran handed you two green certificates — common for spouse situations — type VET2 instead. Same flow.",
+  "Pink path. Type VETP. The list narrows to VETP10 through VETP90. Click the row that matches the certificate's exact rating, then OK.",
+  "Tan path. Type VETW. One row: DISABLED VETERAN TAX WAIVER. Click OK.",
+  "Fill in the rest of the row. Six fields to set. Use COPY OWNER for the address — it saves typing and prevents errors.",
+  "Do not fill the Veteran Exemption section at the bottom of this screen. The SOP is explicit. That block is filled elsewhere. Filling it here corrupts the record.",
+  "Reason Code reference. Match the code to the certificate. VT1 for one green. VT2 for two greens. VP## for pink (with the percent). VTW for tan.",
+  "Validate. After every screen — Exemptions, Applicants, EX Details — click Validate before you move on. Catching a mistake on the screen you're on is cheap. Catching it three screens later is not.",
+  "Switch to the Applicants tab. Click Add Record. Same pattern.",
+  "Click Owner Reference, pick the owner, click OK. Then click COPY OWNER and verify the name matches the certificate. Type the phone number.",
+  "Scroll down to User Fields. Five required fields. Plus the blue box at the top for previously-used certificates — fill if applicable.",
+  "Switch to the EX Details tab. Click Add Record.",
+  "Reason Code. Override. Owner Reference. Exemption Code is already filled in from earlier. Set the other three pickers.",
+  "Pick the owner, click OK. The selected owner populates the Ex Details record. Click Validate one more time.",
+  "Ex Summary. Read-only screen. The exemption you just entered shows here with its dollar amount. If it shows here, the math is good.",
+  "Switch to Notes 1 tab. Click ADD to insert a new note row.",
+  "How to number notes. Whole numbers for new notes. Decimals — .1, .2 — when a note runs to a second line. Keeps the history readable.",
+  "A real Notes 1 history. This is what a busy parcel's Notes 1 tab looks like. Each row is one event in the parcel's history. You're adding the next row.",
+  "Pick the Note Code that matches the certificate. The code column determines how the note is categorized in IASWorld.",
+  "Follow the comment template. Type the comment in the structure shown in the reference table. When you commit, IASWorld adds your initials, date, and time automatically.",
+  "Review, then click Commit. Read everything one more time. Click Commit in the toolbar. IASWorld records the entry with your initials, the date, and the time. The exemption is now applied.",
+  "Quiz one. Pink certificate, sixty percent disability. The code is VETP60. The number on the certificate is the number in the code.",
+  "Quiz two. The last thing you write on the back of the certificate is the Assessor's name. Date, amount, UPC, initials, then the Assessor's name. That order is the audit trail.",
+  "Quiz three. After every screen — Exemptions, Applicants, EX Details — you click Validate. Every time. No exceptions.",
+  "Exemption applied. A clean, validated record. One veteran served, one property exempted. Hand the certificate back to the applicant with the ID. Count on us."
+]
+</script>
 </head>
 <body>
 <div id="root"></div>
