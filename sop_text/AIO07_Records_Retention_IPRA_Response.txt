@@ -1,0 +1,82 @@
+Process Title: A.C.E. Records Retention & IPRA Response
+Department: AI Operations
+SOP ID: AIO07
+Last Reviewed: 05/21/2026
+Effective Date: 05/21/2026
+Version: 1.0
+
+PURPOSE
+This SOP outlines the standardized steps for retaining A.C.E. agent records, maintaining custody of those records, and responding when an A.C.E.-related record is requested under the New Mexico Inspection of Public Records Act (IPRA). It closes the records-management gap left open by the operational SOPs (AIO01 through AIO06, BIO01, and BIO04), which govern how the agents are run but not the disposition of the records they produce.
+
+SCOPE
+This procedure applies to the AI Project Lead, the designated backup operator, and the office's records custodian. It covers all A.C.E. agents, public and internal: the public A.C.E. chatbot (AIO track) and the internal CustomGPT agents on the BIO track (Compliance Expert, Paralegal, Onboarding), along with the phone and email channels. Retention, custody, and IPRA obligations are identical regardless of an agent's audience, so a single procedure governs the whole program. Change control stays on its existing tracks (AIO03 for the public agent, BIO01 for the internal agents) and is out of scope here.
+
+DEFINITIONS
+- A.C.E. — Assessor's Community Educator. The office's CustomGPT agent program, including the public chatbot and the internal BIO agents (Compliance Expert, Paralegal, Onboarding), plus the phone and email channels.
+- IPRA — New Mexico Inspection of Public Records Act, Section 14-2-1 et seq. NMSA 1978.
+- Public record — Under Section 14-2-6(H) NMSA 1978, materials in any form used, created, received, maintained, or held by or on behalf of a public body that relate to public business. A.C.E. prompts, responses, persona files, configuration, and knowledge-base content fall within this definition.
+- PPII — Protected Personal Identifier Information. The personal identifiers defined at Section 14-2-6(F) NMSA 1978 that the records custodian must redact before releasing an otherwise public record.
+- Records custodian — The office position statutorily designated to receive IPRA requests and respond within the required timeline.
+- Retention schedule — For a county office, the Local Government Records Retention and Disposition Schedules (LGRRDS) adopted under the Public Records Act, Section 14-3 NMSA 1978, and administered by the State Records Center and Archives (SRCA).
+
+RELATED DOCUMENTS
+The AIO06 and BIO04 Configuration & Sources Baselines (the "as configured" snapshots), the AIO03 and BIO01 change logs, and the office records share where exports are stored. External guidance: the New Mexico Attorney General's IPRA Compliance Guide. Internal policy: Assessor's Office AI Policy v2.0 and Bernalillo County Ordinance 2026-1 (Code of Conduct Sec. 2-140).
+
+STATUTES
+Inspection of Public Records Act, Section 14-2-1 et seq. NMSA 1978: definitions at Section 14-2-6, request procedure and response timeline at Section 14-2-8, procedure for inspection and copy fees at Section 14-2-9, excessively burdensome or broad requests at Section 14-2-10, and procedure for denied requests at Section 14-2-11. Public Records Act, Section 14-3 NMSA 1978, governs retention and disposition; destruction of county records is governed by Section 14-1-8 NMSA 1978.
+
+PROCEDURE
+NOTE: This SOP has two parts. Part A is ongoing and runs on a fixed schedule. Part B runs only when an IPRA request touches A.C.E. In Part B, the statutory clock starts when the records custodian receives the request, not when it reaches the AI Project Lead.
+
+PART A — STANDING RECORDS MANAGEMENT
+1. Maintain the A.C.E. Records Inventory. Keep a current list of every record category the agents produce:
+   - Public A.C.E. chatbot conversation logs (prompts and responses).
+   - Internal agent logs (Compliance Expert, Paralegal, Onboarding) on the BIO track.
+   - Phone channel call recordings and transcripts (Bland AI).
+   - Email channel logs (Power Automate).
+   - Persona and system-prompt files for every agent.
+   - Configuration and Actions settings, per the AIO06 and BIO04 baselines.
+   - Knowledge-base source documents.
+   - Telemetry: Missing Content logs and operational metrics.
+   - Change logs produced under AIO03 (public agent) and BIO01 (internal agents).
+
+2. Confirm custody sits with the office. The Assessor's Office is the custodian of A.C.E. records regardless of which vendor hosts the data. Vendor hosting does not transfer custody.
+
+3. Keep an office-controlled archive on a fixed cadence.
+   - Monthly: export conversation logs and telemetry to the office records share.
+   - On change: capture a snapshot of persona, configuration, and knowledge-base content whenever they change. The change SOPs (AIO03 public, BIO01 internal) already trigger and log these.
+   NOTE: The goal is that the office can satisfy a request from its own holdings even if a vendor's data is no longer available.
+
+4. Map records to a retention schedule. With the records custodian, assign each record category to the closest existing LGRRDS series and document the determination.
+   NOTE: A.C.E. records have no dedicated series yet, so the mapping is a custodian decision, not an assumption. Do not destroy any A.C.E. record without a custodian-approved disposition under the schedule and Section 14-1-8 NMSA 1978.
+
+5. Verify vendor contract terms support retrieval. Confirm vendor agreements (CustomGPT.ai, Bland AI, and any automation platform) guarantee retrieval of conversation and configuration data on demand and address what happens if the vendor ceases service. Report any gap to the Deputy.
+
+PART B — RESPONDING TO AN IPRA REQUEST
+1. Log receipt and start the clock. Record the date and time the custodian received the request, the requester's contact information, and the exact scope as written.
+   NOTE: No statement of purpose is required from the requester.
+
+2. Acknowledge within three (3) business days. If responsive records cannot be produced within three business days, send a written response stating when the records will be available or when the office will respond (Section 14-2-8.D).
+
+3. Identify responsive records. Search the A.C.E. Records Inventory categories for matching materials. Conversation logs, persona files, configuration, and knowledge-base content are all potentially responsive depending on how the request is worded. Pull from the office-controlled archive first; fall back to vendor retrieval only if needed.
+
+4. Handle excessively burdensome or broad requests. If a request is excessively burdensome or broad, send written notice within fifteen (15) days that additional reasonable time is needed, with a good-faith production plan (Section 14-2-10).
+   EXAMPLE: "All A.C.E. conversations" against tens of thousands of queries is a burdensome request. A single named parcel or a bounded date range is not.
+
+5. Separate exempt content and redact protected information.
+   - Separate exempt from non-exempt material within the same record (Section 14-2-9).
+   - Redact protected personal identifier information (Section 14-2-6(F)) and any other exempted material.
+   - A person reviews and attests to every redaction before release.
+   NOTE: A.C.E. conversation logs routinely mix protected PII (for example, a constituent's finances shared to get exemption advice) with public-business content. "The AI applied the redaction" is not a defense.
+
+6. Notify the Assessor or Deputy before responding if any of the following apply.
+   - The request implicates Paralegal content that may be subject to attorney-client privilege.
+   - The request comes from media, an oversight body, or relates to actual or anticipated litigation.
+   - Responsive records would expose system prompts or configuration in a way that bears on security.
+   - The request triggers the Section 14-2-10 burdensome or broad route.
+   NOTE: For an active PII exposure discovered during a search, follow AIO05 (Incident Response), including its contain-before-notify path, in addition to this SOP.
+
+7. Produce or deny in writing within fifteen (15) calendar days. Permit inspection of responsive non-exempt records (Section 14-2-8). For anything withheld, deliver a written denial that cites the specific statutory exemption (Section 14-2-11, procedure for denied requests).
+   NOTE: Records produced electronically carry no fee; a reasonable fee may be charged only for physical copies (Section 14-2-9(C)).
+
+8. Log the response. Record the request date received and requester, the scope as written, the responsive records produced, the redactions applied and their statutory basis, the name of the reviewer who attested, the production or denial date, and any Section 14-2-10 extension issued.
